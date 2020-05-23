@@ -1,11 +1,5 @@
 <template>
     <card :title="__('voyager::generic.breads')" icon="bread" :icon-size="8">
-        <div slot="actions">
-            <button class="button green" @click.stop="loadBreads">
-                <icon icon="sync" class="rotating-ccw" :size="4" v-if="loading" />
-                {{ __('voyager::builder.reload_breads') }}
-            </button>
-        </div>
         <div class="voyager-table striped" :class="[loading ? 'loading' : '']">
             <table>
                 <thead>
@@ -18,7 +12,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="table in tables" v-bind:key="table">
+                    <tr v-for="table in store.tables" v-bind:key="table">
                         <td>{{ table }}</td>
                         <td class="hidden md:table-cell">
                             <span v-if="hasBread(table)">{{ translate(getBread(table).slug) }}</span>
@@ -65,12 +59,12 @@
                                         </button>
                                     </div>
                                 </dropdown>
-                                <a class="button yellow" :href="route('voyager.bread.edit', table)">
+                                <router-link class="button yellow" :to="'/bread/'+table">
                                     <icon icon="pen" :size="4" />
                                     <span>
                                         {{ __('voyager::generic.edit') }}
                                     </span>
-                                </a>
+                                </router-link>
                                 <button class="button red" @click="deleteBread(table)">
                                     <icon :icon="deleting ? 'sync' : 'trash'" :class="[deleting ? 'rotating-ccw' : '']" :size="4" />
                                     <span>
@@ -78,12 +72,12 @@
                                     </span>
                                 </button>
                             </div>
-                            <a v-else class="button green" :href="route('voyager.bread.create', table)">
+                            <router-link v-else class="button green" :to="'/bread/'+table">
                                 <icon icon="plus" :size="4" />
                                 <span class="hidden md:block">
                                     {{ __('voyager::generic.add_type', { type: __('voyager::generic.bread') }) }}
                                 </span>
-                            </a>
+                            </router-link>
                         </td>
                     </tr>
                 </tbody>
@@ -93,12 +87,12 @@
 </template>
 
 <script>
+import store from '../../js/store';
+
 export default {
-    props: ['tables'],
     data: function () {
         return {
-            breads: [],
-            backups: [],
+            store: store,
             loading: false,
             backingUp: false,
             deleting: false,
@@ -110,7 +104,7 @@ export default {
         },
         getBread: function (table) {
             var bread = null;
-            this.breads.forEach(b => {
+            this.store.breads.forEach(b => {
                 if (b.table == table) {
                     bread = b;
                 }
@@ -182,33 +176,10 @@ export default {
             });
         },
         getBackupsForTable: function (table) {
-            return this.backups.filter(function (backup) {
+            return this.store.backups.filter(function (backup) {
                 return backup.table == table;
             });
         },
-        loadBreads: function () {
-            var vm = this;
-
-            if (vm.loading) {
-                return;
-            }
-
-            vm.loading = true;
-            axios.post(vm.route('voyager.bread.get-breads'))
-            .then(function (response) {
-                vm.breads = response.data.breads;
-                vm.backups = response.data.backups;
-            })
-            .catch(function (error) {
-                vm.$notify.notify(error.response.statusText, null, 'red', 5000);
-            })
-            .then(function () {
-                vm.loading = false;
-            });
-        }
     },
-    mounted: function () {
-        this.loadBreads();
-    }
 };
 </script>

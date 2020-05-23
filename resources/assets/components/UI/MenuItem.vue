@@ -1,24 +1,26 @@
 <template>
-<div class="menuitem">
-    <div class="item" :class="[active ? 'active' : '']">
-        <div class="inline-flex items-center">
-            <a :href="href" class="text-sm leading-5 link" @click="clickItem">
-                <icon :icon="icon" class="icon ltr:mr-2 rtl:ml-2" :size="6"></icon>
-                {{ title }}
-            </a>
+<router-link class="menuitem" :to="to" v-slot="{ href, route, navigate, isActive }" :exact="exact">
+    <div>
+        <div class="item" :class="[isActive ? 'active' : '']">
+            <div class="inline-flex items-center">
+                <a :href="href" class="text-sm leading-5 link" @click="clickItem(navigate, $event)">
+                    <icon :icon="icon" class="icon ltr:mr-2 rtl:ml-2" :size="6"></icon>
+                    {{ title }}
+                </a>
+            </div>
+            <div class="flex-shrink-0 cursor-pointer inline-flex items-center" @click="open = !open">
+                <badge :color="badgeColor" class="cursor-pointer" v-if="badge" :dot="badgeDot">
+                    {{ badgeContent }}
+                </badge>
+                <icon :icon="open ? 'angle-up' : 'angle-down'" v-if="$slots.default" :size="6" class="icon"></icon>
+            </div>
         </div>
-        <div class="flex-shrink-0 cursor-pointer inline-flex items-center" @click="open = !open">
-            <badge :color="badgeColor" class="cursor-pointer" v-if="badge" :dot="badgeDot">
-                {{ badgeContent }}
-            </badge>
-            <icon :icon="open ? 'angle-up' : 'angle-down'" v-if="$slots.default" :size="6" class="icon"></icon>
-        </div>
+        
+        <collapse-transition v-if="$slots.default" :class="[open ? 'submenu' : '']" :duration="200">
+            <slot v-if="open" />
+        </collapse-transition>
     </div>
-    
-    <collapse-transition v-if="$slots.default" :class="[open ? 'submenu' : '']" :duration="200">
-        <slot v-if="open" />
-    </collapse-transition>
-</div>
+</router-link>
 </template>
 
 <script>
@@ -32,17 +34,17 @@ export default {
             type: String,
             required: true
         },
-        href: {
+        to: {
             type: String,
             required: false,
-            default: '#'
+            default: '/'
         },
-        active: {
+        exact: {
             type: Boolean,
             default: false,
         },
-        isOpen: {
-            type: Boolean,
+        match: {
+            type: [String, Array, Boolean],
             default: false,
         },
         badge: {
@@ -64,14 +66,16 @@ export default {
     },
     data: function () {
         return {
-            open: this.isOpen,
+            open: false,
         }
     },
     methods: {
-        clickItem: function (e) {
+        clickItem: function (navigate, e) {
             if (this.href == '' || this.href == '#') {
                 e.preventDefault();
                 this.open = !this.open;
+            } else {
+                navigate(e);
             }
         }
     },
@@ -79,7 +83,7 @@ export default {
         if (this.active) {
             this.open = true;
         }
-    }
+    },
 };
 </script>
 

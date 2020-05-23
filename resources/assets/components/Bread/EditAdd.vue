@@ -46,17 +46,20 @@
                     </button>
                 </div>
         </card>
-        <collapsible v-if="$store.debug && !fromRelationship" :title="__('voyager::builder.json_output')" :opened="false">
+        <collapsible v-if="store.debug && !fromRelationship" :title="__('voyager::builder.json_output')" :opened="false">
             <textarea class="voyager-input w-full" rows="10" v-model="jsonOutput"></textarea>
         </collapsible>
     </div>
 </template>
 
 <script>
+import store from '../../js/store';
+
 export default {
     props: ['bread', 'action', 'input', 'layout', 'prevUrl', 'translatable', 'relationships', 'fromRelationship'],
     data: function () {
         return {
+            store: store,
             output: (this.input || {}),
             isSaving: false,
             isSaved: false,

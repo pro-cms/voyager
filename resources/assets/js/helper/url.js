@@ -1,3 +1,5 @@
+import store from '../store';
+
 window.addParameterToUrl = function (parameter, value, url = null) {
     var newurl = new URL(document.location.href);
 
@@ -40,10 +42,10 @@ Vue.prototype.pushToUrlHistory = pushToUrlHistory;
 window.route = function () {
     var args = Array.prototype.slice.call(arguments);
     var name = args.shift();
-    if (this.$store.routes[name] === undefined) {
+    if (store.routes[name] === undefined) {
         console.error('Route not found ', name);
     } else {
-        return this.$store.routes[name]
+        return store.routes[name]
             .split('/')
             .map(s => s[0] == '{' ? args.shift() : s)
             .join('/');

@@ -32,8 +32,20 @@ Vue.prototype.$language = new Vue({
             this.locale = this.locales[this.index];
         }
     },
-    mounted: function () {
-        this.index = this.locales.indexOf(locale);
+    created: function () {
+        var vm = this;
+
+        vm.index = vm.locales.indexOf(this.locale);
+
+        document.addEventListener('keydown', function (e) {
+            if (e.ctrlKey) {
+                if (e.keyCode == 38 || e.keyCode == 39) {
+                    vm.nextLocale();
+                } else if (e.keyCode == 37 || e.keyCode == 40) {
+                    vm.previousLocale();
+                }
+            }
+        });
     }
 });
 
@@ -76,6 +88,9 @@ Vue.mixin({
 
         trans: function (key, replace = {})
         {
+            if (this.$language.localization.length == 0) {
+                return key;
+            }
             let translation = key.split('.').reduce((t, i) => t[i] || null, this.$language.localization);
 
             if (!translation) {

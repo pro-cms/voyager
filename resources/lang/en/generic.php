@@ -44,6 +44,7 @@ return [
     'format'                    => 'Format',
     'group'                     => 'Group',
     'heads_up'                  => 'Heads Up!',
+    'hello'                     => 'Hello :name',
     'hide'                      => 'Hide',
     'icon'                      => 'Icon',
     'instructions'              => 'Instructions',

@@ -1,44 +1,18 @@
-import Vue from "vue";
-
-var $store = {
-    routes: [],
+export default {
     formfields: [],
     breads: [],
+    backups: [],
     csrf_token: document.head.querySelector('meta[name="csrf-token"]').content,
-    debug: false,
+    debug: true,
     darkmode: false,
     rtl: false,
     sidebarOpen: true,
     pageLoading: true,
-    ui: {
-        name: 'Voyager',
-        colors: [
-            'red',
-            'orange',
-            'yellow',
-            'green',
-            'teal',
-            'blue',
-            'indigo',
-            'purple',
-            'pink',
-            'gray',
-        ],
-        lorem: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.',
-        tags: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipisicing', 'elit'],
-        select_options: [
-            { key: 12, value: 'Lorem first', icon: 'angle-double-right' },
-            { key: 1, value: 'ipsum', icon: 'angle-double-right' },
-            { key: 2, value: 'dolor', icon: 'angle-double-right' },
-            { key: 3, value: 'sit', icon: 'angle-double-right' },
-            { key: 4, value: 'amet', icon: 'angle-double-right' },
-            { key: 5, value: 'consectetur', icon: 'angle-double-right' },
-            { key: 6, value: 'adipisicing', icon: 'angle-double-right' },
-            { key: 7, value: 'elit last', icon: 'angle-double-right' },
-        ],
-        selected_option: null,
-        selected_options: [],
-    },
+    routes: [],
+    tables: [],
+    user: {},
+    user_name: '',
+    settings: [],
     toggleDirection () {
         this.rtl = !this.rtl;
         if (this.rtl) {
@@ -75,6 +49,3 @@ var $store = {
         })[0];
     },
 };
-
-Vue.prototype.$store = $store;
-window.$store = $store;

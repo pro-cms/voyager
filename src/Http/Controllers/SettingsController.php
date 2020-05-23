@@ -14,13 +14,6 @@ class SettingsController extends Controller
         $this->settingmanager = $settingmanager;
     }
 
-    public function index()
-    {
-        return view('voyager::settings.browse', [
-            'settings' => $this->settingmanager->getSettings(),
-        ]);
-    }
-
     public function store(Request $request)
     {
         // Push a fake column object to settings

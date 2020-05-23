@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Breads as BreadManager;
+use Voyager\Admin\Manager\Settings as SettingsManager;
 use Voyager\Admin\Traits\Bread\Browsable;
 
 class VoyagerController extends Controller
@@ -14,10 +15,12 @@ class VoyagerController extends Controller
     use Browsable;
 
     protected $breadmanager;
+    protected $settingmanager;
 
-    public function __construct(BreadManager $breadmanager)
+    public function __construct(BreadManager $breadmanager, SettingsManager $settingmanager)
     {
         $this->breadmanager = $breadmanager;
+        $this->settingmanager = $settingmanager;
     }
 
     private $mime_extensions = [
@@ -50,6 +53,22 @@ class VoyagerController extends Controller
         }
 
         abort(404);
+    }
+
+    // Return all necessary data to run the Voyager SPA
+    public function data()
+    {
+        return response()->json([
+            'backups'       => $this->breadmanager->getBackups(),
+            'breads'        => $this->breadmanager->getBreads(),
+            'localization'  => VoyagerFacade::getLocalization(),
+            'formfields'    => $this->breadmanager->getFormfields(),
+            'routes'        => VoyagerFacade::getRoutes(),
+            'settings'      => $this->settingmanager->getSettings(),
+            'tables'        => VoyagerFacade::getTables(),
+            'user'          => VoyagerFacade::auth()->user(),
+            'user_name'     => VoyagerFacade::auth()->name(),
+        ]);
     }
 
     // Search all BREADS

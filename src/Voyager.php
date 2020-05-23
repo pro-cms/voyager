@@ -92,7 +92,7 @@ class Voyager
     {
         return collect(['auth', 'bread', 'builder', 'formfields', 'generic', 'media', 'plugins', 'settings', 'validation', 'wysiwyg'])->flatMap(function ($file) {
             return ['voyager::'.$file => trans('voyager::'.$file)];
-        })->toJson();
+        });
     }
 
     /**

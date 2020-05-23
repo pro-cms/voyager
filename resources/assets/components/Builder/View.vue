@@ -40,25 +40,25 @@
                         <label class="label mt-4">{{ __('voyager::generic.column') }}</label>
                         <!-- TODO: Hide this if formfield doesn't allow any kind of column -->
                         <select class="voyager-input w-full" v-model="formfield.column">
-                            <optgroup :label="__('voyager::builder.columns')" v-if="$store.getFormfieldByType(formfield.type).allowColumns">
+                            <optgroup :label="__('voyager::builder.columns')" v-if="store.getFormfieldByType(formfield.type).allowColumns">
                                 <option v-for="(column, i) in columns" :key="'column_'+i" :value="{column: column, type: 'column'}">
                                     {{ column }}
                                 </option>
                             </optgroup>
-                            <optgroup :label="__('voyager::builder.computed')" v-if="$store.getFormfieldByType(formfield.type).allowComputed">
+                            <optgroup :label="__('voyager::builder.computed')" v-if="store.getFormfieldByType(formfield.type).allowComputed">
                                 <option v-for="(prop, i) in computed" :key="'computed_'+i" :value="{column: prop, type: 'computed'}">
                                     {{ prop }}
                                 </option>
                             </optgroup>
-                            <optgroup v-for="(relationship, i) in relationships" :key="'relationship_'+i" :label="relationship.method" v-if="$store.getFormfieldByType(formfield.type).allowRelationshipColumns">
+                            <optgroup v-for="(relationship, i) in relationships" :key="'relationship_'+i" :label="relationship.method" v-if="store.getFormfieldByType(formfield.type).allowRelationshipColumns">
                                 <option v-for="(column, i) in relationship.columns" :key="'column_'+i" :value="{column: relationship.method+'.'+column, type: 'relationship'}">
                                     {{ column }}
                                 </option>
-                                <option v-for="(column, i) in relationship.pivot" :key="'pivot_'+i" :value="{column: relationship.method+'.pivot.'+column, type: 'relationship'}" v-if="$store.getFormfieldByType(formfield.type).allowPivot">
+                                <option v-for="(column, i) in relationship.pivot" :key="'pivot_'+i" :value="{column: relationship.method+'.pivot.'+column, type: 'relationship'}" v-if="store.getFormfieldByType(formfield.type).allowPivot">
                                     pivot.{{ column }}
                                 </option>
                             </optgroup>
-                            <optgroup v-if="$store.getFormfieldByType(formfield.type).allowRelationships" :label="__('voyager::generic.relationships')">
+                            <optgroup v-if="store.getFormfieldByType(formfield.type).allowRelationships" :label="__('voyager::generic.relationships')">
                                 <option v-for="(relationship, i) in relationships" :key="'relationship_'+i" :value="{column: relationship.method, type: 'relationship'}">
                                     {{ relationship.method }}
                                 </option>
@@ -115,10 +115,13 @@
 </template>
 
 <script>
+import store from '../../js/store';
+
 export default {
     props: ['computed', 'columns', 'relationships', 'formfields', 'optionsId', 'options'],
     data: function () {
         return {
+            store: store,
             reactiveFormfields: this.formfields,
             reactiveOptions: this.options,
             resizingFormfield: null,

@@ -1,6 +1,9 @@
 // https://github.com/vuejs/vue
 window.Vue = require('vue');
 
+import Router from 'vue-router';
+Vue.use(Router);
+
 // https://github.com/component/debounce
 window.debounce = require('debounce');
 Vue.prototype.debounce = debounce;

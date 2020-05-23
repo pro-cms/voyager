@@ -297,18 +297,23 @@
             </div>
         </collapsible>
 
-        <collapsible ref="bread_json" v-if="$store.debug" :title="__('voyager::builder.json_output')" :opened="false">
+        <collapsible ref="bread_json" v-if="store.debug" :title="__('voyager::builder.json_output')" :opened="false">
             <textarea class="voyager-input w-full" rows="10" v-model="jsonBread"></textarea>
         </collapsible>
     </div>
 </template>
 
 <script>
+import router from '../../js/router';
+import store from '../../js/store';
+
 export default {
-    props: ['data', 'isNew'],
+    props: ['table'],
     data: function () {
         return {
-            bread: this.data,
+            isNew: false,
+            bread: store.getBreadByTable(this.table),
+            store: store,
             computed: [],
             columns: [],
             scopes: [],
@@ -547,14 +552,14 @@ export default {
             if (this.focusMode) {
                 this.$refs.bread_settings.close();
                 this.$refs.layout_mapping.close();
-                if (this.$store.debug) {
+                if (this.store.debug) {
                     this.$refs.bread_json.close();
                 }
-                this.$store.closeSidebar();
+                this.store.closeSidebar();
             } else {
                 this.$refs.bread_settings.open();
                 this.$refs.layout_mapping.open();
-                this.$store.openSidebar();
+                this.store.openSidebar();
             }
         }
     },
@@ -571,7 +576,7 @@ export default {
         },
         filteredFormfields: function () {
             var vm = this;
-            return vm.$store.formfields.filter(function (formfield) {
+            return vm.store.formfields.filter(function (formfield) {
                 if (vm.currentLayout && vm.currentLayout.type == 'list') {
                     return formfield.inList;
                 }
@@ -581,11 +586,7 @@ export default {
         currentLayout: function () {
             var vm = this;
             return this.bread.layouts.filter(function (layout, key) {
-                if (layout.name == vm.currentLayoutName) {
-                    vm.pushToUrlHistory(vm.addParameterToUrl('layout', key));
-                    return true;
-                }
-                return false;
+                return layout.name == vm.currentLayoutName;
             })[0];
         },
         jsonBread: {
@@ -596,6 +597,16 @@ export default {
                 
             }
         },
+    },
+    watch: {
+        currentLayoutName: function (name) {
+            // TODO:
+            this.$router.push({
+                query: {
+                    layout: 'X'
+                }
+            });
+        }
     },
     mounted: function () {
         var vm = this;
@@ -612,12 +623,36 @@ export default {
                 vm.saveBread();
             }
         });
-    },
-    created: function () {
-        var layout = parseInt(this.getParameterFromUrl('layout', 0));
-        if (this.bread.layouts.length >= (layout+1)) {
-            this.currentLayoutName = this.bread.layouts[layout].name;
+
+        if (vm.$route.query.hasOwnProperty('layout')) {
+            //vm.currentLayout = this.$route.query.layout;
+            // TODO: Test if this layout ID exists
         }
     },
+    created: function () {
+        if (!this.bread) {
+            this.isNew = true;
+            Vue.set(this, 'bread', {
+                table: this.table,
+                slug: '',
+                name_singular: '',
+                name_plural: '',
+                icon: 'window',
+                model: '',
+                controller: '',
+                policy: '',
+                global_search_field: '',
+                color: 'green',
+                badge: true,
+                layouts: [],
+                use_layouts: {
+                    browse: '',
+                    read: '',
+                    edit: '',
+                    add: ''
+                }
+            });
+        }
+    }
 };
 </script>

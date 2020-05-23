@@ -7,6 +7,8 @@ module.exports = {
         options: {
             whitelistPatterns: [
                 /mode-dark/,
+                /w-4/,
+                /h-4/,
                 /w-[0-9]+\/[0-9]+/,     // All variations of width classes we dynamically use in the view-builder
                 /bg-[a-z]+-[0-9]+/,     // Dynamically used colors in badges, buttons and so on
                 /text-[a-z]+-[0-9]+/,   // ^

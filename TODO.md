@@ -23,6 +23,7 @@ Instead, they are listed here:
 ## Nice to have
 - Validate layouts when saving a BREAD for formfields that don't have a field or double-assigned fields **This is actually important**
 - Add dark boxshadow variant to tailwind (currently not possible but should be with official dark-mode support)
+- When changing tab, add the name to the URL and read from it
 
 ## Documentation
 - Relationship methods NEED TO define the return-type. Otherwise they won't be recognized by the BREAD builder

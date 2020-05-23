@@ -98,7 +98,7 @@ export default {
                     new Underline(),
                     new History()
                 ],
-                content: this.$store.ui.lorem
+                content: ''
             })
         };
     },

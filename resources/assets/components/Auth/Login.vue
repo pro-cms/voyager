@@ -2,7 +2,7 @@
 <div>
     <fade-transition :duration="150" tag="div" group>
         <form method="post" :action="route('voyager.login')" v-if="!passwordForgotOpen" key="login-form">
-            <input type="hidden" name="_token" :value="$store.csrf_token">
+            <input type="hidden" name="_token" :value="store.csrf_token">
 
             <alert v-if="error" color="red" role="alert" :closebutton="false">
                 {{ error }}
@@ -46,7 +46,7 @@
         </form>
         <form method="post" :action="route('voyager.forgot_password')" v-if="hasPasswordForgot && passwordForgotOpen" key="password-form">
             <h2 class="text-gray-800 dark:text-gray-200 mb-6 font-bold">{{ __('voyager::auth.forgot_password') }}</h2>
-            <input type="hidden" name="_token" :value="$store.csrf_token">
+            <input type="hidden" name="_token" :value="store.csrf_token">
             <div class="mt-4">
                 <slot name="forgot_password" />
                 <div class="flex items-center justify-between mt-6">
@@ -63,10 +63,13 @@
 </div>
 </template>
 <script>
+import store from '../../js/store';
+
 export default {
     props: ['error', 'success', 'old'],
     data: function () {
         return {
+            store: store,
             passwordForgotOpen: false,
         };
     },

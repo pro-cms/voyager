@@ -1,0 +1,249 @@
+<template>
+    <div>
+        <card title="UI Elements">
+            <div>
+                <div class="inline w-full">
+                    <button class="button accent my-2" v-scroll-to="'ui-headings'">
+                        Headings
+                    </button>
+                    <button class="button accent my-2" v-scroll-to="'ui-buttons'">
+                        Buttons
+                    </button>
+                    <button class="button accent my-2" v-scroll-to="'ui-inputs'">
+                        Inputs
+                    </button>
+                    <button class="button accent my-2" v-scroll-to="'ui-select'">
+                        Select
+                    </button>
+                    <button class="button accent my-2" v-scroll-to="'ui-tags'">
+                        Tag input
+                    </button>
+                    <button class="button accent my-2" v-scroll-to="'ui-wysiwyg'">
+                        WYSIWYG Editor
+                    </button>
+                    <button class="button accent my-2" v-scroll-to="'ui-tabs'">
+                        Tabs
+                    </button>
+                    <button class="button accent my-2" v-scroll-to="'ui-badges'">
+                        Badges
+                    </button>
+                    <button class="button accent my-2" v-scroll-to="'ui-alerts'">
+                        Alerts
+                    </button>
+                    <button class="button accent my-2" v-scroll-to="'ui-notifications'">
+                        Notifications
+                    </button>
+                    <button class="button accent my-2" v-scroll-to="'ui-pagination'">
+                        Pagination
+                    </button>
+                </div>
+            </div>
+        </card>
+        <collapsible title="Heading" id="ui-headings">
+            <h1>H1 Heading</h1>
+            <h2>H2 Heading</h2>
+            <h3>H3 Heading</h3>
+            <h4>H4 Heading</h4>
+            <h5>H5 Heading</h5>
+            <h6>H6 Heading</h6>
+        </collapsible>
+
+        <collapsible title="Buttons" id="ui-buttons">
+            <collapsible title="Default">
+                <button v-for="color in colors" :key="'button-'+color" :class="['button', color]">
+                    {{ color[0].toUpperCase() + color.slice(1) }}
+                </button>
+            </collapsible>
+            <collapsible title="Disabled">
+                <button v-for="color in colors" :key="'button-'+color" :class="['button', color]" disabled>
+                    {{ color[0].toUpperCase() + color.slice(1) }}
+                </button>
+            </collapsible>
+            <collapsible title="Small">
+                <button v-for="color in colors" :key="'button-'+color" :class="['button', 'small', color]">
+                    {{ color[0].toUpperCase() + color.slice(1) }}
+                </button>
+            </collapsible>
+            <collapsible title="Large">
+                <button v-for="color in colors" :key="'button-'+color" :class="['button', 'large', color]">
+                    {{ color[0].toUpperCase() + color.slice(1) }}
+                </button>
+            </collapsible>
+            <collapsible title="With Icon">
+                <button v-for="color in colors" :key="'button-'+color" :class="['button', 'small', color]">
+                    <icon icon="info-circle" class="mr-1"></icon>
+                    {{ color[0].toUpperCase() + color.slice(1) }}
+                </button>
+            </collapsible>
+            <collapsible title="Responsive">
+                <button v-for="color in colors" :key="'button-'+color" :class="['button', 'small', color]">
+                    <icon icon="info-circle"></icon>
+                    <span>{{ color[0].toUpperCase() + color.slice(1) }}</span>
+                </button>
+            </collapsible>
+            <collapsible title="Button group">
+                <div class="button-group">
+                    <button v-for="color in colors" :key="'button-'+color" :class="['button', color]">
+                        {{ color[0].toUpperCase() + color.slice(1) }}
+                    </button>
+                </div>
+            </collapsible>
+        </collapsible>
+
+        <collapsible title="Inputs" id="ui-inputs">
+            <collapsible title="Default">
+                <input type="text" class="voyager-input w-full" placeholder="Placeholder" />
+            </collapsible>
+            <collapsible title="Disabled">
+                    <input type="text" class="voyager-input w-full" disabled placeholder="Placeholder" />
+            </collapsible>
+            <collapsible title="Small">
+                <input type="text" class="voyager-input w-full small" placeholder="Placeholder" />
+            </collapsible>
+            <collapsible title="With label">
+                <label class="label" for="labeled-input">Label</label>
+                <input type="text" class="voyager-input w-full" id="labeled-input" placeholder="Placeholder" />
+            </collapsible>
+            <collapsible title="Colors" :opened="false">
+                <input v-for="color in colors" type="text" class="voyager-input w-full mb-2" :class="color" :placeholder="ucfirst(color)" :key="'input-'+color">
+            </collapsible>
+        </collapsible>
+
+        <collapsible title="Select" id="ui-select">
+            <collapsible title="Single">
+                <select-input :options="select_options" v-model="selected_option"></select-input>
+            </collapsible>
+            <collapsible title="Multiple">
+                <select-input :options="select_options" v-model="selected_options" :close-on-select="false" multiple></select-input>
+            </collapsible>
+        </collapsible>
+
+        <collapsible title="Tag input" id="ui-tags">
+            <tag-input v-model="tags"></tag-input>
+        </collapsible>
+
+        <collapsible title="WYSIWYG Editor" id="ui-wysiwyg">
+            <wysiwyg></wysiwyg>
+        </collapsible>
+
+        <collapsible title="Tabs" id="ui-tabs">
+            <tabs :tabs="[{name: 'tab1', title: 'Tab 1'}, {name: 'tab2', title: 'Tab 2'}, {name: 'tab3', title: 'Tab 3'}]">
+                <div slot="tab1">
+                    <h3>Tab 1</h3>
+                    <p>{{ lorem }}</p>
+                </div>
+                <div slot="tab2">
+                    <h3>Tab 2</h3>
+                    <p>{{ lorem }}</p>
+                </div>
+                <div slot="tab3">
+                    <h3>Tab 3</h3>
+                    <p>{{ lorem }}</p>
+                </div>
+            </tabs>
+        </collapsible>
+
+        <collapsible title="Badges" id="ui-badges">
+            <collapsible title="Default">
+                <badge v-for="color in colors" :color="color" :key="'badge-'+color">
+                    {{ color[0].toUpperCase() + color.slice(1) }}
+                </badge>
+            </collapsible>
+            <collapsible title="Large">
+                <badge v-for="color in colors" :color="color" :key="'badge-'+color" class="large">
+                    {{ color[0].toUpperCase() + color.slice(1) }}
+                </badge>
+            </collapsible>
+        </collapsible>
+
+        <collapsible title="Alerts" id="ui-alerts">
+            <alert v-for="color in colors" :color="color" :key="'alert-'+color" class="mb-3">
+                <span slot="title">{{ color[0].toUpperCase() + color.slice(1) }}</span>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.</p>
+            </alert>
+        </collapsible>
+
+        <collapsible title="Notifications" id="ui-notifications">
+            <collapsible v-for="color in colors" :key="'notification_'+color" :title="ucfirst(color)">
+                <div class="inline-flex">
+                    <button @click="$notify.notify(lorem, ucfirst(color), color)" class="button" :class="color">Message and title</button>
+                    <button @click="$notify.notify(lorem, null, color)" class="button" :class="color">Message only</button>
+                    <button @click="$notify.notify(lorem, ucfirst(color), color, null, true)" class="button" :class="color">Indeterminate</button>
+                    <button @click="$notify.notify(lorem, ucfirst(color), color, 5000, false)" class="button" :class="color">With timeout</button>
+                </div>
+            </collapsible>
+            <collapsible title="Confirm">
+                <div class="inline-flex">
+                    <button @click="$notify.confirm('Are you sure?', function (result) {})" class="button blue">Simple</button>
+                    <button @click="$notify.confirm('Are you sure?', function (result) {}, null, 'blue', 'Yes', 'No', null, true)" class="button blue">Indeterminate</button>
+                    <button @click="$notify.confirm('Are you sure?', function (result) {}, null, 'blue', 'Yes', 'No', 5000)" class="button blue">With timeout</button>
+                    <button @click="$notify.confirm('Are you sure?', function (result) {}, null, 'blue', 'Of course', 'Nah')" class="button blue">Custom buttons</button>
+                </div>
+            </collapsible>
+            <collapsible title="Prompt">
+                <div class="inline-flex">
+                    <button @click="$notify.prompt('Enter your name', '', function (result) {})" class="button blue">Simple</button>
+                    <button @click="$notify.prompt('Enter your name', '', function (result) {}, 'blue', 'Save', 'Abort')" class="button blue">Custom buttons</button>
+                    <button @click="$notify.prompt('Enter your name', name, function (result) { if (result) { name = result; } })" class="button blue">Value: {{ name }}</button>
+                </div>
+            </collapsible>
+        </collapsible>
+
+        <collapsible title="Pagination" id="ui-pagination">
+        <collapsible title="Default">
+                <pagination :page-count="100" :value="1"></pagination>
+            </collapsible>
+
+            <collapsible title="No previous/next button">
+                <pagination :page-count="100" :value="10" :prev-next-buttons="false"></pagination>
+            </collapsible>
+            
+            <collapsible title="No first/last button">
+                <pagination :page-count="100" :value="25" :first-last-buttons="false"></pagination>
+            </collapsible>
+
+            <collapsible title="Only page-buttons">
+                <pagination :page-count="100" :value="50" :first-last-buttons="false" :prev-next-buttons="false"></pagination>
+            </collapsible>
+
+            <collapsible title="Different color (Works with all other colors as well)">
+                <pagination :page-count="100" :value="100" color="red"></pagination>
+            </collapsible>
+        </collapsible>
+    </div>
+</template>
+<script>
+export default {
+    data: function () {
+        return {
+            name: 'Voyager',
+            colors: [
+                'red',
+                'orange',
+                'yellow',
+                'green',
+                'teal',
+                'blue',
+                'indigo',
+                'purple',
+                'pink',
+                'gray',
+            ],
+            lorem: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.',
+            tags: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipisicing', 'elit'],
+            select_options: [
+                { key: 12, value: 'Lorem first', icon: 'angle-double-right' },
+                { key: 1, value: 'ipsum', icon: 'angle-double-right' },
+                { key: 2, value: 'dolor', icon: 'angle-double-right' },
+                { key: 3, value: 'sit', icon: 'angle-double-right' },
+                { key: 4, value: 'amet', icon: 'angle-double-right' },
+                { key: 5, value: 'consectetur', icon: 'angle-double-right' },
+                { key: 6, value: 'adipisicing', icon: 'angle-double-right' },
+                { key: 7, value: 'elit last', icon: 'angle-double-right' },
+            ],
+            selected_option: null,
+            selected_options: [],
+        };
+    }
+};
+</script>

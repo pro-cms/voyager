@@ -28,6 +28,12 @@ let components = [
     'Tabs',
     'TagInput',
     'WYSIWYG',
+
+    'LocalePicker',
+    'Icon',
+    'MenuItem',
+    'Search',
+    'UserDropdown',
 ];
 
 components.forEach(function (component) {

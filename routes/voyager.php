@@ -4,7 +4,8 @@ Route::group(['as' => 'voyager.'], function () {
     $namespace = '\\Voyager\\Admin\\Http\\Controllers\\';
 
     Route::group(['middleware' => 'voyager.admin'], function () use ($namespace) {
-        Route::view('/', 'voyager::dashboard')->name('dashboard');
+        Route::view('/', 'voyager::voyager')->name('dashboard');
+        Route::post('/', ['uses' => $namespace.'VoyagerController@data', 'as' => 'data']);
         Route::post('globalsearch', ['uses' => $namespace.'VoyagerController@globalSearch', 'as' => 'globalsearch']);
 
         // BREAD builder
@@ -52,9 +53,6 @@ Route::group(['as' => 'voyager.'], function () {
                 Route::get('/{id}', ['uses' => $controller.'@read', 'as' => 'read', 'bread' => $bread]);
             });
         }
-
-        // UI Routes
-        Route::view('ui', 'voyager::ui.index')->name('ui');
 
         // Settings
         Route::get('settings', ['uses' => $namespace.'SettingsController@index', 'as' => 'settings.index']);
