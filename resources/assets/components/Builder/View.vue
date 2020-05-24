@@ -96,7 +96,7 @@
                             :column="formfield.column"
                             v-bind:relationships="relationships"
                             show="view-options" />
-                        <bread-builder-validation v-model="formfield.validation" />
+                        <Validation v-model="formfield.validation" />
                     </slide-in>
                 </div>
 
@@ -116,9 +116,11 @@
 
 <script>
 import store from '../../js/store';
+import Validation from './ValidationForm';
 
 export default {
     props: ['computed', 'columns', 'relationships', 'formfields', 'optionsId', 'options'],
+    components: { Validation },
     data: function () {
         return {
             store: store,

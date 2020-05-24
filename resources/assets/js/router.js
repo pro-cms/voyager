@@ -1,5 +1,4 @@
 import Router from 'vue-router';
-import PageNotFound from '../components/Layout/PageNotFound';
 import Dashboard from '../components/Layout/Dashboard';
 import Settings from '../components/Settings/Manager';
 import BreadBuilderBrowse from '../components/Builder/Browse';

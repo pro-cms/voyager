@@ -152,12 +152,11 @@
                             class="link">
                             {{ formfield.name }}
                         </a>
-                        <a
-                            :href="route('voyager.plugins.index')+'/?type=formfield'"
-                            target="_blank"
+                        <router-link
+                            to="/plugins"
                             class="italic link">
                             {{ __('voyager::builder.formfields_more') }}
-                        </a>
+                        </router-link>
                     </div>
                     <div slot="opener">
                         <button class="button green small ml-2"
@@ -247,7 +246,7 @@
             </div>
             <component
                 v-else-if="currentLayout"
-                :is="'bread-builder-' + currentLayout.type"
+                :is="currentLayout.type == 'list' ? 'ListBuilder' : 'ViewBuilder'"
                 :computed="computed"
                 :columns="columns"
                 :relationships="relationships"
@@ -307,7 +306,11 @@
 import router from '../../js/router';
 import store from '../../js/store';
 
+import ListBuilder from './List';
+import ViewBuilder from './View';
+
 export default {
+    components: { ListBuilder, ViewBuilder },
     props: ['table'],
     data: function () {
         return {
