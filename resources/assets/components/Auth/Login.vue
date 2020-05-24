@@ -50,7 +50,7 @@
             <div class="mt-4">
                 <slot name="forgot_password" />
                 <div class="flex items-center justify-between mt-6">
-                    <button class="button indigo mt-4" type="submit">
+                    <button class="button accent large justify-center" type="submit">
                         {{ __('voyager::auth.request_password') }}
                     </button>
                     <a href="#" @click.prevent="passwordForgotOpen = false">
