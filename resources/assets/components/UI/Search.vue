@@ -12,7 +12,7 @@
             v-model="query" @input="search" :placeholder="mobilePlaceholder">
         <dropdown ref="results_dd" pos="right">
             <span v-for="(bread, table) in searchResults" :key="'bread-results-'+table">
-                <h6 class="ml-3 mt-3">{{ translate(store.getBreadByTable(table).name_plural, true) }}</h6>
+                <h6 class="ml-3 mt-3">{{ translate($store.getBreadByTable(table).name_plural, true) }}</h6>
                 <a v-for="(result, key) in bread.results" :key="'result-'+table+'-'+key" class="link" :href="getResultUrl(table, key)">
                     {{ translate(result, true) }}
                 </a>
@@ -25,13 +25,11 @@
 </template>
 <script>
 var debounce = require('debounce');
-import store from '../../js/store';
 
 export default {
     props: ['placeholder', 'mobilePlaceholder'],
     data: function () {
         return {
-            store: store,
             searchResults: {},
             query: '',
         };
@@ -70,12 +68,12 @@ export default {
             
         }, 250),
         moreUrl: function (table) {
-            var bread = this.store.getBreadByTable(table);
+            var bread = this.$store.getBreadByTable(table);
 
             return this.route('voyager.'+this.translate(bread.slug, true)+'.browse')+'?global='+this.query;
         },
         getResultUrl: function (table, key) {
-            var bread = this.store.getBreadByTable(table);
+            var bread = this.$store.getBreadByTable(table);
 
             return this.route('voyager.'+this.translate(bread.slug, true)+'.read', key);
         }

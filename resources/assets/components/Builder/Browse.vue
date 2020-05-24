@@ -12,7 +12,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="table in store.tables" v-bind:key="table">
+                    <tr v-for="table in $store.tables" v-bind:key="table">
                         <td>{{ table }}</td>
                         <td class="hidden md:table-cell">
                             <span v-if="hasBread(table)">{{ translate(getBread(table).slug) }}</span>
@@ -87,12 +87,9 @@
 </template>
 
 <script>
-import store from '../../js/store';
-
 export default {
     data: function () {
         return {
-            store: store,
             loading: false,
             backingUp: false,
             deleting: false,
@@ -104,7 +101,7 @@ export default {
         },
         getBread: function (table) {
             var bread = null;
-            this.store.breads.forEach(b => {
+            this.$store.breads.forEach(b => {
                 if (b.table == table) {
                     bread = b;
                 }
@@ -176,7 +173,7 @@ export default {
             });
         },
         getBackupsForTable: function (table) {
-            return this.store.backups.filter(function (backup) {
+            return this.$store.backups.filter(function (backup) {
                 return backup.table == table;
             });
         },

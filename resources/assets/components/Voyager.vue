@@ -2,7 +2,7 @@
     <slide-x-left-transition class="h-screen flex overflow-hidden" id="voyager" tag="div" group>
         <div key="loader">
             <fade-transition :duration="500">
-                <div class="loader" v-if="store.pageLoading">
+                <div class="loader" v-if="$store.pageLoading">
                     <icon icon="helm" size="auto" class="block icon rotating-cw"></icon>
                 </div>
             </fade-transition>
@@ -13,11 +13,11 @@
                 <span id="top"></span>
                 <nav class="h-16 flex justify-start mb-3 mx-auto sm:px-3 md:px-4">
                     <div class="flex justify-between items-center w-full">
-                        <button @click.stop="store.toggleSidebar" class="button dark-gray small icon-only mx-2">
-                            <icon :icon="store.sidebarOpen ? 'ellipsis-v' : 'ellipsis-h'" />
+                        <button @click.stop="$store.toggleSidebar" class="button dark-gray small icon-only mx-2">
+                            <icon :icon="$store.sidebarOpen ? 'ellipsis-v' : 'ellipsis-h'" />
                         </button>
                         <div class="w-full mt-4">
-                            <search :placeholder="store.search_title" :mobilePlaceholder="__('voyager::generic.search')" />
+                            <search :placeholder="$store.search_title" :mobilePlaceholder="__('voyager::generic.search')" />
                         </div>
                         <user-dropdown />
                     </div>
@@ -38,22 +38,16 @@ import BreadBuilderEditAdd from '../components/Builder/EditAdd';
 import BreadBrowse from '../components/Bread/Browse';
 
 import router from '../js/router';
-import store from '../js/store';
 
 export default {
     router,
     components: { Sidebar },
-    data: function () {
-        return {
-            store: store
-        };
-    },
     methods: {
         generateRoutesForBreads: function () {
             var vm = this;
             var routes = [];
-            vm.store.tables.forEach(function (table) {
-                var bread = vm.store.getBreadByTable(table);
+            vm.$store.tables.forEach(function (table) {
+                var bread = vm.$store.getBreadByTable(table);
                 if (bread) {
                     routes.push({
                         path: '/bread/' + table,
@@ -96,7 +90,7 @@ export default {
                     if (key == 'localization') {
                         vm.$language.localization = response.data[key];
                     } else {
-                        vm.store[key] = response.data[key];
+                        vm.$store[key] = response.data[key];
                     }
                 }
             }
@@ -104,28 +98,28 @@ export default {
         }).catch(function (error) {
             //
         }).then(function () {
-            vm.store.pageLoading = false;
+            vm.$store.pageLoading = false;
         });
     },
     created: function () {
         var dark_mode = this.getCookie('dark-mode');
         if (dark_mode == 'true') {
-            this.store.toggleDarkMode();
+            this.$store.toggleDarkMode();
         }
 
         var sidebar_open = this.getCookie('sidebar-open');
         if (sidebar_open == 'false') {
-            this.store.toggleSidebar();
+            this.$store.toggleSidebar();
         }
     },
     watch: {
-        'store.sidebarOpen': function (open) {
+        '$store.sidebarOpen': function (open) {
             this.setCookie('sidebar-open', (open ? 'true' : 'false'), 360);
         },
-        'store.darkmode': function (darkmode) {
+        '$store.darkmode': function (darkmode) {
             this.setCookie('dark-mode', (darkmode ? 'true' : 'false'), 360);
         },
-        'store.sidebarOpen': function (open) {
+        '$store.sidebarOpen': function (open) {
             this.setCookie('sidebar-open', (open ? 'true' : 'false'), 360);
         },
     }

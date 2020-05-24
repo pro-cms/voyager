@@ -5,7 +5,7 @@
                 <div class="flex items-center px-6 py-4">
                     <img class="h-10 w-10 rounded-full flex-no-shrink" src="#" alt="">
                     <div class="ltr:ml-4 rtl:mr-4">
-                    <p class="font-semibold text-gray-900 dark:text-gray-100 leading-none">{{ store.user_name }}</p>
+                    <p class="font-semibold text-gray-900 dark:text-gray-100 leading-none">{{ $store.user_name }}</p>
                     <p>
                         <a href="#" class="text-sm text-gray-600 dark:text-gray-400 leading-none hover:underline">
                             {{ __('voyager::generic.view_profile') }}
@@ -19,7 +19,7 @@
                 <a href="#" class="link">
                     {{ __('voyager::generic.settings') }}
                 </a>
-                <a href="#" class="link">
+                <a :href="route('voyager.logout')" class="link">
                     {{ __('voyager::auth.logout') }}
                 </a>
             </div>
@@ -31,7 +31,7 @@
                             <div class="w-5 h-5 rounded-full bottom-0 absolute bg-gray-500 -mb-3"></div>
                         </div>
                         <span class="hidden md:block ltr:ml-3 rtl:mr-3">
-                            {{ __('voyager::generic.hello', { name: store.user_name }) }}
+                            {{ __('voyager::generic.hello', { name: $store.user_name }) }}
                         </span>
                     </div>
                 
@@ -45,15 +45,7 @@
 </template>
 
 <script>
-import router from '../../js/router';
-import store from '../../js/store';
-
 export default {
-    router,
-    data: function () {
-        return {
-            store: store
-        };
-    },
+
 };
 </script>

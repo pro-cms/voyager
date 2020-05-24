@@ -1,14 +1,14 @@
 <template>
 <div>
     <!-- Mobile sidebar -->
-    <div v-if="store.sidebarOpen" class="md:hidden" :key="'mobile_sidebar'">
+    <div v-if="$store.sidebarOpen" class="md:hidden" :key="'mobile_sidebar'">
         <div class="fixed inset-0 z-30">
             <div class="absolute inset-0 bg-gray-600 opacity-75"></div>
         </div>
-        <div class="fixed inset-0 flex z-40" @click="store.toggleSidebar()">
+        <div class="fixed inset-0 flex z-40" @click="$store.toggleSidebar()">
             <div class="flex-1 flex flex-col max-w-xs w-full sidebar" @click.stop="">
                 <div class="absolute top-0 right-0 p-1">
-                    <button @click="store.toggleSidebar()" class="flex items-center justify-center h-12 w-12 rounded-full">
+                    <button @click="$store.toggleSidebar()" class="flex items-center justify-center h-12 w-12 rounded-full">
                         <icon icon="times"></icon>
                     </button>
                 </div>
@@ -64,8 +64,8 @@
                     </nav>
                 </div>
                 <div class="flex-shrink-0 flex border-t sidebar-border p-4">
-                    <button class="rounded-full bg-gray-300 dark:bg-gray-700 outline-none px-2 py-2 rounded inline-flex items-center" @click="store.toggleDarkMode()">
-                        <icon :icon="store.darkmode ? 'sun' : 'moon'"></icon>
+                    <button class="rounded-full bg-gray-300 dark:bg-gray-700 outline-none px-2 py-2 rounded inline-flex items-center" @click="$store.toggleDarkMode()">
+                        <icon :icon="$store.darkmode ? 'sun' : 'moon'"></icon>
                     </button>
                     <img src="#" class="rounded-full m-4 w-8" alt="User Avatar">
                 </div>
@@ -75,7 +75,7 @@
     </div>
 
     <!-- Desktop sidebar -->
-    <div class="hidden md:flex md:flex-shrink-0 sidebar h-full" v-if="store.sidebarOpen" :key="'desktop_sidebar'">
+    <div class="hidden md:flex md:flex-shrink-0 sidebar h-full" v-if="$store.sidebarOpen" :key="'desktop_sidebar'">
         <div class="flex flex-col w-64 border-r sidebar-border">
             <div class="h-0 flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
                 <div class="flex items-center flex-shrink-0 px-4">
@@ -98,7 +98,7 @@
                         icon="bread">
                         <div>
                             <menu-item
-                                v-for="(bread, i) in store.breads"
+                                v-for="(bread, i) in $store.breads"
                                 :key="i"
                                 :title="translate(bread.name_plural, true)"
                                 :to="'/bread/'+translate(bread.table, true)"
@@ -131,10 +131,10 @@
                         icon="puzzle-piece">
                     </menu-item>
 
-                    <hr class="my-3 sidebar-border" v-if="store.breads.length > 0" />
+                    <hr class="my-3 sidebar-border" v-if="$store.breads.length > 0" />
 
                     <menu-item
-                        v-for="(bread, i) in store.breads"
+                        v-for="(bread, i) in $store.breads"
                         :key="i"
                         :title="translate(bread.name_plural, true)"
                         :to="'/'+translate(bread.slug, true)"
@@ -143,14 +143,14 @@
                 </nav>
             </div>
             <div class="flex-shrink-0 inline-flex border-t sidebar-border p-4 h-auto overflow-x-hidden">
-                <button class="button accent small icon-only" @click="store.toggleDarkMode()">
-                    <icon :icon="store.darkmode ? 'sun' : 'moon'" />
+                <button class="button accent small icon-only" @click="$store.toggleDarkMode()">
+                    <icon :icon="$store.darkmode ? 'sun' : 'moon'" />
                 </button>
                 <button class="button accent small icon-only" v-scroll-to="''">
                     <icon icon="arrow-circle-up" />
                 </button>
-                <button class="button accent small icon-only" @click="store.toggleDirection()">
-                    <icon :icon="store.rtl ? 'left-to-right-text-direction' : 'right-to-left-text-direction'" />
+                <button class="button accent small icon-only" @click="$store.toggleDirection()">
+                    <icon :icon="$store.rtl ? 'left-to-right-text-direction' : 'right-to-left-text-direction'" />
                 </button>
             </div>
         </div>
@@ -158,14 +158,7 @@
 </div>
 </template>
 <script>
-
-import store from '../../js/store';
-
 export default {
-    data: function () {
-        return {
-            store: store
-        };
-    }
+
 }
 </script>

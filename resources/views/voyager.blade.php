@@ -19,5 +19,11 @@
     </div>
 </body>
 <script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>
+<script>
+new Vue({
+    el: '#voyager',
+    template: '<voyager/>'
+});
+</script>
 @yield('js')
 </html>

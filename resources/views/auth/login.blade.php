@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="base-url" content="{{ Str::finish(route('voyager.dashboard'), '/') }}">
+    <meta name="base-url" content="{{ route('voyager.dashboard') }}">
 
     <title>{{ __('voyager::auth.login') }} - {{ Voyager::setting('admin.title', 'Voyager II') }}</title>
     <link href="{{ Voyager::assetUrl('css/voyager.css') }}" rel="stylesheet">
@@ -16,7 +16,7 @@
 
 <body>
 
-    <div class="h-screen bg-gray-50 dark:bg-gray-800 flex flex-col justify-center py-12 sm:px-6 lg:px-8" id="voyager-login">
+    <div class="h-screen bg-gray-50 dark:bg-gray-800 flex flex-col justify-center py-12 sm:px-6 lg:px-8" id="voyager">
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
             <div class="justify-center flex text-center">
                 <icon icon="helm" size="16" class="text-black"></icon>
@@ -54,13 +54,9 @@
 </body>
 <script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>
 <script>
-var voyager = new Vue({
-    el: '#voyager-login',
-    created: function () {
-        this.$language.localization = {!! Voyager::getLocalization() !!};
-        this.$store.routes = {!! Voyager::getRoutes() !!};
-        this.$store.debug = {{ var_export(config('app.debug') ?? false, true) }};
-
+new Vue({
+    el: '#voyager',
+    mounted: function () {
         var dark_mode = this.getCookie('dark-mode');
         if (dark_mode == 'true') {
             this.$store.toggleDarkMode();

@@ -104,7 +104,7 @@
                                 </td>
                                 <td v-for="(formfield, key) in layout.formfields" :key="'row-' + key">
                                     <component
-                                        v-if="!isArray(result[formfield.column.column]) || store.getFormfieldByType(formfield.type).browseArray"
+                                        v-if="!isArray(result[formfield.column.column]) || $store.getFormfieldByType(formfield.type).browseArray"
                                         :is="'formfield-'+kebab_case(formfield.type)+'-browse'"
                                         :options="formfield.options"
                                         :translatable="formfield.translatable"
@@ -170,7 +170,6 @@
 
 <script>
 var debounce = require('debounce');
-import store from '../../js/store';
 
 export default {
     props: {
@@ -203,7 +202,6 @@ export default {
     },
     data: function () {
         return {
-            store: store,
             loading: false,
             results: [],
             total: 0,    // Total unfiltered amount of entries

@@ -31,23 +31,14 @@ Route::group(['as' => 'voyager.'], function () {
                 'prefix' => $bread->slug,
             ], function () use ($bread, $controller) {
                 // Browse
-                Route::view('/', 'voyager::bread.browse', compact('bread'))->name('browse');
-                Route::post('/data', ['uses'=> $controller.'@data', 'as' => 'data', 'bread' => $bread]);
-
+                Route::post('/', ['uses'=> $controller.'@data', 'as' => 'data', 'bread' => $bread]);
                 // Edit
-                Route::get('/edit/{id}', ['uses' => $controller.'@edit', 'as' => 'edit', 'bread' => $bread]);
                 Route::put('/{id}', ['uses' => $controller.'@update', 'as' => 'update', 'bread' => $bread]);
-
                 // Add
-                Route::get('/add', ['uses' => $controller.'@add', 'as' => 'add', 'bread' => $bread]);
                 Route::post('/', ['uses' => $controller.'@store', 'as' => 'store', 'bread' => $bread]);
-
                 // Delete
                 Route::delete('/', ['uses' => $controller.'@delete', 'as' => 'delete', 'bread' => $bread]);
                 Route::patch('/', ['uses' => $controller.'@restore', 'as' => 'restore', 'bread' => $bread]);
-
-                // Read
-                Route::get('/{id}', ['uses' => $controller.'@read', 'as' => 'read', 'bread' => $bread]);
             });
         }
 
@@ -57,14 +48,12 @@ Route::group(['as' => 'voyager.'], function () {
         // Plugins
         Route::post('plugins/enable', ['uses' => $namespace.'PluginsController@enable', 'as' => 'plugins.enable']);
         Route::post('plugins', ['uses' => $namespace.'PluginsController@get', 'as' => 'plugins.get']);
-        Route::get('plugins/settings/{key}', ['uses' => $namespace.'PluginsController@settings', 'as' => 'plugins.settings']);
         Route::post('plugins/install', ['uses' => $namespace.'PluginsController@install', 'as' => 'plugins.install']);
 
         // Logout
         Route::get('logout', ['uses' => $namespace.'AuthController@logout', 'as' => 'logout']);
 
         // Media
-        Route::get('media', ['uses' => $namespace.'MediaController@index', 'as' => 'media']);
         Route::post('upload', ['uses' => $namespace.'MediaController@uploadFile', 'as' => 'media.upload']);
         Route::post('list', ['uses' => $namespace.'MediaController@listFiles', 'as' => 'media.list']);
         Route::delete('delete', ['uses' => $namespace.'MediaController@delete', 'as' => 'media.delete']);

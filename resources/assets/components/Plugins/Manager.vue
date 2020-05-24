@@ -132,14 +132,12 @@
 </template>
 
 <script>
-import store from '../../js/store';
 import router from '../../js/router';
 
 export default {
     router,
     data: function () {
         return {
-            store: store,
             installedPlugins: [],
             addPluginModalOpen: false,
             query: '',
@@ -268,7 +266,7 @@ export default {
     computed: {
         filteredPlugins: function () {
             var query = this.query.toLowerCase();
-            return this.store.plugins.filter(function (plugin) {
+            return this.$store.plugins.filter(function (plugin) {
                 if (plugin.type == query) {
                     return true;
                 }
@@ -288,15 +286,15 @@ export default {
         },
     },
     watch: {
-        'store.pageLoading': function (loading) {
-            if (!this.store.pageLoading) {
+        '$store.pageLoading': function (loading) {
+            if (!this.$store.pageLoading) {
                 this.loadPlugins();
             }
         }
     },
     beforeRouteEnter: function (to, from, next) {
         next(vm => {
-            if (!vm.store.pageLoading) {
+            if (!vm.$store.pageLoading) {
                 vm.loadPlugins();
             }
         });

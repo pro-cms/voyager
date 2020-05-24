@@ -10,14 +10,7 @@
     </div>
 </template>
 <script>
-import store from '../../js/store';
-
 export default {
-    data: function () {
-        return {
-            store: store
-        };
-    },
     computed: {
         widgets: function () {
             return [];

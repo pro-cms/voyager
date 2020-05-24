@@ -118,14 +118,13 @@
                 </div>
             </tabs>
         </card>
-        <collapsible v-if="store.debug" :title="__('voyager::builder.json_output')" :opened="false">
+        <collapsible v-if="$store.debug" :title="__('voyager::builder.json_output')" :opened="false">
             <textarea class="voyager-input w-full" rows="10" v-model="jsonSettings"></textarea>
         </collapsible>
     </div>
 </template>
 
 <script>
-import store from '../../js/store';
 import router from '../../js/router';
 
 export default {
@@ -137,7 +136,6 @@ export default {
     },
     data: function () {
         return {
-            store: store,
             savingSettings: false,
             currentGroupId: 0,
             optionsId: null,
@@ -147,7 +145,7 @@ export default {
     },
     methods: {
         settingsByGroup: function (group) {
-            return this.store.settings.filter(function (setting) {
+            return this.$store.settings.filter(function (setting) {
                 if (group == 'no-group') {
                     return setting.group == null;
                 }
@@ -160,7 +158,7 @@ export default {
             vm.errors = [];
             // TODO:
             axios.post(vm.route('voyager.settings.store'), {
-                settings: vm.store.settings
+                settings: vm.$store.settings
             })
             .then(function (response) {
                 vm.$notify.notify(vm.__('voyager::settings.settings_saved'), null, 'green', 5000);
@@ -240,13 +238,13 @@ export default {
     },
     computed: {
         filterFormfields: function () {
-            return store.formfields.filter(function (formfield) {
+            return this.$store.formfields.filter(function (formfield) {
                 return formfield.asSetting;
             });
         },
         groups: function () {
             var groups = ['no-group'];
-            this.store.settings.forEach(function (setting) {
+            this.$store.settings.forEach(function (setting) {
                 if (groups.indexOf(setting.group) == -1 && setting.group !== null) {
                     groups.push(setting.group);
                 }
@@ -268,18 +266,18 @@ export default {
             set: function (settings) {
                 var vm = this;
                 var current_group = vm.groups[vm.currentGroupId].name;
-                vm.store.settings = vm.store.settings.filter(function (setting) {
+                vm.$store.settings = vm.$store.settings.filter(function (setting) {
                     if (current_group == 'no-group') {
                         return setting.group !== null;
                     }
                     return setting.group !== current_group;
                 });
-                vm.store.settings = vm.store.settings.concat(settings);
+                vm.$store.settings = vm.$store.settings.concat(settings);
             }
         },
         jsonSettings: {
             get: function () {
-                return JSON.stringify(this.store.settings, null, 2);
+                return JSON.stringify(this.$store.settings, null, 2);
             },
             set: function (value) {
                 

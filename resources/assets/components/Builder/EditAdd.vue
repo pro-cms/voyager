@@ -296,7 +296,7 @@
             </div>
         </collapsible>
 
-        <collapsible ref="bread_json" v-if="store.debug" :title="__('voyager::builder.json_output')" :opened="false">
+        <collapsible ref="bread_json" v-if="$store.debug" :title="__('voyager::builder.json_output')" :opened="false">
             <textarea class="voyager-input w-full" rows="10" v-model="jsonBread"></textarea>
         </collapsible>
     </div>
@@ -304,7 +304,6 @@
 
 <script>
 import router from '../../js/router';
-import store from '../../js/store';
 
 import ListBuilder from './List';
 import ViewBuilder from './View';
@@ -315,8 +314,7 @@ export default {
     data: function () {
         return {
             isNew: false,
-            bread: store.getBreadByTable(this.table),
-            store: store,
+            bread: this.$store.getBreadByTable(this.table),
             computed: [],
             columns: [],
             scopes: [],
@@ -555,14 +553,14 @@ export default {
             if (this.focusMode) {
                 this.$refs.bread_settings.close();
                 this.$refs.layout_mapping.close();
-                if (this.store.debug) {
+                if (this.$store.debug) {
                     this.$refs.bread_json.close();
                 }
-                this.store.closeSidebar();
+                this.$store.closeSidebar();
             } else {
                 this.$refs.bread_settings.open();
                 this.$refs.layout_mapping.open();
-                this.store.openSidebar();
+                this.$store.openSidebar();
             }
         },
         addLayoutToUrl: function (e) {
@@ -596,7 +594,7 @@ export default {
         },
         filteredFormfields: function () {
             var vm = this;
-            return vm.store.formfields.filter(function (formfield) {
+            return vm.$store.formfields.filter(function (formfield) {
                 if (vm.currentLayout && vm.currentLayout.type == 'list') {
                     return formfield.inList;
                 }
@@ -635,13 +633,6 @@ export default {
         });
     },
     created: function () {
-        if (!this.currentLayoutName) {
-            var layout = this.bread.layouts[this.$route.query.layout] || this.bread.layouts[0];
-            if (layout) {
-                this.currentLayoutName = layout.name;
-            }
-        }
-
         if (!this.bread) {
             this.isNew = true;
             Vue.set(this, 'bread', {
@@ -664,6 +655,13 @@ export default {
                     add: ''
                 }
             });
+        }
+
+        if (!this.currentLayoutName) {
+            var layout = this.bread.layouts[this.$route.query.layout] || this.bread.layouts[0];
+            if (layout) {
+                this.currentLayoutName = layout.name;
+            }
         }
     }
 };
