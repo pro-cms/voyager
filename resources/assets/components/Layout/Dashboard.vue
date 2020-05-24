@@ -3,7 +3,7 @@
         <div v-for="(widget, i) in widgets" :key="i" :class="widget.width" class="widget" v-html="widget.view">
             
         </div>
-        <div v-if="store.widgets.length == 0" class="widget w-full">
+        <div v-if="widgets.length == 0" class="widget w-full">
             <h5>Welcome to Voyager II</h5>
             <p>Voyager 2 has been re-built using Laravel and VueJS. There are a lot of other cool things about version 2</p>
         </div>
