@@ -7,6 +7,7 @@ export default {
     darkmode: false,
     rtl: false,
     sidebarOpen: true,
+    plugins: [],
     pageLoading: true,
     routes: [],
     tables: [],

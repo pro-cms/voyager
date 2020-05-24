@@ -55,9 +55,6 @@ Route::group(['as' => 'voyager.'], function () {
         Route::post('settings', ['uses' => $namespace.'SettingsController@store', 'as' => 'settings.store']);
 
         // Plugins
-        Route::get('plugins', function () {
-            return view('voyager::plugins.browse');
-        })->name('plugins.index');
         Route::post('plugins/enable', ['uses' => $namespace.'PluginsController@enable', 'as' => 'plugins.enable']);
         Route::post('plugins', ['uses' => $namespace.'PluginsController@get', 'as' => 'plugins.get']);
         Route::get('plugins/settings/{key}', ['uses' => $namespace.'PluginsController@settings', 'as' => 'plugins.settings']);

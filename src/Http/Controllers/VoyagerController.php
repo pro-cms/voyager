@@ -66,6 +66,7 @@ class VoyagerController extends Controller
             'breads'        => $this->breadmanager->getBreads(),
             'localization'  => VoyagerFacade::getLocalization(),
             'formfields'    => $this->breadmanager->getFormfields(),
+            'plugins'       => $this->pluginmanager->getAvailablePlugins(),
             'routes'        => VoyagerFacade::getRoutes(),
             'search_title'  => $this->breadmanager->getBreadSearchPlaceholder(),
             'settings'      => $this->settingmanager->getSettings(),

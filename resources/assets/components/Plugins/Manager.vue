@@ -132,10 +132,14 @@
 </template>
 
 <script>
+import store from '../../js/store';
+import router from '../../js/router';
+
 export default {
-    props: ['availablePlugins'],
+    router,
     data: function () {
         return {
+            store: store,
             installedPlugins: [],
             addPluginModalOpen: false,
             query: '',
@@ -264,7 +268,7 @@ export default {
     computed: {
         filteredPlugins: function () {
             var query = this.query.toLowerCase();
-            return this.availablePlugins.filter(function (plugin) {
+            return this.store.plugins.filter(function (plugin) {
                 if (plugin.type == query) {
                     return true;
                 }
@@ -283,16 +287,19 @@ export default {
             return Math.ceil(this.filteredPlugins.length / this.resultsPerPage);
         },
     },
-    mounted: function () {
-        var vm = this;
-
-        vm.loadPlugins();
-
-        var type = vm.getParameterFromUrl('type', null);
-        if (type !== null) {
-            vm.query = type[0].toUpperCase() + type.slice(1);
-            vm.$refs.search_plugin_modal.open();
+    watch: {
+        'store.pageLoading': function (loading) {
+            if (!this.store.pageLoading) {
+                this.loadPlugins();
+            }
         }
+    },
+    beforeRouteEnter: function (to, from, next) {
+        next(vm => {
+            if (!vm.store.pageLoading) {
+                vm.loadPlugins();
+            }
+        });
     }
 };
 </script>

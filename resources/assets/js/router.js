@@ -3,9 +3,8 @@ import PageNotFound from '../components/Layout/PageNotFound';
 import Dashboard from '../components/Layout/Dashboard';
 import Settings from '../components/Settings/Manager';
 import BreadBuilderBrowse from '../components/Builder/Browse';
+import PluginManager from '../components/Plugins/Manager';
 import UI from '../components/Layout/UI';
-
-import store from './store';
 
 const routes = [
     {
@@ -45,7 +44,7 @@ const routes = [
     },
     {
         path: '/plugins',
-        component: UI,
+        component: PluginManager,
         meta: {
             title: 'Plugins',
         }
@@ -66,7 +65,5 @@ router.beforeEach(function (to, from, next) {
 
     next();
 });
-
-// Dynamically generate routes for BREADs
 
 export default router;
