@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Breads as BreadManager;
-use Voyager\Admin\Manager\Settings as SettingsManager;
+use Voyager\Admin\Manager\Plugins as PluginManager;
+use Voyager\Admin\Manager\Settings as SettingManager;
 use Voyager\Admin\Traits\Bread\Browsable;
 
 class VoyagerController extends Controller
@@ -15,11 +16,13 @@ class VoyagerController extends Controller
     use Browsable;
 
     protected $breadmanager;
+    protected $pluginmanager;
     protected $settingmanager;
 
-    public function __construct(BreadManager $breadmanager, SettingsManager $settingmanager)
+    public function __construct(BreadManager $breadmanager, PluginManager $pluginmanager, SettingManager $settingmanager)
     {
         $this->breadmanager = $breadmanager;
+        $this->pluginmanager = $pluginmanager;
         $this->settingmanager = $settingmanager;
     }
 
@@ -64,6 +67,7 @@ class VoyagerController extends Controller
             'localization'  => VoyagerFacade::getLocalization(),
             'formfields'    => $this->breadmanager->getFormfields(),
             'routes'        => VoyagerFacade::getRoutes(),
+            'search_title'  => $this->breadmanager->getBreadSearchPlaceholder(),
             'settings'      => $this->settingmanager->getSettings(),
             'tables'        => VoyagerFacade::getTables(),
             'user'          => VoyagerFacade::auth()->user(),

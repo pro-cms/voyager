@@ -12,6 +12,7 @@ export default {
     tables: [],
     user: {},
     user_name: '',
+    search_title: '',
     settings: [],
     toggleDirection () {
         this.rtl = !this.rtl;

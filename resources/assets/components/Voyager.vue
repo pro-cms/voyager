@@ -17,7 +17,7 @@
                             <icon :icon="store.sidebarOpen ? 'ellipsis-v' : 'ellipsis-h'" />
                         </button>
                         <div class="w-full mt-4">
-                            <search placeholder="XYZ" mobile-placeholder="ABC" />
+                            <search :placeholder="store.search_title" :mobilePlaceholder="__('voyager::generic.search')" />
                         </div>
                         <user-dropdown />
                     </div>
