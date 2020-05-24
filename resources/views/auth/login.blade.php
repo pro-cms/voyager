@@ -16,22 +16,22 @@
 
 <body>
 
-    <div class="h-screen bg-gray-50 dark:bg-gray-800 flex flex-col justify-center py-12 sm:px-6 lg:px-8" id="voyager">
+    <div class="h-screen bg-gray-100 dark:bg-gray-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8" id="voyager">
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
             <div class="justify-center flex text-center">
-                <icon icon="helm" size="16" class="text-black"></icon>
+                <icon icon="helm" size="16" class="text-black text-black dark:text-gray-300"></icon>
             </div>
-            <p class="mt-6 text-center text-sm leading-5 text-gray-600 max-w">
+            <p class="mt-6 text-center text-sm leading-5 text-gray-600 dark:text-gray-300 max-w">
                 Welcome to Voyager
             </p>
-            <h2 class="mt-2 text-center text-3xl leading-9 font-extrabold text-gray-900">
+            <h2 class="mt-2 text-center text-3xl leading-9 font-extrabold text-gray-900 dark:text-gray-500">
                 Sign in to your account
             </h2>
             
         </div>
 
         <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <div class="bg-white dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
 
                 <login error="{{ Session::get('error', null) }}" success="{{ Session::get('success', null) }}" :old="{{ json_encode(old()) }}">
                     @if (Voyager::auth()->loginView())
