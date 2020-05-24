@@ -13,12 +13,12 @@
                     </p>
                     </div>
                 </div>
-                <a href="#" class="link">
+                <router-link to="/" class="link">
                     {{ __('voyager::generic.dashboard') }}
-                </a>
-                <a href="#" class="link">
+                </router-link>
+                <router-link to="/settings" class="link">
                     {{ __('voyager::generic.settings') }}
-                </a>
+                </router-link>
                 <a :href="route('voyager.logout')" class="link">
                     {{ __('voyager::auth.logout') }}
                 </a>

@@ -1,5 +1,5 @@
 <template>
-    <card :title="__('voyager::generic.breads')" icon="bread" :icon-size="8">
+    <card :title="__('voyager::generic.breads')" icon="bread">
         <div class="voyager-table striped" :class="[loading ? 'loading' : '']">
             <table>
                 <thead>

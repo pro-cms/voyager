@@ -133,6 +133,9 @@
     </div>
 </template>
 <script>
+import Vue from 'vue';
+import router from '../../js/router';
+
 var Status = {
     Pending  : 1,
     Uploading: 2,
@@ -143,14 +146,15 @@ var Status = {
 Vue.prototype.Status = Status;
 
 export default {
+    router,
     props: {
         'uploadUrl': {
             type: String,
-            required: true,
+            default: function () { return document.head.querySelector('meta[name="media-url"]').content; },
         },
         'listUrl': {
             type: String,
-            required: true,
+            default: function () { return document.head.querySelector('meta[name="media-url"]').content; },
         },
         'instantUpload': {
             type: Boolean,
@@ -352,7 +356,6 @@ export default {
         openFile: function (file) {
             if (file.file.type == 'dir') {
                 this.path = this.path + '/' + file.file.name;
-                this.pushCurrentPathToUrl();
                 this.loadFiles();
             }
         },
@@ -375,15 +378,7 @@ export default {
         openPath: function (path, index) {
             this.path = this.pathSegments.slice(0, (index + 1)).join('/');
 
-            // Push path to URL
-            this.pushCurrentPathToUrl();
-
             this.loadFiles();
-        },
-        pushCurrentPathToUrl: function () {
-            var url = window.location.href.split('?')[0];
-            url = this.addParameterToUrl('path', this.path, url);
-            this.pushToUrlHistory(url);
         },
         deleteSelected: function () {
             var vm = this;
@@ -507,13 +502,8 @@ export default {
             });
         }
 
-        var path = vm.getParameterFromUrl('path', '');
-        if (path !== '/') {
-            vm.path = path;
-        }
-
-        vm.loadFiles();
-    }
+        this.loadFiles();
+    },
 };
 </script>
 

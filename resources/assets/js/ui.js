@@ -17,7 +17,6 @@ let components = [
     'Dropdown',
     'IconPicker',
     'LanguageInput',
-    'MediaManager',
     'Modal',
     'Notifications',
     'Pagination',

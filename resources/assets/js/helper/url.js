@@ -41,7 +41,7 @@ window.route = function () {
     var args = Array.prototype.slice.call(arguments);
     var name = args.shift();
     if (Vue.prototype.$store.routes[name] === undefined) {
-        return '#';
+        console.warn('Route "'+name+'" does not exist!');
     } else {
         return Vue.prototype.$store.routes[name]
             .split('/')

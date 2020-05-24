@@ -2,6 +2,7 @@ import Router from 'vue-router';
 import Dashboard from '../components/Layout/Dashboard';
 import Settings from '../components/Settings/Manager';
 import BreadBuilderBrowse from '../components/Builder/Browse';
+import MediaManager from '../components/Media/Manager';
 import PluginManager from '../components/Plugins/Manager';
 import UI from '../components/Layout/UI';
 
@@ -22,7 +23,7 @@ const routes = [
     },
     {
         path: '/media',
-        component: UI,
+        component: MediaManager,
         meta: {
             title: 'Media',
         }

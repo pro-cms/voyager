@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="base-url" content="{{ route('voyager.dashboard') }}">
+    <meta name="media-url" content="{{ route('voyager.media.list') }}">
 
     <title>{{ Voyager::setting('admin.title', 'Voyager II') }}</title>
     <link href="{{ Voyager::assetUrl('css/voyager.css') }}" rel="stylesheet">
@@ -22,7 +23,11 @@
 <script>
 new Vue({
     el: '#voyager',
-    template: '<voyager/>'
+    template: '<voyager/>',
+    created: function () {
+        this.$store.routes = {!! Voyager::getRoutes() !!};
+        this.$language.localization = {!! Voyager::getLocalization() !!};
+    }
 });
 </script>
 @yield('js')

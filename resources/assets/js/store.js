@@ -8,6 +8,7 @@ export default {
                 csrf_token: document.head.querySelector('meta[name="csrf-token"]').content,
                 debug: true,
                 darkmode: false,
+                media_url: '',
                 rtl: false,
                 sidebarOpen: true,
                 plugins: [],

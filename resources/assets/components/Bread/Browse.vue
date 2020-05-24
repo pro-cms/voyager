@@ -450,9 +450,6 @@ export default {
             }).length;
         },
     },
-    mounted: function () {
-        this.load();
-    },
     watch: {
         selected: function (selected, old) {
             this.$emit('select', selected);
@@ -465,7 +462,19 @@ export default {
         },
         translatable: function (value) {
             Vue.prototype.$language.localePicker = value;
+        },
+        '$store.pageLoading': function (loading) {
+            if (!this.$store.pageLoading) {
+                this.load()
+            }
         }
+    },
+    beforeRouteEnter: function (to, from, next) {
+        next(vm => {
+            if (!vm.$store.pageLoading) {
+                vm.load();
+            }
+        });
     }
 };
 </script>

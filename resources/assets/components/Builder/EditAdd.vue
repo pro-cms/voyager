@@ -1,6 +1,6 @@
 <template>
     <div>
-        <collapsible ref="bread_settings" :title="__('voyager::generic.'+(isNew ? 'add' : 'edit')+'_type', { type: __('voyager::generic.bread')})" icon="bread" :icon-size="8">
+        <collapsible ref="bread_settings" :title="__('voyager::generic.'+(isNew ? 'add' : 'edit')+'_type', { type: __('voyager::generic.bread')})" icon="bread">
             <div slot="actions">
                 <div class="flex items-center">
                     <button class="button blue" @click.stop="toggleFocusMode">

@@ -64,10 +64,9 @@ class VoyagerController extends Controller
         return response()->json([
             'backups'       => $this->breadmanager->getBackups(),
             'breads'        => $this->breadmanager->getBreads(),
-            'localization'  => VoyagerFacade::getLocalization(),
             'formfields'    => $this->breadmanager->getFormfields(),
+            'media_url'     => route('voyager.media.list'),
             'plugins'       => $this->pluginmanager->getAvailablePlugins(),
-            'routes'        => VoyagerFacade::getRoutes(),
             'search_title'  => $this->breadmanager->getBreadSearchPlaceholder(),
             'settings'      => $this->settingmanager->getSettings(),
             'tables'        => VoyagerFacade::getTables(),

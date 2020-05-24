@@ -31,7 +31,7 @@ Route::group(['as' => 'voyager.'], function () {
                 'prefix' => $bread->slug,
             ], function () use ($bread, $controller) {
                 // Browse
-                Route::post('/', ['uses'=> $controller.'@data', 'as' => 'data', 'bread' => $bread]);
+                Route::post('/data', ['uses'=> $controller.'@data', 'as' => 'data', 'bread' => $bread]);
                 // Edit
                 Route::put('/{id}', ['uses' => $controller.'@update', 'as' => 'update', 'bread' => $bread]);
                 // Add
@@ -54,9 +54,9 @@ Route::group(['as' => 'voyager.'], function () {
         Route::get('logout', ['uses' => $namespace.'AuthController@logout', 'as' => 'logout']);
 
         // Media
-        Route::post('upload', ['uses' => $namespace.'MediaController@uploadFile', 'as' => 'media.upload']);
-        Route::post('list', ['uses' => $namespace.'MediaController@listFiles', 'as' => 'media.list']);
-        Route::delete('delete', ['uses' => $namespace.'MediaController@delete', 'as' => 'media.delete']);
+        Route::put('media', ['uses' => $namespace.'MediaController@uploadFile', 'as' => 'media.upload']);
+        Route::post('media', ['uses' => $namespace.'MediaController@listFiles', 'as' => 'media.list']);
+        Route::delete('media', ['uses' => $namespace.'MediaController@delete', 'as' => 'media.delete']);
         Route::post('create_folder', ['uses' => $namespace.'MediaController@createFolder', 'as' => 'media.create_folder']);
 
         //

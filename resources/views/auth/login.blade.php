@@ -62,6 +62,10 @@ new Vue({
             this.$store.toggleDarkMode();
         }
     },
+    created: function () {
+        this.$store.routes = {!! Voyager::getRoutes() !!};
+        this.$language.localization = {!! Voyager::getLocalization() !!};
+    }
 });
 </script>
 @yield('js')
