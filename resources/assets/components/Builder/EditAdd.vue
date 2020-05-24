@@ -132,7 +132,7 @@
         <card :show-header="false">
             <!-- Toolbar -->
             <div class="w-full mb-5 flex">
-                <select class="voyager-input small self-center" v-model="currentLayoutName" :disabled="bread.layouts.length == 0">
+                <select class="voyager-input small self-center" v-model="currentLayoutName" @change="addLayoutToUrl" :disabled="bread.layouts.length == 0">
                     <option :value="null" v-if="bread.layouts.length == 0">
                         {{ __('voyager::builder.create_layout_first') }}
                     </option>
@@ -561,6 +561,23 @@ export default {
                 this.$refs.layout_mapping.open();
                 this.store.openSidebar();
             }
+        },
+        addLayoutToUrl: function (e) {
+            var name = e.target.value;
+            var id = null;
+            this.bread.layouts.forEach(function (layout, key) {
+                if (layout.name == name) {
+                    id = key;
+                }
+            });
+
+            if (id !== null) {
+                this.$router.push({
+                    query: {
+                        layout: id
+                    }
+                });
+            }
         }
     },
     computed: {
@@ -598,16 +615,6 @@ export default {
             }
         },
     },
-    watch: {
-        currentLayoutName: function (name) {
-            // TODO:
-            this.$router.push({
-                query: {
-                    layout: 'X'
-                }
-            });
-        }
-    },
     mounted: function () {
         var vm = this;
         Vue.prototype.$language.localePicker = true;
@@ -623,13 +630,15 @@ export default {
                 vm.saveBread();
             }
         });
-
-        if (vm.$route.query.hasOwnProperty('layout')) {
-            //vm.currentLayout = this.$route.query.layout;
-            // TODO: Test if this layout ID exists
-        }
     },
     created: function () {
+        if (!this.currentLayoutName) {
+            var layout = this.bread.layouts[this.$route.query.layout] || this.bread.layouts[0];
+            if (layout) {
+                this.currentLayoutName = layout.name;
+            }
+        }
+
         if (!this.bread) {
             this.isNew = true;
             Vue.set(this, 'bread', {

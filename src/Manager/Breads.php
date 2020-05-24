@@ -182,26 +182,6 @@ class Breads
     }
 
     /**
-     * Create a BREAD-object.
-     *
-     * @param string $table
-     *
-     * @return int|bool success
-     */
-    public function createBread($table)
-    {
-        $bread = [
-            'table'         => $table,
-            'slug'          => Str::slug($table),
-            'name_singular' => Str::singular(Str::title($table)),
-            'name_plural'   => Str::plural(Str::title($table)),
-            'layouts'       => [],
-        ];
-
-        return new BreadClass($bread);
-    }
-
-    /**
      * Clears all BREAD-objects.
      */
     public function clearBreads()

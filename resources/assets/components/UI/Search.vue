@@ -24,6 +24,7 @@
     </div>
 </template>
 <script>
+var debounce = require('debounce');
 import store from '../../js/store';
 
 export default {

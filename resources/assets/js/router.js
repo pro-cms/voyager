@@ -50,13 +50,6 @@ const routes = [
             title: 'Plugins',
         }
     },
-    {
-        path: '*',
-        component: PageNotFound,
-        meta: {
-            title: '404',
-        }
-    },
 ];
 
 const router = new Router({

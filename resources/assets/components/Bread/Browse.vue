@@ -169,6 +169,7 @@
 </template>
 
 <script>
+var debounce = require('debounce');
 import store from '../../js/store';
 
 export default {
@@ -452,22 +453,7 @@ export default {
         },
     },
     mounted: function () {
-        var parameter_found = false;
-        for (var param of this.getParametersFromUrl()) {
-            try {
-                var val = JSON.parse(param[1]);
-                Vue.set(this.parameters, param[0], val);
-            } catch {
-                Vue.set(this.parameters, param[0], param[1]);
-            }
-
-            parameter_found = true;
-        }
-
-        // Data will automatically be loaded in the watcher when parameters were set above
-        if (!parameter_found) {
-            this.load();
-        }
+        this.load();
     },
     watch: {
         selected: function (selected, old) {
@@ -475,26 +461,6 @@ export default {
         },
         'parameters.page': function () {
             this.selected = [];
-        },
-        parameters: {
-            handler: debounce(function (val) {
-                // Remove all parameters from URL
-                if (!this.fromRelationship) {
-                    var url = window.location.href.split('?')[0];
-                    for (var key in val) {
-                        if (val.hasOwnProperty(key) && val[key] !== null) {
-                            if (this.isObject(val[key])) {
-                                url = this.addParameterToUrl(key, JSON.stringify(val[key]), url);
-                            } else {
-                                url = this.addParameterToUrl(key, val[key], url);
-                            }
-                        }
-                    }
-                    this.pushToUrlHistory(url);
-                }
-                this.load();
-            }, 250),
-            deep: true,
         },
         '$language.locale': function (locale) {
             this.parameters.locale = locale;

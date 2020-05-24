@@ -13,9 +13,6 @@ Route::group(['as' => 'voyager.'], function () {
             'as'     => 'bread.',
             'prefix' => 'bread',
         ], function () use ($namespace) {
-            Route::get('/', ['uses' => $namespace.'BreadBuilderController@index', 'as' => 'index']);
-            Route::get('create/{table}', ['uses' => $namespace.'BreadBuilderController@create', 'as' => 'create']);
-            Route::get('edit/{table}', ['uses' => $namespace.'BreadBuilderController@edit', 'as' => 'edit']);
             Route::put('{table}', ['uses' => $namespace.'BreadBuilderController@update', 'as' => 'update']);
             Route::post('get-properties', ['uses' => $namespace.'BreadBuilderController@getProperties', 'as' => 'get-properties']);
             Route::post('get-breads', ['uses' => $namespace.'BreadBuilderController@getBreads', 'as' => 'get-breads']);
@@ -55,7 +52,6 @@ Route::group(['as' => 'voyager.'], function () {
         }
 
         // Settings
-        Route::get('settings', ['uses' => $namespace.'SettingsController@index', 'as' => 'settings.index']);
         Route::post('settings', ['uses' => $namespace.'SettingsController@store', 'as' => 'settings.store']);
 
         // Plugins

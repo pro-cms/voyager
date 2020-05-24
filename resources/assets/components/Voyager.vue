@@ -35,6 +35,7 @@
 <script>
 import Sidebar from './Layout/Sidebar';
 import BreadBuilderEditAdd from '../components/Builder/EditAdd';
+import BreadBrowse from '../components/Bread/Browse';
 
 import router from '../js/router';
 import store from '../js/store';
@@ -65,7 +66,8 @@ export default {
                     });
                     routes.push({
                         path: '/'+vm.translate(bread.slug, true),
-                        component: BreadBuilderEditAdd,
+                        component: BreadBrowse,
+                        props: { bread: bread },
                         meta: {
                             title: vm.translate(bread.name_plural, true),
                         }
