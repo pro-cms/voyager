@@ -1,53 +1,59 @@
-Vue.prototype.$language = new Vue({
-    data: {
-        locale: document.getElementsByTagName('html')[0].getAttribute('lang'),
-        initial_locale: document.getElementsByTagName('html')[0].getAttribute('lang'),
-        locales: document.getElementsByTagName('html')[0].getAttribute('locales').split(','),
-        localePicker: false,
-        localization: [],
-        index: 0,
-    },
-    watch: {
-        locale: function (locale) {
-            this.index = this.locales.indexOf(locale);
-        }
-    },
-    methods: {
-        nextLocale: function () {
-            if (this.index == this.locales.length - 1) {
-                this.index = 0;
-            } else {
-                this.index = this.index + 1;
-            }
+import Vue from 'vue';
 
-            this.locale = this.locales[this.index];
-        },
-        previousLocale: function () {
-            if (this.index == 0) {
-                this.index = this.locales.length - 1;
-            } else {
-                this.index = this.index - 1;
-            }
-
-            this.locale = this.locales[this.index];
-        }
-    },
-    created: function () {
-        var vm = this;
-
-        vm.index = vm.locales.indexOf(this.locale);
-
-        document.addEventListener('keydown', function (e) {
-            if (e.ctrlKey) {
-                if (e.keyCode == 38 || e.keyCode == 39) {
-                    vm.nextLocale();
-                } else if (e.keyCode == 37 || e.keyCode == 40) {
-                    vm.previousLocale();
+export default {
+    install (Vue) {
+        Vue.prototype.$language = new Vue({
+            data: {
+                locale: document.getElementsByTagName('html')[0].getAttribute('lang'),
+                initial_locale: document.getElementsByTagName('html')[0].getAttribute('lang'),
+                locales: document.getElementsByTagName('html')[0].getAttribute('locales').split(','),
+                localePicker: false,
+                localization: [],
+                index: 0,
+            },
+            watch: {
+                locale: function (locale) {
+                    this.index = this.locales.indexOf(locale);
                 }
+            },
+            methods: {
+                nextLocale: function () {
+                    if (this.index == this.locales.length - 1) {
+                        this.index = 0;
+                    } else {
+                        this.index = this.index + 1;
+                    }
+
+                    this.locale = this.locales[this.index];
+                },
+                previousLocale: function () {
+                    if (this.index == 0) {
+                        this.index = this.locales.length - 1;
+                    } else {
+                        this.index = this.index - 1;
+                    }
+
+                    this.locale = this.locales[this.index];
+                }
+            },
+            created: function () {
+                var vm = this;
+
+                vm.index = vm.locales.indexOf(this.locale);
+
+                document.addEventListener('keydown', function (e) {
+                    if (e.ctrlKey) {
+                        if (e.keyCode == 38 || e.keyCode == 39) {
+                            vm.nextLocale();
+                        } else if (e.keyCode == 37 || e.keyCode == 40) {
+                            vm.previousLocale();
+                        }
+                    }
+                });
             }
         });
     }
-});
+};
 
 Vue.mixin({
     methods: {

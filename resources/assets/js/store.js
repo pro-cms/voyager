@@ -1,5 +1,5 @@
 export default {
-    install(Vue) {
+    install (Vue) {
         Vue.prototype.$store = new Vue({
             data: {
                 formfields: [],

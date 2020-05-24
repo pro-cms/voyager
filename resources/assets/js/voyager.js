@@ -1,7 +1,5 @@
 require('./vendor');
-require('./notify');
 require('./helper');
-require('./multilanguage');
 require('./formfields');
 require('./ui');
 
@@ -15,3 +13,9 @@ Vue.component('login', Login);
 
 import Store from './store';
 Vue.use(Store);
+
+import Language from './multilanguage';
+Vue.use(Language);
+
+import Notify from './notify';
+Vue.use(Notify);

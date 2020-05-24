@@ -4,10 +4,6 @@ window.Vue = require('vue');
 import Router from 'vue-router';
 Vue.use(Router);
 
-// https://github.com/component/debounce
-window.debounce = require('debounce');
-Vue.prototype.debounce = debounce;
-
 // https://github.com/axios/axios
 window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
