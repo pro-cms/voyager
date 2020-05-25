@@ -14,6 +14,9 @@ Vue.component('login', Login);
 import Store from './store';
 Vue.use(Store);
 
+import Settings from './settings';
+Vue.use(Settings);
+
 import Language from './multilanguage';
 Vue.use(Language);
 

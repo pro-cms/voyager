@@ -81,7 +81,7 @@
                 <div class="flex items-center flex-shrink-0 px-4">
                     <icon icon="helm" :size="10" class="icon"></icon>
                     <span class="font-black text-lg uppercase ltr:pl-2 rtl:pr-2 title">
-                        Voyager II
+                        {{ $settings.setting('admin.sidebar-title', 'Voyager II') }}
                     </span>
                 </div>
                 <nav class="mt-4 flex-1 px-2">
@@ -95,7 +95,8 @@
                     <menu-item
                         :title="__('voyager::generic.breads')"
                         to="/breads"
-                        icon="bread">
+                        icon="bread"
+                        :is-open="breadsItemOpen">
                         <div>
                             <menu-item
                                 v-for="(bread, i) in $store.breads"
@@ -138,7 +139,11 @@
                         :key="i"
                         :title="translate(bread.name_plural, true)"
                         :to="'/'+translate(bread.slug, true)"
-                        :icon="bread.icon">
+                        :icon="bread.icon"
+                        :badge="bread.badge"
+                        badge-content="XYZ"
+                        :badge-color="bread.color || 'accent'"
+                        :badge-dot="false">
                     </menu-item>
                 </nav>
             </div>
@@ -158,7 +163,14 @@
 </div>
 </template>
 <script>
-export default {
+import router from '../../js/router';
 
+export default {
+    router,
+    computed: {
+        breadsItemOpen: function () {
+            return this.$route.path.startsWith('/breads') || this.$route.path.startsWith('/bread/');
+        }
+    }
 }
 </script>

@@ -56,7 +56,7 @@ const router = new Router({
 });
 
 router.beforeEach(function (to, from, next) {
-    var suffix = 'Voyager II';
+    var suffix = Vue.prototype.$settings.setting('admin.title', 'Voyager II');
     if (to.meta.hasOwnProperty('title')) {
         document.title = to.meta.title + ' - ' + suffix;
     } else {

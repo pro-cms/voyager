@@ -306,5 +306,14 @@ export default {
             }
         },
     },
+    mounted: function () {
+        var vm = this;
+        document.addEventListener('keydown', function (e) {
+            if (event.ctrlKey && event.key === 's') {
+                e.preventDefault();
+                vm.saveSettings();
+            }
+        });
+    }
 };
 </script>

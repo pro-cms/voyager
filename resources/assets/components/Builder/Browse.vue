@@ -25,12 +25,12 @@
                         </td>
                         <td class="text-right">
                             <div v-if="hasBread(table)">
-                                <a class="button blue" :href="route('voyager.'+translate(getBread(table).slug, true)+'.browse')">
+                                <router-link class="button blue" :to="'/'+translate(getBread(table).slug, true)">
                                     <icon icon="globe" :size="4" />
                                     <span>
                                         {{ __('voyager::generic.browse') }}
                                     </span>
-                                </a>
+                                </router-link>
                                 <button class="button green" @click="backupBread(table)">
                                     <icon icon="history" :class="[backingUp ? 'rotating-ccw' : '']" :size="4" />
                                     <span v-if="getBackupsForTable(table).length > 0">

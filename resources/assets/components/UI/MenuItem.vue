@@ -63,10 +63,14 @@ export default {
             type: Boolean,
             default: false,
         },
+        isOpen: {
+            type: Boolean,
+            default: false
+        }
     },
     data: function () {
         return {
-            open: false,
+            open: this.isOpen,
         }
     },
     methods: {
@@ -84,6 +88,11 @@ export default {
             this.open = true;
         }
     },
+    watch: {
+        isOpen: function (open) {
+            this.open = open;
+        }
+    }
 };
 </script>
 
