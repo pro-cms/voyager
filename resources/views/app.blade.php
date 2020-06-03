@@ -17,26 +17,9 @@
 </head>
 
 <body>
-    <slide-x-left-transition class="h-screen flex overflow-hidden" id="voyager" tag="div" group>
-        <div key="loader">
-            <fade-transition :duration="500">
-                <div class="loader" v-if="$store.pageLoading">
-                    <icon icon="helm" size="auto" class="block icon rotating-cw"></icon>
-                </div>
-            </fade-transition>
-        </div>
-        @include('voyager::sidebar')
-        <div class="flex flex-col w-0 flex-1 overflow-hidden" key="content">
-            <main class="flex-1 relative z-0 overflow-y-auto pt-2 pb-6 outline-none">
-                <span id="top"></span>
-                @include('voyager::navbar')
-                <div class="mx-auto sm:px-3 md:px-4" id="top">
-                    @yield('content')
-                </div>
-            </main>
-        </div>
-        <notifications key="notifications"></notifications>
-    </slide-x-left-transition>
+    <div id="voyager">
+
+    </div>
 </body>
 <script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>
 @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins()->where('enabled') as $plugin)
@@ -45,7 +28,7 @@
     @endforeach
 @endforeach
 <script>
-var voyager = new Vue({
+/*var voyager = new Vue({
     el: '#voyager',
     mounted: function () {
         var vm = this;
@@ -63,7 +46,7 @@ var voyager = new Vue({
         this.$store.formfields = {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getFormfields()) !!};
         this.$store.debug = {{ var_export(config('app.debug') ?? false, true) }};
     }
-});
+});*/
 </script>
 @yield('js')
 </html>
