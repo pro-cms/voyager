@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "illuminate/support": "~7.0",
+        "illuminate/support": "~7.0.0",
         "doctrine/dbal": ">=2.10",
         "composer/composer": "^1.10"
     },
