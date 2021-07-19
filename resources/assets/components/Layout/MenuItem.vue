@@ -2,10 +2,10 @@
 <div class="menuitem">
     <div class="item" :class="[active ? 'active' : '']">
         <div class="inline-flex items-center w-full">
-            <inertia-link :href="href" class="text-sm leading-5 link inline-flex items-center space-x-2 w-full" @click="clickItem">
+            <Link :href="href" class="text-sm leading-5 link inline-flex items-center space-x-2 w-full" @click="clickItem">
                 <icon v-if="icon !== '' && icon !== null" :icon="icon" class="icon" :size="iconSize" />
                 <span>{{ title }}</span>
-            </inertia-link>
+            </Link>
         </div>
         <div class="flex-shrink-0 cursor-pointer inline-flex items-center" @click="open = !open" v-if="hasChildren">
             <icon icon="chevron-up" v-if="open" :size="4" class="icon" />
@@ -22,7 +22,12 @@
 </template>
 
 <script>
+import { Link } from '@inertiajs/inertia-vue3';
+
 export default {
+    components: {
+        Link
+    },
     props: {
         icon: {
             type: String,

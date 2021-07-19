@@ -71,21 +71,21 @@
                                         </button>
                                     </template>
                                 </dropdown>
-                                <inertia-link as="button" class="button yellow" :href="route('voyager.bread.edit', table)">
+                                <Link as="button" class="button yellow" :href="route('voyager.bread.edit', table)">
                                     <icon icon="pencil" :size="4" />
                                     <span>{{ __('voyager::generic.edit') }}</span>
-                                </inertia-link>
+                                </Link>
                                 <button class="button red" @click="deleteBread(table)">
                                     <icon :icon="deleting ? 'refresh' : 'trash'" :class="[deleting ? 'animate-spin-reverse' : '']" :size="4" />
                                     <span>{{ __('voyager::generic.delete') }}</span>
                                 </button>
                             </template>
-                            <inertia-link as="button" v-else class="button green" :href="route('voyager.bread.create', table)">
+                            <Link as="button" v-else class="button green" :href="route('voyager.bread.create', table)">
                                 <icon icon="plus" :size="4" />
                                 <span class="hidden md:block">
                                     {{ __('voyager::generic.add_type', { type: __('voyager::generic.bread') }) }}
                                 </span>
-                            </inertia-link>
+                            </Link>
                         </td>
                     </tr>
                 </tbody>
@@ -96,9 +96,13 @@
 
 <script>
 import axios from 'axios';
+import { Link } from '@inertiajs/inertia-vue3';
 
 export default {
     props: ['tables'],
+    components: {
+        Link
+    },
     data() {
         return {
             breads: [],
