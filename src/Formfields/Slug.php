@@ -15,14 +15,4 @@ class Slug extends Formfield
     {
         return __('voyager::formfields.slug.name');
     }
-
-    public function getComponentName(): string
-    {
-        return 'formfield-slug';
-    }
-
-    public function getBuilderComponentName(): string
-    {
-        return 'formfield-slug-builder';
-    }
 }

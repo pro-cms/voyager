@@ -1,5 +1,5 @@
 <template>
-    <card :title="__('voyager::bread.browse_type', { type: translate(bread.name_plural, true) })" :icon="bread.icon">
+    <Card :title="__('voyager::bread.browse_type', { type: translate(bread.name_plural, true) })" :icon="bread.icon">
         <template #actions>
             <div class="flex flex-wrap items-center space-x-1">
                 <input
@@ -15,25 +15,25 @@
                     <option value="only">{{ __('voyager::bread.soft_delete_only') }}</option>
                 </select>
                 <button class="button small" @click.stop="load">
-                    <icon icon="refresh" :class="[loading ? 'animate-spin-reverse' : '']" :size="4" />
+                    <Icon icon="refresh" :class="[loading ? 'animate-spin-reverse' : '']" :size="4" />
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
-                <breadActions :actions="actions" bulk @reload="load" :bread="bread" :selected="selectedEntries" />
-                <locale-picker :small="false" />
+                <BreadActions :actions="actions" bulk @reload="load" :bread="bread" :selected="selectedEntries" />
+                <LocalePicker />
             </div>
         </template>
         <div>
             <div v-if="layout !== null">
                 <div class="inline-flex w-full" v-if="layout.options.filters.length > 0">
                     <template v-for="(filter, i) in layout.options.filters" :key="i">
-                        <badge
+                        <Badge
                             :color="filter.color"
                             @click="setFilter(filter)"
                             :icon="isFilterSelected(filter)"
                         >
-                            <icon v-if="filter.icon" :icon="filter.icon" class="mr-1" :size="4" />
+                            <Icon v-if="filter.icon" :icon="filter.icon" class="mr-1" :size="4" />
                             {{ translate(filter.name, true) }}
-                        </badge>
+                        </Badge>
                     </template>
                 </div>
                 <div class="voyager-table" :class="[loading ? 'loading' : '']">
@@ -51,7 +51,7 @@
                                     <div class="flex h-full items-center">
                                         <div class="inline-flex items-center space-x-2" v-tooltip="(formfield.orderable ? __('voyager::bread.order_by_field_' + (parameters.order == formfield.column.column && parameters.direction == 'asc' ? 'desc' : 'asc'), { field: formfield.column.column }) : null)">
                                             <span>{{ translate(formfield.title, true) }}</span>
-                                            <icon
+                                            <Icon
                                                 v-if="formfield.orderable && parameters.order == formfield.column.column"
                                                 :icon="parameters.direction == 'asc' ? 'chevron-up' : 'chevron-down'"
                                                 :size="4"
@@ -99,8 +99,8 @@
                                     />
                                 </td>
                                 <td v-if="uses_ordering">
-                                    <icon icon="chevron-up" class="cursor-pointer" :size="3" @click.prevent.stop="orderUp(result.primary_key, key)" />
-                                    <icon icon="chevron-down" class="cursor-pointer" :size="3" @click.prevent.stop="orderDown(result.primary_key, key)" />
+                                    <Icon icon="chevron-up" class="cursor-pointer" :size="3" @click.prevent.stop="orderUp(result.primary_key, key)" />
+                                    <Icon icon="chevron-down" class="cursor-pointer" :size="3" @click.prevent.stop="orderDown(result.primary_key, key)" />
                                 </td>
                                 <td v-for="(formfield, key) in layout.formfields" :key="'row-' + key">
                                     <component
@@ -170,12 +170,12 @@
                             <option v-if="filtered >= 50">50</option>
                             <option v-if="filtered >= 100">100</option>
                         </select>
-                        <pagination :page-count="pages" v-model.number="parameters.page" v-if="results.length > 0"></pagination>
+                        <Pagination :page-count="pages" v-model.number="parameters.page" v-if="results.length > 0"></Pagination>
                     </div>
                 </div>
             </div>
         </div>
-    </card>
+    </Card>
 </template>
 
 <script>
@@ -187,7 +187,7 @@ import BreadActions from '@components/Bread/Actions';
 export default {
     emits: ['select'],
     components: {
-        BreadActions
+        BreadActions,
     },
     props: {
         bread: {

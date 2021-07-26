@@ -5,11 +5,11 @@
             <input type="number" class="input w-full" v-model.number="options.max" />
         </div>
         <div class="input-group mt-2">
-            <key-value-form v-model="options.meta" :valueText="__('voyager::generic.title')" />
+            <KeyValueForm v-model="options.meta" :valueText="__('voyager::generic.title')" />
         </div>
         <div class="input-group mt-2">
             <label class="label">{{ __('voyager::formfields.media_picker.select_text') }}</label>
-            <language-input
+            <LanguageInput
                 class="input w-full"
                 type="text"
                 :placeholder="__('voyager::formfields.media_picker.select_text')"

@@ -6,7 +6,7 @@
         </div>
         <div class="input-group mt-2">
             <label class="label">{{ __('voyager::generic.color') }}</label>
-            <color-picker v-model="options.color" />
+            <ColorPicker v-model="options.color" />
         </div>
     </div>
     <div v-else-if="action == 'view-options'">
@@ -32,11 +32,11 @@
         </div>
         <div class="input-group mt-2">
             <label class="label">{{ __('voyager::generic.color') }}</label>
-            <color-picker v-model="options.color" />
+            <ColorPicker v-model="options.color" />
         </div>
     </div>
     <div v-else-if="action == 'view'">
-        <tag-input
+        <TagInput
             v-model="dummyModel"
             :min="options.min"
             :max="options.max"

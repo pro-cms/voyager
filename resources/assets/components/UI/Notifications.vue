@@ -18,7 +18,7 @@
             <div class="p-4">
                 <div class="flex space-x-3 items-start">
                     <div class="w-6" v-if="notification._icon">
-                        <icon
+                        <Icon
                             :icon="notification._icon"
                             :class="`text-${notification._color}-500`"
                             uses="text-red-500 text-orange-500 text-yellow-500 text-green-500 text-teal-500 text-blue-500 text-indigo-500 text-purple-500 text-pink-500 text-gray-500"
@@ -51,7 +51,7 @@
                     </div>
                     <div class="ml-4 flex-shrink-0 flex">
                         <button @click="close(notification)" class="inline-flex text-gray-400 focus:outline-none" :aria-label="__('voyager::generic.close')">
-                            <icon icon="x" />
+                            <Icon icon="x" />
                         </button>
                     </div>
                 </div>

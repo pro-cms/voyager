@@ -6,18 +6,18 @@
                     class="m-0" :class="formfield.options.width"
                     uses="w-1/6 w-2/6 w-3/6 w-4/6 w-5/6 w-full"
                 >
-                    <card :title="translate(formfield.options.title) || ''" :title-size="5">
+                    <Card :title="translate(formfield.options.title) || ''" :title-size="5">
                         <template #actions>
                             <div class="flex space-x-1">
                                 <button class="button small dd-handle cursor-move" v-tooltip="__('voyager::generic.move')">
-                                    <icon icon="arrows-expand" />
+                                    <Icon icon="arrows-expand" />
                                 </button>
                                 <button class="button small" @mousedown="startResize(key)" v-tooltip="__('voyager::builder.resize')">
-                                    <icon icon="switch-horizontal" class="cursor-move" />
+                                    <Icon icon="switch-horizontal" class="cursor-move" />
                                 </button>
-                                <slide-in :title="__('voyager::generic.options')">
+                                <SlideIn :title="__('voyager::generic.options')">
                                     <template #actions>
-                                        <locale-picker />
+                                        <LocalePicker />
                                     </template>
                                     <div class="input-group mt-2" v-if="!fromRepeater">
                                         <label class="label mt-4">{{ __('voyager::generic.column') }}</label>
@@ -72,14 +72,14 @@
                                     </div>
                                     <div class="input-group mt-2">
                                         <label class="label mt-4">{{ __('voyager::generic.title') }}</label>
-                                        <language-input
+                                        <LanguageInput
                                             class="input w-full"
                                             type="text" :placeholder="__('voyager::generic.title')"
                                             v-model="formfield.options.title" />
                                     </div>
                                     <div class="input-group mt-2">
                                         <label class="label mt-4">{{ __('voyager::generic.description') }}</label>
-                                        <language-input
+                                        <LanguageInput
                                             class="input w-full"
                                             type="text" :placeholder="__('voyager::generic.description')"
                                             v-model="formfield.options.description" />
@@ -98,16 +98,16 @@
                                         <input type="text" class="input w-full" v-model="formfield.options.classes">
                                     </div>
 
-                                    <breadBuilderValidation v-model="formfield.validation" />
+                                    <BreadBuilderValidation v-model="formfield.validation" />
 
                                     <template #opener>
                                         <button class="button small">
-                                            <icon icon="cog" />
+                                            <Icon icon="cog" />
                                         </button>
                                     </template>
-                                </slide-in>
+                                </SlideIn>
                                 <button class="button small red" @click="$emit('delete', key)">
-                                    <icon icon="trash" />
+                                    <Icon icon="trash" />
                                 </button>
                             </div>
                         </template>
@@ -121,7 +121,7 @@
                         <p class="description" v-if="translate(formfield.options.description) !== ''">
                             {{ translate(formfield.options.description) }}
                         </p>
-                    </card>
+                    </Card>
                 </div>
             </template>
         </draggable>
@@ -130,6 +130,7 @@
 
 <script>
 import draggable from 'vuedraggable';
+
 import BreadBuilderValidation from '@components/Builder/ValidationForm.vue';
 
 export default {

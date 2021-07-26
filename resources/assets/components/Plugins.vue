@@ -1,5 +1,5 @@
 <template>
-    <card :title="__('voyager::plugins.plugins')" icon="puzzle">
+    <Card :title="__('voyager::plugins.plugins')" icon="puzzle">
         <template #actions>
             <div class="flex items-center space-x-2">
                 <input
@@ -11,12 +11,12 @@
                     @keydown.esc="installed.query = ''"
                 >
                 <button class="button" @click="reload">
-                    <icon icon="refresh" class="animate-spin-reverse" :size="$store.pageLoading ? 5 : 0" :transition-size="5" />
+                    <Icon icon="refresh" class="animate-spin-reverse" :size="$store.pageLoading ? 5 : 0" :transition-size="5" />
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
                 
                 <button class="button" @click="checkUpdates">{{ __('voyager::plugins.check_for_updates') }}</button>
-                <modal ref="search_plugin_modal" :title="__('voyager::plugins.plugins')" icon="puzzle" v-on:closed="available.query = ''">
+                <Modal ref="search_plugin_modal" :title="__('voyager::plugins.plugins')" icon="puzzle" v-on:closed="available.query = ''">
                     <input
                         type="text"
                         class="input w-full mb-3"
@@ -32,8 +32,8 @@
                             <div class="w-3/5">
                                 <div class="w-full inline-flex space-x-2">
                                     <h5>{{ translate(plugin.name) }}</h5>
-                                    <badge icon="download">{{ plugin.downloads }}</badge>
-                                    <badge icon="thumb-up">{{ plugin.favers }}</badge>
+                                    <Badge icon="download">{{ plugin.downloads }}</Badge>
+                                    <Badge icon="thumb-up">{{ plugin.favers }}</Badge>
                                 </div>
                                 <p>{{ translate(plugin.description) }}</p>
                                 <div class="w-full inline-flex space-x-1.5">
@@ -49,13 +49,13 @@
                                 <input class="input w-full select-none" :value="'composer require '+plugin.name" @dblclick="copy(plugin)">
                             </div>
                             <div class="w-2/5 text-right" v-else>
-                                <badge color="orange">{{ __('voyager::plugins.plugin_installed') }}</badge>
+                                <Badge color="orange">{{ __('voyager::plugins.plugin_installed') }}</Badge>
                             </div>
                         </div>
                         <hr class="w-full bg-gray-300 my-4">
                     </div>
                     <div class="w-full">
-                        <pagination
+                        <Pagination
                             :page-count="availablePages"
                             @update:model-value="available.page = $event - 1"
                             :model-value="available.page + 1"
@@ -64,15 +64,15 @@
                     </div>
                     <template #opener>
                         <button class="button">
-                            <icon icon="search" :size="4" />
+                            <Icon icon="search" :size="4" />
                             <span>{{ __('voyager::plugins.search_plugins') }}</span>
                         </button>
                     </template>
-                </modal>
+                </Modal>
             </div>
         </template>
-        <slide-down-transition>
-            <alert color="blue" v-if="update.installed > 0" class="mb-4">
+        <SlideDownTransition>
+            <Alert color="blue" v-if="update.installed > 0" class="mb-4">
                 <template #title>
                     {{ __('voyager::plugins.checking_for_updates', { x: update.checked, y: update.installed }) }}
                 </template>
@@ -85,34 +85,34 @@
                     </ul>
                     <span v-html="__('voyager::plugins.updates_available_install')"></span>
                 </div>
-            </alert>
-        </slide-down-transition>
+            </Alert>
+        </SlideDownTransition>
         <div class="w-full flex">
             <div class="flex-grow space-x-1">
-                <badge
+                <Badge
                     v-for="(type, i) in installedTypes"
                     :key="i" :color="getPluginTypeColor(type)"
                     :icon="installed.currentType == type ? 'x' : null"
                     @click="setTypeFilter(type)"
                 >
                     {{ __('voyager::plugins.types.'+type) }}
-                </badge>
+                </Badge>
             </div>
             <div class="flex-grow-0 space-x-1">
-                <badge
+                <Badge
                     color="green"
                     @click="installed.onlyEnabled === true ? installed.onlyEnabled = null : installed.onlyEnabled = true"
                     :icon="installed.onlyEnabled === true ? 'x' : null"
                 >
                     {{ __('voyager::plugins.only_enabled') }}
-                </badge>
-                <badge
+                </Badge>
+                <Badge
                     color="red"
                     @click="installed.onlyEnabled === false ? installed.onlyEnabled = null : installed.onlyEnabled = false"
                     :icon="installed.onlyEnabled === false ? 'x' : null"
                 >
                     {{ __('voyager::plugins.only_disabled') }}
-                </badge>
+                </Badge>
             </div>
         </div>
         <div v-if="installed.plugins.length > 0">
@@ -145,53 +145,53 @@
                             <td>{{ translate(plugin.name) }}</td>
                             <td>{{ translate(plugin.description) }}</td>
                             <td>
-                                <badge :color="getPluginTypeColor(plugin.type)">
+                                <Badge :color="getPluginTypeColor(plugin.type)">
                                     {{ __('voyager::plugins.types.'+plugin.type) }}
-                                </badge>
+                                </Badge>
                             </td>
                             <td>
                                 {{ plugin.version || '-' }}
                             </td>
                             <td class="w-full inline-flex space-x-1 justify-end">
                                 <a class="button small" v-if="plugin.website" :href="translate(plugin.website)" target="_blank">
-                                    <icon icon="globe" />
+                                    <Icon icon="globe" />
                                     {{ __('voyager::generic.website') }}
                                 </a>
                                 
-                                <modal v-if="plugin.settings_component && plugin.enabled" :title="__('voyager::generic.settings')">
+                                <Modal v-if="plugin.settings_component && plugin.enabled" :title="__('voyager::generic.settings')">
                                     <component :is="plugin.settings_component"></component>
                                     <template #opener>
                                         <button class="button small">
-                                        <icon icon="cog" />
+                                        <Icon icon="cog" />
                                         <span>{{ __('voyager::generic.settings') }}</span>
                                     </button>
                                     </template>
-                                </modal>
+                                </Modal>
 
-                                <modal v-if="plugin.instructions_component" :title="__('voyager::generic.instructions')">
+                                <Modal v-if="plugin.instructions_component" :title="__('voyager::generic.instructions')">
                                     <component :is="plugin.instructions_component"></component>
                                     <template #opener>
                                         <button class="button small">
-                                        <icon icon="eye" />
+                                        <Icon icon="eye" />
                                         <span>{{ __('voyager::generic.instructions') }}</span>
                                     </button>
                                     </template>
-                                </modal>
+                                </Modal>
 
                                 <button v-if="plugin.type == 'theme' && !plugin.enabled" class="button small" @click="previewTheme(plugin.name)">
-                                    <icon icon="eye" />
+                                    <Icon icon="eye" />
                                     <span>{{ __('voyager::generic.preview') }}</span>
                                 </button>
                                 <button v-if="plugin.enabled" :disabled="Object.keys(plugin.preferences).length == 0" class="button small" @click="clearPreferences(plugin)">
-                                    <icon icon="cog" />
+                                    <Icon icon="cog" />
                                     <span>{{ __('voyager::plugins.clear_preferences', { amount: Object.keys(plugin.preferences).length }) }}</span>
                                 </button>
                                 <button v-if="!plugin.enabled" class="button small green" @click="enablePlugin(plugin, true)">
-                                    <icon icon="play" />
+                                    <Icon icon="play" />
                                     <span>{{ __('voyager::generic.enable') }}</span>
                                 </button>
                                 <button v-else class="button small red" @click="enablePlugin(plugin, false)">
-                                    <icon icon="stop" />
+                                    <Icon icon="stop" />
                                     <span>{{ __('voyager::generic.disable') }}</span>
                                 </button>
                             </td>
@@ -200,19 +200,19 @@
                 </table>
             </div>
             <div class="w-full mt-2">
-                <pagination
+                <Pagination
                     :page-count="installedPages"
                     @update:modelValue="installed.page = $event - 1"
                     :modelValue="installed.page + 1"
                     :first-last-buttons="false"
-                ></pagination>
+                ></Pagination>
             </div>
         </div>
         <div v-else class="w-full text-center">
             <h3>{{ __('voyager::plugins.no_plugins_installed_title') }}</h3>
             <h4>{{ __('voyager::plugins.no_plugins_installed_hint') }}</h4>
         </div>
-    </card>
+    </Card>
 </template>
 
 <script>

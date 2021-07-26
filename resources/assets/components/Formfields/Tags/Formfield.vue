@@ -1,15 +1,15 @@
 <template>
     <slot v-if="action == 'query'"></slot>
     <div v-else-if="action == 'browse'" class="flex flex-wrap space-x-1">
-        <badge v-for="(tag, i) in modelValue.slice(0, options.display_amount > 0 ? options.display_amount : modelValue.length)" :key="'tag-'+i" :color="options.color">
+        <Badge v-for="(tag, i) in modelValue.slice(0, options.display_amount > 0 ? options.display_amount : modelValue.length)" :key="'tag-'+i" :color="options.color">
             {{ tag }}
-        </badge>
+        </Badge>
         <template v-if="options.display_amount > 0 && modelValue.length > options.display_amount">
             + {{ modelValue.length - options.display_amount }}
         </template>
     </div>
     <template v-else-if="action == 'edit' || action == 'add'">
-        <tag-input
+        <TagInput
             v-model="value"
             :min="options.min"
             :max="options.max"

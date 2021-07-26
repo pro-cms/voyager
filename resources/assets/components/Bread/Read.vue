@@ -1,18 +1,18 @@
 <template>
     <div>
-        <card :title="__('voyager::bread.read_type', { type: translate(bread.name_singular, true) })" :icon="bread.icon">
+        <Card :title="__('voyager::bread.read_type', { type: translate(bread.name_singular, true) })" :icon="bread.icon">
             <template #actions>
-                <div class="flex items-center">
+                <div class="flex flex-wrap items-center space-x-1">
                     <a class="button small" v-if="prevUrl !== ''" :href="prevUrl">
-                        <icon icon="chevron-left" />
+                        <Icon icon="chevron-left" />
                         <span>{{ __('voyager::generic.back') }}</span>
                     </a>
-                    <locale-picker :small="false"></locale-picker>
+                    <LocalePicker />
                 </div>
             </template>
             <div class="flex flex-wrap w-full">
                 <div v-for="(formfield, key) in layout.formfields" :key="'formfield-'+key" class="m-0" :class="formfield.options.width">
-                    <card :title="translate(formfield.options.title, true)" :title-size="5" :show-title="translate(formfield.options.label, true) !== ''">
+                    <Card :title="translate(formfield.options.title, true)" :title-size="5" :show-title="translate(formfield.options.label, true) !== ''">
                         <div>
                             <component
                                 :is="getFormfieldByType(formfield.type).component"
@@ -25,10 +25,10 @@
                                 {{ translate(formfield.options.description, true) }}
                             </p>
                         </div>
-                    </card>
+                    </Card>
                 </div>
             </div>
-        </card>
+        </Card>
     </div>
 </template>
 

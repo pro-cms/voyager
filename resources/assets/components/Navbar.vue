@@ -1,7 +1,7 @@
 <template>
     <nav class="flex items-center mb-3 sm:px-3 md:px-4">
         <button @click.stop="toggleSidebar()" class="button small mx-2 flex-none" aria-label="Toggle navbar">
-            <icon icon="dots-vertical" :class="$store.sidebarOpen ? 'rotate-0' : 'rotate-90'" />
+            <Icon icon="dots-vertical" :class="$store.sidebarOpen ? 'rotate-0' : 'rotate-90'" />
         </button>
         <Search
             class="h-full flex-grow flex"
@@ -9,7 +9,7 @@
             :mobile-placeholder="__('voyager::generic.search')"
         />
         <div class="mt-1 text-right z-30">
-            <dropdown placement="bottom-end">
+            <Dropdown placement="bottom-end">
                 <div>
                     <div class="flex space-x-4 items-center px-6 py-4">
                         <img class="h-10 w-10 rounded-full flex-no-shrink" :src="$store.user.avatar" alt="">
@@ -38,10 +38,10 @@
                         <span class="hidden md:block whitespace-no-wrap">
                             {{ __('voyager::generic.hello_user', { user: $store.user.name }) }}
                         </span>
-                        <icon icon="chevron-down" :size="4" />
+                        <Icon icon="chevron-down" :size="4" />
                     </button>
                 </template>
-            </dropdown>
+            </Dropdown>
         </div>
     </nav>
 </template>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <card
+        <Card
             :dontShowHeader="fromRepeater"
             :title="__('voyager::generic.'+currentAction+'_type', { type: translate(bread.name_singular, true) })"
             :class="fromRepeater ? 'border-none' : null"
@@ -10,10 +10,10 @@
             <template #actions v-if="true">
                 <div class="flex items-center space-x-2">
                     <a class="button small" v-if="prevUrl !== ''" :href="prevUrl">
-                        <icon icon="chevron-left" />
+                        <Icon icon="chevron-left" />
                         <span>{{ __('voyager::generic.back') }}</span>
                     </a>
-                    <locale-picker />
+                    <LocalePicker />
                 </div>
             </template>
             <div>
@@ -25,14 +25,14 @@
                         :class="'md:' + formfield.options.width"
                         uses="md:w-1/6 md:w-2/6 md:w-3/6 md:w-4/6 md:w-5/6 md:w-full"
                     >
-                        <card
+                        <Card
                             :title="translate(formfield.options.title, true)"
                             :title-size="5"
                             :show-title="translate(formfield.options.label, true) !== ''"
                         >
                             <div>
-                                <collapse-transition>
-                                    <alert v-if="getErrors(formfield.column).length > 0" color="red" class="mb-2">
+                                <CollapseTransition>
+                                    <Alert v-if="getErrors(formfield.column).length > 0" color="red" class="mb-2">
                                         <span v-if="getErrors(formfield.column).length == 1">
                                             {{ getErrors(formfield.column)[0] }}
                                         </span>
@@ -41,8 +41,8 @@
                                                 {{ error }}
                                             </li>
                                         </ul>
-                                    </alert>
-                                </collapse-transition>
+                                    </Alert>
+                                </CollapseTransition>
                                 <component
                                     :is="getComponentForType(formfield)"
                                     :modelValue="getData(formfield)"
@@ -62,24 +62,23 @@
                                     {{ translate(formfield.options.description, true) }}
                                 </p>
                             </div>
-                        </card>
+                        </Card>
                     </div>
                 </div>
                 <button class="button green space-x-0" @click="save" :disabled="isSaving" v-if="!fromRepeater">
-                    <icon icon="refresh" class="animate-spin-reverse" :size="isSaving ? 4 : 0" :transition-size="4" />
+                    <Icon icon="refresh" class="animate-spin-reverse" :size="isSaving ? 4 : 0" :transition-size="4" />
                     <span>{{ __('voyager::generic.save') }}</span>
                 </button>
             </div>
-        </card>
-        <collapsible v-if="!fromRepeater && jsonOutput" :title="__('voyager::generic.json_output')" closed>
-            <json-editor v-model="output" />
-        </collapsible>
+        </Card>
+        <Collapsible v-if="!fromRepeater && jsonOutput" :title="__('voyager::generic.json_output')" closed>
+            <JsonEditor v-model="output" />
+        </Collapsible>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
-import { resolveDynamicComponent } from 'vue';
 
 export default {
     emits: ['saved', 'output'],

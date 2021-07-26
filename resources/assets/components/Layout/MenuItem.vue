@@ -3,20 +3,20 @@
     <div class="item" :class="[active ? 'active' : '']">
         <div class="inline-flex items-center w-full">
             <Link :href="href" class="text-sm leading-5 link inline-flex items-center space-x-2 w-full" @click="clickItem">
-                <icon v-if="icon !== '' && icon !== null" :icon="icon" class="icon" :size="iconSize" />
+                <Icon v-if="icon !== '' && icon !== null" :icon="icon" class="icon" :size="iconSize" />
                 <span>{{ title }}</span>
             </Link>
         </div>
         <div class="flex-shrink-0 cursor-pointer inline-flex items-center" @click="open = !open" v-if="hasChildren">
-            <icon icon="chevron-up" v-if="open" :size="4" class="icon" />
-            <icon icon="chevron-down" v-else :size="4" class="icon" />
+            <Icon icon="chevron-up" v-if="open" :size="4" class="icon" />
+            <Icon icon="chevron-down" v-else :size="4" class="icon" />
         </div>
     </div>
     
     <div v-if="hasChildren" class="ltr:ml-5 rtl:mr-5">
-        <collapse-transition :duration="200">
+        <CollapseTransition :duration="200">
             <slot v-if="open" />
-        </collapse-transition>
+        </CollapseTransition>
     </div>
 </div>
 </template>

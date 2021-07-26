@@ -36,15 +36,6 @@ import FormfieldBuilderMixin from '@mixins/formfield-builder';
 // Directives
 import TooltipDirective from '@directives/tooltip';
 
-// Global components
-import LocalePicker from '@components/Layout/LocalePicker.vue';
-import FormfieldComponents from '@/formfields';
-
-let components = {
-    LocalePicker,
-    ...FormfieldComponents
-};
-
 // Core modules
 import { Notification } from '@/notify';
 import Eventbus from '@/eventbus';
@@ -117,19 +108,27 @@ function prepareVoyager(data) {
     let ui = require.context('@components/UI', true, /\.vue$/i)
     ui.keys().forEach((path) => {
         let name = path.replace('./', '').replace('.vue', '');
-        voyager.component(StringMixin.methods.kebabCase(name), ui(path).default);
+        voyager.component(name, ui(path).default);
     });
     
     // Register transition components
     let transitions = require.context('@components/Transitions', true, /\.vue$/i)
     transitions.keys().forEach((path) => {
         let name = path.replace('./', '').replace('.vue', '');
-        voyager.component(StringMixin.methods.kebabCase(name)+'-transition', transitions(path).default);
+        voyager.component(name+'Transition', transitions(path).default);
     });
 
-    for (var key in components) {
-        voyager.component(StringMixin.methods.kebabCase(key), components[key]);
-    }
+    // Register formfield components
+    let formfields = require.context('@components/Formfields', true, /\.vue$/i)
+    formfields.keys().forEach((path) => {
+        let name = path.replace('./', '').replace('.vue', '');
+        let parts = name.split('/');
+        if (parts[1] == '/Formfield') {
+            voyager.component(`Formfield${parts[0]}`, formfields(path).default);
+        } else if (parts[1] == 'Builder') {
+            voyager.component(`Formfield${parts[0]}Builder`, formfields(path).default);
+        }
+    });
 
     window.voyager = voyager;
     voyager.config.globalProperties.$voyager = voyager;

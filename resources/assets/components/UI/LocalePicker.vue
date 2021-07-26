@@ -1,6 +1,6 @@
 <template>
     <div v-if="locales.length > 1">
-        <dropdown>
+        <Dropdown>
             <div>
                 <a
                     v-for="l in locales"
@@ -15,24 +15,17 @@
             <template #opener>
                 <button
                     class="button accent"
-                    :class="[small ? 'small' : '']"
                 >
                     <span>{{ languageForLocale(locale) }}</span>
-                    <icon icon="chevron-down" :size="4" />
+                    <Icon icon="chevron-down" :size="4" />
                 </button>
             </template>
-        </dropdown>
+        </Dropdown>
     </div>
 </template>
 
 <script>
 export default {
-    props: {
-        small: {
-            type: Boolean,
-            default: true,
-        },
-    },
     mounted() {
         document.addEventListener('keydown', (e) => {
             if (e.ctrlKey && (e.key == 'ArrowDown' || e.key == 'ArrowRight')) {

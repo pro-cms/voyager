@@ -17,16 +17,6 @@ class Text extends Formfield
         return __('voyager::formfields.text.name');
     }
 
-    public function getComponentName(): string
-    {
-        return 'formfield-text';
-    }
-
-    public function getBuilderComponentName(): string
-    {
-        return 'formfield-text-builder';
-    }
-
     public function browse($input)
     {
         return Str::limit(strip_tags($input), $this->options->display_length ?? 150);

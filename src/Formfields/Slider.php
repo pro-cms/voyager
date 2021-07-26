@@ -16,14 +16,4 @@ class Slider extends Formfield
     {
         return __('voyager::formfields.slider.name');
     }
-
-    public function getComponentName(): string
-    {
-        return 'formfield-slider';
-    }
-
-    public function getBuilderComponentName(): string
-    {
-        return 'formfield-slider-builder';
-    }
 }

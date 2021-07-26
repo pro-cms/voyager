@@ -20,7 +20,7 @@
                         <tr>
                             <td class="hidden md:table-cell dd-handle cursor-move" v-tooltip="__('voyager::generic.move')">
                                 <div class="h-5 w-5">
-                                    <icon icon="selector" />
+                                    <Icon icon="selector" />
                                 </div>
                             </td>
                             <td class="hidden md:table-cell">{{ getFormfieldByType(formfield.type).name }}</td>
@@ -46,7 +46,7 @@
                                 </select>
                             </td>
                             <td>
-                                <language-input
+                                <LanguageInput
                                     class="input small w-full"
                                     type="text" placeholder="Title"
                                     v-model="formfield.title" />
@@ -81,9 +81,9 @@
                                     :disabled="!getFormfieldByType(formfield.type).can_be_translated">
                             </td>
                             <td class="flex flex-no-wrap space-x-1 justify-end">
-                                <slide-in :title="__('voyager::generic.options')">
+                                <SlideIn :title="__('voyager::generic.options')">
                                     <template #actions>
-                                        <locale-picker />
+                                        <LocalePicker />
                                     </template>
                                     <div class="input-group mt-2">
                                         <label class="label mt-4">{{ __('voyager::generic.component') }}</label>
@@ -101,13 +101,13 @@
                                     </div>
                                     <template #opener>
                                         <button class="button">
-                                            <icon icon="cog" />
+                                            <Icon icon="cog" />
                                             <span>{{ __('voyager::generic.options') }}</span>
                                         </button>
                                     </template>
-                                </slide-in>
+                                </SlideIn>
                                 <button class="button red" @click="$emit('delete', key)">
-                                    <icon icon="trash" />
+                                    <Icon icon="trash" />
                                     <span>{{ __('voyager::generic.delete') }}</span>
                                 </button>
                             </td>
@@ -117,10 +117,10 @@
             </table>
         </div>
 
-        <collapsible :title="`${__('voyager::generic.filters')} (${options.filters.length || 0})`" closed ref="filters_collapsible">
+        <Collapsible :title="`${__('voyager::generic.filters')} (${options.filters.length || 0})`" closed ref="filters_collapsible">
             <template #actions>
                 <button class="button green small" @click.stop="addFilter">
-                    <icon icon="plus" />
+                    <Icon icon="plus" />
                 </button>
             </template>
             <div class="voyager-table">
@@ -139,7 +139,7 @@
                     <tbody>
                         <tr v-for="(f, key) in options.filters" :key="'filter-'+key">
                             <td>
-                                <language-input
+                                <LanguageInput
                                     class="input small w-full"
                                     type="text" :placeholder="__('voyager::generic.name')"
                                     v-model="f.name"
@@ -166,15 +166,15 @@
                                 <input type="text" class="input small w-full" v-model="f.value">
                             </td>
                             <td>
-                                <color-picker v-model="f.color" :size="2" add-none />
+                                <ColorPicker v-model="f.color" :size="2" add-none />
                             </td>
                             <td>
-                                <modal :ref="`filter_icon_modal_${key}`" :title="__('voyager::generic.select_icon')">
-                                    <icon-picker v-on:select="f.icon = $event; $refs[`filter_icon_modal_${key}`].close();" />
+                                <Modal :ref="`filter_icon_modal_${key}`" :title="__('voyager::generic.select_icon')">
+                                    <IconPicker v-on:select="f.icon = $event; $refs[`filter_icon_modal_${key}`].close();" />
                                     <template #opener>
                                         <div class="w-full">
                                             <button class="button">
-                                                <icon class="my-1 content-center" :icon="f.icon ? f.icon : 'ban'" :key="key + (f.icon ? f.icon : 'ban')" />
+                                                <Icon class="my-1 content-center" :icon="f.icon ? f.icon : 'ban'" :key="key + (f.icon ? f.icon : 'ban')" />
                                             </button>
                                         </div>
                                     </template>
@@ -183,18 +183,18 @@
                                             {{ __('voyager::generic.none') }}
                                         </button>
                                     </template>
-                                </modal>
+                                </Modal>
                             </td>
                             <td class="flex justify-end">
                                 <button class="button red small" @click.stop="removeFilter(key)">
-                                    <icon icon="trash" />
+                                    <Icon icon="trash" />
                                 </button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-        </collapsible>
+        </Collapsible>
     </div>
 </template>
 

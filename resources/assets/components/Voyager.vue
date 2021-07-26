@@ -26,7 +26,7 @@
         <template v-else>
             <slot />
         </template>
-        <notifications :position="$store.notificationPosition" />
+        <Notifications :position="$store.notificationPosition" />
     </div>
 </template>
 

@@ -1,11 +1,11 @@
 <template>
     <component :is="inline ? 'div' : 'dropdown'" prevent :placement="placement">
         <div class="inline-flex space-x-1 pt-4 px-4">
-            <date-time v-model="dateFrom" v-bind="$props" :date-possible-callback="isDateFromPossible" :range-value="dayjs(dateTo)" inline />
+            <DateTime v-model="dateFrom" v-bind="$props" :date-possible-callback="isDateFromPossible" :range-value="dayjs(dateTo)" inline />
             <div class="w-5 self-center">
-                <icon icon="chevron-double-right" />
+                <Icon icon="chevron-double-right" />
             </div>
-            <date-time v-model="dateTo" v-bind="$props" :date-possible-callback="isDateToPossible" :range-value="dayjs(dateFrom)" inline />
+            <DateTime v-model="dateTo" v-bind="$props" :date-possible-callback="isDateToPossible" :range-value="dayjs(dateFrom)" inline />
         </div>
 
         <template #opener>

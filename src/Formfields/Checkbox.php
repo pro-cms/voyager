@@ -19,16 +19,6 @@ class Checkbox extends Formfield
         return __('voyager::formfields.checkbox.name');
     }
 
-    public function getComponentName(): string
-    {
-        return 'formfield-checkbox';
-    }
-
-    public function getBuilderComponentName(): string
-    {
-        return 'formfield-checkbox-builder';
-    }
-
     public function add()
     {
         return [];

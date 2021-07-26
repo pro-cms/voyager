@@ -18,16 +18,6 @@ class Password extends Formfield
         return __('voyager::formfields.password.name');
     }
 
-    public function getComponentName(): string
-    {
-        return 'formfield-password';
-    }
-
-    public function getBuilderComponentName(): string
-    {
-        return 'formfield-password-builder';
-    }
-
     public function edit($value)
     {
         return null;

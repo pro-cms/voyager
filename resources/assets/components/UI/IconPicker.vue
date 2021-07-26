@@ -3,10 +3,10 @@
         <div class="input w-full mb-3 flex space-x-1">
             <input type="text" class="input-transparent flex-grow" :placeholder="__('voyager::generic.search_icons')" v-model="query" />
             <button @click="sizeUp" class="flex-none button">
-                <icon icon="plus" :size="5" />
+                <Icon icon="plus" :size="5" />
             </button>
             <button @click="sizeDown" class="flex-none button">
-                <icon icon="minus" :size="5" />
+                <Icon icon="minus" :size="5" />
             </button>
         </div>
         <div class="grid grid-cols-6 gap-1">
@@ -17,10 +17,10 @@
                 class="button justify-center my-1 w-full"
                 :aria-label="`Icon ${icon.readable}`"
                 @dblclick="$emit('select', icon.name)">
-                <icon :icon="icon.name" :size="size" />
+                <Icon :icon="icon.name" :size="size" />
             </button>
         </div>
-        <pagination class="mt-2" :page-count="pages" @update:model-value="page = $event - 1" :model-value="page + 1" :first-last-buttons="false" :prev-next-buttons="false"></pagination>
+        <Pagination class="mt-2" :page-count="pages" @update:model-value="page = $event - 1" :model-value="page + 1" :first-last-buttons="false" :prev-next-buttons="false"></Pagination>
     </div>
 </template>
 <script>

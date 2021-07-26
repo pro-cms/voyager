@@ -6,7 +6,7 @@
             </div>
             <div class="flex-none">
                 <button class="button green small" @click.stop="addRule">
-                    <icon icon="plus" />
+                    <Icon icon="plus" />
                 </button>
             </div>
         </div>
@@ -25,14 +25,14 @@
                             <input type="text" class="input w-full" v-model="rule.rule" :placeholder="__('voyager::generic.rule')">
                         </td>
                         <td>
-                            <language-input
+                            <LanguageInput
                                 class="input w-full"
                                 type="text" :placeholder="__('voyager::generic.message')"
                                 v-model="rule.message" />
                         </td>
                         <td>
                             <button class="button red small" @click.stop="removeRule(key)">
-                                <icon icon="trash" />
+                                <Icon icon="trash" />
                             </button>
                         </td>
                     </tr>

@@ -3,13 +3,13 @@
         <div @click="tryOpen" ref="opener">
             <slot name="opener"></slot>
         </div>
-        <fade-transition @after-leave="destroyPopper">
+        <FadeTransition @after-leave="destroyPopper">
             <div class="wrapper" v-if="isOpen" @click="closeDropdown" ref="dropdown">
                 <div class="body">
                     <slot></slot>
                 </div>
             </div>
-        </fade-transition>
+        </FadeTransition>
     </div>
 </template>
 <script>

@@ -19,16 +19,6 @@ class Select extends Formfield
         return __('voyager::formfields.select.name');
     }
 
-    public function getComponentName(): string
-    {
-        return 'formfield-select';
-    }
-
-    public function getBuilderComponentName(): string
-    {
-        return 'formfield-select-builder';
-    }
-
     public function add()
     {
         if ($this->options->multiple ?? false) {

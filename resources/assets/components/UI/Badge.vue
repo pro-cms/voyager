@@ -1,7 +1,7 @@
 <template>
     <span class="badge" :class="[`button ${color}`, large ? 'large' : null]">
         <slot></slot>
-        <icon
+        <Icon
             v-on:click="$emit('click-icon', $event)"
             class="icon"
             :size="large ? 5 : 4"

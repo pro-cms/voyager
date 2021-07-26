@@ -1,19 +1,19 @@
 <template>
-    <card :title="title" :title-size="titleSize">
+    <Card :title="title" :title-size="titleSize">
         <template #actions>
             <div class="inline-flex items-center space-x-6">
                 <div>
                     <slot name="actions"></slot>
                 </div>
-                <icon icon="chevron-up" :size="6" class="transform duration-500 cursor-pointer" :class="isOpen ? 'rotate-0' : 'rotate-180'" @click="toggle" />
+                <Icon icon="chevron-up" :size="6" class="transform duration-500 cursor-pointer" :class="isOpen ? 'rotate-0' : 'rotate-180'" @click="toggle" />
             </div>
         </template>
-        <collapse-transition>
+        <CollapseTransition>
             <div v-show="isOpen">
                 <slot></slot>
             </div>
-        </collapse-transition>
-    </card>
+        </CollapseTransition>
+    </Card>
 </template>
 <script>
 import closable from '@mixins/closable';

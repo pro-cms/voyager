@@ -8,9 +8,9 @@
         </select>
     </div>
     <template v-else-if="action == 'browse'">
-        <badge v-for="(option, i) in (modelValue || [])" :key="i">
+        <Badge v-for="(option, i) in (modelValue || [])" :key="i">
             {{ getOptionByKey(option) || option }}
-        </badge>
+        </Badge>
     </template>
     <template v-else-if="action == 'edit' || action == 'add'" class="w-full" :class="options.inline ? 'space-x-2' : null">
         <template v-for="(option, i) in options.options" :key="i">
@@ -21,9 +21,9 @@
         </template>
     </template>
     <template v-else class="flex flex-wrap space-x-1">
-        <badge v-for="(option, i) in modelValue" :key="i">
+        <Badge v-for="(option, i) in modelValue" :key="i">
             {{ getOptionByKey(option) }}
-        </badge>
+        </Badge>
     </template>
 </template>
 

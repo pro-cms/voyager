@@ -9,7 +9,7 @@
         </span>
     </template>
     <template v-else-if="action == 'edit' || action == 'add'">
-        <slider
+        <Slider
             class="my-2"
             :inputs="options.inputs"
             :range="options.range"

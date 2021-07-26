@@ -4,39 +4,39 @@
         <div class="w-full mb-2" v-if="showToolbar">
             <div class="flex-wrap space-x-1 space-y-1">
                 <button class="button green small" @click="upload()" :disabled="filesToUpload.length == 0" v-if="!instantUpload">
-                    <icon icon="upload" />
+                    <Icon icon="upload" />
                     <span>{{ __('voyager::media.upload') }}</span>
                 </button>
                 <button class="button accent small" @click="selectFilesToUpload()">
-                    <icon icon="check-circle" />
+                    <Icon icon="check-circle" />
                     <span>{{ __('voyager::media.select_upload_files') }}</span>
                 </button>
                 <button class="button accent small space-x-0" @click="loadFiles()" :disabled="$store.pageLoading">
-                    <icon icon="refresh" class="animate-spin-reverse" :size="$store.pageLoading ? 5 : 0" :transition-size="5" />
+                    <Icon icon="refresh" class="animate-spin-reverse" :size="$store.pageLoading ? 5 : 0" :transition-size="5" />
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
                 <button class="button accent small" @click="createFolder()">
-                    <icon icon="folder-add" />
+                    <Icon icon="folder-add" />
                     <span>{{ __('voyager::media.create_folder') }}</span>
                 </button>
                 <button class="button red small" @click="deleteSelected()" v-if="selectedFiles.length > 0">
-                    <icon icon="trash" />
+                    <Icon icon="trash" />
                     <span>{{ trans_choice('voyager::media.delete_files', selectedFiles.length) }}</span>
                 </button>
                 <button class="button accent small" v-show="selectedFiles.length > 0" @click="downloadFiles()">
-                    <icon icon="download" />
+                    <Icon icon="download" />
                     <span>{{ trans_choice('voyager::media.download_files', selectedFiles.length) }}</span>
                 </button>
                 <button class="button accent small" @click="thumbSizeUp()">
-                    <icon icon="plus" />
+                    <Icon icon="plus" />
                 </button>
                 <button class="button accent small" @click="thumbSizeDown()">
-                    <icon icon="minus" />
+                    <Icon icon="minus" />
                 </button>
                 <!-- Hidden until ImageEditor is implemented -->
                 <!--
                 <button class="button accent small" v-show="imageSelected" @click="$refs.image_edit_modal.open()">
-                    <icon icon="pencil" />
+                    <Icon icon="pencil" />
                     <span>{{ __('voyager::generic.edit') }}</span>
                 </button>
                 -->
@@ -46,7 +46,7 @@
             <div class="flex">
                 <span v-for="(path, i) in pathSegments" :key="'path-'+i" class="h-full flex items-center my-2 pl-2 space-x-2">
                     <button @click.prevent.stop="openPath(path, i)" class="focus:outline-none" :class="path == '' ? 'h-5 w-5' : null">
-                        <icon v-if="path == ''" icon="home" />
+                        <Icon v-if="path == ''" icon="home" />
                         <span v-else>{{ path }}</span>
                     </button>
                     <button class="cursor-default focus:outline-none" v-if="pathSegments.length !== (i+1)">
@@ -76,7 +76,7 @@
                                     <img :src="file.preview" :class="`rounded object-contain h-${thumbnailSizes[thumbSize]} max-w-full`" v-if="file.preview" />
                                     <img :src="file.file.url" :class="`rounded object-contain h-${thumbnailSizes[thumbSize]} max-w-full`" v-else-if="matchMime(file.file.type, 'image/*')" />
                                     <div v-else :class="`h-${thumbnailSizes[thumbSize]}`">
-                                        <icon :icon="getFileIcon(file.file.type)" :size="thumbnailSizes[thumbSize]" />
+                                        <Icon :icon="getFileIcon(file.file.type)" :size="thumbnailSizes[thumbSize]" />
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +91,7 @@
                                     </div>
                                     <div class="flex items-end justify-end flex-grow">
                                         <button @click.stop="deleteUpload(file)" v-if="file.is_upload">
-                                            <icon icon="x" :size="4" />
+                                            <Icon icon="x" :size="4" />
                                         </button>
                                     </div>
                                 </div>
@@ -124,7 +124,7 @@
                     <div v-if="selectedFiles.length > 0">
                         <div class="w-full flex justify-center">
                             <div v-if="selectedFiles.length > 1" class="w-full flex justify-center h-32">
-                                <icon icon="document-duplicate" size="32" />
+                                <Icon icon="document-duplicate" size="32" />
                             </div>
                             <img :src="selectedFiles[0].preview" class="rounded object-contain h-32 max-w-full" v-else-if="selectedFiles[0].preview" />
                             <img :src="selectedFiles[0].file.url" class="rounded object-contain h-32 max-w-full" v-else-if="matchMime(selectedFiles[0].file.type, 'image/*')" />
@@ -135,7 +135,7 @@
                                 <source :src="selectedFiles[0].file.url" :type="selectedFiles[0].file.type" />
                             </audio>
                             <div v-else class="w-full flex justify-center h-32">
-                                <icon :icon="getFileIcon(selectedFiles[0].file.type)" size="32" />
+                                <Icon :icon="getFileIcon(selectedFiles[0].file.type)" size="32" />
                             </div>
                         </div>
                         <div class="w-full flex justify-start mt-2">
@@ -165,7 +165,7 @@
                 </div>
             </div>
         </div>
-        <modal ref="lightbox" :title="openedFile ? openedFile.name : ''">
+        <Modal ref="lightbox" :title="openedFile ? openedFile.name : ''">
             <div v-if="openedFile">
                 <div class="w-full flex justify-center">
                     <img :src="openedFile.url" class="rounded object-contain max-w-full" />
@@ -182,7 +182,7 @@
                     />
                 </div>
             </div>
-        </modal>
+        </Modal>
     </div>
 </template>
 <script>

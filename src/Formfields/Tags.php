@@ -19,16 +19,6 @@ class Tags extends Formfield
         return __('voyager::formfields.tags.name');
     }
 
-    public function getComponentName(): string
-    {
-        return 'formfield-tags';
-    }
-
-    public function getBuilderComponentName(): string
-    {
-        return 'formfield-tags-builder';
-    }
-
     public function add()
     {
         return [];

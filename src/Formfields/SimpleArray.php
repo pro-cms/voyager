@@ -19,16 +19,6 @@ class SimpleArray extends Formfield
         return __('voyager::formfields.simple_array.name');
     }
 
-    public function getComponentName(): string
-    {
-        return 'formfield-simple-array';
-    }
-
-    public function getBuilderComponentName(): string
-    {
-        return 'formfield-simple-array-builder';
-    }
-
     public function add()
     {
         return [];

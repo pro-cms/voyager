@@ -11,7 +11,7 @@
             >
                 <div class="rounded-full flex items-center justify-center w-full h-full" :class="`bg-${color}-500`" v-if="color"></div>
                 <div class="rounded-full flex items-center justify-center w-full h-full text-red-500" v-else>
-                    <icon icon="x-circle" :size="128" />
+                    <Icon icon="x-circle" :size="128" />
                 </div>
             </div>
         </div>

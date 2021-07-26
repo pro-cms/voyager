@@ -1,9 +1,9 @@
 <template>
     <slot v-if="action == 'query'"></slot>
     <template v-else-if="action == 'browse'" class="flex flex-wrap space-x-1">
-        <badge v-for="(tag, i) in modelValue" :key="'tag-'+i">
+        <Badge v-for="(tag, i) in modelValue" :key="'tag-'+i">
             {{ tag }}
-        </badge>
+        </Badge>
     </template>
     <template v-else-if="action == 'edit' || action == 'add'">
         <div class="voyager-table">
@@ -13,7 +13,7 @@
                         <th>{{ translate(options.item_description, true) || __('voyager::generic.value') }}</th>
                         <th class="flex flex-no-wrap justify-end items-center">
                             <button class="button green small" @click.stop="addOption">
-                                <icon icon="plus" />
+                                <Icon icon="plus" />
                             </button>
                         </th>
                     </tr>
@@ -30,13 +30,13 @@
                         </td>
                         <td class="flex flex-no-wrap justify-end items-center">
                             <button class="button small" @click.prevent.stop="optionUp(option)" v-if="options.reordering">
-                                <icon icon="chevron-up" />
+                                <Icon icon="chevron-up" />
                             </button>
                             <button class="button small" @click.prevent.stop="optionDown(option)" v-if="options.reordering">
-                                <icon icon="chevron-down" />
+                                <Icon icon="chevron-down" />
                             </button>
                             <button class="button red small" @click.stop="removeOption(option)">
-                                <icon icon="trash" />
+                                <Icon icon="trash" />
                             </button>
                         </td>
                     </tr>

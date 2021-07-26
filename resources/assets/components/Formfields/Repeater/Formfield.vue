@@ -6,14 +6,14 @@
     <div v-else-if="action == 'edit' || action == 'add'" class="w-full">
         <draggable :list="rows" :item-key="keyForRow" handle=".dd-handle">
             <template #item="{ element: entry, index: key }" :key="key">
-                <card :title="`${this.translate(this.options.type, true) || ''} #${key+1}`" :titleSize="6">
+                <Card :title="`${this.translate(this.options.type, true) || ''} #${key+1}`" :titleSize="6">
                     <template #actions>
                         <div class="flex space-x-1">
                             <button class="button small dd-handle cursor-move">
-                                <icon icon="arrows-expand" />
+                                <Icon icon="arrows-expand" />
                             </button>
                             <button class="button small red" @click="deleteRow(key)">
-                                <icon icon="trash" />
+                                <Icon icon="trash" />
                             </button>
                         </div>
                     </template>
@@ -25,12 +25,12 @@
                         @output="setData(key, $event)"
                         action="add"
                     />
-                </card>
+                </Card>
             </template>
         </draggable>
         
         <button class="button green w-full justify-center" @click="addRow">
-            <icon icon="plus-circle" />
+            <Icon icon="plus-circle" />
             <span>{{ __('voyager::generic.add_type', { type: (this.translate(this.options.type, true) || '') }) }}</span>
         </button>
     </div>

@@ -6,7 +6,7 @@
                     <!-- Header -->
                     <div class="flex space-x-2 mx-2 items-center">
                         <button class="button" @click="previousMonth" :disabled="!previousMonthPossible">
-                            <icon icon="arrow-circle-left" :size="5" />
+                            <Icon icon="arrow-circle-left" :size="5" />
                         </button>
                         <div class="flex-grow">
                             <select class="input small w-full" :value="shownDate.month()" @change="shownDate = shownDate.month(parseInt($event.target.value))">
@@ -23,7 +23,7 @@
                             </select>
                         </div>
                         <button class="button" @click="nextMonth" :disabled="!nextMonthPossible">
-                            <icon icon="arrow-circle-right" />
+                            <Icon icon="arrow-circle-right" />
                         </button>
                     </div>
 

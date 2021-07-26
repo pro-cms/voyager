@@ -2,7 +2,7 @@
     <div class="login sm:px-6 lg:px-8">
         <div class="header sm:mx-auto sm:w-full sm:max-w-md">
             <div class="justify-center flex text-center">
-                <icon icon="helm" :size="16" class="icon" />
+                <Icon icon="helm" :size="16" class="icon" />
             </div>
             <p class="mt-6 text-center text-sm leading-5 max-w">
                 {{ welcome }}
@@ -14,7 +14,7 @@
 
         <div class="mt-8 mx-2 sm:mx-auto sm:w-full sm:max-w-md">
             <div class="form py-8 px-4 shadow rounded-lg px-10">
-                <alert v-if="false" color="red" role="alert">
+                <Alert v-if="false" color="red" role="alert">
                     <ul>
                         <li v-if="loginForm.hasErrors" v-for="(error, i) in loginForm.errors" :key="`login-error-${i}`">
                             {{ error }}
@@ -23,7 +23,7 @@
                             {{ error }}
                         </li>
                     </ul>
-                </alert>
+                </Alert>
                 <div class="mb-4" v-if="false"></div>
                 <!-- Built-in login view -->
                 <form method="post" :action="route('voyager.login')" v-if="!passwordForgotOpen" key="login-form">

@@ -19,16 +19,6 @@ class Repeater extends Formfield
         return __('voyager::formfields.repeater.name');
     }
 
-    public function getComponentName(): string
-    {
-        return 'formfield-repeater';
-    }
-
-    public function getBuilderComponentName(): string
-    {
-        return 'formfield-repeater-builder';
-    }
-
     public function add()
     {
         return [];

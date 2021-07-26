@@ -2,7 +2,7 @@
     <template v-if="action == 'view-options'">
         <div class="input-group mt-2">
             <label class="label">{{ __('voyager::formfields.simple_array.item_description') }}</label>
-            <language-input
+            <LanguageInput
                 class="input w-full"
                 type="text" :placeholder="__('voyager::formfields.simple_array.item_description')"
                 v-model="options.item_description" /> 

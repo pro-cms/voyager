@@ -7,7 +7,7 @@
                     <th>{{ valueText || __('voyager::generic.value') }}</th>
                     <th>
                         <button class="button green small" @click.stop="addOption">
-                            <icon icon="plus" />
+                            <Icon icon="plus" />
                         </button>
                     </th>
                 </tr>
@@ -18,7 +18,7 @@
                         <input type="text" class="input w-full" v-model="option.key" :placeholder="keyText || __('voyager::generic.key')">
                     </td>
                     <td>
-                        <language-input
+                        <LanguageInput
                             class="input w-full"
                             type="text"
                             :placeholder="valueText || __('voyager::generic.value')"
@@ -26,7 +26,7 @@
                     </td>
                     <td>
                         <button class="button red small" @click.stop="removeOption(i)">
-                            <icon icon="trash" />
+                            <Icon icon="trash" />
                         </button>
                     </td>
                 </tr>

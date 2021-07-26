@@ -19,16 +19,6 @@ class MediaPicker extends Formfield
         return __('voyager::formfields.media_picker.name');
     }
 
-    public function getComponentName(): string
-    {
-        return 'formfield-media-picker';
-    }
-
-    public function getBuilderComponentName(): string
-    {
-        return 'formfield-media-picker-builder';
-    }
-
     public function add()
     {
         return [];

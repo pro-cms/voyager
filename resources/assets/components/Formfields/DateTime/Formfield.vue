@@ -6,10 +6,10 @@
         {{ dayjs(modelValue).format(options.displayFormat) }}
     </div>
     <template v-else-if="action == 'edit' || action == 'add'">
-        <date-time v-bind="options" :modelValue="modelValue" @update:modelValue="$emit('update:modelValue', $event)" />
+        <DateTime v-bind="options" :modelValue="modelValue" @update:modelValue="$emit('update:modelValue', $event)" />
     </template>
     <template>
-        <date-time v-bind="options" />
+        <DateTime v-bind="options" />
     </template>
 </template>
 

@@ -19,16 +19,6 @@ class DynamicInput extends Formfield
         return __('voyager::formfields.dynamic_input.name');
     }
 
-    public function getComponentName(): string
-    {
-        return 'formfield-dynamic-input';
-    }
-
-    public function getBuilderComponentName(): string
-    {
-        return 'formfield-dynamic-input-builder';
-    }
-
     public function add()
     {
         return null;

@@ -1,16 +1,16 @@
 <template>
-    <card :title="__('voyager::generic.media')" icon="photograph">
+    <Card :title="__('voyager::generic.media')" icon="photograph">
         <div class="mt-4">
-            <media-manager
+            <MediaManager
                 :upload-url="uploadUrl"
                 :list-url="listUrl"
                 :drag-text="dragText"
                 :drop-text="dropText"
                 :allowed-mime-types="allowedMimeTypes"
             >
-            </media-manager>
+            </MediaManager>
         </div>
-    </card>
+    </Card>
 </template>
 
 <script>

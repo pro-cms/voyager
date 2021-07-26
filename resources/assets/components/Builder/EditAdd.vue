@@ -1,39 +1,39 @@
 <template>
     <div>
-        <collapsible ref="bread_settings" :title="__('voyager::generic.'+(isNew ? 'add' : 'edit')+'_type', { type: __('voyager::generic.bread')})" icon="bread" :icon-size="8">
+        <Collapsible ref="bread_settings" :title="__('voyager::generic.'+(isNew ? 'add' : 'edit')+'_type', { type: __('voyager::generic.bread')})" icon="bread" :icon-size="8">
             <template #actions>
-                <div class="flex items-center space-x-2">
+                <div class="flex flex-wrap items-center space-x-1">
                     <button class="button" @click.stop="toggleFocusMode">
-                        <icon icon="arrows-expand" :size="4" />
+                        <Icon icon="arrows-expand" :size="4" />
                         <span>{{ __('voyager::generic.focus') }}</span>
                     </button>
                     <button class="button" @click="loadProperties" :disabled="!bread.model">
-                        <icon icon="refresh" :size="4" :class="loadingProps ? 'animate-spin-reverse' : ''" />
+                        <Icon icon="refresh" :size="4" :class="loadingProps ? 'animate-spin-reverse' : ''" />
                         <span>{{ __('voyager::builder.reload_properties') }}</span>
                     </button>
                     <button class="button" @click="createModel" :disabled="creatingModel">
-                        <icon icon="plus" :size="4" :class="creatingModel ? 'animate-spin-reverse' : ''" />
+                        <Icon icon="plus" :size="4" :class="creatingModel ? 'animate-spin-reverse' : ''" />
                         <span>{{ __('voyager::builder.create_model') }}</span>
                     </button>
-                    <locale-picker :small="false" />
+                    <LocalePicker />
                 </div>
             </template>
             <div>
-                <alert color="yellow" v-if="!propsLoaded && !loadingProps" class="mb-2">
+                <Alert color="yellow" v-if="!propsLoaded && !loadingProps" class="mb-2">
                     <template #title>
                         <span>{{ __('voyager::generic.heads_up') }}</span>
                     </template>
                     {{ __('voyager::builder.new_breads_prop_warning') }}
-                </alert>
-                <alert color="red" v-if="Object.keys(errors).length > 0" class="mb-2">
+                </Alert>
+                <Alert color="red" v-if="Object.keys(errors).length > 0" class="mb-2">
                     <ul v-for="prop in errors">
                         <li v-for="error in prop">{{ error }}</li>
                     </ul>
-                </alert>
+                </Alert>
                 <div class="w-full flex-none lg:flex space-x-0 lg:space-x-4 mb-2">
                     <div class="w-full">
                         <label class="label" for="slug">{{ __('voyager::generic.slug') }}</label>
-                        <language-input
+                        <LanguageInput
                             class="input w-full"
                             :class="{ error: errors.slug }"
                             id="slug"
@@ -42,7 +42,7 @@
                     </div>
                     <div class="w-full">
                         <label class="label" for="name-singular">{{ __('voyager::builder.name_singular') }}</label>
-                        <language-input
+                        <LanguageInput
                             class="input w-full"
                             :class="{ error: errors.name_singular }"
                             id="name-singular"
@@ -51,7 +51,7 @@
                     </div>
                     <div class="w-full">
                         <label class="label" for="name-plural">{{ __('voyager::builder.name_plural') }}</label>
-                        <language-input
+                        <LanguageInput
                             class="input w-full"
                             :class="{ error: errors.name_plural }"
                             id="name-plural"
@@ -61,16 +61,16 @@
                     </div>
                     <div>
                         <label class="label" for="icon">{{ __('voyager::generic.icon') }}</label>
-                        <modal ref="icon_modal" :title="__('voyager::generic.select_icon')">
-                            <icon-picker @select="bread.icon = $event; $refs.icon_modal.close()" />
+                        <Modal ref="icon_modal" :title="__('voyager::generic.select_icon')">
+                            <IconPicker @select="bread.icon = $event; $refs.icon_modal.close()" />
                             <template #opener>
                                 <div class="w-full">
                                     <button class="button">
-                                        <icon class="my-1 content-center" :icon="bread.icon" :key="bread.icon" />
+                                        <Icon class="my-1 content-center" :icon="bread.icon" :key="bread.icon" />
                                     </button>
                                 </div>
                             </template>
-                        </modal>
+                        </Modal>
                     </div>
                 </div>
                 
@@ -105,7 +105,7 @@
                     <div class="w-full">
                         <label class="label inline-flex" for="global_search">
                             <span class="mx-2">{{ __('voyager::builder.global_search_display_field') }}</span>
-                            <icon icon="question-mark-circle" v-tooltip="__('voyager::builder.global_search_display_field_hint')" />
+                            <Icon icon="question-mark-circle" v-tooltip="__('voyager::builder.global_search_display_field_hint')" />
                         </label>
                         <select class="input w-full" v-model="bread.global_search_field">
                             <option :value="null">{{ __('voyager::generic.none') }}</option>
@@ -115,7 +115,7 @@
                     <div class="w-full">
                         <label class="label inline-flex" for="order_field">
                             <span class="mx-2">{{ __('voyager::builder.order_field') }}</span>
-                            <icon icon="question-mark-circle" v-tooltip="__('voyager::builder.order_field_hint')" />
+                            <Icon icon="question-mark-circle" v-tooltip="__('voyager::builder.order_field_hint')" />
                         </label>
                         <select class="input w-full" v-model="bread.order_field">
                             <option :value="null">{{ __('voyager::generic.none') }}</option>
@@ -127,18 +127,18 @@
 
             <div class="inline-flex space-x-1">
                 <button class="button blue space-x-0" @click="save" :disabled="savingBread || backingUp">
-                    <icon icon="refresh" class="animate-spin-reverse" :size="savingBread ? 4 : 0" :transition-size="4" />
+                    <Icon icon="refresh" class="animate-spin-reverse" :size="savingBread ? 4 : 0" :transition-size="4" />
                     <span>{{ __('voyager::generic.save') }}</span>
                 </button>
 
                 <button class="button space-x-0" @click="backupBread" :disabled="savingBread || backingUp">
-                    <icon icon="refresh" class="animate-spin-reverse" :size="backingUp ? 4 : 0" :transition-size="4" />
+                    <Icon icon="refresh" class="animate-spin-reverse" :size="backingUp ? 4 : 0" :transition-size="4" />
                     <span>{{ __('voyager::generic.backup') }}</span>
                 </button>
             </div>
-        </collapsible>
+        </Collapsible>
 
-        <card no-header>
+        <Card no-header>
             <!-- Toolbar -->
             <div class="w-full mb-5 flex space-x-1">
                 <select class="input small self-center" v-model="currentLayoutName" :disabled="bread.layouts.length == 0">
@@ -152,7 +152,7 @@
                         <option v-for="list in lists" :key="'list-' + list.name">{{ list.name }}</option>
                     </optgroup>
                 </select>
-                <dropdown class="self-center" placement="bottom">
+                <Dropdown class="self-center" placement="bottom">
                     <div>
                         <div class="grid grid-cols-2">
                             <a v-for="formfield in filteredFormfields"
@@ -174,14 +174,14 @@
                     <template #opener>
                         <button class="button small"
                                 :disabled="bread.layouts.length == 0">
-                            <icon icon="plus" />
+                            <Icon icon="plus" />
                             <span>
                                 {{ __('voyager::builder.add_formfield') }}
                             </span>
                         </button>
                     </template>
-                </dropdown>
-                <dropdown class="self-center" placement="bottom">
+                </Dropdown>
+                <Dropdown class="self-center" placement="bottom">
                     <div>
                         <a href="#" @click.prevent="addLayout(false)" class="link">
                             {{ __('voyager::builder.list') }}
@@ -192,14 +192,14 @@
                     </div>
                     <template #opener>
                         <button class="button small">
-                            <icon icon="plus" />
+                            <Icon icon="plus" />
                             <span>
                                 {{ __('voyager::builder.add_layout') }}
                             </span>
                         </button>
                     </template>
-                </dropdown>
-                <dropdown class="self-center" placement="bottom">
+                </Dropdown>
+                <Dropdown class="self-center" placement="bottom">
                     <div>
                         <a href="#" @click.prevent="renameLayout" class="link">
                             {{ __('voyager::builder.rename_layout') }}
@@ -213,16 +213,16 @@
                     </div>
                     <template #opener>
                         <button class="button small">
-                            <icon icon="fire" />
+                            <Icon icon="fire" />
                             <span>
                                 {{ __('voyager::generic.actions') }}
                             </span>
                         </button>
                     </template>
-                </dropdown>
-                <slide-in v-if="currentLayout" :title="__('voyager::generic.options')">
+                </Dropdown>
+                <SlideIn v-if="currentLayout" :title="__('voyager::generic.options')">
                     <template #actions>
-                        <locale-picker />
+                        <LocalePicker />
                     </template>
                     <div>
                         <div v-if="currentLayout.type == 'list'" class="input-group mt-2">
@@ -246,41 +246,54 @@
                     </div>
                     <template #opener>
                         <button class="button small">
-                            <icon icon="cog" />
+                            <Icon icon="cog" />
                             <span>{{ __('voyager::generic.options') }}</span>
                         </button>
                     </template>
-                </slide-in>
+                </SlideIn>
             </div>
 
-            <card class="text-center text-xl py-4" v-if="!currentLayout" no-header>
+            <Card class="text-center text-xl py-4" v-if="!currentLayout" no-header>
                 {{ __('voyager::builder.create_select_layout') }}
-            </card>
-            <card class="text-center text-xl py-4" v-else-if="currentLayout && currentLayout.formfields.length == 0" no-header>
+            </Card>
+            <Card class="text-center text-xl py-4" v-else-if="currentLayout && currentLayout.formfields.length == 0" no-header>
                 {{ __('voyager::builder.add_formfield_to_layout') }}
-            </card>
-            <component
-                v-else-if="currentLayout"
-                :is="'bread-builder-' + currentLayout.type"
+            </Card>
+            <BreadBuilderList
+                v-else-if="currentLayout && currentLayout.type == 'list'"
                 :computed="computed"
                 :columns="columns"
                 :relationships="relationships"
                 v-model:formfields="currentLayout.formfields"
                 v-model:options="currentLayout.options"
                 v-on:delete="deleteFormfield($event)" />
-        </card>
 
-        <collapsible ref="bread_json" v-if="jsonOutput" :title="__('voyager::generic.json_output')" closed>
-            <json-editor v-model="bread" />
-        </collapsible>
+            <BreadBuilderView
+                v-else-if="currentLayout && currentLayout.type == 'view'"
+                :computed="computed"
+                :columns="columns"
+                :relationships="relationships"
+                v-model:formfields="currentLayout.formfields"
+                v-model:options="currentLayout.options"
+                v-on:delete="deleteFormfield($event)" />
+        </Card>
+
+        <Collapsible ref="bread_json" v-if="jsonOutput" :title="__('voyager::generic.json_output')" closed>
+            <JsonEditor v-model="bread" />
+        </Collapsible>
     </div>
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue';
 import axios from 'axios';
 
 export default {
     props: ['data', 'isNew'],
+    components: {
+        BreadBuilderList: defineAsyncComponent(() => import(/* webpackChunkName: "BreadBuilderList" */'@components/Builder/List')),
+        BreadBuilderView: defineAsyncComponent(() => import(/* webpackChunkName: "BreadBuilderView" */'@components/Builder/View'))
+    },
     data() {
         return {
             bread: this.data,

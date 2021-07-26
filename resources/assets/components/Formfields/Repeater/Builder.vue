@@ -2,7 +2,7 @@
     <div v-if="action == 'view-options'">
         <div class="input-group mt-2">
             <label class="label mt-4">{{ __('voyager::generic.type') }}</label>
-            <language-input
+            <LanguageInput
                 class="input w-full"
                 type="text" :placeholder="__('voyager::generic.type')"
                 v-model="options.type" />
@@ -33,10 +33,10 @@
         </div>
     </div>
     <div v-else-if="action == 'view'" class="w-full">
-        <alert v-if="keyWarning" color="yellow" class="mb-2">
+        <Alert v-if="keyWarning" color="yellow" class="mb-2">
             {{ __('voyager::formfields.repeater.key_warning') }}
-        </alert>
-        <card>
+        </Alert>
+        <Card>
             <bread-builder-view
                 :computed="[]"
                 :columns="[]"
@@ -46,7 +46,7 @@
                 v-on:delete="deleteFormfield($event)"
                 from-repeater
             />
-        </card>
+        </Card>
     </div>
 </template>
 

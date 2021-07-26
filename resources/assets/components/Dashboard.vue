@@ -1,6 +1,6 @@
 <template>
     <div class="flex">
-        <card
+        <Card
             v-for="(widget, i) in widgets"
             :key="'widget-'+i"
             :no-header="((widget.title || widget.icon) ? false : true)"
@@ -9,10 +9,10 @@
             :class="widget.width"
         >
             <component :is="widget.component" v-bind="widget.parameters"></component>
-        </card>
-        <card :title="__('voyager::generic.welcome_to_voyager')" icon="helm" :icon-size="8" class="w-full" v-if="widgets.length == 0">
+        </Card>
+        <Card :title="__('voyager::generic.welcome_to_voyager')" icon="helm" :icon-size="8" class="w-full" v-if="widgets.length == 0">
             <div>{{ __('voyager::generic.welcome_text') }}</div>
-        </card>
+        </Card>
     </div>
 </template>
 

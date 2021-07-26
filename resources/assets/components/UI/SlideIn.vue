@@ -1,6 +1,6 @@
 <template>
     <div @keydown.esc="close" v-click-outside="close">
-        <slide-left-transition>
+        <SlideLeftTransition>
             <div v-if="isOpen" class="dark slidein text-white w-full" :class="'lg:w-1/3'">
                 <div class="flex w-full mb-3">
                     <div class="flex-grow">
@@ -10,13 +10,13 @@
                     <div class="flex justify-end items-center space-x-2">
                         <slot name="actions" />
                         <button @click="close" class="h-5 w-5">
-                            <icon icon="x" />
+                            <Icon icon="x" />
                         </button>
                     </div>
                 </div>
                 <slot />
             </div>
-        </slide-left-transition>
+        </SlideLeftTransition>
         <div ref="opener" @click="toggle">
             <slot name="opener"></slot>
         </div>

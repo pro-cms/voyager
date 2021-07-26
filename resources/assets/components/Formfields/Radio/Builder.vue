@@ -17,7 +17,7 @@
             </div>
             <div class="w-2/6 text-right">
                 <button class="button green small" @click.stop="addOption">
-                    <icon icon="plus" />
+                    <Icon icon="plus" />
                 </button>
             </div>
         </div>
@@ -36,7 +36,7 @@
                             <input type="text" class="input w-full" v-model="option.key" :placeholder="__('voyager::generic.key')">
                         </td>
                         <td>
-                            <language-input
+                            <LanguageInput
                                 class="input w-full"
                                 type="text"
                                 :placeholder="__('voyager::generic.value')"
@@ -44,7 +44,7 @@
                         </td>
                         <td>
                             <button class="button red small" @click.stop="removeOption(i)">
-                                <icon icon="trash" />
+                                <Icon icon="trash" />
                             </button>
                         </td>
                     </tr>

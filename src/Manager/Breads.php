@@ -295,10 +295,6 @@ class Breads
             throw new \Exception('Formfields need to implement the "name" method.');
         } elseif (!method_exists($class, 'type')) {
             throw new \Exception('Formfields need to implement the "type" method.');
-        } elseif (!method_exists($class, 'getComponentName')) {
-            throw new \Exception('Formfields need to implement the "getComponentName" method.');
-        } elseif (!method_exists($class, 'getBuilderComponentName')) {
-            throw new \Exception('Formfields need to implement the "getBuilderComponentName" method.');
         }
 
         $this->formfields->push($class);
@@ -325,8 +321,8 @@ class Breads
                 'allow_relationships'       => !property_exists($formfield, 'noRelationships'),
                 'allow_relationship_props'  => !property_exists($formfield, 'noRelationshipProps'),
                 'allow_relationship_pivots' => !property_exists($formfield, 'noRelationshipPivots'),
-                'component'                 => $formfield->getComponentName(),
-                'builder_component'         => $formfield->getBuilderComponentName(),
+                'component'                 => method_exists($formfield, 'getComponentName') ? $formfield->getComponentName() : 'Formfield'.Str::studly($formfield->type()),
+                'builder_component'         => method_exists($formfield, 'getComponentName') ? $formfield->getBuilderComponentName() : 'Formfield'.Str::studly($formfield->type()).'Builder',
             ];
         });
     }

@@ -4,7 +4,7 @@
         <div class="flex flex-wrap justify-between">
             <slot name="title">
                 <div class="flex space-x-2 items-center">
-                    <icon v-if="icon" :icon="icon" :size="iconSize" />
+                    <Icon v-if="icon" :icon="icon" :size="iconSize" />
                     <component :is="`h${titleSize}`" class="leading-6 font-medium" :class="titlePointer ? 'cursor-pointer' : ''" @click="$emit('click-title', $event)">
                         {{ title }}
                     </component>

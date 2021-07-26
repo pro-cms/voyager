@@ -5,7 +5,7 @@
             <div v-for="(file, i) in slicedItems" :key="i">
                 <div v-tooltip="file.relative_path + file.name">
                     <img :src="file.url" class="rounded-lg object-contain h-16 max-w-full" v-if="matchMime(file.type, 'image/*')" />
-                    <icon v-else icon="document" size="16" />
+                    <Icon v-else icon="document" size="16" />
                 </div>
             </div>
             <span v-if="modelValue.length > options.display" class="italic text-sm">
@@ -29,7 +29,7 @@
                         <div class="w-full flex justify-center">
                             <img :src="file.url" class="rounded object-contain h-24 max-w-full" v-if="matchMime(file.type, 'image/*')" />
                             <div v-else class="w-full flex justify-center h-24">
-                                <icon icon="document" size="24" />
+                                <Icon icon="document" size="24" />
                             </div>
                         </div>
                     </div>
@@ -42,12 +42,12 @@
                                     </div>
                                     <div class="flex-grow-0">
                                         <button @click.stop="removeFile(file)" class="h-5 w-5">
-                                            <icon icon="x" :size="4" />
+                                            <Icon icon="x" :size="4" />
                                         </button>
                                     </div>
                                 </div>
                                 <div v-for="(field, m) in options.meta" :key="m" class="mt-1">
-                                    <language-input
+                                    <LanguageInput
                                         class="input w-full small"
                                         type="text" :placeholder="translate(field.value, true)"
                                         v-model="file.meta[field.key]"
@@ -59,8 +59,8 @@
                 </div>
             </div>
 
-            <modal :title="translate(options.select_text || __('voyager::media.select_upload_files'), true)" size="full">
-                <media-manager
+            <Modal :title="translate(options.select_text || __('voyager::media.select_upload_files'), true)" size="full">
+                <MediaManager
                     v-model="value"
                     :uploadUrl="route('voyager.media.upload')"
                     :listUrl="route('voyager.media.list')"
@@ -72,7 +72,7 @@
                             <div class="flex-none">
                                 <div class="w-full flex justify-center">
                                     <div class="w-full flex justify-center h-24">
-                                        <icon icon="plus-circle" :size="24" />
+                                        <Icon icon="plus-circle" :size="24" />
                                     </div>
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
                         </div>
                     </div>
                 </template>
-            </modal>
+            </Modal>
         </div>
     </div>
     <div v-else>
@@ -93,7 +93,7 @@
                         <div class="w-full flex justify-center">
                             <img :src="file.url" class="rounded object-contain h-24 max-w-full" v-if="matchMime(file.type, 'image/*')" />
                             <div v-else class="w-full flex justify-center h-24">
-                                <icon icon="document" size="24" />
+                                <Icon icon="document" size="24" />
                             </div>
                         </div>
                     </div>

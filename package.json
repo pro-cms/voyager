@@ -3,7 +3,7 @@
         "dev": "npm run scripts && webpack --mode development --progress",
         "build": "npm run scripts && webpack --mode production --progress",
         "watch": "npm run scripts && webpack server --hot --mode development",
-        "scripts": "node ./scripts/icons.js && node ./scripts/formfields.js"
+        "scripts": "node ./scripts/icons.js"
     },
     "devDependencies": {
         "@vue/compiler-sfc": "^3.1.5",

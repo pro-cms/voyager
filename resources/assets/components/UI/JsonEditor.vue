@@ -1,8 +1,8 @@
 <template>
-    <alert v-if="lastError !== null" color="yellow" class="mb-4">
+    <Alert v-if="lastError !== null" color="yellow" class="mb-4">
         <p>{{ __('voyager::generic.json_invalid') }} <a href="#" @click.prevent="refresh">{{ __('voyager::generic.refresh') }}</a></p>
         <code>{{ lastError }}</code>
-    </alert>
+    </Alert>
     <template v-if="editorExists">
         
     </template>

@@ -17,16 +17,6 @@ class DateTime extends Formfield
         return __('voyager::formfields.date_time.name');
     }
 
-    public function getComponentName(): string
-    {
-        return 'formfield-date-time';
-    }
-
-    public function getBuilderComponentName(): string
-    {
-        return 'formfield-date-time-builder';
-    }
-
     /*public function add()
     {
         return null;

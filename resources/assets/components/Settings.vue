@@ -1,17 +1,17 @@
 <template>
-    <card :title="__('voyager::settings.settings')" icon="cog">
-        <alert v-if="settings.length === 0" color="red" class="mb-2">
+    <Card :title="__('voyager::settings.settings')" icon="cog">
+        <Alert v-if="settings.length === 0" color="red" class="mb-2">
             <template #title>{{ __('voyager::settings.no_settings_title') }}</template>
             <p>{{ __('voyager::settings.no_settings') }}</p>
-        </alert>
+        </Alert>
         <template #actions>
             <div class="flex space-x-1 items-center">
                 <input type="text" class="input small" @dblclick="query = ''" @keydown.esc="query = ''" v-model="query" :placeholder="__('voyager::settings.search_settings')">
                 <button class="button accent space-x-0" @click="save" :disabled="savingSettings">
-                    <icon icon="refresh" class="animate-spin-reverse" :size="savingSettings ? 4 : 0" :transition-size="4" />
+                    <Icon icon="refresh" class="animate-spin-reverse" :size="savingSettings ? 4 : 0" :transition-size="4" />
                     <span>{{ __('voyager::generic.save') }}</span>
                 </button>
-                <dropdown placement="bottom-end">
+                <Dropdown placement="bottom-end">
                     <div>
                         <div class="grid grid-cols-2">
                             <a v-for="formfield in filteredFormfields"
@@ -32,20 +32,20 @@
                     </div>
                     <template #opener>
                         <button class="button green">
-                            <icon icon="plus" :size="4" />
+                            <Icon icon="plus" :size="4" />
                             <span>{{ __('voyager::settings.add_setting') }}</span>
                         </button>
                     </template>
-                </dropdown>
+                </Dropdown>
                 <button class="button green" @click="addGroup">
-                    <icon icon="plus" :size="4" />
+                    <Icon icon="plus" :size="4" />
                     <span>{{ __('voyager::settings.add_group') }}</span>
                 </button>
-                <locale-picker :small="false" />
+                <LocalePicker />
             </div>
         </template>
         <div class="w-full inline-flex space-x-1 mb-4">
-            <badge
+            <Badge
                 v-for="group in groups"
                 @click="setCurrentGroup(group)"
                 :icon="currentGroup == group ? 'x' : null"
@@ -53,22 +53,22 @@
                 :key="group"
             >
                 {{ titleCase(group ? group : __('voyager::settings.no_group')) }} ({{ settingsInGroup(group).length }})
-            </badge>
+            </Badge>
         </div>
 
-        <alert v-if="errors.hasOwnProperty(currentGroup+'.') || (currentGroup == null && errors.hasOwnProperty('.'))" color="red" class="my-2">
+        <Alert v-if="errors.hasOwnProperty(currentGroup+'.') || (currentGroup == null && errors.hasOwnProperty('.'))" color="red" class="my-2">
             {{ __('voyager::settings.validation_no_key') }}
-        </alert>
+        </Alert>
 
         <draggable v-model="settings" item-key="" handle=".dd-handle">
             <template #item="{ element: setting }">
-                <card
+                <Card
                     :title="translate(setting.name, false) || __('voyager::settings.no_name')"
                     v-show="settingsInGroup(currentGroup).includes(setting)"
                 >
                     <template #actions>
                         <div class="flex flex-wrap space-x-1">
-                            <language-input type="text" class="input small" v-model="setting.name" :placeholder="__('voyager::settings.name')" />
+                            <LanguageInput type="text" class="input small" v-model="setting.name" :placeholder="__('voyager::settings.name')" />
 
                             <input type="text" class="input small" v-model="setting.key" :placeholder="__('voyager::settings.key')" />
 
@@ -79,16 +79,16 @@
                             </select>
 
                             <button class="button small" @click="generateKey(setting)" v-tooltip="__('voyager::settings.generate_key')">
-                                <icon icon="finger-print" />
+                                <Icon icon="finger-print" />
                             </button>
 
                             <button class="button small" @click="cloneSetting(setting)" v-tooltip="__('voyager::settings.clone')">
-                                <icon icon="duplicate" />
+                                <Icon icon="duplicate" />
                             </button>
 
-                            <slide-in :title="__('voyager::generic.options')">
+                            <SlideIn :title="__('voyager::generic.options')">
                                 <template #actions>
-                                    <locale-picker />
+                                    <LocalePicker />
                                 </template>
                                 <div v-if="getFormfieldByType(setting.type).can_be_translated">
                                     <label class="label mt-4">{{ __('voyager::generic.translatable') }}</label>
@@ -99,31 +99,31 @@
                                     v-model:options="setting.options"
                                     :column="{}"
                                     action="view-options" />
-                                <breadBuilderValidation v-model="setting.validation" />
+                                <BreadBuilderValidation v-model="setting.validation" />
                                 <template #opener>
                                     <button class="button" v-tooltip="__('voyager::generic.options')">
-                                        <icon icon="cog" />
+                                        <Icon icon="cog" />
                                     </button>
                                 </template>
-                            </slide-in>
+                            </SlideIn>
 
                             <button class="button small dd-handle cursor-move" v-tooltip="__('voyager::generic.move')">
-                                <icon icon="switch-vertical" />
+                                <Icon icon="switch-vertical" />
                             </button>
 
                             <button class="button small red" @click="deleteSetting(setting)" v-tooltip="__('voyager::generic.delete')">
-                                <icon icon="trash" />
+                                <Icon icon="trash" />
                             </button>
                         </div>
                     </template>
 
-                    <alert v-if="getErrors(setting).length > 0" color="red" class="my-2">
+                    <Alert v-if="getErrors(setting).length > 0" color="red" class="my-2">
                         <ul class="list-disc">
                             <li v-for="(error, i) in getErrors(setting)" :key="'error-'+i">
                                 {{ error }}
                             </li>
                         </ul>
-                    </alert>
+                    </Alert>
 
                     <component
                         :is="getFormfieldByType(setting.type).component"
@@ -133,14 +133,14 @@
                         :column="{}"
                         action="edit"
                     />
-                </card>
+                </Card>
             </template>
         </draggable>
         <h3 class="text-center" v-if="!groupHasSettings()">{{ __('voyager::settings.no_settings_in_group') }}</h3>
-    </card>
-    <collapsible v-if="jsonOutput" :title="__('voyager::generic.json_output')" closed>
-        <json-editor v-model="settings" />
-    </collapsible>
+    </Card>
+    <Collapsible v-if="jsonOutput" :title="__('voyager::generic.json_output')" closed>
+        <JsonEditor v-model="settings" />
+    </Collapsible>
 </template>
 
 <script>

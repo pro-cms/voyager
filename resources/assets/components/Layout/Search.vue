@@ -1,6 +1,6 @@
 <template>
     <div class="w-full" @keydown.esc="search('')">
-        <modal ref="results_modal" :title="placeholder" icon="search" @closed="query = ''">
+        <Modal ref="results_modal" :title="placeholder" icon="search" @closed="query = ''">
             <div>
                 <input
                     autocomplete="off"
@@ -15,13 +15,13 @@
                     <h5>{{ __('voyager::generic.enter_query') }}</h5>
                 </div>
                 <div class="grid gap-2" :class="gridClasses" uses="grid-cols-1 grid-cols-2 grid-cols-3 grid-cols-4" v-else>
-                    <card v-for="(bread, table) in searchResults" :key="'bread-results-'+table" class="w-full" :title="translate(getBreadByTable(table).name_plural, true)" :titleSize="5">
+                    <Card v-for="(bread, table) in searchResults" :key="'bread-results-'+table" class="w-full" :title="translate(getBreadByTable(table).name_plural, true)" :titleSize="5">
                         <template v-if="bread.hasOwnProperty('results') && bread.hasOwnProperty('count') && bread.count > 0">
-                            <card v-for="(result, key) in bread.results" :key="'result-'+table+'-'+key" class="w-full text-lg truncate" no-header>
+                            <Card v-for="(result, key) in bread.results" :key="'result-'+table+'-'+key" class="w-full text-lg truncate" no-header>
                                 <a :href="getResultUrl(table, key)">
                                     {{ translate(result, true) }}
                                 </a>
-                            </card>
+                            </Card>
                             <a :href="moreUrl(table)" v-if="bread.count > Object.keys(bread.results).length" class="italic rounded-md text-lg">
                                 {{ __('voyager::generic.more_results', { num: (bread.count - Object.keys(bread.results).length)}) }}
                             </a>
@@ -32,10 +32,10 @@
                         <template v-else>
                             {{ __('voyager::generic.no_results') }}
                         </template>
-                    </card>
+                    </Card>
                 </div>
             </div>
-        </modal>
+        </Modal>
         <input
             autocomplete="off"
             type="text"

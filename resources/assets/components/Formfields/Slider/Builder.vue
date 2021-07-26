@@ -26,11 +26,11 @@
         </div>
         <div class="input-group mt-2">
             <label class="label">{{ __('voyager::generic.color') }}</label>
-            <color-picker v-model="options.color"></color-picker>
+            <ColorPicker v-model="options.color"></ColorPicker>
         </div>
     </div>
     <div v-else-if="action == 'view'">
-        <slider
+        <Slider
             class="my-2"
             :inputs="options.inputs"
             :range="options.range"

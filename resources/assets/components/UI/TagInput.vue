@@ -2,9 +2,9 @@
     <div class="input flex flex-wrap space-x-1" @click="$refs.input.focus()">
         <component :is="!noReorder ? 'draggable' : 'span'" v-model="tags" class="flex flex-wrap" item-key="">
             <template #item="{ element: tag }">
-                <badge :color="badgeColor" icon="x" @click-icon="removeTag(tag)" class="mt-1 ml-1" :class="[!noReorder ? 'cursor-move' : '']">
+                <Badge :color="badgeColor" icon="x" @click-icon="removeTag(tag)" class="mt-1 ml-1" :class="[!noReorder ? 'cursor-move' : '']">
                     {{ tag }}
-                </badge>
+                </Badge>
             </template>
         </component>
         <input type="text" class="bg-transparent border-0 focus:outline-none flex-grow" ref="input" v-on:keyup.enter="addTag" v-on:keyup.delete="removeLastTag($event)">

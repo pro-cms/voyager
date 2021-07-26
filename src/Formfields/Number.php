@@ -17,16 +17,6 @@ class Number extends Formfield
         return __('voyager::formfields.number.name');
     }
 
-    public function getComponentName(): string
-    {
-        return 'formfield-number';
-    }
-
-    public function getBuilderComponentName(): string
-    {
-        return 'formfield-number-builder';
-    }
-
     public function add()
     {
         return $this->options->default_value ?? 0;

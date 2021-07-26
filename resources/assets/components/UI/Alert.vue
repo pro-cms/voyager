@@ -6,7 +6,7 @@
     >
         <div class="flex space-x-3 items-center">
             <div class="flex-shrink-0 h-5 w-5" v-if="icon">
-                <icon
+                <Icon
                     :icon="icon"
                     :size="5"
                     :class="`text-${color}-500`"
