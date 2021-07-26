@@ -19,10 +19,11 @@ class BreadTest extends TestCase
     {
         resolve(BreadManager::class)->storeBread($this->getUsersBreadJson());
         $res = $this->postJson(route('voyager.globalsearch'), [
-            'query' => '',
+            'query' => 'admin',
+            'bread' => 'users',
         ])->assertStatus(200);
 
-        $this->assertTrue($res->original['users']['count'] > 0);
+        $this->assertTrue($res->original['count'] > 0);
     }
 
     public function test_can_store_user()
