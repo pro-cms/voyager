@@ -71,7 +71,7 @@
                 </Modal>
             </div>
         </template>
-        <SlideDownTransition>
+        <CollapseTransition>
             <Alert color="blue" v-if="update.installed > 0" class="mb-4">
                 <template #title>
                     {{ __('voyager::plugins.checking_for_updates', { x: update.checked, y: update.installed }) }}
@@ -86,7 +86,7 @@
                     <span v-html="__('voyager::plugins.updates_available_install')"></span>
                 </div>
             </Alert>
-        </SlideDownTransition>
+        </CollapseTransition>
         <div class="w-full flex">
             <div class="flex-grow space-x-1">
                 <Badge

@@ -1,65 +1,61 @@
 <template>
     <transition
-        :class="class"
-        @before-enter="beforeEnter"
-        @after-enter="afterEnter"
+        v-if="!group"
+        name="collapse"
         @enter="enter"
         @before-leave="beforeLeave"
         @leave="leave"
         @after-leave="afterLeave"
-        move-class="collapse-move"
     >
         <slot></slot>
     </transition>
+    <transition-group
+        v-else
+        name="collapse"
+        @enter="enter"
+        @before-leave="beforeLeave"
+        @leave="leave"
+        @after-leave="afterLeave"
+    >
+        <slot></slot>
+    </transition-group>
 </template>
 
 <script>
-import baseTransition from './baseTransition';
+import base from './base';
+
 export default {
-    mixins: [baseTransition],
+    mixins: [base],
     methods: {
-        transitionStyle(duration = 300) {
-            return `${(duration / 1000)}s width ease-in-out`;
-        },
-        beforeEnter(el) {
-            el.style.transition = this.transitionStyle(this.enterDuration);
-            el.style.width = '0';
-            this.setStyles(el);
-        },
         enter(el) {
-            if (el.scrollWidth !== 0) {
-                el.style.width = el.scrollWidth + 'px';
-            } else {
-                el.style.width = '';
-            }
-            el.style.overflow = 'hidden';
-        },
-        afterEnter(el) {
-            el.style.transition = '';
-            el.style.width = '';
+            this.getElementWidth(el).then((width) => {
+                el.style.transition = `${(this.enterDuration)}ms width ease-in-out`;
+                el.style.width = width+'px';
+            });
         },
         beforeLeave(el) {
             el.style.width = el.scrollWidth + 'px';
             el.style.overflow = 'hidden';
-            this.setStyles(el);
         },
         leave(el) {
             if (el.scrollWidth !== 0) {
-                el.style.transition = this.transitionStyle(this.leaveDuration);
+                el.style.transition = `${(this.leaveDuration)}ms width ease-in-out`;
                 el.style.width = 0;
             }
-            this.setAbsolutePositioning(el);
         },
         afterLeave(el) {
-            el.style.transition = ''
+            el.style.transition = '';
             el.style.width = '';
         }
     }
 }
 </script>
 
-<style lang="scss" scoped>
-.collapse-move {
-    transition: transform .3s ease;
+<style scoped>
+* {
+    will-change: width;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
 }
 </style>

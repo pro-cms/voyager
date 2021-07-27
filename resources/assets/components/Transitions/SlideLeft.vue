@@ -1,17 +1,35 @@
 <template>
-    <transition v-if="!group" :class="class" v-on="hooks" enter-active-class="slide-in" leave-active-class="slide-out">
+    <transition
+        v-if="!group"
+        enter-active-class="slide-in" leave-active-class="slide-out"
+        @before-enter="beforeEnter"
+        @before-leave="beforeLeave"
+    >
         <slot></slot>
     </transition>
-    <transition-group v-else :tag="tag" :class="class" v-on="hooks" enter-active-class="slide-in" leave-active-class="slide-out">
+    <transition-group
+        v-else
+        enter-active-class="slide-in" leave-active-class="slide-out"
+        @before-enter="beforeEnter"
+        @before-leave="beforeLeave"
+    >
         <slot></slot>
     </transition-group>
 </template>
 
 <script>
-import baseTransition from './baseTransition';
+import base from './base';
 
 export default {
-    mixins: [baseTransition]
+    mixins: [base],
+    methods: {
+        beforeEnter(el) {
+            el.style.animationDuration = `${this.enterDuration}ms`;
+        },
+        beforeLeave(el) {
+            el.style.animationDuration = `${this.leaveDuration}ms`;
+        },
+    }
 }
 </script>
 
@@ -19,7 +37,7 @@ export default {
 @keyframes slideIn {
     from {
         opacity: 0;
-        transform: translateX(15px);
+        transform: translateX(30px);
     }
     to {
         opacity: 1;
@@ -35,7 +53,7 @@ export default {
     }
     to {
         opacity: 0;
-        transform: translateX(15px);
+        transform: translateX(30px);
     }
 }
 .slide-out {

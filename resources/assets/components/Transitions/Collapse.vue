@@ -1,55 +1,47 @@
 <template>
     <transition
-        :class="class"
-        @before-enter="beforeEnter"
-        @after-enter="afterEnter"
+        v-if="!group"
+        name="collapse"
         @enter="enter"
         @before-leave="beforeLeave"
         @leave="leave"
         @after-leave="afterLeave"
-        move-class="collapse-move"
     >
         <slot></slot>
     </transition>
+    <transition-group
+        v-else
+        name="collapse"
+        @enter="enter"
+        @before-leave="beforeLeave"
+        @leave="leave"
+        @after-leave="afterLeave"
+    >
+        <slot></slot>
+    </transition-group>
 </template>
 
 <script>
-import baseTransition from './baseTransition';
+import base from './base';
 
 export default {
-    mixins: [baseTransition],
+    mixins: [base],
     methods: {
-        transitionStyle(duration = 300) {
-            return `${(duration / 1000)}s height ease-in-out`;
-        },
-        beforeEnter(el) {
-            el.style.transition = this.transitionStyle(this.enterDuration);
-            el.style.height = '0';
-            this.setStyles(el);
-        },
         enter(el) {
-            if (el.scrollHeight !== 0) {
-                el.style.height = el.scrollHeight + 'px';
-            } else {
-                el.style.height = '';
-            }
-            el.style.overflow = 'hidden';
-        },
-        afterEnter(el) {
-            el.style.transition = '';
-            el.style.height = '';
+            this.getElementHeight(el).then((height) => {
+                el.style.transition = `${(this.enterDuration)}ms height ease-in-out`;
+                el.style.height = height+'px';
+            });
         },
         beforeLeave(el) {
             el.style.height = el.scrollHeight + 'px';
             el.style.overflow = 'hidden';
-            this.setStyles(el);
         },
         leave(el) {
             if (el.scrollHeight !== 0) {
-                el.style.transition = this.transitionStyle(this.leaveDuration);
+                el.style.transition = `${(this.leaveDuration)}ms height ease-in-out`;
                 el.style.height = 0;
             }
-            this.setAbsolutePositioning(el);
         },
         afterLeave(el) {
             el.style.transition = '';
@@ -59,8 +51,11 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.collapse-move {
-    transition: transform .3s ease-in-out;
+<style scoped>
+* {
+    will-change: height;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
 }
 </style>

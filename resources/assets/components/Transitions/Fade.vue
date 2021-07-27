@@ -1,43 +1,30 @@
 <template>
-    <transition :class="class" v-on="hooks" enter-active-class="fade-in" leave-active-class="fade-out" move-class="fade-move">
-        <slot></slot>
+    <transition v-if="!group" name="fade" @enter="enter" @leave="leave">
+        <slot />
     </transition>
+    <transition-group v-else name="fade" @enter="enter" @leave="leave">
+        <slot />
+    </transition-group>
 </template>
 
 <script>
-import baseTransition from './baseTransition';
+import base from './base';
 
 export default {
-    mixins: [baseTransition]
+    mixins: [base],
+    methods: {
+        enter(el) {
+            el.style.transition = `opacity ${this.enterDuration}ms ease`;
+        },
+        leave(el) {
+            el.style.transition = `opacity ${this.leaveDuration}ms ease`;
+        }
+    }
 }
 </script>
 
-<style lang="scss" scoped>
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-.fade-in {
-    animation-name: fadeIn;
-}
-
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
-}
-.fade-out {
-    animation-name: fadeOut;
-}
-
-.fade-move {
-    transition: transform .3s ease-out;
+<style scoped>
+.fade-enter-from, .fade-leave-to {
+    opacity: 0;
 }
 </style>

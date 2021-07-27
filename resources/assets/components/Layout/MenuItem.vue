@@ -8,8 +8,7 @@
             </Link>
         </div>
         <div class="flex-shrink-0 cursor-pointer inline-flex items-center" @click="open = !open" v-if="hasChildren">
-            <Icon icon="chevron-up" v-if="open" :size="4" class="icon" />
-            <Icon icon="chevron-down" v-else :size="4" class="icon" />
+            <Icon icon="chevron-up" :size="4" class="icon" :class="open ? 'rotate-0' : 'rotate-180'" />
         </div>
     </div>
     
