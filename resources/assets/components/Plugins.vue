@@ -72,10 +72,7 @@
             </div>
         </template>
         <CollapseTransition>
-            <Alert color="blue" v-if="update.installed > 0" class="mb-4">
-                <template #title>
-                    {{ __('voyager::plugins.checking_for_updates', { x: update.checked, y: update.installed }) }}
-                </template>
+            <Alert color="blue" v-if="update.checked > 0 && update.checked >= update.installed" class="mb-4">
                 <div v-if="update.updates.length > 0">
                     <span v-html="__('voyager::plugins.updates_available')"></span>
                     <ul class="my-2">
@@ -135,6 +132,9 @@
                             <th>
                                 {{ __('voyager::generic.version') }}
                             </th>
+                            <th v-if="update.checked > 0">
+                                {{ __('voyager::plugins.newest_version') }}
+                            </th>
                             <th class="flex justify-end">
                                 <span>{{ __('voyager::generic.actions') }}</span>
                             </th>
@@ -151,6 +151,15 @@
                             </td>
                             <td>
                                 {{ plugin.version || '-' }}
+                            </td>
+                            <td v-if="update.checked > 0">
+                                <span v-if="getNewestVersion(plugin) === false" class="text-green-500">
+                                    {{ __('voyager::plugins.up_to_date') }}
+                                </span>
+                                <span v-else class="text-red-500" v-tooltip="`composer update ${plugin.repository}`">
+                                    {{ getNewestVersion(plugin) }}
+                                </span>
+                                
                             </td>
                             <td class="w-full inline-flex space-x-1 justify-end">
                                 <a class="button small" v-if="plugin.website" :href="translate(plugin.website)" target="_blank">
@@ -375,6 +384,13 @@ export default {
                     }
                 });
             });
+        },
+        getNewestVersion(plugin) {
+            const update = this.update.updates.where('repo', plugin.repository).first();
+            if (update && update.current !== update.newest) {
+                return update.newest;
+            }
+            return false;
         },
         getAvailablePlugins(url = null) {
             if (url === null) {

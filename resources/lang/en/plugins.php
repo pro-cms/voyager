@@ -2,7 +2,6 @@
 
 return [
     'disable_plugin_confirm'        => 'Are your sure you want to disable the ":name" Plugin?',
-    'checking_for_updates'          => 'Checking for updates (:x of :y)',
     'check_for_updates'             => 'Check for updates',
     'cleared_preferences'           => 'Successfully cleared preferences for plugin ":plugin"!',
     'clear_preferences_confirm'     => 'Are you sure you want to clear the preferences of the plugin ":plugin"?',
@@ -10,6 +9,7 @@ return [
     'enable_plugin_confirm'         => 'Are your sure you want to enable the ":name" Plugin?',
     'error_changing_plugin'         => 'There was an error changing the plugin:',
     'error_loading_plugins'         => 'Available plugins could not be loaded. Are you online?',
+    'newest_version'                => 'Newest version',
     'no_plugins_installed_title'    => 'No plugins installed 😞',
     'no_plugins_installed_hint'     => 'Go ahead and install one',
     'no_plugins_match_search'       => 'No plugins match your search',
@@ -36,4 +36,5 @@ return [
     ],
     'updates_available'             => 'The following packages can be updated:',
     'updates_available_install'     => 'Run <code>composer update</code> to update them!',
+    'up_to_date'                    => 'Up to date',
 ];
