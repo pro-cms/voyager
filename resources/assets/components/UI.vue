@@ -138,15 +138,27 @@
     </Collapsible>
 
     <Collapsible title="Inputs" id="ui-inputs">
+        <template #actions>
+            <select class="input small" v-model="inputColor">
+                <option value="">{{ __('voyager::generic.none') }}</option>
+                <option
+                    v-for="color in colors"
+                    :key="color"
+                    :value="color"
+                >
+                    {{ __('voyager::generic.color_names.'+color) }}
+                </option>
+            </select>
+        </template>
         <div class="flex w-full">
             <Collapsible title="Default" :title-size="5" class="w-1/3">
-                <input type="text" class="input w-full" placeholder="Placeholder" />
+                <input type="text" class="input w-full" :class="inputColor" placeholder="Placeholder" />
             </Collapsible>
             <Collapsible title="Disabled" :title-size="5" class="w-1/3">
-                <input type="text" class="input w-full" disabled placeholder="Placeholder" />
+                <input type="text" class="input w-full" :class="inputColor" disabled placeholder="Placeholder" />
             </Collapsible>
             <Collapsible title="Small" :title-size="5" class="w-1/3">
-                <input type="text" class="input w-full small" placeholder="Placeholder" />
+                <input type="text" class="input w-full small" :class="inputColor" placeholder="Placeholder" />
             </Collapsible>
         </div>
     </Collapsible>
@@ -239,25 +251,48 @@
     </Collapsible>
 
     <Collapsible title="Tag input" id="ui-tags">
-        <TagInput v-model="tags" />
+        <template #actions>
+            <select class="input small" v-model="tagColor">
+                <option
+                    v-for="color in colors"
+                    :key="color"
+                    :value="color"
+                >
+                    {{ __('voyager::generic.color_names.'+color) }}
+                </option>
+            </select>
+        </template>
+        <TagInput v-model="tags" :badgeColor="tagColor" />
     </Collapsible>
 
     <Collapsible title="Sliders" id="ui-sliders">
-        <Card title="From 1 to 100">
-            <Slider v-model:lower="range.lower" :range="false" :min="1" class="mt-2" />
-        </Card>
-        <Card title="Range from 1 to 100">
-            <Slider v-model:lower="range.lower" v-model:upper="range.upper" :min="1" class="mt-2" />
-        </Card>
-        <Card title="No inputs">
-            <Slider v-model:lower="range.lower" v-model:upper="range.upper" :min="1" :inputs="false" class="mt-2" />
-        </Card>
-        <Card title="With distance 10">
-            <Slider v-model:lower="range.lower" v-model:upper="range.upper" :min="1" :distance="10" class="mt-2" />
-        </Card>
-        <Card title="Different color">
-            <Slider v-model:lower="range.lower" v-model:upper="range.upper" :min="1" class="mt-2" color="red" />
-        </Card>
+        <template #actions>
+            <select class="input small" v-model="sliderColor">
+                <option
+                    v-for="color in colors"
+                    :key="color"
+                    :value="color"
+                >
+                    {{ __('voyager::generic.color_names.'+color) }}
+                </option>
+            </select>
+        </template>
+        <div class="flex">
+            <Card title="From 1 to 100" class="w-full md:w-1/2">
+                <Slider v-model:lower="range.lower" :range="false" :min="1" class="mt-2" :color="sliderColor" />
+            </Card>
+            <Card title="Range from 1 to 100" class="w-full md:w-1/2">
+                <Slider v-model:lower="range.lower" v-model:upper="range.upper" :min="1" class="mt-2" :color="sliderColor" />
+            </Card>
+        </div>
+        <div class="flex">
+            <Card title="No inputs" class="w-full md:w-1/2">
+                <Slider v-model:lower="range.lower" v-model:upper="range.upper" :min="1" :inputs="false" class="mt-2" :color="sliderColor" />
+            </Card>
+            <Card title="With distance 10" class="w-full md:w-1/2">
+                <Slider v-model:lower="range.lower" v-model:upper="range.upper" :min="1" :distance="10" class="mt-2" :color="sliderColor" />
+            </Card>
+        </div>
     </Collapsible>
 
     <Collapsible title="Badges" id="ui-badges">
@@ -310,8 +345,23 @@
     </Collapsible>
 
     <Collapsible title="Alerts" id="ui-alerts">
-        <Alert v-for="color in colors" :color="color" :key="'alert-' + color" class="mb-3">
-            <template #title>{{ __('voyager::generic.color_names.' + color) }}</template>
+        <template #actions>
+            <select class="input small" v-model="alertColor">
+                <option
+                    v-for="color in colors"
+                    :key="color"
+                    :value="color"
+                >
+                    {{ __('voyager::generic.color_names.'+color) }}
+                </option>
+            </select>
+        </template>
+        <Alert :color="alertColor" class="mb-3">
+            <template #title>{{ __('voyager::generic.color_names.' + alertColor) }}</template>
+            <p>{{ lorem }}</p>
+        </Alert>
+        <Alert :color="alertColor" class="mb-3" :icon="null">
+            <template #title>{{ __('voyager::generic.color_names.' + alertColor) }}</template>
             <p>{{ lorem }}</p>
         </Alert>
     </Collapsible>
@@ -333,102 +383,129 @@
     </Collapsible>
 
     <Collapsible title="Notifications" id="ui-notifications">
+        <template #actions>
+            <select class="input small" v-model="notificationColor">
+                <option
+                    v-for="color in colors"
+                    :key="color"
+                    :value="color"
+                >
+                    {{ __('voyager::generic.color_names.'+color) }}
+                </option>
+            </select>
+        </template>
         <Collapsible
-            v-for="color in colors"
-            :key="'notification_' + color"
-            :title="__('voyager::generic.color_names.' + color)"
+            :title="__('voyager::generic.color_names.'+notificationColor)"
             :title-size="5"
         >
             <div class="flex flex-wrap space-x-1">
                 <button
-                    @click="new $notification(lorem).title(ucFirst(color)).color(color).show()"
+                    @click="new $notification(lorem).title(ucFirst(notificationColor)).color(notificationColor).show()"
                     class="button mb-1"
-                    :class="color"
+                    :class="notificationColor"
                 >Message and title</button>
                 <button
-                    @click="new $notification(lorem).color(color).show()"
+                    @click="new $notification(lorem).color(notificationColor).show()"
                     class="button mb-1"
-                    :class="color"
+                    :class="notificationColor"
                 >Message only</button>
                 <button
-                    @click="new $notification(lorem).title(ucFirst(color)).color(color).indeterminate().show()"
+                    @click="new $notification(lorem).title(ucFirst(notificationColor)).color(notificationColor).indeterminate().show()"
                     class="button mb-1"
-                    :class="color"
+                    :class="notificationColor"
                 >Indeterminate</button>
                 <button
-                    @click="new $notification(lorem).title(ucFirst(color)).color(color).timeout().show()"
+                    @click="new $notification(lorem).title(ucFirst(notificationColor)).color(notificationColor).timeout().show()"
                     class="button mb-1"
-                    :class="color"
+                    :class="notificationColor"
                 >With timeout</button>
             </div>
         </Collapsible>
         <Collapsible title="Confirm" :title-size="5">
             <div class="flex flex-wrap space-x-1">
                 <button
-                    @click="new $notification('Are you sure?').confirm().show().then((r) => { })"
-                    class="button blue mb-1"
+                    @click="new $notification('Are you sure?').color(notificationColor).confirm().show().then((r) => { })"
+                    class="button mb-1"
+                    :class="notificationColor"
                 >Simple</button>
                 <button
-                    @click="new $notification('Are you sure?').confirm().indeterminate().show()"
-                    class="button blue mb-1"
+                    @click="new $notification('Are you sure?').color(notificationColor).confirm().indeterminate().show()"
+                    class="button mb-1"
+                    :class="notificationColor"
                 >Indeterminate</button>
                 <button
-                    @click="new $notification('Are you sure?').confirm().timeout().show()"
-                    class="button blue mb-1"
+                    @click="new $notification('Are you sure?').color(notificationColor).confirm().timeout().show()"
+                    class="button mb-1"
+                    :class="notificationColor"
                 >With timeout</button>
                 <button
-                    @click="new $notification('Are you sure?').confirm().addButton({ key: true, value: 'Yup', color: 'green' }).addButton({ key: false, value: 'Nah', color: 'red' }).show()"
-                    class="button blue mb-1"
+                    @click="new $notification('Are you sure?').color(notificationColor).confirm().addButton({ key: true, value: 'Yup', color: 'green' }).addButton({ key: false, value: 'Nah', color: 'red' }).show()"
+                    class="button mb-1"
+                    :class="notificationColor"
                 >Custom buttons</button>
             </div>
         </Collapsible>
         <Collapsible title="Prompt" :title-size="5">
             <div class="flex flex-wrap space-x-1">
                 <button
-                    @click="new $notification('Enter your name').prompt('').show()"
-                    class="button blue mb-1"
+                    @click="new $notification('Enter your name').color(notificationColor).prompt('').show()"
+                    class="button mb-1"
+                    :class="notificationColor"
                 >Simple</button>
                 <button
-                    @click="new $notification('Enter your name').prompt('').timeout().show()"
-                    class="button blue mb-1"
+                    @click="new $notification('Enter your name').color(notificationColor).prompt('').timeout().show()"
+                    class="button mb-1"
+                    :class="notificationColor"
                 >With timeout</button>
                 <button
-                    @click="new $notification('Enter your name').prompt('').addButton({ key: true, value: 'Safe', color: 'green' }).addButton({ key: false, value: 'Abort', color: 'red' }).show()"
-                    class="button blue mb-1"
+                    @click="new $notification('Enter your name').color(notificationColor).prompt('').addButton({ key: true, value: 'Save', color: 'green' }).addButton({ key: false, value: 'Abort', color: 'red' }).show()"
+                    class="button mb-1"
+                    :class="notificationColor"
                 >Custom buttons</button>
                 <button
-                    @click="new $notification('Enter your name').prompt(name).show().then((r) => { if (r !== false) { name = r; } })"
-                    class="button blue mb-1"
+                    @click="new $notification('Enter your name').color(notificationColor).prompt(name).show().then((r) => { if (r !== false) { name = r; } })"
+                    class="button mb-1"
+                    :class="notificationColor"
                 >Value: {{ name }}</button>
             </div>
         </Collapsible>
     </Collapsible>
 
     <Collapsible title="Pagination" id="ui-pagination">
-        <Collapsible title="Default" :title-size="5">
-            <Pagination :page-count="100" v-model="page"></Pagination>
-        </Collapsible>
+        <template #actions>
+            <select class="input small" v-model="paginationColor">
+                <option
+                    v-for="color in colors"
+                    :key="color"
+                    :value="color"
+                >
+                    {{ __('voyager::generic.color_names.'+color) }}
+                </option>
+            </select>
+        </template>
+        <div class="flex">
+            <Collapsible title="Default" :title-size="5" class="w-full md:w-1/2">
+                <Pagination :page-count="100" v-model="page" :color="paginationColor" />
+            </Collapsible>
 
-        <Collapsible title="No previous/next button" :title-size="5">
-            <Pagination :page-count="100" v-model="page" :prev-next-buttons="false"></Pagination>
-        </Collapsible>
+            <Collapsible title="No previous/next button" :title-size="5" class="w-full md:w-1/2">
+                <Pagination :page-count="100" v-model="page" :prev-next-buttons="false" :color="paginationColor" />
+            </Collapsible>
+        </div>
+        <div class="flex">
+            <Collapsible title="No first/last button" :title-size="5" class="w-full md:w-1/2">
+                <Pagination :page-count="100" v-model="page" :first-last-buttons="false" :color="paginationColor" />
+            </Collapsible>
 
-        <Collapsible title="No first/last button" :title-size="5">
-            <Pagination :page-count="100" v-model="page" :first-last-buttons="false"></Pagination>
-        </Collapsible>
-
-        <Collapsible title="Only page-buttons" :title-size="5">
-            <Pagination
-                :page-count="100"
-                v-model="page"
-                :first-last-buttons="false"
-                :prev-next-buttons="false"
-            ></Pagination>
-        </Collapsible>
-
-        <Collapsible title="Different color (Works with all other colors as well)" :title-size="5">
-            <Pagination :page-count="100" v-model="page" color="red"></Pagination>
-        </Collapsible>
+            <Collapsible title="Only page-buttons" :title-size="5" class="w-full md:w-1/2">
+                <Pagination
+                    :page-count="100"
+                    v-model="page"
+                    :first-last-buttons="false"
+                    :prev-next-buttons="false" :color="paginationColor"
+                />
+            </Collapsible>
+        </div>
     </Collapsible>
 
     <Collapsible
@@ -465,6 +542,12 @@ export default {
             tags: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipisicing', 'elit'],
             color: this.colors[0],
             colorSize: 4,
+            inputColor: '',
+            alertColor: 'accent',
+            notificationColor: 'accent',
+            sliderColor: 'accent',
+            tagColor: 'accent',
+            paginationColor: 'accent',
             page: 1,
             range: {
                 lower: 1,

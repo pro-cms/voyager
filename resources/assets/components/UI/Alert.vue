@@ -42,7 +42,7 @@ export default {
             default: 'green'
         },
         icon: {
-            type: String,
+            type: [String, null],
             default: 'information-circle'
         },
     }
