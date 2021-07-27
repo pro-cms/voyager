@@ -13,7 +13,7 @@
                     </p>
                 </div>
             </slot>
-            <div class="flex flex-wrap items-start">
+            <div class="flex flex-wrap items-center space-x-1">
                 <slot name="actions"></slot>
             </div>
         </div>

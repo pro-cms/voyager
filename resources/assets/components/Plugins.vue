@@ -185,10 +185,8 @@
                                 <Modal v-if="plugin.enabled && Object.keys(plugin.preferences).length > 0" :title="__('voyager::plugins.preferences')">
                                     <JsonEditor v-model="plugin.preferences" />
                                     <template #actions>
-                                        <div class="flex space-x-1">
-                                            <button class="button small" @click="clearPreferences(plugin)">{{ __('voyager::generic.clear') }}</button>
-                                            <button class="button small" @click="savePreferences(plugin)">{{ __('voyager::generic.save') }}</button>
-                                        </div>
+                                        <button class="button small" @click="clearPreferences(plugin)">{{ __('voyager::generic.clear') }}</button>
+                                        <button class="button small" @click="savePreferences(plugin)">{{ __('voyager::generic.save') }}</button>
                                     </template>
                                     <template #opener>
                                         <button class="button small">
