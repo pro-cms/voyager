@@ -150,17 +150,119 @@
                 </option>
             </select>
         </template>
-        <div class="flex w-full">
-            <Collapsible title="Default" :title-size="5" class="w-1/3">
-                <input type="text" class="input w-full" :class="inputColor" placeholder="Placeholder" />
-            </Collapsible>
-            <Collapsible title="Disabled" :title-size="5" class="w-1/3">
-                <input type="text" class="input w-full" :class="inputColor" disabled placeholder="Placeholder" />
-            </Collapsible>
-            <Collapsible title="Small" :title-size="5" class="w-1/3">
-                <input type="text" class="input w-full small" :class="inputColor" placeholder="Placeholder" />
-            </Collapsible>
-        </div>
+        <Card title="Inputs">
+            <div class="flex w-full">
+                <Collapsible title="Default" :title-size="5" class="w-1/3">
+                    <input type="text" class="input w-full" :class="inputColor" placeholder="Placeholder" />
+                </Collapsible>
+                <Collapsible title="Disabled" :title-size="5" class="w-1/3">
+                    <input type="text" class="input w-full" :class="inputColor" disabled placeholder="Placeholder" />
+                </Collapsible>
+                <Collapsible title="Small" :title-size="5" class="w-1/3">
+                    <input type="text" class="input w-full small" :class="inputColor" placeholder="Placeholder" />
+                </Collapsible>
+            </div>
+        </Card>
+        <Card title="Textarea">
+            <div class="flex w-full">
+                <Collapsible title="Default" :title-size="5" class="w-1/2">
+                    <textarea class="input w-full" :class="inputColor" placeholder="Placeholder"></textarea>
+                </Collapsible>
+                <Collapsible title="Disabled" :title-size="5" class="w-1/2">
+                    <textarea class="input w-full" :class="inputColor" disabled placeholder="Placeholder"></textarea>
+                </Collapsible>
+            </div>
+        </Card>
+        <Card title="Checkboxes">
+            <div class="flex w-full">
+                <Collapsible title="Default" :title-size="5" class="w-full md:w-1/3">
+                    <div class="inline-flex items-center space-x-1.5 w-full">
+                        <input type="checkbox" class="input" :class="inputClass" checked />
+                        <label class="label">Checkbox 1</label>
+                    </div>
+                    <div class="inline-flex items-center space-x-1.5 w-full">
+                        <input type="checkbox" class="input" :class="inputClass" />
+                        <label class="label">Checkbox 1</label>
+                    </div>
+                </Collapsible>
+                <Collapsible title="Disabled" :title-size="5" class="w-full md:w-1/3">
+                    <div class="inline-flex items-center space-x-1.5 w-full">
+                        <input type="checkbox" class="input" :class="inputClass" disabled checked />
+                        <label class="label">Checkbox 1</label>
+                    </div>
+                    <div class="inline-flex items-center space-x-1.5 w-full">
+                        <input type="checkbox" class="input" :class="inputClass" disabled />
+                        <label class="label">Checkbox 1</label>
+                    </div>
+                </Collapsible>
+                <Collapsible title="Inline" :title-size="5" class="w-full md:w-1/3">
+                    <div class="inline-flex items-center space-x-1.5">
+                        <input type="checkbox" class="input" :class="inputClass" checked />
+                        <label class="label">Checkbox 1</label>
+                    </div>
+                    <div class="inline-flex items-center space-x-1.5">
+                        <input type="checkbox" class="input" :class="inputClass" />
+                        <label class="label">Checkbox 1</label>
+                    </div>
+                </Collapsible>
+            </div>
+        </Card>
+        <Card title="Radios">
+            <div class="flex w-full">
+                <Collapsible title="Default" :title-size="5" class="w-full md:w-1/3">
+                    <div class="inline-flex items-center space-x-1.5 w-full">
+                        <input type="radio" class="input" :class="inputClass" name="radio-normal" checked />
+                        <label class="label">Radio 1</label>
+                    </div>
+                    <div class="inline-flex items-center space-x-1.5 w-full">
+                        <input type="radio" class="input" :class="inputClass" name="radio-normal" />
+                        <label class="label">Radio 1</label>
+                    </div>
+                </Collapsible>
+                <Collapsible title="Disabled" :title-size="5" class="w-full md:w-1/3">
+                    <div class="inline-flex items-center space-x-1.5 w-full">
+                        <input type="radio" class="input" :class="inputClass" disabled name="radio-disabled" checked />
+                        <label class="label">Radio 1</label>
+                    </div>
+                    <div class="inline-flex items-center space-x-1.5 w-full">
+                        <input type="radio" class="input" :class="inputClass" disabled name="radio-disabled" />
+                        <label class="label">Radio 1</label>
+                    </div>
+                </Collapsible>
+                <Collapsible title="Inline" :title-size="5" class="w-full md:w-1/3">
+                    <div class="inline-flex items-center space-x-1.5">
+                        <input type="radio" class="input" :class="inputClass" name="radio-inline" checked />
+                        <label class="label">Radio 1</label>
+                    </div>
+                    <div class="inline-flex items-center space-x-1.5">
+                        <input type="radio" class="input" :class="inputClass" name="radio-inline" />
+                        <label class="label">Radio 1</label>
+                    </div>
+                </Collapsible>
+            </div>
+        </Card>
+        <Card title="Select">
+            <div class="flex w-full">
+                <Collapsible title="Default" :title-size="5" class="w-full md:w-1/3">
+                    <select class="input w-full">
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </select>
+                </Collapsible>
+                <Collapsible title="Disabled" :title-size="5" class="w-full md:w-1/3">
+                    <select class="input w-full" disabled>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </select>
+                </Collapsible>
+                <Collapsible title="Small" :title-size="5" class="w-full md:w-1/3">
+                    <select class="input w-full small">
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </select>
+                </Collapsible>
+            </div>
+        </Card>
     </Collapsible>
 
     <Collapsible title="Color picker" id="ui-color-picker">
