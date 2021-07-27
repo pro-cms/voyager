@@ -16,7 +16,7 @@ module.exports = (env, options) => {
             headers: {
                 'Access-Control-Allow-Origin': '*'
             },
-            firewall: false,
+            allowedHosts: 'all',
             port: 8081,
             host: '127.0.0.1'
         },
