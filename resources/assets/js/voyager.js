@@ -123,7 +123,7 @@ function prepareVoyager(data) {
     formfields.keys().forEach((path) => {
         let name = path.replace('./', '').replace('.vue', '');
         let parts = name.split('/');
-        if (parts[1] == '/Formfield') {
+        if (parts[1] == 'Formfield') {
             voyager.component(`Formfield${parts[0]}`, formfields(path).default);
         } else if (parts[1] == 'Builder') {
             voyager.component(`Formfield${parts[0]}Builder`, formfields(path).default);

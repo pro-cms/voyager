@@ -18,7 +18,7 @@
         </div>
     </div>
     <template v-else-if="action == 'view'">
-        <formfield-dynamic-input
+        <FormfieldDynamicInput
             action="add"
             :options="options"
             :column="column"
