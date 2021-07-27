@@ -32,6 +32,7 @@ Route::group(['middleware' => 'voyager.admin'], static function () {
     Route::get('plugins', ['uses' => 'PluginsController@index', 'as' => 'plugins.index']);
     Route::post('plugins/enable', ['uses' => 'PluginsController@enable', 'as' => 'plugins.enable']);
     Route::post('plugins/clear-preferences', ['uses' => 'PluginsController@clearPreferences', 'as' => 'plugins.clear-preferences']);
+    Route::post('plugins/save-preferences', ['uses' => 'PluginsController@savePreferences', 'as' => 'plugins.save-preferences']);
 
     // Logout
     Route::get('logout', ['uses' => 'AuthController@logout', 'as' => 'logout']);

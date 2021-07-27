@@ -46,6 +46,11 @@ class PluginsController extends Controller
         return $this->pluginmanager->removeAllPreferences($request->get('identifier'));
     }
 
+    public function savePreferences(Request $request)
+    {
+        return $this->pluginmanager->setPreferences($request->get('identifier'), $request->get('preferences'));
+    }
+
     private function getInstalledPlugins()
     {
         return $this->pluginmanager->getAllPlugins(false)->sortBy('identifier')->transform(function ($plugin) {

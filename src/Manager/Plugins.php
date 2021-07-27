@@ -209,6 +209,12 @@ class Plugins
         $this->preferences_changed = true;
     }
 
+    public function setPreferences($identifier, $preferences)
+    {        
+        $this->enabled_plugins[$identifier]['preferences'] = $preferences;
+        $this->preferences_changed = true;
+    }
+
     public function getPreference($identifier, $key, $default = null, $translate = true)
     {
         $value = $this->enabled_plugins[$identifier]['preferences'][$key] ?? $default;

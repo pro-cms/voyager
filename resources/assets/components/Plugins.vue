@@ -182,10 +182,21 @@
                                     <Icon icon="eye" />
                                     <span>{{ __('voyager::generic.preview') }}</span>
                                 </button>
-                                <button v-if="plugin.enabled" :disabled="Object.keys(plugin.preferences).length == 0" class="button small" @click="clearPreferences(plugin)">
-                                    <Icon icon="cog" />
-                                    <span>{{ __('voyager::plugins.clear_preferences', { amount: Object.keys(plugin.preferences).length }) }}</span>
-                                </button>
+                                <Modal v-if="plugin.enabled && Object.keys(plugin.preferences).length > 0" :title="__('voyager::plugins.preferences')">
+                                    <JsonEditor v-model="plugin.preferences" />
+                                    <template #actions>
+                                        <div class="flex space-x-1">
+                                            <button class="button small" @click="clearPreferences(plugin)">{{ __('voyager::generic.clear') }}</button>
+                                            <button class="button small" @click="savePreferences(plugin)">{{ __('voyager::generic.save') }}</button>
+                                        </div>
+                                    </template>
+                                    <template #opener>
+                                        <button class="button small">
+                                            <Icon icon="cog" />
+                                            <span>{{ __('voyager::plugins.preferences') }}</span>
+                                        </button>
+                                    </template>
+                                </Modal>
                                 <button v-if="!plugin.enabled" class="button small green" @click="enablePlugin(plugin, true)">
                                     <Icon icon="play" />
                                     <span>{{ __('voyager::generic.enable') }}</span>
@@ -392,12 +403,23 @@ export default {
                     })
                     .then(() => {
                         new this.$notification(this.__('voyager::plugins.cleared_preferences', { plugin: plugin.name })).timeout().show();
-                        this.reload();
+                        this.installed.plugins.where('identifier', plugin.identifier).first().preferences = {};
                     })
                     .catch(response => {})
                     .then(() => {});
                 }
             });
+        },
+        savePreferences(plugin) {
+            axios.post(this.route('voyager.plugins.save-preferences'), {
+                identifier: plugin.identifier,
+                preferences: plugin.preferences,
+            })
+            .then(() => {
+                new this.$notification(this.__('voyager::plugins.saved_preferences', { plugin: plugin.name })).timeout().show();
+            })
+            .catch(response => {})
+            .then(() => {});
         }
     },
     computed: {
