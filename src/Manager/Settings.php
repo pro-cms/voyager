@@ -11,7 +11,7 @@ use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 class Settings
 {
     protected string $path;
-    protected Collection| null $settings = null;
+    protected Collection|null $settings = null;
 
     public function __construct()
     {
