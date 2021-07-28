@@ -2,6 +2,7 @@
 
 namespace Voyager\Admin\Manager;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Voyager\Admin\Classes\MenuItem;
 use Voyager\Admin\Contracts\Plugins\Features\Filter\MenuItems as MenuItemFilter;
@@ -9,14 +10,14 @@ use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class Menu
 {
-    protected $items;
+    protected Collection $items;
 
     public function __construct()
     {
         $this->items = collect();
     }
 
-    public function addItems()
+    public function addItems(): void
     {
         foreach (func_get_args() as $item) {
             if ($item instanceof MenuItem) {
@@ -25,7 +26,7 @@ class Menu
         }
     }
 
-    public function getItems(Plugins $pluginmanager)
+    public function getItems(Plugins $pluginmanager): Collection
     {
         $items = $this->items->sortBy(function ($item) {
             return $item->main ? 0 : 99999999;
@@ -40,7 +41,7 @@ class Menu
         return $this->validatePermissions($items);
     }
 
-    private function validatePermissions($collection)
+    private function validatePermissions(Collection $collection): Collection
     {
         return $collection->filter(function ($item) {
             $item->children = $this->validatePermissions($item->children);

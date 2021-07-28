@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use ImageOptimizer;
+use Inertia\Response as InertiaResponse;
 use Intervention\Image\Facades\Image as Intervention;
 use League\Flysystem\Plugin\ListWith;
 use League\Flysystem\Util;
@@ -32,7 +33,7 @@ class MediaController extends Controller
         parent::__construct();
     }
 
-    public function index()
+    public function index(): InertiaResponse
     {
         return $this->inertiaRender('Media', __('voyager::generic.media'), [
             'upload-url'            => route('voyager.media.upload'),

@@ -3,11 +3,12 @@
 namespace Voyager\Admin\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Inertia\Response as InertiaResponse;
 use Voyager\Admin\Manager\Settings as SettingsManager;
 
 class SettingsController extends Controller
 {
-    protected $settingmanager;
+    protected SettingsManager $settingmanager;
 
     public function __construct(SettingsManager $settingmanager)
     {
@@ -16,14 +17,14 @@ class SettingsController extends Controller
         parent::__construct();
     }
 
-    public function index()
+    public function index(): InertiaResponse
     {
         return $this->inertiaRender('Settings', __('voyager::generic.settings'), [
             'input' => $this->settingmanager->get(),
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
     {
         // Push a fake column object to settings
         $settings = collect($request->get('settings', []))->transform(function ($setting) {
@@ -56,6 +57,6 @@ class SettingsController extends Controller
         }
         $this->settingmanager->save($request->get('settings', '[]'));
 
-        return response(200);
+        return response('', 200);
     }
 }

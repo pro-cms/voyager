@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 class ClassExists implements Rule
 {
-    protected $value;
+    protected string $value;
 
     /**
      * Determine if the validation rule passes.

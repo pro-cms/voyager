@@ -4,9 +4,12 @@ namespace Voyager\Admin\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Inertia\Response as InertiaResponse;
 use Voyager\Admin\Contracts\Formfields\Features;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Breads as BreadManager;
@@ -18,8 +21,8 @@ class BreadController extends Controller
 {
     use Browsable, Saveable;
 
-    public $uses_soft_deletes = false;
-    protected $breadmanager;
+    public bool $uses_soft_deletes = false;
+    protected BreadManager $breadmanager;
 
     public function __construct(BreadManager $breadmanager)
     {
@@ -27,7 +30,7 @@ class BreadController extends Controller
         parent::__construct();
     }
 
-    public function browse(Request $request)
+    public function browse(Request $request): InertiaResponse
     {
         $bread = $this->getBread($request);
 
@@ -36,7 +39,7 @@ class BreadController extends Controller
         ]);
     }
 
-    public function data(Request $request)
+    public function data(Request $request): array
     {
         $start = microtime(true);
         $bread = $this->getBread($request);
@@ -110,7 +113,7 @@ class BreadController extends Controller
         ];
     }
 
-    public function add(Request $request)
+    public function add(Request $request): array|InertiaResponse
     {
         $bread = $this->getBread($request);
         $layout = $this->breadmanager->getLayoutForAction($bread, 'add');
@@ -140,7 +143,7 @@ class BreadController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): Response|JsonResponse
     {
         $bread = $this->getBread($request);
         $layout = $this->breadmanager->getLayoutForAction($bread, 'add');
@@ -176,7 +179,7 @@ class BreadController extends Controller
         }
     }
 
-    public function read(Request $request, $id)
+    public function read(Request $request, mixed $id): InertiaResponse
     {
         $bread = $this->getBread($request);
         $layout = $this->breadmanager->getLayoutForAction($bread, 'read');
@@ -210,7 +213,7 @@ class BreadController extends Controller
         ]);
     }
 
-    public function edit(Request $request, $id)
+    public function edit(Request $request, mixed $id): InertiaResponse
     {
         $bread = $this->getBread($request);
         $layout = $this->breadmanager->getLayoutForAction($bread, 'edit');
@@ -259,7 +262,7 @@ class BreadController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, mixed $id): Response|JsonResponse
     {
         $bread = $this->getBread($request);
         $layout = $this->breadmanager->getLayoutForAction($bread, 'edit');
@@ -293,7 +296,7 @@ class BreadController extends Controller
         }
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request): array
     {
         $bread = $this->getBread($request);
         $model = $bread->getModel();
@@ -305,7 +308,7 @@ class BreadController extends Controller
             if (!is_array($ids)) {
                 $ids = [$ids];
             }
-            $model->find($ids)->each(function ($entry) use ($bread, &$deleted) {
+            $model->find($ids)->each(function ($entry) use (&$deleted) {
                 $this->authorize('delete', $entry);
                 $entry->delete();
                 $deleted++;
@@ -317,12 +320,12 @@ class BreadController extends Controller
         ];
     }
 
-    public function restore(Request $request)
+    public function restore(Request $request): array|null
     {
         // TODO: Check if layout allows usage of soft-deletes
         $bread = $this->getBread($request);
         if (!$bread->usesSoftDeletes()) {
-            return;
+            return null;
         }
 
         $restored = 0;
@@ -335,7 +338,7 @@ class BreadController extends Controller
                 $ids = [$ids];
             }
 
-            $model->find($ids)->each(function ($entry) use ($bread, &$restored) {
+            $model->find($ids)->each(function ($entry) use (&$restored) {
                 if ($entry->trashed()) {
                     $this->authorize('restore', $entry);
                     $entry->restore();
@@ -349,7 +352,7 @@ class BreadController extends Controller
         ];
     }
 
-    public function order(Request $request)
+    public function order(Request $request): Response
     {
         $key = $request->get('key', null);
         $up = $request->get('up', true);
@@ -371,10 +374,10 @@ class BreadController extends Controller
             }
         }
 
-        return response(200);
+        return response('', 200);
     }
 
-    public function relationship(Request $request)
+    public function relationship(Request $request): array
     {
         // TODO: Validate that the method exists in edit/add layout
         $bread = $this->getBread($request);

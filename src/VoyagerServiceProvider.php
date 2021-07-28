@@ -61,7 +61,7 @@ class VoyagerServiceProvider extends ServiceProvider
      *
      * @param \Illuminate\Routing\Router $router
      */
-    public function boot(Router $router)
+    public function boot(Router $router): void
     {
         $router->aliasMiddleware('voyager.admin', VoyagerAdminMiddleware::class);
 
@@ -245,12 +245,10 @@ class VoyagerServiceProvider extends ServiceProvider
         ->reloadAfter()
         ->permission('restore');
 
-        $this->breadmanager->addAction(
-            $read_action,
-            $edit_action,
-            $delete_action,
-            $restore_action,
-        );
+        $this->breadmanager->addAction($read_action);
+        $this->breadmanager->addAction($edit_action);
+        $this->breadmanager->addAction($delete_action);
+        $this->breadmanager->addAction($restore_action);
     }
 
     /**
@@ -293,11 +291,9 @@ class VoyagerServiceProvider extends ServiceProvider
         ->displayRestorable()
         ->reloadAfter();
 
-        $this->breadmanager->addAction(
-            $add_action,
-            $delete_action,
-            $restore_action
-        );
+        $this->breadmanager->addAction($add_action);
+        $this->breadmanager->addAction($delete_action);
+        $this->breadmanager->addAction($restore_action);
     }
 
     /**
@@ -356,7 +352,7 @@ class VoyagerServiceProvider extends ServiceProvider
      * 
      * @param Collection $breads A collection of the Voyager apps current BREADs.
      */
-    public function registerBreadMenuItems(Collection $breads)
+    public function registerBreadMenuItems(Collection $breads): void
     {
         if ($breads->count() > 0) {
             $this->menumanager->addItems(
@@ -375,7 +371,7 @@ class VoyagerServiceProvider extends ServiceProvider
     /**
      * Register generic menu items.
      */
-    private function registerMenuItems()
+    private function registerMenuItems(): void
     {
         $this->menumanager->addItems(
             (new MenuItem(__('voyager::generic.dashboard'), 'home', true))->permission('browse', ['admin'])->route('voyager.dashboard')->exact()
@@ -447,7 +443,7 @@ class VoyagerServiceProvider extends ServiceProvider
     /**
      * Register all core formfields.
      */
-    private function registerFormfields()
+    private function registerFormfields(): void
     {
         $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Checkbox::class);
         $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\DateTime::class);

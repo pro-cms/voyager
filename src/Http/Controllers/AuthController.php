@@ -3,11 +3,13 @@
 namespace Voyager\Admin\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Inertia\Response as InertiaResponse;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    public function login(Request $request): InertiaResponse|RedirectResponse
     {
         $errors = [];
         $auth = VoyagerFacade::auth();
@@ -31,12 +33,12 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout()
+    public function logout(): RedirectResponse
     {
         return VoyagerFacade::auth()->logout();
     }
 
-    public function forgotPassword(Request $request)
+    public function forgotPassword(Request $request): RedirectResponse
     {
         return VoyagerFacade::auth()->forgotPassword($request);
     }

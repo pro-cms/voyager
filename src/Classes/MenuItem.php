@@ -2,31 +2,31 @@
 
 namespace Voyager\Admin\Classes;
 
+use Illuminate\Support\Collection;
+
 class MenuItem implements \JsonSerializable
 {
-    public $title;
-    public $icon;
-    public $main;
-    public $permission = [];
-    public $url;
-    public $route;
-    public $route_params = [];
-    public $href = '';
-    public $divider = false;
-    public $exact = false;
-    public $children;
+    public array|string|null $title;
+    public string $icon;
+    public bool $main;
+    public array $permission = [];
+    public string $url = '';
+    public string $route = '';
+    public array $route_params = [];
+    public string $href = '';
+    public bool $divider = false;
+    public bool $exact = false;
+    public Collection $children;
 
-    public function __construct(string $title = '', string $icon = '', bool $main = false)
+    public function __construct(array|string|null $title = '', string $icon = '', bool $main = false)
     {
         $this->title = $title;
         $this->icon = $icon;
         $this->main = $main;
         $this->children = collect();
-
-        return $this;
     }
 
-    public function permission($ability, $arguments = [])
+    public function permission(string $ability, array $arguments = []): self
     {
         $this->permission = [
             'ability'   => $ability,
@@ -36,7 +36,7 @@ class MenuItem implements \JsonSerializable
         return $this;
     }
 
-    public function route($route, $params = [])
+    public function route(string $route, array $params = []): self
     {
         $this->route = $route;
         $this->route_params = $params;
@@ -44,39 +44,39 @@ class MenuItem implements \JsonSerializable
         return $this;
     }
 
-    public function url($url)
+    public function url(string $url): self
     {
         $this->url = $url;
 
         return $this;
     }
 
-    public function divider()
+    public function divider(): self
     {
         $this->divider = true;
 
         return $this;
     }
 
-    public function exact()
+    public function exact(): self
     {
         $this->exact = true;
 
         return $this;
     }
 
-    public function addChildren()
+    public function addChildren(): self
     {
         $this->children = $this->children->merge(func_get_args());
 
         return $this;
     }
 
-    private function resolveUrl()
+    private function resolveUrl(): string
     {
-        if (!is_null($this->route) && \Route::has($this->route)) {
+        if ($this->route !== '' && \Route::has($this->route)) {
             return route($this->route, $this->route_params);
-        } elseif (!is_null($this->url)) {
+        } elseif ($this->url != '') {
             return $this->url;
         }
 

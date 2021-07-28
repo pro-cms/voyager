@@ -18,13 +18,13 @@ interface AuthenticationPlugin extends GenericPlugin
 
     public function authenticate(Request $request): ?array;
 
-    public function logout();
+    public function logout(): \Illuminate\Http\RedirectResponse;
 
-    public function redirectTo();
+    public function redirectTo(): string;
 
-    public function forgotPassword(Request $request);
+    public function forgotPassword(Request $request): \Illuminate\Http\RedirectResponse;
 
-    public function handleRequest(Request $request, Closure $next);
+    public function handleRequest(Request $request, Closure $next): mixed;
 
     public function loginView(): ?View;
 

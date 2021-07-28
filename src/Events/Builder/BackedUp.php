@@ -6,12 +6,12 @@ use Voyager\Admin\Classes\Bread;
 
 class BackedUp
 {
-    public $bread;
+    public Bread $bread;
 
     /**
      * Create a new event instance.
      *
-     * @param  Voyager\Admin\Classes\Bread  $bread
+     * @param  \Voyager\Admin\Classes\Bread  $bread
      * @return void
      */
     public function __construct(Bread $bread)

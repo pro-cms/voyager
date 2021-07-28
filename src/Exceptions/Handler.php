@@ -20,9 +20,9 @@ class Handler extends ExceptionHandler
         $response = parent::render($request, $e);
 
         // TODO: This needs more proof
-        return $response;
+        return $response; // @phpstan-ignore-line
 
-        $exception = [
+        /*$exception = [
             'status'    => $response->status(),
             'message'   => $e->getMessage(),
             'file'      => $e->getFile(),
@@ -46,6 +46,6 @@ class Handler extends ExceptionHandler
             'exception' => $exception
         ])
         ->toResponse($request)
-        ->setStatusCode($response->status());
+        ->setStatusCode($response->status());*/
     }
 }

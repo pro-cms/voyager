@@ -2,12 +2,19 @@
 
 namespace Voyager\Admin\Classes;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class Media
 {
-    public function __construct($input)
+    public Collection $thumbnails;
+    public string $name;
+    public string $disk;
+    public string $path;
+    public string $url;
+
+    public function __construct(mixed $input)
     {
         foreach ($input as $key => $value) {
             if ($key == 'meta') {

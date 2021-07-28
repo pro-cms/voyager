@@ -34,7 +34,8 @@ class DevCommand extends Command
     {
         
         if ($settingmanager->getSettingsByKey('admin.dev-server')->count() != 1) {
-            return $this->error('Setting "admin.dev-server" does not exist. Please seed the default settings!');
+            $this->error('Setting "admin.dev-server" does not exist. Please seed the default settings!');
+            return;
         }
 
         $setting = $settingmanager->setting('admin.dev-server');

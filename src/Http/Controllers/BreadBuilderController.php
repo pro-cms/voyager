@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Inertia\Response as InertiaResponse;
 use Voyager\Admin\Classes\Bread;
 use Voyager\Admin\Events\Builder\BackedUp as BackedUpEvent;
 use Voyager\Admin\Events\Builder\Created as CreatedEvent;
@@ -21,7 +22,7 @@ use Voyager\Admin\Rules\DefaultLocale as DefaultLocaleRule;
 
 class BreadBuilderController extends Controller
 {
-    protected $breadmanager;
+    protected BreadManager $breadmanager;
 
     public function __construct(BreadManager $breadmanager)
     {
@@ -32,9 +33,9 @@ class BreadBuilderController extends Controller
     /**
      * Display all BREADs.
      *
-     * @return \Illuminate\Http\Response
+     * @return InertiaResponse
      */
-    public function index()
+    public function index(): InertiaResponse
     {
         return $this->inertiaRender('Builder/Browse', __('voyager::generic.breads'), [
             'tables' => VoyagerFacade::getTables(),
@@ -46,9 +47,9 @@ class BreadBuilderController extends Controller
      *
      * @param string $table
      *
-     * @return \Illuminate\Http\Response
+     * @return InertiaResponse|\Illuminate\Http\RedirectResponse
      */
-    public function create($table)
+    public function create($table): InertiaResponse|\Illuminate\Http\RedirectResponse
     {
         if (!in_array($table, VoyagerFacade::getTables())) {
             throw new \Voyager\Admin\Exceptions\TableNotFoundException('Table "'.$table.'" does not exist');
@@ -76,9 +77,9 @@ class BreadBuilderController extends Controller
      *
      * @param string $table
      *
-     * @return \Illuminate\Http\Response
+     * @return InertiaResponse|\Illuminate\Http\RedirectResponse
      */
-    public function edit($table)
+    public function edit($table): InertiaResponse|\Illuminate\Http\RedirectResponse
     {
         $bread = $this->breadmanager->getBread($table);
         if (!$bread) {
@@ -101,7 +102,7 @@ class BreadBuilderController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param string                   $table
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $table)
     {
@@ -166,7 +167,7 @@ class BreadBuilderController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getProperties(Request $request)
     {
@@ -196,7 +197,7 @@ class BreadBuilderController extends Controller
     /**
      * Get all BREADs.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getBreads()
     {
@@ -211,13 +212,13 @@ class BreadBuilderController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * 
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function createModel(Request $request)
     {
         $name = Str::singular(Str::studly($request->get('table', null)));
 
-        $namespace = Str::start(Str::finish(Container::getInstance()->getNamespace() ?? 'App\\', '\\'), '\\');
+        $namespace = Str::start(Str::finish(Container::getInstance()->getNamespace() ?? 'App\\', '\\'), '\\'); // @phpstan-ignore-line
         $class = (is_dir(app_path('Models')) ? $namespace.'Models\\' : $namespace).$name;
 
         if (class_exists($class)) {

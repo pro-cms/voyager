@@ -7,7 +7,7 @@ use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class SimpleArray extends Formfield
 {
-    public $browseArray = true;
+    public bool $browseArray = true;
 
     public function type(): string
     {
@@ -19,12 +19,12 @@ class SimpleArray extends Formfield
         return __('voyager::formfields.simple_array.name');
     }
 
-    public function add()
+    public function add(): mixed
     {
         return [];
     }
 
-    public function browse($value)
+    public function browse(mixed $value): mixed
     {
         if (!is_array($value)) {
             return VoyagerFacade::getJson($value, []);
@@ -33,17 +33,17 @@ class SimpleArray extends Formfield
         return $value;
     }
 
-    public function edit($value)
+    public function edit(mixed $value): mixed
     {
         return $this->browse($value);
     }
 
-    public function store($value)
+    public function store(mixed $value): mixed
     {
         return json_encode($value);
     }
 
-    public function update($model, $value, $old)
+    public function update(mixed $model, mixed $value, mixed $old): mixed
     {
         return $this->store($value);
     }

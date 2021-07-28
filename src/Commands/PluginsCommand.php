@@ -25,7 +25,7 @@ class PluginsCommand extends Command
     /**
      * Execute the console command.
      *
-     * @param \Voyager\Admin\Manager\Plugins $pluginsmanager
+     * @param \Voyager\Admin\Manager\Plugins $pluginmanager
      *
      * @return void
      */
@@ -39,7 +39,7 @@ class PluginsCommand extends Command
             });
             if ($plugin->count() > 1) {
                 // TODO: Test this
-                $selected = $this->choice('Package "'.$name.'" contains multiple plugins. Please select the plugin you want to use:', $plugin->pluck('name')->toArray(), 0);
+                $selected = $this->choice('Package "'.$name.'" contains multiple plugins. Please select the plugin you want to use:', $plugin->pluck('name')->toArray());
                 $plugin = $plugin->where('name', $selected)->first();
             } else {
                 $plugin = $plugin->first();

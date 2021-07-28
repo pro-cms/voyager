@@ -16,7 +16,7 @@ class Radio extends Formfield
         return __('voyager::formfields.radio.name');
     }
 
-    public function add()
+    public function add(): mixed
     {
         return null;
     }

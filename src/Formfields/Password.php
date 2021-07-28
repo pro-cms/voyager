@@ -6,7 +6,7 @@ use Voyager\Admin\Classes\Formfield;
 
 class Password extends Formfield
 {
-    public $notTranslatable = true;
+    public bool $notTranslatable = true;
 
     public function type(): string
     {
@@ -18,12 +18,12 @@ class Password extends Formfield
         return __('voyager::formfields.password.name');
     }
 
-    public function edit($value)
+    public function edit(mixed $value): mixed
     {
         return null;
     }
 
-    public function update($model, $value, $old)
+    public function update(mixed $model, mixed $value, mixed $old): mixed
     {
         if (empty($value)) {
             return $old;
@@ -32,7 +32,7 @@ class Password extends Formfield
         return $this->store($value);
     }
 
-    public function store($value)
+    public function store(mixed $value): mixed
     {
         return bcrypt($value);
     }

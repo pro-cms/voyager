@@ -17,12 +17,12 @@ class Number extends Formfield
         return __('voyager::formfields.number.name');
     }
 
-    public function add()
+    public function add(): mixed
     {
         return $this->options->default_value ?? 0;
     }
 
-    public function query($query, $filter, $locale = null, $global = false)
+    public function query(mixed $query, mixed $filter, string|null $locale = null, bool $global = false): mixed
     {
         $from = $filter['from'] ?? ($global ? $filter : 0);
         $to = $filter['to'] ?? null;

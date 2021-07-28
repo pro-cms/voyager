@@ -12,7 +12,7 @@ use Voyager\Admin\Plugins\AuthenticationPlugin as DefaultAuthPlugin;
 
 class VoyagerAdminMiddleware extends InertiaMiddleware
 {
-    protected $pluginmanager;
+    protected PluginManager $pluginmanager;
 
     public function __construct(PluginManager $pluginmanager)
     {

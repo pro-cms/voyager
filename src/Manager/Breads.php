@@ -17,23 +17,28 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Voyager\Admin\Classes\Action as ActionClass;
 use Voyager\Admin\Classes\Bread as BreadClass;
-use Voyager\Admin\Contracts\Formfields\Features;
+use Voyager\Admin\Classes\Formfield;
+use Voyager\Admin\Classes\Layout;
+use Voyager\Admin\Contracts\Plugins\Features\Filter\Layouts as LayoutFilter;
+use Voyager\Admin\Exceptions\NoLayoutFoundException;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 
 class Breads
 {
-    protected $formfields;
-    protected $path;
-    protected $breads;
-    protected $backups = [];
-    protected $actions;
-    protected $pluginmanager;
+    protected Collection $formfields;
+    protected string $path;
+    protected Collection|null $breads = null;
+    protected array $backups = [];
+    protected Collection $actions;
+    protected PluginManager $pluginmanager;
 
     public function __construct(PluginManager $pluginmanager)
     {
         $this->path = Str::finish(storage_path('voyager/breads'), '/');
         $this->pluginmanager = $pluginmanager;
+        $this->formfields = collect();
+        $this->actions = collect();
     }
 
     /**
@@ -119,7 +124,7 @@ class Breads
      *
      * @return bool
      */
-    public function rollbackBread($table, $path)
+    public function rollbackBread(string $table, string $path): string|bool
     {
         $path = Str::finish($this->path, '/');
         if ($this->backupBread($table) !== false) {
@@ -148,7 +153,7 @@ class Breads
      *
      * @return \Voyager\Admin\Classes\Bread
      */
-    public function getBread($table)
+    public function getBread($table): \Voyager\Admin\Classes\Bread|null
     {
         return $this->getBreads()->where('table', $table)->first();
     }
@@ -168,11 +173,11 @@ class Breads
     /**
      * Store a BREAD-file.
      *
-     * @param string $bread
+     * @param \Voyager\Admin\Classes\Bread|\stdClass $bread
      *
      * @return int|bool success
      */
-    public function storeBread($bread)
+    public function storeBread(\Voyager\Admin\Classes\Bread|\stdClass $bread)
     {
         $this->clearBreads();
 
@@ -184,14 +189,14 @@ class Breads
      *
      * @param string $table
      *
-     * @return int|bool success
+     * @return \Voyager\Admin\Classes\Bread
      */
     public function createBread($table)
     {
         // Guess the model name
         $name = Str::singular(Str::studly($table));
 
-        $namespace = Str::start(Str::finish(Container::getInstance()->getNamespace() ?? 'App\\', '\\'), '\\');
+        $namespace = Str::start(Str::finish(Container::getInstance()->getNamespace() ?? 'App\\', '\\'), '\\'); // @phpstan-ignore-line
         $model = (is_dir(app_path('Models')) ? $namespace.'Models\\' : $namespace).$name;
 
         if (!class_exists($model)) {
@@ -213,7 +218,7 @@ class Breads
     /**
      * Clears all BREAD-objects.
      */
-    public function clearBreads()
+    public function clearBreads(): void
     {
         $this->breads = null;
     }
@@ -223,7 +228,7 @@ class Breads
      *
      * @param string $table The table of the BREAD
      */
-    public function deleteBread($table)
+    public function deleteBread(string $table): bool
     {
         $ret = File::delete(Str::finish($this->path, '/').$table.'.json');
         $this->clearBreads();
@@ -235,9 +240,9 @@ class Breads
      * Backup a BREAD (copy table.json to table.backup.json).
      *
      * @param  string $table The table of the BREAD
-     * @return string The name of the backup file
+     * @return string|bool The name of the backup file or false when failed
      */
-    public function backupBread($table)
+    public function backupBread(string $table): string|bool
     {
         $old = $this->path.$table.'.json';
         $name = $table.'.backup.'.Carbon::now()->isoFormat('Y-MM-DD@HH-mm-ss').'.json';
@@ -267,12 +272,12 @@ class Breads
 
         if ($breads->count() > 1) {
             return __('voyager::generic.search_for_breads', [
-                'bread'  => $breads[0]->name_plural,
-                'bread2' => $breads[1]->name_plural,
+                'bread'  => $breads->get(0)->name_plural,
+                'bread2' => $breads->get(1)->name_plural,
             ]);
         } elseif ($breads->count() == 1) {
             return __('voyager::generic.search_for_bread', [
-                'bread' => $breads[0]->name_plural,
+                'bread' => $breads->get(0)->name_plural,
             ]);
         }
 
@@ -282,14 +287,13 @@ class Breads
     /**
      * Add a formfield.
      *
-     * @param string $class The class of the formfield
+     * @param mixed $class The class of the formfield
      */
-    public function addFormfield($class)
+    public function addFormfield(mixed $class): void
     {
-        if (!$this->formfields) {
-            $this->formfields = collect();
+        if (!$class instanceof Formfield) {
+            $class = new $class();
         }
-        $class = new $class();
 
         if (!method_exists($class, 'name')) {
             throw new \Exception('Formfields need to implement the "name" method.');
@@ -303,7 +307,7 @@ class Breads
     /**
      * Get formfields.
      *
-     * @return Illuminate\Support\Collection The formfields
+     * @return \Illuminate\Support\Collection The formfields
      */
     public function getFormfields()
     {
@@ -322,7 +326,7 @@ class Breads
                 'allow_relationship_props'  => !property_exists($formfield, 'noRelationshipProps'),
                 'allow_relationship_pivots' => !property_exists($formfield, 'noRelationshipPivots'),
                 'component'                 => method_exists($formfield, 'getComponentName') ? $formfield->getComponentName() : 'Formfield'.Str::studly($formfield->type()),
-                'builder_component'         => method_exists($formfield, 'getComponentName') ? $formfield->getBuilderComponentName() : 'Formfield'.Str::studly($formfield->type()).'Builder',
+                'builder_component'         => method_exists($formfield, 'getBuilderComponentName') ? $formfield->getBuilderComponentName() : 'Formfield'.Str::studly($formfield->type()).'Builder',
             ];
         });
     }
@@ -332,14 +336,10 @@ class Breads
      *
      * @param string $type The type of the formfield
      *
-     * @return object The formfield
+     * @return Formfield|null The formfield or null
      */
-    public function getFormfield(string $type)
+    public function getFormfield(string $type): Formfield|null
     {
-        if (!$this->formfields) {
-            $this->formfields = collect();
-        }
-
         return $this->formfields->filter(function ($formfield) use ($type) {
             return $formfield->type() == $type;
         })->first();
@@ -350,7 +350,7 @@ class Breads
      *
      * @param string $model The fully qualified model name
      *
-     * @return ReflectionClass The reflection object
+     * @return \ReflectionClass The reflection object
      */
     public function getModelReflectionClass(string $model): \ReflectionClass
     {
@@ -399,6 +399,8 @@ class Breads
                 $scopes = [];
                 $pivot = [];
                 $computed = [];
+                $table = '';
+                $relationship = null;
                 if ($resolve) {
                     $relationship = $model->{$method->getName()}();
                     $related = $relationship->getRelated();
@@ -423,7 +425,7 @@ class Breads
                     'scopes'    => $scopes,
                     'pivot'     => $pivot,
                     'computed'  => $computed,
-                    'key_name'  => $relationship->getRelated()->getKeyName(),
+                    'key_name'  => $relationship ? $relationship->getRelated()->getKeyName() : '',
                     'multiple'  => in_array(strval($type->getName()), $multi),
                 ];
             }
@@ -435,17 +437,11 @@ class Breads
     /**
      * Add an action to BREADs.
      *
-     * @param Action $action One or more action instances.
+     * @param \Voyager\Admin\Classes\Action $action The action instance.
      */
-    public function addAction()
+    public function addAction(\Voyager\Admin\Classes\Action $action): void
     {
-        if (is_null($this->actions)) {
-            $this->actions = collect();
-        }
-
-        foreach (func_get_args() as $action) {
-            $this->actions->push($action);
-        }
+        $this->actions->push($action);
     }
 
     /**
@@ -453,7 +449,7 @@ class Breads
      *
      * @param callable $callback A callback which gets all actions and returns a manipulated version of them.
      */
-    public function manipulateActions(callable $callback)
+    public function manipulateActions(callable $callback): void
     {
         $this->actions = $callback($this->actions);
     }
@@ -464,16 +460,16 @@ class Breads
      * @param BreadClass $bread The BREAD.
      * @return Collection The collection of Actions
      */
-    public function getActionsForBread(BreadClass $bread)
+    public function getActionsForBread(BreadClass $bread): Collection
     {
         return $this->actions->filter(function ($action) use ($bread) {
             $display = true;
             if (is_callable($action->callback)) {
-                $display = $action->callback->call($this, $bread) ?? true;
+                $display = $action->callback->call($this, $bread) ?? true; // @phpstan-ignore-line
             }
 
             if (!is_null($action->permission)) {
-                if (!VoyagerFacade::authorize(VoyagerFacade::auth()->user(), $action->permission, $bread)) {
+                if (!VoyagerFacade::authorize(VoyagerFacade::auth()->user(), $action->permission, [$bread])) {
                     $display = false;
                 }
             }
@@ -482,7 +478,7 @@ class Breads
         })->transform(function ($action) use ($bread) {
             // Resolve route
             if (is_callable($action->route_callback)) {
-                $action->route_name = $action->route_callback->call($this, $bread) ?? '#';
+                $action->route_name = $action->route_callback->call($this, $bread) ?? '#'; // @phpstan-ignore-line
             } else {
                 $action->route_name = $action->route_callback;
             }
@@ -491,7 +487,7 @@ class Breads
         });
     }
 
-    public function getLayoutForAction($bread, $action, $throwError = true)
+    public function getLayoutForAction(BreadClass $bread, string $action, bool $throwError = true): Layout|null
     {
         $layouts = $bread->layouts->where('type', $action == 'browse' ? 'list' : 'view');
 

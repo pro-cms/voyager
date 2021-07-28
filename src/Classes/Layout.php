@@ -2,17 +2,19 @@
 
 namespace Voyager\Admin\Classes;
 
+use Illuminate\Support\Collection;
 use Voyager\Admin\Manager\Breads as BreadManager;
+use Voyager\Admin\Classes\Formfield;
 
 class Layout implements \JsonSerializable
 {
-    public $name;
-    public $type = 'list';
-    public $options = [];
-    public $formfields = [];
-    protected $breadmanager;
+    public string $name;
+    public string $type = 'list';
+    public \stdClass $options;
+    public Collection $formfields;
+    protected BreadManager $breadmanager;
 
-    public function __construct($json)
+    public function __construct(mixed $json)
     {
         $this->breadmanager = resolve(BreadManager::class);
         $this->formfields = collect();
@@ -35,17 +37,17 @@ class Layout implements \JsonSerializable
         });
     }
 
-    public function searchableFormfields()
+    public function searchableFormfields(): Collection
     {
         return $this->formfields->where('searchable');
     }
 
-    public function getFormfieldByColumn($column)
+    public function getFormfieldByColumn(string $column): Formfield|null
     {
         return $this->formfields->where('column.column', $column)->first();
     }
 
-    public function getFormfieldsByColumnType($type)
+    public function getFormfieldsByColumnType(string $type): Collection
     {
         return $this->formfields->where('column.type', $type);
     }

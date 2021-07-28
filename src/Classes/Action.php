@@ -4,20 +4,20 @@ namespace Voyager\Admin\Classes;
 
 class Action
 {
-    public $title;
-    public $icon;
-    public $color = 'accent';
-    public $method = 'get';
-    public $download = false;
-    public $file_name = '';
-    public $bulk = false;
-    public $confirm;
-    public $success;
-    public $permission;
-    public $route_callback;
-    public $callback;
-    public $display_deletable = null;
-    public $reload_after = false;
+    public string $title;
+    public string $icon;
+    public string $color = 'accent';
+    public string $method = 'get';
+    public bool $download = false;
+    public string $file_name = '';
+    public bool $bulk = false;
+    public array $confirm = [];
+    public array $success = [];
+    public string $permission = '';
+    public mixed $route_callback = null;
+    public mixed $callback = null;
+    public bool|null $display_deletable = null;
+    public bool $reload_after = false;
 
     /**
      * Create a new action.
@@ -27,13 +27,11 @@ class Action
      * @param string $color The color of the button. Defaults to none.
      * @return self
      */
-    public function __construct($title, $icon = null, string $color = '')
+    public function __construct(string $title, string $icon = null, string $color = '')
     {
         $this->title = $title;
         $this->icon = $icon;
         $this->color = $color;
-
-        return $this;
     }
 
     /**
@@ -73,7 +71,7 @@ class Action
      * @param callable|string $route A callback resolving the route or the route name as a string.
      * @return self
      */
-    public function route($route): Action
+    public function route(callable|string $route): Action
     {
         $this->route_callback = $route;
 

@@ -12,7 +12,7 @@ use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class AuthenticationPlugin implements AuthContract
 {
-    private $registered = false;
+    private bool $registered = false;
 
     public function user(): ?object
     {
@@ -21,7 +21,7 @@ class AuthenticationPlugin implements AuthContract
 
     public function name(): ?string
     {
-        return Auth::user()->name;
+        return Auth::user()->name; // @phpstan-ignore-line
     }
 
     public function avatar(): ?string
@@ -48,19 +48,19 @@ class AuthenticationPlugin implements AuthContract
         return [ __('voyager::auth.login_failed') ];
     }
 
-    public function logout()
+    public function logout(): \Illuminate\Http\RedirectResponse
     {
         Auth::logout();
 
         return redirect()->route('voyager.login');
     }
 
-    public function redirectTo()
+    public function redirectTo(): string
     {
         return route('voyager.dashboard');
     }
 
-    public function forgotPassword(Request $request)
+    public function forgotPassword(Request $request): \Illuminate\Http\RedirectResponse
     {
         // TODO: Throttle attempts
         $email = $request->get('email');
@@ -71,7 +71,7 @@ class AuthenticationPlugin implements AuthContract
         ]);
     }
 
-    public function handleRequest(Request $request, Closure $next)
+    public function handleRequest(Request $request, Closure $next): mixed
     {
         if (!$this->registered) {
             auth()->setDefaultDriver($this->guard());

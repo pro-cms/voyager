@@ -3,9 +3,12 @@
 namespace Voyager\Admin\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Inertia\Response as InertiaResponse;
+use Voyager\Admin\Classes\Bread;
 use Voyager\Admin\Classes\DynamicInput;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Breads as BreadManager;
@@ -17,9 +20,9 @@ class VoyagerController extends Controller
 {
     use Browsable;
 
-    protected $breadmanager;
-    protected $pluginmanager;
-    protected $settingmanager;
+    protected BreadManager $breadmanager;
+    protected PluginManager $pluginmanager;
+    protected SettingsManager $settingmanager;
 
     public function __construct(BreadManager $breadmanager, PluginManager $pluginmanager, SettingsManager $settingmanager)
     {
@@ -29,7 +32,7 @@ class VoyagerController extends Controller
         parent::__construct();
     }
 
-    private $mime_extensions = [
+    private array $mime_extensions = [
         'js'    => 'text/javascript',
         'css'   => 'text/css',
         'woff'  => 'font/woff',
@@ -38,7 +41,7 @@ class VoyagerController extends Controller
         'png'   => 'image/png',
     ];
 
-    public function assets(Request $request)
+    public function assets(Request $request): mixed
     {
         if (Str::startsWith($request->path, 'plugin/')) {
             $name = Str::after($request->path, 'plugin/');
@@ -51,7 +54,7 @@ class VoyagerController extends Controller
                 return $this->returnAsset($asset['content'], $mime);
             }
 
-            return abort(404);
+            abort(404);
         }
 
         $path = Str::before(str_replace('/', DIRECTORY_SEPARATOR, Str::start(urldecode($request->path), '/')), '?');
@@ -67,7 +70,7 @@ class VoyagerController extends Controller
         abort(404);
     }
 
-    private function returnAsset($content, $mime)
+    private function returnAsset(string $content, string $mime): Response
     {
         $response = response($content, 200, [
             'Content-Type'           => $mime,
@@ -80,30 +83,30 @@ class VoyagerController extends Controller
         return $response;
     }
 
-    public function dashboard()
+    public function dashboard(): InertiaResponse
     {
         return $this->inertiaRender('Dashboard', __('voyager::generic.dashboard'), [
             'widgets' => VoyagerFacade::getWidgets(),
         ]);
     }
 
-    public function ui()
+    public function ui(): InertiaResponse
     {
         return $this->inertiaRender('UI', 'UI');
     }
 
     // Search all BREADS
-    public function globalSearch(Request $request)
+    public function globalSearch(Request $request): array|null
     {
         $q = $request->get('query');
         $bread = $this->breadmanager->getBread($request->get('bread'));
-        if (!empty($bread->global_search_field)) {
+        if ($bread instanceof Bread && !empty($bread->global_search_field)) {
             $layout = $this->breadmanager->getLayoutForAction($bread, 'browse');
             if ($layout) {
                 $query = $bread->getModel()->select();
                 // TODO: This can be removed when the global search allows querying relationships
                 if ($layout->searchableFormfields()->where('column.type', 'column')->count() == 0) {
-                    return;
+                    return null;
                 }
                 $query = $this->globalSearchQuery($q, $layout, VoyagerFacade::getLocale(), $query);
                 $count = $query->count();
@@ -126,7 +129,7 @@ class VoyagerController extends Controller
         ];
     }
 
-    public function getDisks(Request $request)
+    public function getDisks(Request $request): \Illuminate\Http\JsonResponse
     {
         $disks = collect(array_keys(config('filesystems.disks')))->mapWithKeys(function ($disk) {
             return [$disk => Str::title($disk)];
@@ -136,7 +139,7 @@ class VoyagerController extends Controller
         return response()->json($select);
     }
 
-    public function getThumbnailOptions(Request $request)
+    public function getThumbnailOptions(Request $request): DynamicInput
     {
         $method = $request->input('method', 'fit');
 
@@ -172,7 +175,7 @@ class VoyagerController extends Controller
         return $select;
     }
 
-    public function getWatermarkOptions(Request $request)
+    public function getWatermarkOptions(Request $request): DynamicInput
     {
         $positions = collect(__('voyager::media.positions'))->mapWithKeys(function ($value, $key) {
             return [Str::slug($key) => $value];
@@ -187,7 +190,7 @@ class VoyagerController extends Controller
             ->addNumber('opacity', __('voyager::media.watermark.opacity'), __('voyager::media.watermark.opacity'), 50, 0, 100);
     }
 
-    public function disableDevServer()
+    public function disableDevServer(): void
     {
         $this->settingmanager->set('admin.dev-server', false);
     }

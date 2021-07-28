@@ -7,11 +7,11 @@ use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 trait Translatable
 {
-    private $translate = true;
-    public $current_locale;
-    public $fallback_locale;
+    private bool $translate = true;
+    public string|null $current_locale = null;
+    public string|null $fallback_locale = null;
 
-    public function setLocales()
+    public function setLocales(): void
     {
         if (!$this->current_locale) {
             $this->current_locale = app()->getLocale();
@@ -19,7 +19,7 @@ trait Translatable
         }
     }
 
-    public function getTranslated($key, $locale, $fallback, $default)
+    public function getTranslated(string $key, string $locale, string $fallback, string $default): mixed
     {
         $this->setLocales();
 
@@ -39,7 +39,7 @@ trait Translatable
         return $value ?? $default;
     }
 
-    public function setTranslated($key, $value, $locale)
+    public function setTranslated(string $key, mixed $value, string $locale): void
     {
         $old_locale = $this->current_locale;
 
@@ -52,17 +52,23 @@ trait Translatable
         $this->current_locale = $old_locale;
     }
 
-    public function translate()
+    public function translate(): void
     {
         $this->translate = true;
     }
 
-    public function dontTranslate()
+    public function dontTranslate(): void
     {
         $this->translate = false;
     }
 
-    public function __get($key)
+    /**
+     * Retrieve translated model value
+     *
+     * @param  string  $key
+     * @return mixed
+     */
+    public function __get($key): mixed
     {
         $this->setLocales();
         $value = null;
@@ -83,7 +89,14 @@ trait Translatable
         return $value;
     }
 
-    public function __set($key, $value)
+    /**
+     *Set translated model value
+     *
+     * @param  string  $key
+     * @param  mixed   $value
+     * @return void
+     */
+    public function __set($key, $value): void
     {
         $this->setLocales();
         if ($this->shouldColumnBeTranslated($key)) {
@@ -96,13 +109,13 @@ trait Translatable
             }
         }
         if ((bool) class_parents($this)) {
-            parent::__set($key, $value);
+            parent::__set($key, $value); // @phpstan-ignore-line
         } else {
             $this->{$key} = $value;
         }
     }
 
-    public function shouldColumnBeTranslated($column)
+    public function shouldColumnBeTranslated(string $column): bool
     {
         return (
             $this->translate &&

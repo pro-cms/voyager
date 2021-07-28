@@ -2,16 +2,18 @@
 
 namespace Voyager\Admin\Classes;
 
+use Illuminate\Support\Collection;
+
 class DynamicInput implements \JsonSerializable
 {
-    protected $inputs;
+    protected Collection $inputs;
 
     public function __construct()
     {
         $this->inputs = collect();
     }
 
-    public function addSelect(?string $key = null, ?string $title = null, ?array $options = [], ?bool $multiple = false, $value = null): self
+    public function addSelect(?string $key = null, ?string $title = null, ?array $options = [], ?bool $multiple = false, mixed $value = null): self
     {
         $this->addMultipleChoiceInput('select', $key, $title, $options, $multiple, $value);
 
@@ -49,13 +51,13 @@ class DynamicInput implements \JsonSerializable
 
         return $this;
     }
-    public function addCheckboxes(?string $key = null, ?string $title = null, ?array $options = [], $value = null): self
+    public function addCheckboxes(?string $key = null, ?string $title = null, ?array $options = [], mixed $value = null): self
     {
         $this->addMultipleChoiceInput('checkbox', $key, $title, $options, true, $value);
 
         return $this;
     }
-    public function addRadios(?string $key = null, ?string $title = null, ?array $options = [], $value = null): self
+    public function addRadios(?string $key = null, ?string $title = null, ?array $options = [], mixed $value = null): self
     {
         if (is_array($value)) {
             throw new \Exception('The default value for a radio-input in a dynamic select can not be an array!');
@@ -65,7 +67,7 @@ class DynamicInput implements \JsonSerializable
         return $this;
     }
 
-    public function addSwitch(?string $key = null, ?string $title = null, ?bool $value = false)
+    public function addSwitch(?string $key = null, ?string $title = null, ?bool $value = false): self
     {
         $this->inputs->push([
             'type'      => 'switch',
@@ -79,7 +81,7 @@ class DynamicInput implements \JsonSerializable
         return $this;
     }
 
-    private function addMultipleChoiceInput(string $type, ?string $key = null, ?string $title = null, ?array $options = [], ?bool $multiple = false, $value = null)
+    private function addMultipleChoiceInput(string $type, ?string $key = null, ?string $title = null, ?array $options = [], ?bool $multiple = false, mixed $value = null): void
     {
         $this->inputs->push([
             'type'      => $type,
@@ -93,7 +95,7 @@ class DynamicInput implements \JsonSerializable
         $this->checkInputs();
     }
 
-    private function checkInputs()
+    private function checkInputs(): void
     {
         $inputsWithoutKey = $this->inputs->where('key', null)->count();
 
@@ -102,7 +104,7 @@ class DynamicInput implements \JsonSerializable
         }
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): Collection
     {
         return $this->inputs;
     }

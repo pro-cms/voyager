@@ -7,7 +7,7 @@ use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class Repeater extends Formfield
 {
-    public $browseArray = true;
+    public bool $browseArray = true;
 
     public function type(): string
     {
@@ -19,12 +19,12 @@ class Repeater extends Formfield
         return __('voyager::formfields.repeater.name');
     }
 
-    public function add()
+    public function add(): mixed
     {
         return [];
     }
 
-    public function browse($value)
+    public function browse(mixed $value): mixed
     {
         if (!is_array($value)) {
             $value = VoyagerFacade::getJson($value, []);
@@ -33,12 +33,12 @@ class Repeater extends Formfield
         return $value;
     }
 
-    public function read($value)
+    public function read(mixed $value): mixed
     {
         return $this->edit($value);
     }
 
-    public function edit($value)
+    public function edit(mixed $value): mixed
     {
         if (!is_array($value)) {
             $value = VoyagerFacade::getJson($value, []);
@@ -53,7 +53,7 @@ class Repeater extends Formfield
         return $value;
     }
 
-    public function store($value)
+    public function store(mixed $value): mixed
     {
         if ($this->asArray()) {
             foreach ($value as $key => $row) {
@@ -64,12 +64,12 @@ class Repeater extends Formfield
         return json_encode($value);
     }
 
-    public function update($model, $value, $old)
+    public function update(mixed $model, mixed $value, mixed $old): mixed
     {
         return $this->store($value);
     }
 
-    private function asArray()
+    private function asArray(): bool
     {
         $withoutKey = false;
         collect($this->options->formfields ?? [])->each(function ($formfield) use (&$withoutKey) {

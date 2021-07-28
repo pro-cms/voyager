@@ -17,12 +17,12 @@ class Text extends Formfield
         return __('voyager::formfields.text.name');
     }
 
-    public function browse($input)
+    public function browse(mixed $input): mixed
     {
         return Str::limit(strip_tags($input), $this->options->display_length ?? 150);
     }
 
-    public function add()
+    public function add(): mixed
     {
         return $this->options->default_value ?? '';
     }

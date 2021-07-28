@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Composer;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Inertia\Response as InertiaResponse;
 use Voyager\Admin\Contracts\Plugins\ThemePlugin;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\InstructionsComponent;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\SettingsComponent;
@@ -15,7 +16,7 @@ use Voyager\Admin\Manager\Plugins as PluginManager;
 
 class PluginsController extends Controller
 {
-    protected $pluginmanager;
+    protected PluginManager $pluginmanager;
 
     public function __construct(PluginManager $pluginmanager)
     {
@@ -24,14 +25,14 @@ class PluginsController extends Controller
         parent::__construct();
     }
 
-    public function index()
+    public function index(): InertiaResponse
     {
         return $this->inertiaRender('Plugins', __('voyager::plugins.plugins'), [
             'installed-plugins' => $this->getInstalledPlugins()
         ]);
     }
 
-    public function enable(Request $request)
+    public function enable(Request $request): string|bool
     {
         $identifier = $request->get('identifier');
         if ($request->get('enable', false)) {
@@ -41,17 +42,17 @@ class PluginsController extends Controller
         return $this->pluginmanager->enablePlugin($identifier, false);
     }
 
-    public function clearPreferences(Request $request)
+    public function clearPreferences(Request $request): bool
     {
         return $this->pluginmanager->removeAllPreferences($request->get('identifier'));
     }
 
-    public function savePreferences(Request $request)
+    public function savePreferences(Request $request): void
     {
-        return $this->pluginmanager->setPreferences($request->get('identifier'), $request->get('preferences'));
+        $this->pluginmanager->setPreferences($request->get('identifier'), $request->get('preferences'));
     }
 
-    private function getInstalledPlugins()
+    private function getInstalledPlugins(): \Illuminate\Support\Collection
     {
         return $this->pluginmanager->getAllPlugins(false)->sortBy('identifier')->transform(function ($plugin) {
             $plugin->type = collect(class_implements($plugin))->filter(static function ($interface) {

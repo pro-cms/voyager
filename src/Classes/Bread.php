@@ -2,30 +2,37 @@
 
 namespace Voyager\Admin\Classes;
 
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Voyager\Admin\Traits\Translatable;
+
+/**
+ * @property string $slug
+ * @property string $name_singular
+ * @property string $name_plural
+ */
 
 class Bread implements \JsonSerializable
 {
     use Translatable;
 
-    private $translatable = ['slug', 'name_singular', 'name_plural'];
+    private array $translatable = ['slug', 'name_singular', 'name_plural'];
 
-    public $table;
-    protected $slug;
-    protected $name_singular;
-    protected $name_plural;
-    public $icon = 'bread';
-    public $model;
-    public $controller;
-    public $policy;
-    public $global_search_field;
-    public $order_field;
-    public $layouts = [];
+    public string $table;
+    protected mixed $slug;
+    protected mixed $name_singular;
+    protected mixed $name_plural;
+    public string $icon = 'bread';
+    public mixed $model;
+    public mixed $controller;
+    public mixed $policy;
+    public mixed $global_search_field;
+    public mixed $order_field;
+    public Collection $layouts;
 
-    protected $model_class = null;
+    protected mixed $model_class = null;
 
-    public function __construct($json)
+    public function __construct(mixed $json)
     {
         $this->layouts = collect();
 
@@ -41,7 +48,7 @@ class Bread implements \JsonSerializable
         });
     }
 
-    public function getModel()
+    public function getModel(): mixed
     {
         if (!$this->model_class) {
             $this->model_class = app($this->model);
@@ -50,17 +57,17 @@ class Bread implements \JsonSerializable
         return $this->model_class;
     }
 
-    public function usesTranslatableTrait()
+    public function usesTranslatableTrait(): bool
     {
         return in_array(Translatable::class, class_uses($this->getModel()));
     }
 
-    public function usesSoftDeletes()
+    public function usesSoftDeletes(): bool
     {
         return in_array(SoftDeletes::class, class_uses($this->getModel()));
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'table'               => $this->table,

@@ -6,10 +6,12 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Inertia\Response as InertiaResponse;
 use Voyager\Admin\Contracts\Plugins\Features\Filter\Layouts as LayoutFilter;
 use Voyager\Admin\Exceptions\NoLayoutFoundException;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
@@ -24,10 +26,10 @@ abstract class Controller extends BaseController
 {
     use AuthorizesRequests;
 
-    protected $breadmanager;
-    protected $menumanager;
-    protected $pluginmanager;
-    protected $settingmanager;
+    protected BreadManager $breadmanager;
+    protected MenuManager $menumanager;
+    protected PluginManager $pluginmanager;
+    protected SettingManager $settingmanager;
 
     public function __construct()
     {
@@ -39,14 +41,14 @@ abstract class Controller extends BaseController
         $this->settingmanager = resolve(SettingManager::class);
     }
 
-    protected function inertiaRender($page, string $title = '', array $data = [], $root_view = null)
+    protected function inertiaRender(string $page, string $title = '', array $data = [], string|null $root_view = null): InertiaResponse
     {
         Inertia::setRootView($root_view ?? 'voyager::app');
 
         return Inertia::render($page, $data)->withViewData('title', $title);
     }
 
-    protected function validateData($formfields, $data, $all_locales = false): array
+    protected function validateData(Collection $formfields, array|Collection $data, bool $all_locales = false): array
     {
         $errors = [];
 
@@ -82,7 +84,7 @@ abstract class Controller extends BaseController
         return $errors;
     }
 
-    protected function validateField($value, $rule, $message)
+    protected function validateField(mixed $value, string $rule, mixed $message): string|null
     {
         $ruleSet = ['col' => $rule];
 
@@ -109,8 +111,11 @@ abstract class Controller extends BaseController
         return null;
     }
 
-    protected function getBread(Request $request)
+    protected function getBread(Request $request): mixed
     {
-        return $request->route()->getAction()['bread'] ?? abort(404);
+        if ($request->route()->getAction()['bread']) {
+            return $request->route()->getAction()['bread'];
+        }
+        abort(404);
     }
 }

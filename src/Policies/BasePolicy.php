@@ -8,7 +8,7 @@ class BasePolicy
 {
     use HandlesAuthorization;
 
-    public function __call($name, $arguments)
+    public function __call(string $name, array $arguments): bool
     {
         return true;
     }

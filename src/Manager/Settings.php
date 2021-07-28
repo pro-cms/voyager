@@ -2,6 +2,7 @@
 
 namespace Voyager\Admin\Manager;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Voyager\Admin\Classes\Setting;
@@ -9,8 +10,8 @@ use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class Settings
 {
-    protected $path;
-    protected $settings = null;
+    protected string $path;
+    protected Collection| null $settings = null;
 
     public function __construct()
     {
@@ -35,14 +36,14 @@ class Settings
         return $this->path;
     }
 
-    public function get()
+    public function get(): Collection|null
     {
         $this->load();
         return $this->settings;
     }
 
     // Set a settings-value based on the key. When locale is not provided and the setting is translatable, it expects an array of locale-values
-    public function set(string $key, $value, $locale = null, $save = true)
+    public function set(string $key, mixed $value, string|null $locale = null, bool $save = true): void
     {
         $this->load();
         $setting = $this->getSettingsByKey($key);
@@ -61,19 +62,21 @@ class Settings
             }
 
             // Save settings when $save is true. Useful when you want to batch-update settings
-            $save && $this->save();
+            if ($save) {
+                $this->save();
+            }
         } else {
             throw new \Exception('Setting with key `'.$key.'` does not exist or matches multiple settings');
         }
     }
 
-    public function merge(array $settings)
+    public function merge(array $settings): mixed
     {
         $this->load();
-        $this->settings = $this->settings->merge($settings);
+        $this->settings = $this->settings?->merge($settings);
     }
 
-    public function setting($key = null, $default = null, $translate = true)
+    public function setting(string|null $key = null, mixed $default = null, bool $translate = true): mixed
     {
         $this->load();
         $settings = $this->getSettingsByKey($key);
@@ -84,7 +87,7 @@ class Settings
             if ($setting->group !== null && $setting->group !== '') {
                 $key = implode('.', [$setting->group, $setting->key]);
             }
-            if ($translate && $setting->translatable || false) {
+            if ($translate && ($setting->translatable ?? false)) {
                 return [$key => VoyagerFacade::translate($setting->value, app()->getLocale(), config('app.fallback_locale')) ?? $default];
             }
 
@@ -108,14 +111,14 @@ class Settings
         return $settings;
     }
 
-    public function exists($group, $key)
+    public function exists(string $group, string $key): bool
     {
         $this->load();
 
-        return $this->settings->where('group', $group)->where('key', $key)->count() > 0;
+        return $this->settings?->where('group', $group)->where('key', $key)->count() > 0;
     }
 
-    public function save($content = null)
+    public function save(mixed $content = null): void
     {
         if (is_null($content)) {
             $content = $this->settings;
@@ -130,10 +133,10 @@ class Settings
         $this->load(true);
     }
 
-    public function getSettingsByKey($key)
+    public function getSettingsByKey(string|null $key): Collection
     {
         $this->load();
-        if (Str::contains($key, '.')) {
+        if (Str::contains($key ?? '', '.')) {
             // We are looking for a setting in a group
             list($group, $key) = explode('.', $key);
 
@@ -154,7 +157,7 @@ class Settings
         return $this->settings;
     }
 
-    public function load($force = false)
+    public function load(bool $force = false): void
     {
         if (!$this->settings || (is_array($this->settings) && count($this->settings) == 0) || $force) {
             VoyagerFacade::ensureFileExists($this->path, '[]');
@@ -162,7 +165,7 @@ class Settings
         }
     }
 
-    public function unload()
+    public function unload(): void
     {
         $this->settings = null;
     }

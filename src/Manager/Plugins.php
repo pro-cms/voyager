@@ -21,12 +21,12 @@ use Voyager\Admin\Voyager;
 
 class Plugins
 {
-    protected $menumanager;
-    protected $settingsmanager;
-    protected $plugins;
-    protected $enabled_plugins;
-    protected $path;
-    protected $preferences_changed = false;
+    protected Menu $menumanager;
+    protected Settings $settingsmanager;
+    protected Collection $plugins;
+    protected array $enabled_plugins = [];
+    protected string $path;
+    protected bool $preferences_changed = false;
 
     public function __construct(Menu $menumanager, Settings $settingsmanager)
     {
@@ -36,17 +36,17 @@ class Plugins
         $this->path = Str::finish(storage_path('voyager'), '/').'plugins.json';
     }
 
-    public function setPath($path)
+    public function setPath(string $path): void
     {
         $this->path = $path;
     }
 
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
 
-    public function addPlugin($plugin)
+    public function addPlugin(mixed $plugin): void
     {
         if (!$this->enabled_plugins) {
             $this->loadEnabledPlugins();
@@ -64,36 +64,36 @@ class Plugins
         $plugin->version = InstalledVersions::getPrettyVersion($plugin->repository);
         $plugin->version_normalized = InstalledVersions::getVersion($plugin->repository);
 
-        $plugin->preferences = new class ($plugin, $this) {
-            private $plugin, $pluginmanager;
+        $plugin->preferences = new class ($plugin, $this) { // @phpstan-ignore-line
+            private GenericPlugin $plugin;
+            private Plugins $pluginmanager;
 
             public function __construct(GenericPlugin $plugin, Plugins $pluginmanager) {
                 $this->plugin = $plugin;
                 $this->pluginmanager = $pluginmanager;
             }
 
-            public function set($key, $value, $locale = null) {
-                return $this->pluginmanager->setPreference($this->plugin->identifier, $key, $value, $locale);
+            public function set(string $key, mixed $value, string|null $locale = null): void {
+                $this->pluginmanager->setPreference($this->plugin->identifier, $key, $value, $locale);
             }
 
-            public function get($key, $default = null, $translate = true) {
+            public function get(string $key, mixed $default = null, bool$translate = true): mixed {
                 return $this->pluginmanager->getPreference($this->plugin->identifier, $key, $default, $translate);
             }
 
-            public function remove($key) {
+            public function remove(string $key): mixed {
                 return $this->pluginmanager->removePreference($this->plugin->identifier, $key);
             }
 
-            public function removeAll() {
+            public function removeAll(): mixed {
                 return $this->pluginmanager->removeAllPreferences($this->plugin->identifier);
             }
         };
-        
-        $plugin->num = $this->plugins->count();
+
         $this->plugins->push($plugin);
     }
 
-    public function launchPlugins($protected = false, $public = false)
+    public function launchPlugins(bool $protected = false, bool $public = false): void
     {
         $this->getAllPlugins(false)->each(function ($plugin) use ($protected, $public) {
             if ($plugin->enabled) {
@@ -106,22 +106,20 @@ class Plugins
                         $plugin->provideFrontendRoutes();
                     }
                 } else {
-                    if ($plugin->enabled) {
-                        // Register menu items
-                        if ($plugin instanceof MenuItems) {
-                            $plugin->provideMenuItems($this->menumanager);
-                        }
-                        // Merge settings
-                        if ($plugin instanceof SettingsProvider) {
-                            $this->settingsmanager->merge($plugin->registerSettings());
-                        }
+                    // Register menu items
+                    if ($plugin instanceof MenuItems) {
+                        $plugin->provideMenuItems($this->menumanager);
+                    }
+                    // Merge settings
+                    if ($plugin instanceof SettingsProvider) {
+                        $this->settingsmanager->merge($plugin->provideSettings());
                     }
                 }
             }
         });
     }
 
-    public function loadEnabledPlugins()
+    public function loadEnabledPlugins(): void
     {
         $this->enabled_plugins = [];
 
@@ -134,7 +132,7 @@ class Plugins
         });
     }
 
-    public function getAllPlugins($enabled = true): Collection
+    public function getAllPlugins(bool $enabled = true): Collection
     {
         if ($enabled) {
             return $this->plugins->where('enabled');
@@ -143,7 +141,7 @@ class Plugins
         return $this->plugins;
     }
 
-    public function enablePlugin($identifier, $enable = true)
+    public function enablePlugin(string $identifier, bool $enable = true): string|bool
     {
         $found = false;
         $this->getAllPlugins(false)->each(function ($plugin) use (&$found, $identifier) {
@@ -169,22 +167,22 @@ class Plugins
         return File::put($this->getPath(), json_encode($plugins, JSON_PRETTY_PRINT));
     }
 
-    public function disablePlugin($identifier)
+    public function disablePlugin(string $identifier): string|bool
     {
         return $this->enablePlugin($identifier, false);
     }
 
-    public function getAssets()
+    public function getAssets(): Collection
     {
         $assets = collect();
         $this->getAllPlugins(false)->each(function ($plugin) use ($assets) {
-            if ($plugin instanceof CSSProvider) {
+            if ($plugin instanceof GenericPlugin && $plugin instanceof CSSProvider) {
                 $assets->push([
                     'name'      => Str::slug($plugin->name).'.css',
                     'content'   => $plugin->provideCSS()
                 ]);
             }
-            if ($plugin instanceof JSProvider && $plugin->enabled) {
+            if ($plugin instanceof GenericPlugin && $plugin instanceof JSProvider && $plugin->enabled) {
                 $assets->push([
                     'name'      => Str::slug($plugin->name).'.js',
                     'content'   => $plugin->provideJS()
@@ -195,7 +193,7 @@ class Plugins
         return $assets;
     }
 
-    public function setPreference($identifier, $key, $value, $locale = null)
+    public function setPreference(string $identifier, string $key, mixed $value, string|null $locale = null): void
     {
         if (!is_null($locale)) {
             $value = VoyagerFacade::setTranslation(
@@ -209,28 +207,28 @@ class Plugins
         $this->preferences_changed = true;
     }
 
-    public function setPreferences($identifier, $preferences)
+    public function setPreferences(string $identifier, mixed $preferences): void
     {        
         $this->enabled_plugins[$identifier]['preferences'] = $preferences;
         $this->preferences_changed = true;
     }
 
-    public function getPreference($identifier, $key, $default = null, $translate = true)
+    public function getPreference(string $identifier, string $key, mixed $default = null, bool $translate = true): mixed
     {
         $value = $this->enabled_plugins[$identifier]['preferences'][$key] ?? $default;
         if ($translate !== false) {
-            return VoyagerFacade::translate($value, ($translate === true ? null : $translate));
+            return VoyagerFacade::translate($value, null);
         }
 
         return $value;
     }
 
-    public function getPreferences($identifier)
+    public function getPreferences(string $identifier): array
     {
         return $this->enabled_plugins[$identifier]['preferences'] ?? [];
     }
 
-    public function removePreference($identifier, $key): bool
+    public function removePreference(string $identifier, string $key): bool
     {
         // TODO: Make sure everything exists
         unset($this->enabled_plugins[$identifier]['preferences'][$key]);
@@ -239,7 +237,7 @@ class Plugins
         return true;
     }
 
-    public function removeAllPreferences($identifier): bool
+    public function removeAllPreferences(string $identifier): bool
     {
         // TODO: Make sure everything exists
         unset($this->enabled_plugins[$identifier]['preferences']);

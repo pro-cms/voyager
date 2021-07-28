@@ -35,7 +35,7 @@ class InstallCommand extends Command
         $this->info('Successfully installed Voyager! Enjoy');
     }
 
-    private function setSettings(SettingManager $settingsmanager)
+    private function setSettings(SettingManager $settingsmanager): void
     {
         $content = file_get_contents(realpath(__DIR__.'/../../resources/presets/settings.json'));
         if (is_null($settingsmanager->setting())) {
@@ -50,7 +50,7 @@ class InstallCommand extends Command
                         if (empty($setting->group)) {
                             $this->line('New setting: "'.$setting->key.'": '.$setting->info);
                         } else {
-                            $this->line('New setting: "'.$setting->group.'.'.$setting->key.'": '.$setting->info);
+                            $this->line('New setting: "'.$setting->group.'.'.$setting->key.'": '.$setting->info); // @phpstan-ignore-line
                         }
                         $settingsmanager->merge([$setting]);
                         $new++;

@@ -7,7 +7,7 @@ use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class Select extends Formfield
 {
-    public $browseArray = true;
+    public bool $browseArray = true;
 
     public function type(): string
     {
@@ -19,7 +19,7 @@ class Select extends Formfield
         return __('voyager::formfields.select.name');
     }
 
-    public function add()
+    public function add(): mixed
     {
         if ($this->options->multiple ?? false) {
             return [];
@@ -28,21 +28,21 @@ class Select extends Formfield
         return null;
     }
 
-    public function browse($value)
+    public function browse(mixed $value): mixed
     {
-        if ($this->options->multiple ?? false && !is_array($value)) {
+        if (($this->options->multiple ?? false) && !is_array($value)) {
             return VoyagerFacade::getJson($value, []);
         }
 
         return $value;
     }
 
-    public function edit($value)
+    public function edit(mixed $value): mixed
     {
         return $this->browse($value);
     }
 
-    public function store($value)
+    public function store(mixed $value): mixed
     {
         if ($this->options->multiple ?? false) {
             return json_encode($value);
@@ -51,7 +51,7 @@ class Select extends Formfield
         return $value;
     }
 
-    public function update($model, $value, $old)
+    public function update(mixed $model, mixed $value, mixed $old): mixed
     {
         return $this->store($value);
     }

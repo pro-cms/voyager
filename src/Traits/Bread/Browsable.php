@@ -6,11 +6,17 @@ use DB;
 use Illuminate\Database\Eloquent\Relations;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Voyager\Admin\Classes\Bread;
+use Voyager\Admin\Classes\Layout;
+use Voyager\Admin\Classes\Formfield;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
+/**
+ * @property bool $uses_soft_deletes
+ */
 trait Browsable
 {
-    public function loadSoftDeletesQuery($bread, $layout, $softdeleted, $query)
+    public function loadSoftDeletesQuery(Bread $bread, Layout $layout, string $softdeleted, mixed $query): mixed
     {
         $this->uses_soft_deletes = $bread->usesSoftDeletes();
         if (!isset($layout->options->soft_deletes) || !$layout->options->soft_deletes || !$this->uses_soft_deletes) {
@@ -27,7 +33,7 @@ trait Browsable
         return $query;
     }
 
-    public function globalSearchQuery($global, $layout, $locale, $query)
+    public function globalSearchQuery(string|null $global, Layout $layout, string $locale, mixed $query): mixed
     {
         if (!empty($global)) {
             $query = $query->where(function ($query) use ($global, $layout, $locale) {
@@ -40,7 +46,7 @@ trait Browsable
         return $query;
     }
 
-    public function columnSearchQuery($filters, $layout, $query, $locale, &$warnings)
+    public function columnSearchQuery(array $filters, Layout $layout, mixed $query, string $locale, array &$warnings): mixed
     {
         collect(array_filter($filters))->each(function ($filter, $column) use ($layout, &$query, $locale, &$warnings) {
             $formfield = $layout->getFormfieldByColumn($column);
@@ -56,7 +62,7 @@ trait Browsable
         return $query;
     }
 
-    public function applyCustomFilter($bread, $layout, $filter, $query)
+    public function applyCustomFilter(Bread $bread, Layout $layout, mixed $filter, mixed $query): mixed
     {
         if (!is_null($filter) && is_array($filter)) {
             // Validate filter exists in layout
@@ -70,7 +76,7 @@ trait Browsable
         return $query;
     }
 
-    public function applyCustomScope($bread, $layout, $filter, $query, &$warnings)
+    public function applyCustomScope(Bread $bread, Layout $layout, mixed $filter, mixed $query, array &$warnings): mixed
     {
         if (!is_null($filter) && is_array($filter)) {
             // Validate filter exists in layout
@@ -88,7 +94,7 @@ trait Browsable
         return $query;
     }
 
-    public function orderQuery($layout, $direction, $order, $query, $locale, &$warnings)
+    public function orderQuery(Layout $layout, mixed $direction, mixed $order, mixed $query, string $locale, array &$warnings): mixed
     {
         if (!empty($direction) && !empty($order)) {
             $formfield = $layout->getFormfieldByColumn($order);
@@ -108,7 +114,7 @@ trait Browsable
         return $query;
     }
 
-    public function eagerLoadRelationships($layout, $query, &$warnings)
+    public function eagerLoadRelationships(Layout $layout, mixed $query, array &$warnings): mixed
     {
         $relationships = [];
         $layout->getFormfieldsByColumnType('relationship')->pluck('column.column')->each(function ($relationship) use (&$relationships) {
@@ -134,9 +140,9 @@ trait Browsable
         return $query;
     }
 
-    public function transformResults($layout, $translatable, $query, $global, $filters)
+    public function transformResults(Layout $layout, bool $translatable, mixed $query, string|null $global, mixed $filters): mixed
     {
-        return $query->transform(function ($item) use ($translatable, $layout, $global, $filters) {
+        return $query->transform(function ($item) use ($translatable, $layout) {
             $item->primary_key = $item->getKey();
             if ($translatable) {
                 $item->dontTranslate();
@@ -144,7 +150,7 @@ trait Browsable
             // Add soft-deleted property
             $item->is_soft_deleted = $this->uses_soft_deletes ? $item->trashed() : false;
 
-            $layout->formfields->each(function ($formfield) use (&$item, $global, $filters) {
+            $layout->formfields->each(function ($formfield) use (&$item) {
                 $column = $formfield->column->column;
                 if ($formfield->column->type == 'relationship') {
                     $relationship = Str::before($column, '.');
@@ -187,7 +193,7 @@ trait Browsable
         });
     }
 
-    private function queryColumn($query, $formfield, $filter, $locale, $global = false)
+    private function queryColumn(mixed $query, Formfield $formfield, mixed $filter, string $locale, bool $global = false): mixed
     {
         $filter = '%'.strtolower($filter).'%';
         $translatable = $formfield->translatable ?? false;

@@ -2,9 +2,12 @@
 
 namespace Voyager\Admin\Traits\Bread;
 
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
+
 trait Saveable
 {
-    public function updateStoreData($formfields, $data, $model, $update = true)
+    public function updateStoreData(Collection $formfields, mixed $data, mixed $model, bool $update = true): mixed
     {
         $formfields->each(function ($formfield) use ($data, &$model, $update) {
             $value = $data[$formfield->column->column] ?? '';

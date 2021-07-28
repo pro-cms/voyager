@@ -6,5 +6,5 @@ use Illuminate\Support\Collection;
 
 interface AuthorizationPlugin extends GenericPlugin
 {
-    public function authorize($user, $ability, $arguments = []): ?bool;
+    public function authorize(mixed $user, string $ability, array $arguments = []): ?bool;
 }

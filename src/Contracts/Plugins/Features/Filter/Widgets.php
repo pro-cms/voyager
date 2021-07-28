@@ -6,5 +6,5 @@ use Illuminate\Support\Collection;
 
 interface Widgets
 {
-    public function filterWidgets($widgets): Collection;
+    public function filterWidgets(Collection $widgets): Collection;
 }
