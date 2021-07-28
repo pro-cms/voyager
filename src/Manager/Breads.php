@@ -163,7 +163,7 @@ class Breads
      *
      * @param string $breadName
      *
-     * @return \Voyager\Admin\Classes\Bread
+     * @return \Voyager\Admin\Classes\Bread|null
      */
     public function getBreadByName($breadName)
     {
@@ -175,13 +175,13 @@ class Breads
      *
      * @param \Voyager\Admin\Classes\Bread|\stdClass $bread
      *
-     * @return int|bool success
+     * @return bool success
      */
-    public function storeBread(\Voyager\Admin\Classes\Bread|\stdClass $bread)
+    public function storeBread(\Voyager\Admin\Classes\Bread|\stdClass $bread): bool
     {
         $this->clearBreads();
 
-        return File::put(Str::finish($this->path, '/').$bread->table.'.json', json_encode($bread, JSON_PRETTY_PRINT));
+        return VoyagerFacade::writeToFile(Str::finish($this->path, '/').$bread->table.'.json', json_encode($bread, JSON_PRETTY_PRINT));
     }
 
     /**
@@ -260,7 +260,7 @@ class Breads
     /**
      * Get the search placeholder (Search for Users, Posts, etc...).
      *
-     * @return string $placeholder The placeholder
+     * @return array|string|null $placeholder The placeholder
      */
     public function getBreadSearchPlaceholder()
     {
@@ -272,12 +272,12 @@ class Breads
 
         if ($breads->count() > 1) {
             return __('voyager::generic.search_for_breads', [
-                'bread'  => $breads->get(0)->name_plural,
-                'bread2' => $breads->get(1)->name_plural,
+                'bread'  => $breads->get(0)?->name_plural,
+                'bread2' => $breads->get(1)?->name_plural,
             ]);
         } elseif ($breads->count() == 1) {
             return __('voyager::generic.search_for_bread', [
-                'bread' => $breads->get(0)->name_plural,
+                'bread' => $breads->get(0)?->name_plural,
             ]);
         }
 
@@ -312,6 +312,17 @@ class Breads
     public function getFormfields()
     {
         return $this->formfields->map(function ($formfield) {
+            $component = 'Formfield'.Str::studly($formfield->type());
+            $builder_component = 'Formfield'.Str::studly($formfield->type()).'Builder';
+
+            if ($formfield instanceof Formfield) {
+                if (method_exists($formfield, 'getComponentName')) {
+                    $component = $formfield->getComponentName();
+                }
+                if (method_exists($formfield, 'getBuilderComponentName')) {
+                    $builder_component = $formfield->getBuilderComponentName();
+                }
+            }
             return [
                 'name'                      => $formfield->name(),
                 'type'                      => $formfield->type(),
@@ -325,8 +336,8 @@ class Breads
                 'allow_relationships'       => !property_exists($formfield, 'noRelationships'),
                 'allow_relationship_props'  => !property_exists($formfield, 'noRelationshipProps'),
                 'allow_relationship_pivots' => !property_exists($formfield, 'noRelationshipPivots'),
-                'component'                 => method_exists($formfield, 'getComponentName') ? $formfield->getComponentName() : 'Formfield'.Str::studly($formfield->type()),
-                'builder_component'         => method_exists($formfield, 'getBuilderComponentName') ? $formfield->getBuilderComponentName() : 'Formfield'.Str::studly($formfield->type()).'Builder',
+                'component'                 => $component,
+                'builder_component'         => $builder_component,
             ];
         });
     }
@@ -354,7 +365,7 @@ class Breads
      */
     public function getModelReflectionClass(string $model): \ReflectionClass
     {
-        return new \ReflectionClass($model);
+        return new \ReflectionClass($model); // @phpstan-ignore-line
     }
 
     public function getModelScopes(\ReflectionClass $reflection): Collection
@@ -498,7 +509,7 @@ class Breads
         });
 
         if ($layouts->count() < 1 && $throwError) {
-            throw new NoLayoutFoundException(__('voyager::bread.no_layout_assigned', ['action' => ucfirst($action)]));
+            throw new NoLayoutFoundException(__('voyager::bread.no_layout_assigned', ['action' => ucfirst($action)])); // @phpstan-ignore-line
         }
 
         return $layouts->first();

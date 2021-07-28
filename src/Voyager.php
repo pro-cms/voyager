@@ -112,12 +112,12 @@ class Voyager
     /**
      * Flash a message to the UI.
      *
-     * @param string   $message The message
-     * @param string   $color   The tailwind color of the exception: blue, yellow, green, red...
-     * @param int|null $timeout The timeout after which the message will close in ms or null
-     * @param bool     $next    If the message should be flashed after the next request.
+     * @param array|string|null $message The message
+     * @param string            $color   The tailwind color of the exception: blue, yellow, green, red...
+     * @param int|null          $timeout The timeout after which the message will close in ms or null
+     * @param bool              $next    If the message should be flashed after the next request.
      */
-    public function flashMessage(string $message, string $color, int|null $timeout = 5000, bool $next = false): void
+    public function flashMessage(array|string|null $message, string $color, int|null $timeout = 5000, bool $next = false): void
     {
         $this->messages[] = [
             'message' => $message,
@@ -461,6 +461,22 @@ class Voyager
         if (!file_exists($path)) {
             file_put_contents($path, $content);
         }
+    }
+
+    /**
+     * Write contents into a file.
+     *
+     * @param string $path The path to the file.
+     * @param string|bool $content The content to write to the file.
+     */
+    public function writeToFile($path, $content = ''): bool
+    {
+        // When passing in json_encode(), the result might be false
+        if (is_bool($content)) {
+            return false;
+        }
+
+        return File::put($path, $content) === false ? false : true;
     }
 
     /**

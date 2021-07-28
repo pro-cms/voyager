@@ -11,7 +11,7 @@ class Radio extends Formfield
         return 'radio';
     }
 
-    public function name(): string
+    public function name(): string|array|null
     {
         return __('voyager::formfields.radio.name');
     }

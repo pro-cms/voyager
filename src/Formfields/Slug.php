@@ -11,7 +11,7 @@ class Slug extends Formfield
         return 'slug';
     }
 
-    public function name(): string
+    public function name(): string|array|null
     {
         return __('voyager::formfields.slug.name');
     }

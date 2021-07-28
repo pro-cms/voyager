@@ -58,7 +58,7 @@ class PluginsController extends Controller
             $plugin->type = collect(class_implements($plugin))->filter(static function ($interface) {
                 return Str::startsWith($interface, 'Voyager\\Admin\\Contracts\\Plugins\\') && Str::endsWith($interface, 'Plugin');
             })->transform(static function ($interface) {
-                return strtolower(str_replace(['Voyager\\Admin\\Contracts\\Plugins\\', 'Plugin'], '', $interface));
+                return Str::of($interface)->replace('Voyager\\Admin\\Contracts\\Plugins\\', '')->replace('Plugin', '')->lower();
             })->first();
 
             if ($plugin instanceof SettingsComponent) {

@@ -32,8 +32,14 @@ class PluginsCommand extends Command
     public function handle(PluginManager $pluginmanager)
     {
         $name = $this->argument('plugin');
+
+        if (!is_string($name)) {
+            $this->warn('Parameter plugin has to be a string!');
+            return;
+        }
+
         $plugin = null;
-        if (!is_null($name)) {
+        if ($name !== '') {
             $plugin = $pluginmanager->getAllPlugins(false)->filter(function ($plugin) use ($name) {
                 return $plugin->repository == $name || $plugin->identifier == $name;
             });
@@ -70,7 +76,7 @@ class PluginsCommand extends Command
 
                 return;
             }
-        } elseif ($this->option('show') || !is_null($name)) {
+        } elseif ($this->option('show') || $name == '') {
             // Show information about a plugin
             if (!is_null($plugin)) {
                 $this->info('Name: '.$plugin->name);

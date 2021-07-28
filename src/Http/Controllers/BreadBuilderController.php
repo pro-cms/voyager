@@ -128,14 +128,17 @@ class BreadBuilderController extends Controller
         if ($validator->passes()) {
             $exists = $this->breadmanager->getBread($table);
             if (!$this->breadmanager->storeBread($bread)) {
-                $validator->errors()->add('bread', __('voyager::builder.bread_save_failed'));
+                $validator->errors()->add('bread', __('voyager::builder.bread_save_failed')); // @phpstan-ignore-line
 
                 return response()->json($validator->errors(), 422);
             }
-            if ($exists) {
-                event(new UpdatedEvent($this->breadmanager->getBread($table)));
-            } else {
-                event(new CreatedEvent($this->breadmanager->getBread($table)));
+            $bread = $this->breadmanager->getBread($table);
+            if ($bread !== null) {
+                if ($exists) {
+                    event(new UpdatedEvent($bread));
+                } else {
+                    event(new CreatedEvent($bread));
+                }
             }
         } else {
             return response()->json($validator->errors(), 422);
@@ -185,12 +188,18 @@ class BreadBuilderController extends Controller
         $reflection = $this->breadmanager->getModelReflectionClass($model);
         $resolve_relationships = $request->get('resolve_relationships', false);
 
+        $softdeletes = false;
+        $traits = class_uses($instance);
+        if ($traits !== false && in_array(SoftDeletes::class, $traits)) {
+            $softdeletes = true;
+        }
+
         return response()->json([
             'columns'       => VoyagerFacade::getColumns($instance->getTable()),
             'computed'      => $this->breadmanager->getModelComputedProperties($reflection)->values(),
             'scopes'        => $this->breadmanager->getModelScopes($reflection)->values(),
             'relationships' => $this->breadmanager->getModelRelationships($reflection, $instance, $resolve_relationships)->values(),
-            'softdeletes'   => in_array(SoftDeletes::class, class_uses($instance)),
+            'softdeletes'   => $softdeletes,
         ], 200);
     }
 
@@ -255,9 +264,16 @@ class BreadBuilderController extends Controller
     {
         $table = $request->get('table', '');
         $result = $this->breadmanager->backupBread($table);
-        event(new BackedUpEvent($this->breadmanager->getBread($table)));
+        $bread = $this->breadmanager->getBread($table);
+        if ($bread !== null) {
+            event(new BackedUpEvent($bread));
+        }
 
-        return response($result, $result === false ? 500 : 200);
+        if (is_bool($result)) {
+            return response(null, 500);
+        }
+
+        return response($result, 200);
     }
 
     /**
@@ -271,8 +287,16 @@ class BreadBuilderController extends Controller
     {
         $table = $request->get('table', '');
         $result = $this->breadmanager->rollbackBread($table, $request->get('path', ''));
-        event(new RestoredEvent($this->breadmanager->getBread($table)));
+        $bread = $this->breadmanager->getBread($table);
 
-        return response($result, $result === false ? 500 : 200);
+        if ($bread !== null) {
+            event(new RestoredEvent($bread));
+        }
+
+        if (is_bool($result)) {
+            return response(null, 500);
+        }
+
+        return response($result, 200);
     }
 }

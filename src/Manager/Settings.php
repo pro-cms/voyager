@@ -70,7 +70,7 @@ class Settings
         }
     }
 
-    public function merge(array $settings): mixed
+    public function merge(array $settings): void
     {
         $this->load();
         $this->settings = $this->settings?->merge($settings);
@@ -111,7 +111,7 @@ class Settings
         return $settings;
     }
 
-    public function exists(string $group, string $key): bool
+    public function exists(string|null $group, string $key): bool
     {
         $this->load();
 
@@ -128,15 +128,18 @@ class Settings
             $content = json_encode($content, JSON_PRETTY_PRINT);
         }
 
-        File::put($this->path, $content);
-
+        VoyagerFacade::writeToFile($this->path, $content);
         $this->load(true);
     }
 
     public function getSettingsByKey(string|null $key): Collection
     {
+        $key = $key ?? '';
         $this->load();
-        if (Str::contains($key ?? '', '.')) {
+        if (is_null($this->settings)) {
+            return collect();
+        }
+        if (Str::contains($key, '.')) {
             // We are looking for a setting in a group
             list($group, $key) = explode('.', $key);
 

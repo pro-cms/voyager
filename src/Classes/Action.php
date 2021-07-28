@@ -5,7 +5,7 @@ namespace Voyager\Admin\Classes;
 class Action
 {
     public string $title;
-    public string $icon;
+    public string|null $icon;
     public string $color = 'accent';
     public string $method = 'get';
     public bool $download = false;
@@ -27,7 +27,7 @@ class Action
      * @param string $color The color of the button. Defaults to none.
      * @return self
      */
-    public function __construct(string $title, string $icon = null, string $color = '')
+    public function __construct(string $title, string|null $icon = null, string $color = '')
     {
         $this->title = $title;
         $this->icon = $icon;

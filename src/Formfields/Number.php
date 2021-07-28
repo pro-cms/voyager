@@ -12,7 +12,7 @@ class Number extends Formfield
         return 'number';
     }
 
-    public function name(): string
+    public function name(): string|array|null
     {
         return __('voyager::formfields.number.name');
     }

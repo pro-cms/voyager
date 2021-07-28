@@ -41,7 +41,7 @@ abstract class Controller extends BaseController
         $this->settingmanager = resolve(SettingManager::class);
     }
 
-    protected function inertiaRender(string $page, string $title = '', array $data = [], string|null $root_view = null): InertiaResponse
+    protected function inertiaRender(string $page, string|array|null $title = '', array $data = [], string|null $root_view = null): InertiaResponse
     {
         Inertia::setRootView($root_view ?? 'voyager::app');
 
@@ -69,7 +69,9 @@ abstract class Controller extends BaseController
                         $result = $this->validateField($val, $rule->rule, $rule->message);
                         if (!is_null($result)) {
                             $locale = Lang::has('voyager::generic.languages.'.$locale, null, false) ? __('voyager::generic.languages.'.$locale) : strtoupper($locale);
-                            $errors[$formfield->column->column][] = $locale.': '.$result;
+                            if (is_string($locale)) {
+                                $errors[$formfield->column->column][] = $locale.': '.$result;
+                            }
                         }
                     }
                 } else {
@@ -113,7 +115,7 @@ abstract class Controller extends BaseController
 
     protected function getBread(Request $request): mixed
     {
-        if ($request->route()->getAction()['bread']) {
+        if ($request->route() instanceof \Illuminate\Routing\Route && $request->route()->getAction()['bread']) {
             return $request->route()->getAction()['bread'];
         }
         abort(404);

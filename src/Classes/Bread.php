@@ -18,16 +18,16 @@ class Bread implements \JsonSerializable
 
     private array $translatable = ['slug', 'name_singular', 'name_plural'];
 
-    public string $table;
-    protected mixed $slug;
-    protected mixed $name_singular;
-    protected mixed $name_plural;
+    public string $table = '';
+    protected mixed $slug = null;
+    protected mixed $name_singular = null;
+    protected mixed $name_plural = null;
     public string $icon = 'bread';
-    public mixed $model;
-    public mixed $controller;
-    public mixed $policy;
-    public mixed $global_search_field;
-    public mixed $order_field;
+    public mixed $model = null;
+    public mixed $controller = null;
+    public mixed $policy = null;
+    public mixed $global_search_field = null;
+    public mixed $order_field = null;
     public Collection $layouts;
 
     protected mixed $model_class = null;
@@ -59,12 +59,22 @@ class Bread implements \JsonSerializable
 
     public function usesTranslatableTrait(): bool
     {
-        return in_array(Translatable::class, class_uses($this->getModel()));
+        $traits = class_uses($this->getModel());
+        if ($traits !== false) {
+            return in_array(Translatable::class, $traits);
+        }
+        
+        return false;
     }
 
     public function usesSoftDeletes(): bool
     {
-        return in_array(SoftDeletes::class, class_uses($this->getModel()));
+        $traits = class_uses($this->getModel());
+        if ($traits !== false) {
+            return in_array(SoftDeletes::class, $traits);
+        }
+
+        return false;
     }
 
     public function jsonSerialize(): array

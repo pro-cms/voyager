@@ -12,7 +12,7 @@ class Slider extends Formfield
         return 'slider';
     }
 
-    public function name(): string
+    public function name(): string|array|null
     {
         return __('voyager::formfields.slider.name');
     }

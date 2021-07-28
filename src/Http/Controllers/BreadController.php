@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
 use Voyager\Admin\Contracts\Formfields\Features;
+use Voyager\Admin\Exceptions\NoLayoutFoundException;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Traits\Bread\Browsable;
@@ -44,6 +45,11 @@ class BreadController extends Controller
         $start = microtime(true);
         $bread = $this->getBread($request);
         $layout = $this->breadmanager->getLayoutForAction($bread, 'browse');
+
+        if (is_null($layout)) {
+            throw new NoLayoutFoundException(__('voyager::bread.no_layout_assigned', ['action' => 'Browse'])); // @phpstan-ignore-line
+        }
+
         $warnings = [];
 
         $perpage = $request->get('perpage', 10);
@@ -117,6 +123,10 @@ class BreadController extends Controller
     {
         $bread = $this->getBread($request);
         $layout = $this->breadmanager->getLayoutForAction($bread, 'add');
+        if (is_null($layout)) {
+            throw new NoLayoutFoundException(__('voyager::bread.no_layout_assigned', ['action' => 'Add'])); // @phpstan-ignore-line
+        }
+
         $new = true;
         $data = collect();
 
@@ -147,6 +157,9 @@ class BreadController extends Controller
     {
         $bread = $this->getBread($request);
         $layout = $this->breadmanager->getLayoutForAction($bread, 'add');
+        if (is_null($layout)) {
+            throw new NoLayoutFoundException(__('voyager::bread.no_layout_assigned', ['action' => 'Add'])); // @phpstan-ignore-line
+        }
 
         $model = new $bread->model();
         $data = $request->get('data', []);
@@ -183,6 +196,10 @@ class BreadController extends Controller
     {
         $bread = $this->getBread($request);
         $layout = $this->breadmanager->getLayoutForAction($bread, 'read');
+        if (is_null($layout)) {
+            throw new NoLayoutFoundException(__('voyager::bread.no_layout_assigned', ['action' => 'Read'])); // @phpstan-ignore-line
+        }
+
         $data = $bread->getModel()->findOrFail($id);
         if (!empty($layout->options->scope)) {
             $data = $bread->getModel()->{$layout->options->scope}()->findOrFail($id);
@@ -217,6 +234,10 @@ class BreadController extends Controller
     {
         $bread = $this->getBread($request);
         $layout = $this->breadmanager->getLayoutForAction($bread, 'edit');
+        if (is_null($layout)) {
+            throw new NoLayoutFoundException(__('voyager::bread.no_layout_assigned', ['action' => 'Edit'])); // @phpstan-ignore-line
+        }
+
         $new = false;
 
         $data = $bread->getModel()->findOrFail($id);
@@ -266,6 +287,9 @@ class BreadController extends Controller
     {
         $bread = $this->getBread($request);
         $layout = $this->breadmanager->getLayoutForAction($bread, 'edit');
+        if (is_null($layout)) {
+            throw new NoLayoutFoundException(__('voyager::bread.no_layout_assigned', ['action' => 'Edit'])); // @phpstan-ignore-line
+        }
 
         $model = $bread->getModel()->findOrFail($id);
         if (!empty($layout->options->scope)) {
@@ -390,7 +414,8 @@ class BreadController extends Controller
 
         $data = $bread->getModel()->{$method}()->getRelated();
 
-        if (in_array(Translatable::class, class_uses($data)) && in_array($column, $data->translatable)) {
+        $traits = class_uses($data);
+        if ($traits !== false && in_array(Translatable::class, $traits) && in_array($column, $data->translatable)) {
             $translatable = true;
         }
 

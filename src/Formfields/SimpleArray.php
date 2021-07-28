@@ -14,7 +14,7 @@ class SimpleArray extends Formfield
         return 'simple_array';
     }
 
-    public function name(): string
+    public function name(): string|array|null
     {
         return __('voyager::formfields.simple_array.name');
     }

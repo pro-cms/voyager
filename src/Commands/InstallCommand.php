@@ -37,30 +37,35 @@ class InstallCommand extends Command
 
     private function setSettings(SettingManager $settingsmanager): void
     {
-        $content = file_get_contents(realpath(__DIR__.'/../../resources/presets/settings.json'));
-        if (is_null($settingsmanager->setting())) {
-            $settingsmanager->save($content);
-            $this->info('Default settings written');
-        } else {
-            if ($this->confirm('Settings JSON file already exists. Do you want to migrate new settings?')) {
-                $preset = json_decode($content);
-                $new = 0;
-                foreach ($preset as $setting) {
-                    if (!$settingsmanager->exists($setting->group, $setting->key)) {
-                        if (empty($setting->group)) {
-                            $this->line('New setting: "'.$setting->key.'": '.$setting->info);
-                        } else {
-                            $this->line('New setting: "'.$setting->group.'.'.$setting->key.'": '.$setting->info); // @phpstan-ignore-line
-                        }
-                        $settingsmanager->merge([$setting]);
-                        $new++;
-                    }
-                }
-                if ($new > 0) {
-                    $settingsmanager->save();
-                    $this->info('Wrote '.$new.' new setting(s)!');
+        $path = realpath(__DIR__.'/../../resources/presets/settings.json');
+        if ($path !== false) {
+            $content = file_get_contents($path);
+            if ($content !== false) {
+                if (is_null($settingsmanager->setting())) {
+                    $settingsmanager->save($content);
+                    $this->info('Default settings written');
                 } else {
-                    $this->info('No new settings found!');
+                    if ($this->confirm('Settings JSON file already exists. Do you want to migrate new settings?')) {
+                        $preset = json_decode($content ?? '');
+                        $new = 0;
+                        foreach ($preset as $setting) {
+                            if (!$settingsmanager->exists($setting->group, $setting->key)) {
+                                if (empty($setting->group)) {
+                                    $this->line('New setting: "'.$setting->key.'": '.$setting->info);
+                                } else {
+                                    $this->line('New setting: "'.$setting->group.'.'.$setting->key.'": '.$setting->info); // @phpstan-ignore-line
+                                }
+                                $settingsmanager->merge([$setting]);
+                                $new++;
+                            }
+                        }
+                        if ($new > 0) {
+                            $settingsmanager->save();
+                            $this->info('Wrote '.$new.' new setting(s)!');
+                        } else {
+                            $this->info('No new settings found!');
+                        }
+                    }
                 }
             }
         }

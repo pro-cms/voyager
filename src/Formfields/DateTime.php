@@ -12,7 +12,7 @@ class DateTime extends Formfield
         return 'date_time';
     }
 
-    public function name(): string
+    public function name(): string|array|null
     {
         return __('voyager::formfields.date_time.name');
     }

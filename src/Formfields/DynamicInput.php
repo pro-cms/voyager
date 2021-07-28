@@ -14,7 +14,7 @@ class DynamicInput extends Formfield
         return 'dynamic_input';
     }
 
-    public function name(): string
+    public function name(): string|array|null
     {
         return __('voyager::formfields.dynamic_input.name');
     }

@@ -61,8 +61,8 @@ class Plugins
 
         $plugin->identifier = $plugin->repository.'@'.class_basename($plugin);
         $plugin->enabled = array_key_exists($plugin->identifier, $this->enabled_plugins);
-        $plugin->version = InstalledVersions::getPrettyVersion($plugin->repository);
-        $plugin->version_normalized = InstalledVersions::getVersion($plugin->repository);
+        $plugin->version = InstalledVersions::getPrettyVersion($plugin->repository) ?? '';
+        $plugin->version_normalized = InstalledVersions::getVersion($plugin->repository) ?? '';
 
         $plugin->preferences = new class ($plugin, $this) { // @phpstan-ignore-line
             private GenericPlugin $plugin;
@@ -141,7 +141,7 @@ class Plugins
         return $this->plugins;
     }
 
-    public function enablePlugin(string $identifier, bool $enable = true): string|bool
+    public function enablePlugin(string $identifier, bool $enable = true): bool
     {
         $found = false;
         $this->getAllPlugins(false)->each(function ($plugin) use (&$found, $identifier) {
@@ -164,10 +164,10 @@ class Plugins
             $plugins->where('identifier', $identifier)->first()->enabled = $enable;
         }
 
-        return File::put($this->getPath(), json_encode($plugins, JSON_PRETTY_PRINT));
+        return VoyagerFacade::writeToFile($this->getPath(), json_encode($plugins, JSON_PRETTY_PRINT));
     }
 
-    public function disablePlugin(string $identifier): string|bool
+    public function disablePlugin(string $identifier): bool|int
     {
         return $this->enablePlugin($identifier, false);
     }
@@ -255,7 +255,7 @@ class Plugins
                 return $plugin;
             });
 
-            File::put($this->getPath(), json_encode($plugins, JSON_PRETTY_PRINT));
+            VoyagerFacade::writeToFile($this->getPath(), json_encode($plugins, JSON_PRETTY_PRINT));
         }
     }
 }

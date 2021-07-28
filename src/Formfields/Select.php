@@ -14,7 +14,7 @@ class Select extends Formfield
         return 'select';
     }
 
-    public function name(): string
+    public function name(): string|array|null
     {
         return __('voyager::formfields.select.name');
     }

@@ -12,7 +12,7 @@ class Text extends Formfield
         return 'text';
     }
 
-    public function name(): string
+    public function name(): string|array|null
     {
         return __('voyager::formfields.text.name');
     }

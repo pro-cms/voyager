@@ -14,7 +14,7 @@ class Repeater extends Formfield
         return 'repeater';
     }
 
-    public function name(): string
+    public function name(): string|array|null
     {
         return __('voyager::formfields.repeater.name');
     }

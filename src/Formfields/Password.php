@@ -13,7 +13,7 @@ class Password extends Formfield
         return 'password';
     }
 
-    public function name(): string
+    public function name(): string|array|null
     {
         return __('voyager::formfields.password.name');
     }

@@ -13,14 +13,14 @@ class DynamicInput implements \JsonSerializable
         $this->inputs = collect();
     }
 
-    public function addSelect(?string $key = null, ?string $title = null, ?array $options = [], ?bool $multiple = false, mixed $value = null): self
+    public function addSelect(?string $key = null, string|array|null $title = null, ?array $options = [], ?bool $multiple = false, mixed $value = null): self
     {
         $this->addMultipleChoiceInput('select', $key, $title, $options, $multiple, $value);
 
         return $this;
     }
 
-    public function addText(?string $key = null, ?string $title = null, ?string $placeholder = null, ?string $value = null): self
+    public function addText(?string $key = null, string|array|null $title = null, string|array|null $placeholder = null, ?string $value = null): self
     {
         $this->inputs->push([
             'type'          => 'text',
@@ -35,7 +35,7 @@ class DynamicInput implements \JsonSerializable
         return $this;
     }
 
-    public function addNumber(?string $key = null, ?string $title = null, ?string $placeholder = null, ?int $value = null, ?int $min = null, ?int $max = null): self
+    public function addNumber(?string $key = null, string|array|null $title = null, string|array|null $placeholder = null, ?int $value = null, ?int $min = null, ?int $max = null): self
     {
         $this->inputs->push([
             'type'          => 'number',
@@ -51,13 +51,13 @@ class DynamicInput implements \JsonSerializable
 
         return $this;
     }
-    public function addCheckboxes(?string $key = null, ?string $title = null, ?array $options = [], mixed $value = null): self
+    public function addCheckboxes(?string $key = null, string|array|null $title = null, ?array $options = [], mixed $value = null): self
     {
         $this->addMultipleChoiceInput('checkbox', $key, $title, $options, true, $value);
 
         return $this;
     }
-    public function addRadios(?string $key = null, ?string $title = null, ?array $options = [], mixed $value = null): self
+    public function addRadios(?string $key = null, string|array|null $title = null, ?array $options = [], mixed $value = null): self
     {
         if (is_array($value)) {
             throw new \Exception('The default value for a radio-input in a dynamic select can not be an array!');
@@ -67,7 +67,7 @@ class DynamicInput implements \JsonSerializable
         return $this;
     }
 
-    public function addSwitch(?string $key = null, ?string $title = null, ?bool $value = false): self
+    public function addSwitch(?string $key = null, string|array|null $title = null, ?bool $value = false): self
     {
         $this->inputs->push([
             'type'      => 'switch',
@@ -81,7 +81,7 @@ class DynamicInput implements \JsonSerializable
         return $this;
     }
 
-    private function addMultipleChoiceInput(string $type, ?string $key = null, ?string $title = null, ?array $options = [], ?bool $multiple = false, mixed $value = null): void
+    private function addMultipleChoiceInput(string $type, ?string $key = null, string|array|null $title = null, ?array $options = [], ?bool $multiple = false, mixed $value = null): void
     {
         $this->inputs->push([
             'type'      => $type,

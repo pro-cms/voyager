@@ -14,7 +14,7 @@ class Tags extends Formfield
         return 'tags';
     }
 
-    public function name(): string
+    public function name(): string|array|null
     {
         return __('voyager::formfields.tags.name');
     }

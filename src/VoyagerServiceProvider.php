@@ -126,8 +126,8 @@ class VoyagerServiceProvider extends ServiceProvider
      */
     protected function registerResources(): void
     {
-        $this->loadViewsFrom(realpath(__DIR__.'/../resources/views'), 'voyager');
-        $this->loadTranslationsFrom(realpath(__DIR__.'/../resources/lang'), 'voyager');
+        $this->loadViewsFrom(realpath(__DIR__.'/../resources/views'), 'voyager'); // @phpstan-ignore-line
+        $this->loadTranslationsFrom(realpath(__DIR__.'/../resources/lang'), 'voyager'); // @phpstan-ignore-line
     }
 
     /**
