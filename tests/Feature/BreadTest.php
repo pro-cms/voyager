@@ -61,8 +61,39 @@ class BreadTest extends TestCase
         ])->assertStatus(200);
     }
 
+    public function test_can_global_search_users()
+    {
+        resolve(BreadManager::class)->storeBread($this->getUsersBreadJson());
+        $res = $this->postJson(route('voyager.users.data'), [
+            'page'        => 1,
+            'perpage'     => 10,
+            'global'      => 'xyz',
+            'filters'     => [],
+            'order'       => 'name',
+            'direction'   => 'asc',
+            'softdeleted' => 'show',
+            'locale'      => 'en',
+            'filter'      => null,
+        ])->assertStatus(200);
+
+        $this->assertTrue($res['filtered'] !== $res['total']);
+    }
+
+    public function test_can_not_access_methods_without_layout()
+    {
+        resolve(BreadManager::class)->storeBread($this->getNoLayoutBreadJson());
+        
+        $res = $this->postJson(route('voyager.no-layout.data'))->assertStatus(500);
+        $this->assertTrue($res['exception'] == \Voyager\Admin\Exceptions\NoLayoutFoundException::class);
+    }
+
     private function getUsersBreadJson()
     {
         return json_decode(file_get_contents(__DIR__."/../Stubs/users.json"));
+    }
+
+    private function getNoLayoutBreadJson()
+    {
+        return json_decode(file_get_contents(__DIR__."/../Stubs/no_layout.json"));
     }
 }

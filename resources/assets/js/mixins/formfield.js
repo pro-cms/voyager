@@ -8,6 +8,10 @@ export default {
                 return ['query', 'browse', 'read', 'edit', 'add'].indexOf(value) >= 0;
             }
         },
+        bread: {
+            type: Object,
+            required: true,
+        },
         modelValue: {
             required: true,
         },
@@ -28,6 +32,10 @@ export default {
             default: () => [],
         },
         fromRelationship: {
+            type: Boolean,
+            default: false,
+        },
+        fromRepeater: {
             type: Boolean,
             default: false,
         },

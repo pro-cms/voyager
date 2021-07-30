@@ -2,11 +2,14 @@
 
 namespace Voyager\Admin\Classes;
 
+use Voyager\Admin\Classes\Bread;
+
 class Formfield
 {
     public mixed $options;
     public object $column;
     public bool $translatable = false;
+    protected Bread $bread;
 
     public function browse(mixed $value): mixed
     {
@@ -41,4 +44,8 @@ class Formfield
     }
 
     public function stored(mixed $model, mixed $value): void {}
+
+    public function setBread(Bread $bread): void {
+        $this->bread = $bread;
+    }
 }

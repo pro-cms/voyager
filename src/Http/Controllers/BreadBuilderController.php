@@ -186,7 +186,7 @@ class BreadBuilderController extends Controller
         
         $instance = new $model();
         $reflection = $this->breadmanager->getModelReflectionClass($model);
-        $resolve_relationships = $request->get('resolve_relationships', false);
+        $resolve_relationships = $request->get('resolve_relationships', true);
 
         $softdeletes = false;
         $traits = class_uses($instance);

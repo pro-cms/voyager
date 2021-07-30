@@ -37,6 +37,14 @@ return [
     'radio'        => [
         'name'          => 'Radio',
     ],
+    'relationship'        => [
+        'name'          => 'Relationship',
+        'allow_none'    => 'Allow none',
+        'display_column' => 'Display column',
+        'display_name'   => 'Display name',
+        'not_resolved'  => 'Relationship could not be resolved',
+        'no_bread'      => 'This relationship does not have an associated BREAD. You won\'t be able to select lists or views!',
+    ],
     'repeater'  => [
         'name'            => 'Repeater',
         'allow_sort'      => 'Allow sorting',

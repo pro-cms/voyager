@@ -30,7 +30,7 @@
     },
     "require-dev": {
         "orchestra/testbench": "^6.0",
-        "voyager-admin/voyager-testbench-plugin": "^1.2",
+        "voyager-admin/voyager-testbench-plugin": "*",
         "nunomaduro/larastan": "^0.7.12"
     },
     "scripts": {
@@ -50,7 +50,7 @@
             "Voyager\\Admin\\Tests\\": "tests/"
       }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "extra": {
         "laravel": {
             "providers": [
@@ -61,5 +61,11 @@
                 "Voyager": "Voyager\\Admin\\Facades\\Voyager"
             }
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../voyager-testbench-plugin"
+        }
+    ]
 }

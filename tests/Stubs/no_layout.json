@@ -1,0 +1,22 @@
+{
+    "table": "no_layout",
+    "slug": {
+        "en": "no-layout"
+    },
+    "name_singular": {
+        "en": "No Layout"
+    },
+    "name_plural": {
+        "en": "No Layouts"
+    },
+    "icon": "uniUsersAlt",
+    "model": "Voyager\\Admin\\Tests\\Stubs\\User",
+    "controller": null,
+    "policy": null,
+    "scope": null,
+    "global_search_field": "name",
+    "badge": true,
+    "color": "indigo",
+    "layouts": [],
+    "layout_map": {}
+}

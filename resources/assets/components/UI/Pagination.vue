@@ -7,7 +7,7 @@
         :disabled="isFirstPage"
         :class="[isFirstPage ? 'disabled' : '', color, small ? 'small' : '']"
     >
-        {{ __('voyager::generic.first') }}
+        <Icon icon="chevron-double-left" />
     </a>
 
     <a
@@ -54,7 +54,7 @@
         :class="[isLastPage ? 'disabled' : '', color, small ? 'small' : '']"
         :tabindex="isLastPage ? -1 : 0"
     >
-        {{ __('voyager::generic.last') }}
+        <Icon icon="chevron-double-right" />
     </a>
 </div>
 </template>

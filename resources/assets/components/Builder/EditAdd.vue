@@ -59,18 +59,12 @@
                             :model-value="bread.name_plural"
                             @update:model-value="bread.name_plural = $event; setSlug($event)" />
                     </div>
+
                     <div>
                         <label class="label" for="icon">{{ __('voyager::generic.icon') }}</label>
-                        <Modal ref="icon_modal" :title="__('voyager::generic.select_icon')">
-                            <IconPicker @select="bread.icon = $event; $refs.icon_modal.close()" />
-                            <template #opener>
-                                <div class="w-full">
-                                    <button class="button">
-                                        <Icon class="my-1 content-center" :icon="bread.icon" :key="bread.icon" />
-                                    </button>
-                                </div>
-                            </template>
-                        </Modal>
+                        <button class="button" @click="$refs.icon_modal.open()">
+                            <Icon class="my-1 content-center" :icon="bread.icon" :key="bread.icon" />
+                        </button>
                     </div>
                 </div>
                 
@@ -152,7 +146,7 @@
                         <option v-for="list in lists" :key="'list-' + list.name">{{ list.name }}</option>
                     </optgroup>
                 </select>
-                <Dropdown class="self-center" placement="bottom">
+                <Dropdown class="self-center" placement="auto">
                     <div>
                         <div class="grid grid-cols-2">
                             <a v-for="formfield in filteredFormfields"
@@ -281,6 +275,10 @@
         <Collapsible ref="bread_json" v-if="jsonOutput" :title="__('voyager::generic.json_output')" closed>
             <JsonEditor v-model="bread" />
         </Collapsible>
+
+        <Modal ref="icon_modal" :title="__('voyager::generic.select_icon')">
+            <IconPicker @select="bread.icon = $event; $refs.icon_modal.close()" />
+        </Modal>
     </div>
 </template>
 

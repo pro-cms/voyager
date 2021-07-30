@@ -59,6 +59,8 @@ class TestCase extends \Orchestra\Testbench\TestCase
     {
         $path = __DIR__.'/../../vendor/orchestra/testbench-core/laravel/storage/voyager/settings.json';
         unlink($path);
+        $path = __DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/Setting.php';
+        @unlink($path);
         resolve(\Voyager\Admin\Manager\Settings::class)->unload();
     }
 

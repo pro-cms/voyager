@@ -4,6 +4,7 @@ namespace Voyager\Admin\Classes;
 
 use Illuminate\Support\Collection;
 use Voyager\Admin\Manager\Breads as BreadManager;
+use Voyager\Admin\Classes\Bread;
 use Voyager\Admin\Classes\Formfield;
 
 class Layout implements \JsonSerializable
@@ -14,11 +15,11 @@ class Layout implements \JsonSerializable
     public Collection $formfields;
     protected BreadManager $breadmanager;
 
-    public function __construct(mixed $json)
+    public function __construct(mixed $json, Bread $bread)
     {
         $this->breadmanager = resolve(BreadManager::class);
         $this->formfields = collect();
-        collect($json)->each(function ($value, $key) {
+        collect($json)->each(function ($value, $key) use ($bread) {
             if ($key == 'formfields') {
                 foreach ($value as $f) {
                     $formfield = $this->breadmanager->getFormfield($f->type);
@@ -29,6 +30,7 @@ class Layout implements \JsonSerializable
                     foreach ($f as $key => $prop) {
                         $formfield->{$key} = $prop;
                     }
+                    $formfield->setBread($bread);
                     $this->formfields->push($formfield);
                 }
             } else {

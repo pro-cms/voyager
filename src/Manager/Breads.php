@@ -409,35 +409,39 @@ class Breads
                 $columns = [];
                 $scopes = [];
                 $pivot = [];
-                $computed = [];
                 $table = '';
                 $relationship = null;
+                $bread = null;
                 if ($resolve) {
                     $relationship = $model->{$method->getName()}();
                     $related = $relationship->getRelated();
                     $table = $related->getTable();
+                    $bread = $this->getBread($table);
                     if ($type->getName() == BelongsToMany::class) {
                         $pivot = array_values(array_diff(VoyagerFacade::getColumns($relationship->getTable()), [
                             $relationship->getForeignPivotKeyName(),
                             $relationship->getRelatedPivotKeyName(),
                         ]));
                     }
-                    $columns = VoyagerFacade::getColumns($table);
                     $relationship_reflection = $this->getModelReflectionClass(get_class($related));
-                    $computed = $this->getModelComputedProperties($relationship_reflection)->values();
+                    $columns = array_merge(VoyagerFacade::getColumns($table), $this->getModelComputedProperties($relationship_reflection)->values()->transform(function ($name) {
+                        return 'computed.'.$name;
+                    })->toArray());
+
                     $scopes = $this->getModelScopes($relationship_reflection)->values();
                 }
 
                 return [
                     'method'    => $method->getName(),
                     'type'      => class_basename($type->getName()),
+                    'fqcn'      => $type->getName(),
                     'table'     => $table,
                     'columns'   => $columns,
                     'scopes'    => $scopes,
                     'pivot'     => $pivot,
-                    'computed'  => $computed,
                     'key_name'  => $relationship ? $relationship->getRelated()->getKeyName() : '',
                     'multiple'  => in_array(strval($type->getName()), $multi),
+                    'bread'     => $bread,
                 ];
             }
 

@@ -76,6 +76,7 @@
                                         :column="formfield.column"
                                         :placeholder="__('voyager::bread.search_type', {type: translate(formfield.title, true)})"
                                         action="query"
+                                        :bread="bread"
                                     >
                                         <input type="text" class="input small w-full"
                                             :placeholder="__('voyager::bread.search_type', {type: translate(formfield.title, true)})"
@@ -112,6 +113,7 @@
                                         :translatable="formfield.translatable"
                                         :class="formfield.options.classes"
                                         :modelValue="getData(result, formfield, true)"
+                                        :bread="bread"
                                     >
                                     </component>
                                     <component
@@ -123,6 +125,7 @@
                                         :translatable="formfield.translatable"
                                         :class="formfield.options.classes"
                                         :modelValue="getData(result, formfield, false)"
+                                        :bread="bread"
                                     >
                                     </component>
                                     <div v-else class="space-y-1">
@@ -135,7 +138,8 @@
                                             :translatable="formfield.translatable"
                                             :class="formfield.options.classes"
                                             :key="'relationship-'+i"
-                                            :modelValue="translate(val)">
+                                            :modelValue="translate(val)"
+                                            :bread="bread">
                                         </component>
                                         <p v-if="getData(result, formfield, true).length > 3" class="italic">
                                             {{ __('voyager::generic.more_results', {num: getData(result, formfield, true).length - 3}) }}
@@ -257,13 +261,15 @@ export default {
                 if (!asArray) {
                     results = results.slice(0, 3);
                 }
-                return results.map((r) => {
+                var x = results.map((r) => {
                     if (formfield.translatable) {
-                        return this.translate((r || ''), !formfield.translatable);
+                        return this.translate((r || ''), false);
                     }
 
                     return r;
                 });
+
+                return x;
             }
 
             return this.translate((results || ''), !formfield.translatable);

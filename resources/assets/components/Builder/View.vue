@@ -24,7 +24,7 @@
                                         <select
                                             class="input w-full"
                                             v-model="formfield.column"
-                                            v-show="getFormfieldByType(formfield.type).allow_columns || getFormfieldByType(formfield.type).allow_computed_props || getFormfieldByType(formfield.type).allow_relationship_props"
+                                            v-show="getFormfieldByType(formfield.type).allow_columns || getFormfieldByType(formfield.type).allow_computed_props || getFormfieldByType(formfield.type).allow_relationship_props || getFormfieldByType(formfield.type).allow_relationships"
                                         >
                                             <optgroup :label="__('voyager::builder.columns')" v-if="getFormfieldByType(formfield.type).allow_columns">
                                                 <option v-for="(column, i) in columns" :key="'column_'+i" :value="{column: column, type: 'column'}">
@@ -48,14 +48,14 @@
                                                 </template>
                                             </optgroup>
                                             </template>
-                                            <optgroup v-if="getFormfieldByType(formfield.type).allow_relationship_props" :label="__('voyager::generic.relationships')">
+                                            <optgroup v-if="getFormfieldByType(formfield.type).allow_relationships" :label="__('voyager::generic.relationships')">
                                                 <option v-for="(relationship, i) in relationships" :key="'relationship_'+i" :value="{column: relationship.method, type: 'relationship'}">
                                                     {{ relationship.method }}
                                                 </option>
                                             </optgroup>
                                         </select>
                                     </div>
-                                    <div class="input-group mt-2" v-else>
+                                    <div class="input-group mt-2" v-else-if="fromRepeater">
                                         <label class="label">{{ __('voyager::generic.key') }}</label>
                                         <input
                                             class="input w-full"
@@ -65,10 +65,6 @@
                                     <div v-if="getFormfieldByType(formfield.type).can_be_translated" class="input-group mt-2">
                                         <label class="label mt-4">{{ __('voyager::generic.translatable') }}</label>
                                         <input type="checkbox" class="input" v-model="formfield.translatable">
-                                    </div>
-                                    <div class="input-group mt-2">
-                                        <label class="label mt-4">{{ __('voyager::generic.component') }}</label>
-                                        <input type="text" class="input w-full" v-model="formfield.component">
                                     </div>
                                     <div class="input-group mt-2">
                                         <label class="label mt-4">{{ __('voyager::generic.title') }}</label>
@@ -90,8 +86,14 @@
                                         v-model:options="formfield.options"
                                         :column="formfield.column"
                                         :columns="columns"
-                                        v-bind:relationships="relationships"
+                                        :relationships="relationships"
                                         action="view-options" />
+
+
+                                    <div class="input-group mt-2">
+                                        <label class="label mt-4">{{ __('voyager::generic.component') }}</label>
+                                        <input type="text" class="input w-full" v-model="formfield.component">
+                                    </div>
 
                                     <div class="input-group mt-2">
                                         <label class="label mt-4">{{ __('voyager::generic.classes') }}</label>

@@ -31,7 +31,7 @@
                                             {{ column }}
                                         </option>
                                     </optgroup>
-                                    <optgroup :label="__('voyager::builder.computed')" v-if="getFormfieldByType(formfield.type).allow_computed_props">
+                                    <optgroup :label="__('voyager::builder.computed')" v-if="getFormfieldByType(formfield.type).allow_computed_props && computed.length > 0">
                                         <option v-for="(prop, i) in computed" :key="'computed_'+i" :value="{column: prop, type: 'computed'}">
                                             {{ prop }}
                                         </option>
@@ -39,7 +39,7 @@
                                     <template v-for="(relationship, i) in relationships" :key="'relationship_'+i">
                                         <optgroup :label="relationship.method" v-if="getFormfieldByType(formfield.type).allow_relationship_props">
                                             <option v-for="(column, i) in relationship.columns" :key="'column_'+i" :value="{column: relationship.method+'.'+column, type: 'relationship'}">
-                                                {{ column }}
+                                                {{ relationship.method+'.'+column }}
                                             </option>
                                         </optgroup>
                                     </template>
@@ -85,16 +85,17 @@
                                     <template #actions>
                                         <LocalePicker />
                                     </template>
-                                    <div class="input-group mt-2">
-                                        <label class="label mt-4">{{ __('voyager::generic.component') }}</label>
-                                        <input type="text" class="input w-full" v-model="formfield.component">
-                                    </div>
                                     <component
                                         :is="getFormfieldByType(formfield.type).builder_component"
                                         v-model:options="formfield.options"
                                         :column="formfield.column"
                                         :columns="columns"
                                         action="list-options" />
+
+                                    <div class="input-group mt-2">
+                                        <label class="label mt-4">{{ __('voyager::generic.component') }}</label>
+                                        <input type="text" class="input w-full" v-model="formfield.component">
+                                    </div>
                                     <div class="input-group mt-2">
                                         <label class="label">{{ __('voyager::generic.classes') }}</label>
                                         <input type="text" class="input w-full" v-model="formfield.options.classes">

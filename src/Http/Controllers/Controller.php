@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
+use Voyager\Admin\Classes\Bread;
 use Voyager\Admin\Contracts\Plugins\Features\Filter\Layouts as LayoutFilter;
 use Voyager\Admin\Exceptions\NoLayoutFoundException;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
@@ -113,10 +114,22 @@ abstract class Controller extends BaseController
         return null;
     }
 
-    protected function getBread(Request $request): mixed
+    protected function getBread(Request $request, bool $withRelationships = false): mixed
     {
         if ($request->route() instanceof \Illuminate\Routing\Route && $request->route()->getAction()['bread']) {
-            return $request->route()->getAction()['bread'];
+            $bread = $request->route()->getAction()['bread'];
+            
+            if ($bread instanceof Bread) {
+                if ($withRelationships) {
+                    $bread->relationships = $this->breadmanager->getModelRelationships(
+                        $this->breadmanager->getModelReflectionClass($bread->model),
+                        $bread->getModel(),
+                        true
+                    );
+                }
+
+                return $bread;
+            }
         }
         abort(404);
     }

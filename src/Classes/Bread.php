@@ -39,7 +39,7 @@ class Bread implements \JsonSerializable
         collect($json)->each(function ($value, $key) {
             if ($key == 'layouts') {
                 foreach ($value as $layout) {
-                    $layout = new Layout($layout);
+                    $layout = new Layout($layout, $this);
                     $this->layouts->push($layout);
                 }
             } else {

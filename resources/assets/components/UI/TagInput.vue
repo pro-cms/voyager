@@ -7,7 +7,7 @@
                 </Badge>
             </template>
         </component>
-        <input type="text" class="bg-transparent border-0 focus:outline-none flex-grow" ref="input" v-on:keyup.enter="addTag" v-on:keyup.delete="removeLastTag($event)">
+        <input v-if="!noAdd" type="text" class="bg-transparent border-0 focus:outline-none flex-grow" ref="input" v-on:keyup.enter="addTag" v-on:keyup.delete="removeLastTag($event)">
     </div>
 </template>
 <script>
@@ -44,6 +44,10 @@ export default {
             default: 0,
         },
         duplicates: {
+            type: Boolean,
+            default: false,
+        },
+        noAdd: {
             type: Boolean,
             default: false,
         }

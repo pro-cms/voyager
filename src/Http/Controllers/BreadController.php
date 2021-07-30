@@ -46,10 +46,6 @@ class BreadController extends Controller
         $bread = $this->getBread($request);
         $layout = $this->breadmanager->getLayoutForAction($bread, 'browse');
 
-        if (is_null($layout)) {
-            throw new NoLayoutFoundException(__('voyager::bread.no_layout_assigned', ['action' => 'Browse'])); // @phpstan-ignore-line
-        }
-
         $warnings = [];
 
         $perpage = $request->get('perpage', 10);
@@ -121,18 +117,13 @@ class BreadController extends Controller
 
     public function add(Request $request): array|InertiaResponse
     {
-        $bread = $this->getBread($request);
+        $bread = $this->getBread($request, true);
         $layout = $this->breadmanager->getLayoutForAction($bread, 'add');
-        if (is_null($layout)) {
-            throw new NoLayoutFoundException(__('voyager::bread.no_layout_assigned', ['action' => 'Add'])); // @phpstan-ignore-line
-        }
 
         $new = true;
         $data = collect();
 
-        $instance = new $bread->model();
-        $reflection = $this->breadmanager->getModelReflectionClass($bread->model);
-        $relationships = $this->breadmanager->getModelRelationships($reflection, $instance, true)->values();
+        $relationships = $bread->relationships->values();
 
         $layout->formfields->each(function ($formfield) use (&$data) {
             $data->put($formfield->column->column, $formfield->add());
@@ -155,11 +146,8 @@ class BreadController extends Controller
 
     public function store(Request $request): Response|JsonResponse
     {
-        $bread = $this->getBread($request);
+        $bread = $this->getBread($request, true);
         $layout = $this->breadmanager->getLayoutForAction($bread, 'add');
-        if (is_null($layout)) {
-            throw new NoLayoutFoundException(__('voyager::bread.no_layout_assigned', ['action' => 'Add'])); // @phpstan-ignore-line
-        }
 
         $model = new $bread->model();
         $data = $request->get('data', []);
@@ -194,11 +182,8 @@ class BreadController extends Controller
 
     public function read(Request $request, mixed $id): InertiaResponse
     {
-        $bread = $this->getBread($request);
+        $bread = $this->getBread($request, true);
         $layout = $this->breadmanager->getLayoutForAction($bread, 'read');
-        if (is_null($layout)) {
-            throw new NoLayoutFoundException(__('voyager::bread.no_layout_assigned', ['action' => 'Read'])); // @phpstan-ignore-line
-        }
 
         $data = $bread->getModel()->findOrFail($id);
         if (!empty($layout->options->scope)) {
@@ -232,11 +217,8 @@ class BreadController extends Controller
 
     public function edit(Request $request, mixed $id): InertiaResponse
     {
-        $bread = $this->getBread($request);
+        $bread = $this->getBread($request, true);
         $layout = $this->breadmanager->getLayoutForAction($bread, 'edit');
-        if (is_null($layout)) {
-            throw new NoLayoutFoundException(__('voyager::bread.no_layout_assigned', ['action' => 'Edit'])); // @phpstan-ignore-line
-        }
 
         $new = false;
 
@@ -251,8 +233,7 @@ class BreadController extends Controller
             $data->dontTranslate();
         }
 
-        $reflection = $this->breadmanager->getModelReflectionClass($bread->model);
-        $relationships = $this->breadmanager->getModelRelationships($reflection, $data, true)->values();
+        $relationships = $bread->relationships->values();
 
         $data = (object) json_decode($data->toJson());
         $breadData = (object)[];
@@ -285,11 +266,8 @@ class BreadController extends Controller
 
     public function update(Request $request, mixed $id): Response|JsonResponse
     {
-        $bread = $this->getBread($request);
+        $bread = $this->getBread($request, true);
         $layout = $this->breadmanager->getLayoutForAction($bread, 'edit');
-        if (is_null($layout)) {
-            throw new NoLayoutFoundException(__('voyager::bread.no_layout_assigned', ['action' => 'Edit'])); // @phpstan-ignore-line
-        }
 
         $model = $bread->getModel()->findOrFail($id);
         if (!empty($layout->options->scope)) {
@@ -322,7 +300,7 @@ class BreadController extends Controller
 
     public function delete(Request $request): array
     {
-        $bread = $this->getBread($request);
+        $bread = $this->getBread($request, true);
         $model = $bread->getModel();
 
         $deleted = 0;
@@ -404,59 +382,95 @@ class BreadController extends Controller
     public function relationship(Request $request): array
     {
         // TODO: Validate that the method exists in edit/add layout
-        $bread = $this->getBread($request);
-        $perpage = 5;
-        $query = strtolower($request->get('query', null));
-        $method = $request->get('method');
-        $column = $request->get('column');
-        $scope = $request->get('scope', null);
-        $translatable = false;
+        $bread = $this->getBread($request, true);
+        list($perPage, $query, $method, $column) = array_values($request->only(['perPage', 'query', 'method', 'column', 'key']));
+        $translatable = $computed = false;
+
+        if (Str::startsWith($column, 'computed.')) {
+            $computed = true;
+        }
+        
+        $relationship = $bread->relationships->where('method', $method)->first();
+
+        if (!$relationship) {
+            throw new \Exception('Relationship "'+$method+'" does not exist');
+        }
 
         $data = $bread->getModel()->{$method}()->getRelated();
+        $relatedTable = $data->getTable();
+        $relatedKey = $data->getKeyName();
 
+        $selected = collect();
+
+        // Test if field is translatable
         $traits = class_uses($data);
         if ($traits !== false && in_array(Translatable::class, $traits) && in_array($column, $data->translatable)) {
             $translatable = true;
         }
 
-        if (!$request->get('editable', true)) {
-            // Non-editable adding. We can't return anything here
-            if ($request->get('primary', 0) == 0) {
-                return [
-                    'pages' => 0,
-                    'data'  => [],
-                ];
-            }
-            $data = $bread->getModel()->findOrFail($request->get('primary', null))->{$method}()->getQuery();
-        }
+        if ($computed) {
+            list(, $accessor) = explode('.', $column);
+            $selected = $bread->getModel()->findOrFail($request->get('key', null))->{$method}->transform(function ($item) use ($column, $accessor) {
+                $item->{$column} = $item->{$accessor};
 
-        if (!empty($scope)) {
-            // TODO: Get scope from layout instead of request
-            $data = $data->{$scope}();
-        }
+                return $item;
+            })->mapWithKeys(function ($item) use ($column, $relatedKey) {
+                return [$item->{$relatedKey} => $item->{$column}];
+            });
 
-        if (!empty($query)) {
-            if ($translatable) {
-                $data = $data->where(DB::raw('lower('.$column.'->"$.'.VoyagerFacade::getLocale().'")'), 'LIKE', '%'.$query.'%');
-            } else {
-                $data = $data->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.$query.'%');
+            $data = $data->get()->transform(function ($item) use ($column, $accessor) {
+                $item->{$column} = $item->{$accessor};
+
+                return $item;
+            })->filter(function ($item) use ($query, $column) {
+                if (!empty($query)) {
+                    if (is_string($item->{$column})) {
+                        return Str::contains(strtolower($item->{$column}), strtolower($query));
+                    }
+                }
+
+                return true;
+            })->sortBy(function ($item) use ($column) {
+                return $item->{$column};
+            });
+        } else {
+            $selected = $bread->getModel()->findOrFail($request->get('key', null))->{$method}()->selectRaw("$relatedTable.$relatedKey, $relatedTable.$column")->pluck($column, $relatedKey);
+
+            if (!empty($query)) {
+                if ($translatable) {
+                    $data = $data->where(DB::raw('lower('.$column.'->"$.'.VoyagerFacade::getLocale().'")'), 'LIKE', '%'.$query.'%');
+                } else {
+                    $data = $data->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.$query.'%');
+                }
             }
         }
 
         $count = $data->count();
 
-        $data = $data->skip(($request->get('page', 1) - 1) * $perpage)->take($perpage)->get();
+        if ($computed) {
+            $data = $data->skip(($request->get('page', 1) - 1) * $perPage)->take($perPage);
+        } else {
+            $data = $data->orderBy($column)->skip(($request->get('page', 1) - 1) * $perPage)->take($perPage)->get();
+        }
 
-        $data->transform(function ($item) use ($column) {
+        $selected = $selected->transform(function ($value, $key) use ($translatable) {
             return [
-                'key'   => $item->getKey(),
-                'value' => $item->{$column},
+                'key' => $key,
+                'value' => $translatable ? VoyagerFacade::translate($value) : $value
+            ];
+        });
+
+        $data->transform(function ($item) use ($column, $translatable) {
+            return [
+                'key'       => $item->getKey(),
+                'value'     => $translatable ? VoyagerFacade::translate($item->{$column}) : $item->{$column},
             ];
         });
 
         return [
-            'pages' => ceil($count / $perpage),
-            'data'  => $data->values(),
+            'pages'     => ceil($count / $perPage),
+            'data'      => $data->values(),
+            'selected'  => $selected->values()
         ];
     }
 }

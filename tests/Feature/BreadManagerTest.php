@@ -55,4 +55,16 @@ class BreadManagerTest extends TestCase
         $this->get(route('voyager.bread.create', 'migrations'))
              ->assertStatus(200);
     }
+
+    public function test_can_create_model()
+    {
+        $res = $this->postJson(route('voyager.bread.create-model', 'user'), [
+            'table' => 'settings',
+        ])->assertJson([
+            'exists' => false,
+            'class'  => '\\App\\Models\\Setting',
+        ]);
+
+        // TODO: Reload models (?) and check if response contains exists => true
+    }
 }

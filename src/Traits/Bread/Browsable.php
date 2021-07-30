@@ -116,26 +116,16 @@ trait Browsable
 
     public function eagerLoadRelationships(Layout $layout, mixed $query, array &$warnings): mixed
     {
-        $relationships = [];
-        $layout->getFormfieldsByColumnType('relationship')->pluck('column.column')->each(function ($relationship) use (&$relationships) {
-            list($r, $p) = explode('.', $relationship);
-            $relationships[$r][] = $p;
-        });
+        /*$instance = $query->getModel()->newInstance();
+        $layout->getFormfieldsByColumnType('relationship')->pluck('column.column')->each(function ($relationship) use (&$query, &$warnings, $instance) {
+            list($method) = explode('.', $relationship);
 
-        $with = [];
-        collect($relationships)->each(function ($props, $relationship) use (&$with, $query, &$warnings) {
-            $instance = $query->getModel()->newInstance();
-            if (method_exists($instance, $relationship)) {
-                $keyName = $instance->{$relationship}()->getRelated()->getKeyName();
-                $with[] = $relationship.':'.implode(',', [$keyName, ...$props]);
+            if (method_exists($instance, $method)) {
+                $query = $query->with($method);
             } else {
                 $warnings[] = __('voyager::bread.relationship_does_not_exist', ['relationship' => $relationship]);
             }
-        });
-
-        if (!empty($with)) {
-            return $query->with($with);
-        }
+        });*/
 
         return $query;
     }
@@ -153,24 +143,32 @@ trait Browsable
             $layout->formfields->each(function ($formfield) use (&$item) {
                 $column = $formfield->column->column;
                 if ($formfield->column->type == 'relationship') {
-                    $relationship = Str::before($column, '.');
-                    $property = Str::after($column, '.');
-                    if ($item->{$relationship} instanceof Collection) {
-                        $q = $item->{$relationship};
-
-                        /*if (!empty($global)) {
-                            $q = $q->where(DB::raw('lower('.$property.')'), 'LIKE', '%'.strtolower($global).'%');
-                        } elseif (array_key_exists($formfield->column->column, $filters)) {
-                            $q = $q->where(DB::raw('lower('.$property.')'), 'LIKE', '%'.strtolower($filters[$formfield->column->column]).'%');
-                        }*/
-
-                        // X-Many relationship
-                        $item->{$column} = $q->pluck($property)->transform(function ($value) use ($formfield) {
-                            return $formfield->browse($value);
+                    $method = $prop = null;
+                    $computed = false;
+                    if (Str::contains($column, '.computed.')) {
+                        list($method, $notneeded, $prop) = explode('.', $column);
+                        $computed = true;
+                    } else {
+                        list($method, $prop) = explode('.', $column);
+                    }
+                    
+                    if ($computed) {
+                        $item->{$column} = 'computed :)';
+                        $item->{$column} = $item->{$method}->transform(function ($value) use ($formfield, $prop) {
+                            if ($formfield->translatable ?? false) {
+                                return VoyagerFacade::getJson($value->{$prop});
+                            } else {
+                                return $value->{$prop};
+                            }
                         });
-                    } elseif (!empty($item->{$relationship})) {
-                        // Normal property/X-One relationship
-                        $item->{$column} = $formfield->browse($item->{$relationship}->{$property});
+                    } else {
+                        $item->{$column} = $item->{$method}()->pluck($prop)->transform(function ($value) use ($formfield) {
+                            if ($formfield->translatable ?? false) {
+                                return VoyagerFacade::getJson($value);
+                            } else {
+                                return $value;
+                            }
+                        });
                     }
                 } elseif ($formfield->translatable ?? false) {
                     $value = $item->{$column};
