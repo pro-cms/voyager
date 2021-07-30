@@ -62,9 +62,16 @@
 
                     <div>
                         <label class="label" for="icon">{{ __('voyager::generic.icon') }}</label>
-                        <button class="button" @click="$refs.icon_modal.open()">
-                            <Icon class="my-1 content-center" :icon="bread.icon" :key="bread.icon" />
-                        </button>
+                        <Modal ref="icon_modal" :title="__('voyager::generic.select_icon')">
+                            <IconPicker @select="bread.icon = $event; $refs.icon_modal.close()" />
+                            <template #opener>
+                                <div class="w-full">
+                                    <button class="button">
+                                        <Icon class="my-1 content-center" :icon="bread.icon" :key="bread.icon" />
+                                    </button>
+                                </div>
+                            </template>
+                        </Modal>
                     </div>
                 </div>
                 
@@ -275,10 +282,6 @@
         <Collapsible ref="bread_json" v-if="jsonOutput" :title="__('voyager::generic.json_output')" closed>
             <JsonEditor v-model="bread" />
         </Collapsible>
-
-        <Modal ref="icon_modal" :title="__('voyager::generic.select_icon')">
-            <IconPicker @select="bread.icon = $event; $refs.icon_modal.close()" />
-        </Modal>
     </div>
 </template>
 

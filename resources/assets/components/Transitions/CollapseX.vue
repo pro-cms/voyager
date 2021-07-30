@@ -50,12 +50,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-* {
-    will-change: width;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    perspective: 1000px;
-}
-</style>
