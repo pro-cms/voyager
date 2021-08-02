@@ -47,7 +47,7 @@ export default {
             type: Boolean,
             default: false,
         },
-        noAdd: {
+        forbitAdding: {
             type: Boolean,
             default: false,
         }

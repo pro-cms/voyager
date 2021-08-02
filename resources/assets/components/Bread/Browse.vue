@@ -261,15 +261,12 @@ export default {
                 if (!asArray) {
                     results = results.slice(0, 3);
                 }
-                var x = results.map((r) => {
+                return results.map((r) => {
                     if (formfield.translatable) {
-                        return this.translate((r || ''), false);
+                        return this.translate((r || ''), !formfield.translatable);
                     }
-
                     return r;
                 });
-
-                return x;
             }
 
             return this.translate((results || ''), !formfield.translatable);
