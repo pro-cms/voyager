@@ -29,12 +29,14 @@ class Bread implements \JsonSerializable
     public mixed $global_search_field = null;
     public mixed $order_field = null;
     public Collection $layouts;
+    public Collection $relationships;
 
     protected mixed $model_class = null;
 
     public function __construct(mixed $json)
     {
         $this->layouts = collect();
+        $this->relationships = collect();
 
         collect($json)->each(function ($value, $key) {
             if ($key == 'layouts') {
