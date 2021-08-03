@@ -13,9 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Voyager\Admin\Classes\Action as ActionClass;
 use Voyager\Admin\Classes\Bread as BreadClass;
 use Voyager\Admin\Classes\Formfield;
 use Voyager\Admin\Classes\Layout;
@@ -502,7 +500,7 @@ class Breads
         });
     }
 
-    public function getLayoutForAction(BreadClass $bread, string $action, bool $throwError = true): Layout|null
+    public function getLayoutForAction(BreadClass $bread, string $action): Layout
     {
         $layouts = $bread->layouts->where('type', $action == 'browse' ? 'list' : 'view');
 
@@ -512,10 +510,23 @@ class Breads
             }
         });
 
-        if ($layouts->count() < 1 && $throwError) {
+        if ($layouts->first() === null) {
             throw new NoLayoutFoundException(__('voyager::bread.no_layout_assigned', ['action' => ucfirst($action)])); // @phpstan-ignore-line
         }
 
         return $layouts->first();
+    }
+
+    public function getLayoutsForAction(BreadClass $bread, string $action): Collection
+    {
+        $layouts = $bread->layouts->where('type', $action == 'browse' ? 'list' : 'view');
+
+        $this->pluginmanager->getAllPlugins()->each(function ($plugin) use ($bread, $action, &$layouts) {
+            if ($plugin instanceof LayoutFilter) {
+                $layouts = $plugin->filterLayouts($bread, $action, $layouts);
+            }
+        });
+
+        return $layouts;
     }
 }

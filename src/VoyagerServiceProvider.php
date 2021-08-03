@@ -212,7 +212,7 @@ class VoyagerServiceProvider extends ServiceProvider
             return 'voyager.'.$bread->slug.'.read';
         })->permission('read')
         ->displayOnBread(function ($bread) use ($breadmanager) {
-            return $breadmanager->getLayoutForAction($bread, 'read', false) !== null;
+            return $breadmanager->getLayoutsForAction($bread, 'read')->count() > 0;
         });
 
         $edit_action = (new Action('voyager::generic.edit', 'pencil'))
@@ -220,7 +220,7 @@ class VoyagerServiceProvider extends ServiceProvider
             return 'voyager.'.$bread->slug.'.edit';
         })->permission('edit')
         ->displayOnBread(function ($bread) use ($breadmanager) {
-            return $breadmanager->getLayoutForAction($bread, 'edit', false) !== null;
+            return $breadmanager->getLayoutsForAction($bread, 'edit')->count() > 0;
         });
 
         $delete_action = (new Action('voyager::generic.delete', 'trash', 'red'))
@@ -266,7 +266,7 @@ class VoyagerServiceProvider extends ServiceProvider
         })
         ->bulk()
         ->displayOnBread(function ($bread) use ($breadmanager) {
-            return $breadmanager->getLayoutForAction($bread, 'add', false) !== null;
+            return $breadmanager->getLayoutsForAction($bread, 'add')->count() > 0;
         });
 
         $delete_action = (new Action('voyager::bread.delete_type', 'trash', 'red'))
