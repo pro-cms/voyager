@@ -105,7 +105,7 @@
                                 </td>
                                 <td v-for="(formfield, key) in layout.formfields" :key="'row-' + key">
                                     <component
-                                        v-if="getFormfieldByType(formfield.type).browse_array && isArray(result[formfield.column.column])"
+                                        v-if="getFormfieldByType(formfield.type).browse_array"
                                         :is="getComponentForType(formfield)"
                                         action="browse"
                                         :options="formfield.options"
@@ -116,8 +116,30 @@
                                         :bread="bread"
                                     >
                                     </component>
+                                    <template v-else-if="formfield.column.type === 'relationship'">
+                                        <div class="space-y-1">
+                                            <component
+                                                v-for="(val, i) in getData(result, formfield, true).slice(0, 3)"
+                                                :is="getComponentForType(formfield)"
+                                                action="browse"
+                                                :options="formfield.options"
+                                                :column="formfield.column"
+                                                :translatable="formfield.translatable"
+                                                :class="formfield.options.classes"
+                                                :key="'relationship-'+i"
+                                                :modelValue="translate(val)"
+                                                :bread="bread">
+                                            </component>
+                                            <p v-if="getData(result, formfield, true).length > 3" class="italic">
+                                                {{ __('voyager::generic.more_results', {num: getData(result, formfield, true).length - 3}) }}
+                                            </p>
+                                            <p v-if="getData(result, formfield, true).length == 0" class="italic">
+                                                {{ __('voyager::generic.none') }}
+                                            </p>
+                                        </div>
+                                    </template>
                                     <component
-                                        v-else-if="!isArray(result[formfield.column.column])"
+                                        v-else
                                         :is="getComponentForType(formfield)"
                                         action="browse"
                                         :options="formfield.options"
@@ -128,27 +150,10 @@
                                         :bread="bread"
                                     >
                                     </component>
-                                    <div v-else class="space-y-1">
-                                        <component
-                                            v-for="(val, i) in getData(result, formfield, true).slice(0, 3)"
-                                            :is="getComponentForType(formfield)"
-                                            action="browse"
-                                            :options="formfield.options"
-                                            :column="formfield.column"
-                                            :translatable="formfield.translatable"
-                                            :class="formfield.options.classes"
-                                            :key="'relationship-'+i"
-                                            :modelValue="translate(val)"
-                                            :bread="bread">
-                                        </component>
-                                        <p v-if="getData(result, formfield, true).length > 3" class="italic">
-                                            {{ __('voyager::generic.more_results', {num: getData(result, formfield, true).length - 3}) }}
-                                        </p>
-                                    </div>
                                 </td>
                                 <td>
                                     <div class="flex flex-no-wrap justify-end space-x-1">
-                                        <breadActions :actions="actions" :selected="[result]" @reload="load" :bread="bread" />
+                                        <BreadActions :actions="actions" :selected="[result]" @reload="load" :bread="bread" />
                                     </div>
                                 </td>
                             </tr>
@@ -174,7 +179,7 @@
                             <option v-if="filtered >= 50">50</option>
                             <option v-if="filtered >= 100">100</option>
                         </select>
-                        <Pagination :page-count="pages" v-model.number="parameters.page" v-if="results.length > 0"></Pagination>
+                        <Pagination :page-count="pages" v-model.number="parameters.page" v-if="results.length > 0" />
                     </div>
                 </div>
             </div>
@@ -256,20 +261,25 @@ export default {
             });
         },
         getData(result, formfield, asArray = false) {
-            var results = result[formfield.column.column];
+            let results = result[formfield.column.column];
+
             if (this.isArray(results)) {
-                if (!asArray) {
-                    results = results.slice(0, 3);
-                }
-                return results.map((r) => {
-                    if (formfield.translatable) {
-                        return this.translate((r || ''), !formfield.translatable);
-                    }
-                    return r;
+                results.map((result) => {
+                    return this.translate(result);
                 });
+
+                if (!asArray) {
+                    results = results.join(', ');
+                }
+            } else {
+                results = this.translate(results);
+
+                if (asArray) {
+                    results = [results];
+                }
             }
 
-            return this.translate((results || ''), !formfield.translatable);
+            return results;
         },
         orderBy(column) {
             if (this.parameters.order == column) {
