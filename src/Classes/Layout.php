@@ -13,6 +13,7 @@ class Layout implements \JsonSerializable
     public string $type = 'list';
     public \stdClass $options;
     public Collection $formfields;
+    public array $tabs = [];
     protected BreadManager $breadmanager;
 
     public function __construct(mixed $json, Bread $bread)
@@ -60,6 +61,7 @@ class Layout implements \JsonSerializable
         return [
             'name'       => $this->name,
             'type'       => $this->type,
+            'tabs'       => $this->tabs,
             'options'    => $this->options,
             'formfields' => $this->formfields,
         ];

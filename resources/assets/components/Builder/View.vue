@@ -3,6 +3,7 @@
         <draggable class="flex flex-wrap w-full min-h-64" :modelValue="formfields" @update:modelValue="$emit('update:formfields', $event)" item-key="" group="view-builder-dd" handle=".dd-handle">
             <template #item="{ element: formfield, index: key }">
                 <div
+                    v-show="formfield.tab === tab"
                     class="m-0" :class="formfield.options.width"
                     uses="w-1/6 w-2/6 w-3/6 w-4/6 w-5/6 w-full"
                 >
@@ -147,6 +148,10 @@ export default {
         relationships: Array,
         formfields: Array,
         options: Object,
+        tab: {
+            type: [Number, null],
+            default: null,
+        },
         fromRepeater: {
             type: Boolean,
             default: false,

@@ -17,6 +17,10 @@ export default {
         transitionSize: {
             type: Number,
             default: 0
+        },
+        noTransition: {
+            type: Boolean,
+            default: false,
         }
     },
     components: icons,
@@ -34,7 +38,7 @@ export default {
             return 'X';
         },
         classes() {
-            return this.$props.class + ` transition-all duration-500 h-${this.currentSize} w-${this.size}`;
+            return this.$props.class + ` ${this.noTransition ? null : 'transition-all duration-500'} h-${this.currentSize} w-${this.size}`;
         },
         currentSize() {
             return this.transitionSize > 0 ? this.transitionSize : this.size;

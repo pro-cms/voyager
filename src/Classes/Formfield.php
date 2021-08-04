@@ -21,6 +21,7 @@ class Formfield implements \JsonSerializable
     ];
     public mixed $options;
     public object $column;
+    public int|null $tab = null;
     public bool $translatable = false;
     protected Bread $bread;
 
