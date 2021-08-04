@@ -274,7 +274,7 @@
                 <Card no-header>
                     <div class="flex flex-wrap space-x-1" v-click-outside="stopEditingTab">
                         <div class="button" :class="currentTab === null ? 'accent' : null" @click="currentTab = null">
-                            No tab
+                            {{ __('voyager::bread.no_tab') }}
                         </div>
                         <div
                             v-for="(tab, i) in currentLayout.tabs"

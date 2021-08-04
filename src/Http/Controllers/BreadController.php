@@ -206,12 +206,13 @@ class BreadController extends Controller
         });
 
         return $this->inertiaRender('Bread/Read', __('voyager::generic.show_type', ['type' => $bread->name_singular]), [
-            'bread'    => $bread,
-            'layout'   => $layout,
-            'data'     => $data,
-            'primary'  => $data->getKey(),
-            'input'    => $data,
-            'prev-url' => url()->previous(),
+            'bread'         => $bread,
+            'layout'        => $layout,
+            'data'          => $data,
+            'primary'       => $data->getKey(),
+            'input'         => $data,
+            'prev-url'      => url()->previous(),
+            'relationships' => $bread->relationships->values(),
         ]);
     }
 

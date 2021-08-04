@@ -17,53 +17,77 @@
                 </div>
             </template>
             <div>
-                <div class="flex flex-wrap w-full">
-                    <div
-                        v-for="(formfield, key) in layout.formfields"
-                        :key="'formfield-'+key"
-                        class="m-0 w-full"
-                        :class="'md:' + formfield.options.width"
-                        uses="md:w-1/6 md:w-2/6 md:w-3/6 md:w-4/6 md:w-5/6 md:w-full"
-                    >
-                        <Card
-                            :title="translate(formfield.options.title, true)"
-                            :title-size="5"
-                            :show-title="translate(formfield.options.label, true) !== ''"
+                <div class="tabs mb-4" v-if="layout.tabs.length > 0">
+                    <nav>
+                        <a
+                            v-if="layout.formfields.filter(x => x.tab === null).length > 0"
+                            href="#"
+                            class="tab"
+                            :class="{ 'active': currentTab === null }"
+                            @click.prevent="currentTab = null"
                         >
-                            <div>
-                                <CollapseTransition>
-                                    <Alert v-if="getErrors(formfield.column).length > 0" color="red" class="mb-2">
-                                        <span v-if="getErrors(formfield.column).length == 1">
-                                            {{ getErrors(formfield.column)[0] }}
-                                        </span>
-                                        <ul class="list-disc" v-else>
-                                            <li v-for="(error, i) in getErrors(formfield.column)" :key="'error-'+i">
-                                                {{ error }}
-                                            </li>
-                                        </ul>
-                                    </Alert>
-                                </CollapseTransition>
-                                <component
-                                    :is="getComponentForType(formfield)"
-                                    :modelValue="getData(formfield)"
-                                    @update:modelValue="setData(formfield, $event)"
-                                    :errors="getErrors(formfield.column)"
-                                    :bread="bread"
-                                    :options="formfield.options"
-                                    :column="formfield.column"
-                                    :relationships="relationships"
-                                    :translatable="formfield.translatable"
-                                    :from-repeater="fromRepeater"
-                                    :action="currentAction"
-                                    :primary-key="primaryKey"
-                                    :class="formfield.options.classes"
-                                />
-                                <p class="description" v-if="translate(formfield.options.description, true) !== ''">
-                                    {{ translate(formfield.options.description, true) }}
-                                </p>
-                            </div>
-                        </Card>
-                    </div>
+                            {{ __('voyager::bread.no_tab') }}
+                        </a>
+
+                        <a
+                            v-for="(tab, i) in layout.tabs"
+                            href="#"
+                            class="tab"
+                            :class="{ 'active': currentTab === i }"
+                            @click.prevent="currentTab = i"
+                        >
+                        {{ translate(tab, true) }}
+                        </a>
+                    </nav>
+                </div>
+                <div class="flex flex-wrap w-full">
+                    <template v-for="(formfield, key) in layout.formfields" :key="'formfield-'+key">
+                        <div
+                            v-if="formfield.tab === currentTab"
+                            class="m-0 w-full"
+                            :class="'md:' + formfield.options.width"
+                            uses="md:w-1/6 md:w-2/6 md:w-3/6 md:w-4/6 md:w-5/6 md:w-full"
+                        >
+                            <Card
+                                :title="translate(formfield.options.title, true)"
+                                :title-size="5"
+                                :show-title="translate(formfield.options.label, true) !== ''"
+                            >
+                                <div>
+                                    <CollapseTransition>
+                                        <Alert v-if="getErrors(formfield.column).length > 0" color="red" class="mb-2">
+                                            <span v-if="getErrors(formfield.column).length == 1">
+                                                {{ getErrors(formfield.column)[0] }}
+                                            </span>
+                                            <ul class="list-disc" v-else>
+                                                <li v-for="(error, i) in getErrors(formfield.column)" :key="'error-'+i">
+                                                    {{ error }}
+                                                </li>
+                                            </ul>
+                                        </Alert>
+                                    </CollapseTransition>
+                                    <component
+                                        :is="getComponentForType(formfield)"
+                                        :modelValue="getData(formfield)"
+                                        @update:modelValue="setData(formfield, $event)"
+                                        :errors="getErrors(formfield.column)"
+                                        :bread="bread"
+                                        :options="formfield.options"
+                                        :column="formfield.column"
+                                        :relationships="relationships"
+                                        :translatable="formfield.translatable"
+                                        :from-repeater="fromRepeater"
+                                        :action="currentAction"
+                                        :primary-key="primaryKey"
+                                        :class="formfield.options.classes"
+                                    />
+                                    <p class="description" v-if="translate(formfield.options.description, true) !== ''">
+                                        {{ translate(formfield.options.description, true) }}
+                                    </p>
+                                </div>
+                            </Card>
+                        </div>
+                    </template>
                 </div>
                 <button class="button green space-x-0" @click="save" :disabled="isSaving" v-if="!fromRepeater">
                     <Icon icon="refresh" class="animate-spin-reverse" :size="isSaving ? 4 : 0" :transition-size="4" />
@@ -102,7 +126,8 @@ export default {
             isSaved: false,
             errors: [],
             currentAction: this.action,
-            id: this.primaryKey
+            id: this.primaryKey,
+            currentTab: null,
         };
     },
     methods: {

@@ -1,0 +1,26 @@
+@import "@sassmixins/bg-color";
+@import "@sassmixins/border-color";
+@import "@sassmixins/text-color";
+
+.tabs {
+    @apply border-b;
+    @include border-color(tabs-border-color, 'colors.gray.200');
+
+    nav {
+        @apply -mb-px flex space-x-8;
+        .tab {
+            @apply border-transparent whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm;
+            @include text-color(tabs-tab-text-color, 'colors.gray.500');
+            
+            &:hover {
+                @include text-color(tabs-tab-text-hover-color, 'colors.gray.700');
+                @include border-color(tabs-tab-border-hover-color, 'colors.gray.300');
+            }
+    
+            &.active {
+                @include border-color(tabs-tab-active-border-color, 'colors.blue.500');
+                @include text-color(tabs-tab-active-text-color, 'colors.blue.600');
+            }
+        }
+    }
+}

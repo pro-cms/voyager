@@ -70,6 +70,15 @@
             </div>
         </template>
     </template>
+    <template v-else-if="action == 'read'">
+        <template v-if="relationship.bread === null || options.list === null">
+            <div class="flex-wrap space-x-1 space-y-1">
+                <Badge v-for="select in selected" :key="`badge-${select.key}`">
+                    {{ select.value }}
+                </Badge>
+            </div>
+        </template>
+    </template>
 </template>
 
 <script>
