@@ -59,7 +59,6 @@ class MediaController extends Controller
 
     protected function processUploadedFile($file, $path)
     {
-        $start = microtime(true);
         $name = '';
         $count = 0;
         $thumbnails = 0;

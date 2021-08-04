@@ -222,8 +222,6 @@ class BreadController extends Controller
         $bread = $this->getBread($request, true);
         $layout = $this->breadmanager->getLayoutForAction($bread, 'edit');
 
-        $new = false;
-
         $data = $bread->getModel()->findOrFail($id);
         $pk = $id;
 

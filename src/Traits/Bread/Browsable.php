@@ -146,7 +146,7 @@ trait Browsable
                     $method = $prop = null;
                     $computed = false;
                     if (Str::contains($column, '.computed.')) {
-                        list($method,, $prop) = explode('.', $column);
+                        list($method, , $prop) = explode('.', $column);
                         $computed = true;
                     } else {
                         list($method, $prop) = explode('.', $column);
