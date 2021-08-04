@@ -175,9 +175,13 @@ class Breads
      *
      * @return bool success
      */
-    public function storeBread(\Voyager\Admin\Classes\Bread|\stdClass $bread): bool
+    public function storeBread(BreadClass|\stdClass $bread): bool
     {
         $this->clearBreads();
+
+        if (!$bread instanceof BreadClass) {
+            $bread = new BreadClass($bread);
+        }
 
         return VoyagerFacade::writeToFile(Str::finish($this->path, '/').$bread->table.'.json', json_encode($bread, JSON_PRETTY_PRINT));
     }
@@ -351,6 +355,15 @@ class Breads
     {
         return $this->formfields->filter(function ($formfield) use ($type) {
             return $formfield->type() == $type;
+        })->first();
+    }
+
+    public function getFormfieldClass(string $type): string|null
+    {
+        return $this->formfields->filter(function ($formfield) use ($type) {
+            return $formfield->type() == $type;
+        })->transform(function ($formfield) {
+            return get_class($formfield);
         })->first();
     }
 

@@ -463,13 +463,7 @@ class Voyager
         }
     }
 
-    /**
-     * Write contents into a file.
-     *
-     * @param string $path The path to the file.
-     * @param string|bool $content The content to write to the file.
-     */
-    public function writeToFile($path, $content = ''): bool
+    public function writeToFile(string $path, string|bool $content = ''): bool
     {
         // When passing in json_encode(), the result might be false
         if (is_bool($content)) {

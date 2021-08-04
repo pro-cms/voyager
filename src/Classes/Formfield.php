@@ -2,9 +2,10 @@
 
 namespace Voyager\Admin\Classes;
 
+use Illuminate\Support\Str;
 use Voyager\Admin\Classes\Bread;
 
-class Formfield
+class Formfield implements \JsonSerializable
 {
     public mixed $options;
     public object $column;
@@ -47,5 +48,37 @@ class Formfield
 
     public function setBread(Bread $bread): void {
         $this->bread = $bread;
+    }
+
+    public function __construct(object|null $json = null)
+    {
+        if ($json) {
+            foreach ($json as $key => $value) {
+                if ($key == 'column') {
+                    $this->{$key} = (object) $value;
+                } else {
+                    $this->{$key} = $value;
+                }
+            }
+        }
+    }
+
+    public function jsonSerialize()
+    {
+        return (object) collect((array) $this)->filter(function ($value, $key) {
+            return !in_array($key, [
+                'notTranslatable',
+                'notAsSetting',
+                'notInLists',
+                'notInViews',
+                'browseArray',
+                'noColumns',
+                'noComputedProps',
+                'noRelationships',
+                'noRelationshipProps',
+                'noRelationshipPivots'
+            ]);
+        })->toArray();
+        
     }
 }
