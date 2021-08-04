@@ -13,15 +13,11 @@ use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
 use Voyager\Admin\Classes\Bread;
-use Voyager\Admin\Contracts\Plugins\Features\Filter\Layouts as LayoutFilter;
-use Voyager\Admin\Exceptions\NoLayoutFoundException;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Manager\Menu as MenuManager;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Manager\Settings as SettingManager;
-use Voyager\Admin\Plugins\AuthenticationPlugin;
-use Voyager\Admin\Plugins\AuthorizationPlugin;
 
 abstract class Controller extends BaseController
 {
@@ -114,7 +110,7 @@ abstract class Controller extends BaseController
         return null;
     }
 
-    protected function getBread(Request $request, bool $withRelationships = false): mixed
+    protected function getBread(Request $request, bool $withRelationships = false): Bread
     {
         if ($request->route() instanceof \Illuminate\Routing\Route && $request->route()->getAction()['bread']) {
             $bread = $request->route()->getAction()['bread'];

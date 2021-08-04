@@ -3,6 +3,7 @@
 namespace Voyager\Admin\Plugins;
 
 use Closure;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
@@ -14,14 +15,14 @@ class AuthenticationPlugin implements AuthContract
 {
     private bool $registered = false;
 
-    public function user(): ?object
+    public function user(): ?Authenticatable
     {
         return Auth::user();
     }
 
     public function name(): ?string
     {
-        return Auth::user()->name; // @phpstan-ignore-line
+        return Auth::user()?->name; // @phpstan-ignore-line
     }
 
     public function avatar(): ?string

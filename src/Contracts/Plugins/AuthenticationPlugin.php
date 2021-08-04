@@ -3,12 +3,13 @@
 namespace Voyager\Admin\Contracts\Plugins;
 
 use Closure;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 interface AuthenticationPlugin extends GenericPlugin
 {
-    public function user(): ?object;
+    public function user(): ?Authenticatable;
 
     public function name(): ?string;
 

@@ -50,13 +50,15 @@ class InstallCommand extends Command
                         $new = 0;
                         foreach ($preset as $setting) {
                             if (!$settingsmanager->exists($setting->group, $setting->key)) {
-                                if (empty($setting->group)) {
-                                    $this->line('New setting: "'.$setting->key.'": '.$setting->info);
-                                } else {
-                                    $this->line('New setting: "'.$setting->group.'.'.$setting->key.'": '.$setting->info); // @phpstan-ignore-line
+                                if (!empty($setting->key) && !empty($setting->info)) {
+                                    if (empty($setting->group)) {
+                                        $this->line('New setting: "'.$setting->key.'": '.$setting->info);
+                                    } else {
+                                        $this->line('New setting: "'.$setting->group.'.'.$setting->key.'": '.$setting->info);
+                                    }
+                                    $settingsmanager->merge([$setting]);
+                                    $new++;
                                 }
-                                $settingsmanager->merge([$setting]);
-                                $new++;
                             }
                         }
                         if ($new > 0) {
