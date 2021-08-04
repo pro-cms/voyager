@@ -8,6 +8,7 @@
                         <th class="hidden md:table-cell">{{ __('voyager::generic.type') }}</th>
                         <th>{{ __('voyager::generic.column') }}</th>
                         <th>{{ __('voyager::generic.title') }}</th>
+                        <th class="hidden md:table-cell">{{ __('voyager::builder.link_to') }}</th>
                         <th class="hidden md:table-cell">{{ __('voyager::builder.searchable') }}</th>
                         <th class="hidden md:table-cell">{{ __('voyager::builder.orderable') }}</th>
                         <th class="hidden md:table-cell">{{ __('voyager::builder.order_default') }}</th>
@@ -50,6 +51,26 @@
                                     class="input small w-full"
                                     type="text" placeholder="Title"
                                     v-model="formfield.title" />
+                            </td>
+                            <td class="inline-flex items-center space-x-1">
+                                <select class="input small w-full" v-model="formfield.link_to" :disabled="getRelatedBread(formfield.column) === null && formfield.column.type == 'relationship'">
+                                    <option :value="null">{{ __('voyager::generic.nothing') }}</option>
+                                    <option value="edit">{{ __('voyager::generic.edit') }}</option>
+                                    <option value="read">{{ __('voyager::generic.read') }}</option>
+                                </select>
+                                <Icon
+                                    icon="information-circle"
+                                    :size="6"
+                                    v-if="getRelatedBread(formfield.column) !== null"
+                                    v-tooltip="__('voyager::builder.links_to_bread')"
+                                />
+                                <Icon
+                                    icon="information-circle"
+                                    :size="6"
+                                    class="text-red-500"
+                                    v-if="getRelatedBread(formfield.column) === null && formfield.column.type == 'relationship'"
+                                    v-tooltip="__('voyager::builder.cannot_link')"
+                                />
                             </td>
                             <td class="hidden md:table-cell">
                                 <input
@@ -232,6 +253,17 @@ export default {
             var options = this.options;
             options.filters.splice(key, 1);
             this.$emit('update:options', options);
+        },
+        getRelatedBread(column) {
+            if (column.type == 'relationship') {
+                let method = column.column.split('.')[0];
+                let relationship = this.relationships.where('method', method).first();
+                if (relationship && relationship.hasOwnProperty('bread') && relationship.bread) {
+                    return relationship.bread;
+                }
+            }
+
+            return null;
         }
     }
 };

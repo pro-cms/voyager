@@ -33,10 +33,11 @@ class BreadController extends Controller
 
     public function browse(Request $request): InertiaResponse
     {
-        $bread = $this->getBread($request);
+        $bread = $this->getBread($request, true);
 
         return $this->inertiaRender('Bread/Browse', __('voyager::bread.browse_type', ['type' => $bread->name_plural]), [
-            'bread' => $bread,
+            'bread'         => $bread,
+            'relationships' => $bread->relationships,
         ]);
     }
 

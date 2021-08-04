@@ -118,18 +118,20 @@
                                     </component>
                                     <template v-else-if="formfield.column.type === 'relationship'">
                                         <div class="space-y-1">
-                                            <component
-                                                v-for="(val, i) in getData(result, formfield, true).slice(0, 3)"
-                                                :is="getComponentForType(formfield)"
-                                                action="browse"
-                                                :options="formfield.options"
-                                                :column="formfield.column"
-                                                :translatable="formfield.translatable"
-                                                :class="formfield.options.classes"
-                                                :key="'relationship-'+i"
-                                                :modelValue="translate(val)"
-                                                :bread="bread">
-                                            </component>
+                                            <template v-for="(val, i) in getData(result, formfield, true).slice(0, 3)" :key="'relationship-'+i">
+                                                <component :is="formfield.link_to !== null && getHref(formfield, val, true) !== null ? 'a' : 'div'" :href="getHref(formfield, val, true)">
+                                                    <component
+                                                        :is="getComponentForType(formfield)"
+                                                        action="browse"
+                                                        :options="formfield.options"
+                                                        :column="formfield.column"
+                                                        :translatable="formfield.translatable"
+                                                        :class="formfield.options.classes"
+                                                        :modelValue="translate(val.value)"
+                                                        :bread="bread">
+                                                    </component>
+                                                </component>
+                                            </template>
                                             <p v-if="getData(result, formfield, true).length > 3" class="italic">
                                                 {{ __('voyager::generic.more_results', {num: getData(result, formfield, true).length - 3}) }}
                                             </p>
@@ -138,18 +140,21 @@
                                             </p>
                                         </div>
                                     </template>
-                                    <component
-                                        v-else
-                                        :is="getComponentForType(formfield)"
-                                        action="browse"
-                                        :options="formfield.options"
-                                        :column="formfield.column"
-                                        :translatable="formfield.translatable"
-                                        :class="formfield.options.classes"
-                                        :modelValue="getData(result, formfield, false)"
-                                        :bread="bread"
-                                    >
-                                    </component>
+                                    <template v-else>
+                                        <component :is="formfield.link_to !== null && getHref(formfield, result) !== null ? 'a' : 'div'" :href="getHref(formfield, result)">
+                                            <component
+                                                :is="getComponentForType(formfield)"
+                                                action="browse"
+                                                :options="formfield.options"
+                                                :column="formfield.column"
+                                                :translatable="formfield.translatable"
+                                                :class="formfield.options.classes"
+                                                :modelValue="getData(result, formfield, false)"
+                                                :bread="bread"
+                                            >
+                                            </component>
+                                        </component>
+                                    </template>
                                 </td>
                                 <td>
                                     <div class="flex flex-no-wrap justify-end space-x-1">
@@ -206,6 +211,10 @@ export default {
         perPage: {
             type: Number,
             default: 10,
+        },
+        relationships: {
+            type: Array,
+            default: () => []
         }
     },
     data() {
@@ -363,6 +372,21 @@ export default {
             }
 
             return this.getFormfieldByType(formfield.type).component;
+        },
+        getHref(formfield, result, relationship = false) {
+            if (formfield.link_to == 'edit' || formfield.link_to == 'read') {
+                if (relationship) {
+                    let relationship = this.relationships.where('method', formfield.column.column.split('.')[0]).first();
+                    if (relationship && relationship.hasOwnProperty('bread') && relationship.bread && result.hasOwnProperty('key')) {
+                        let slug = this.translate(relationship.bread.slug, true);
+                        return this.route(`voyager.${slug}.${formfield.link_to}`, result.key);
+                    }
+                } else if (result.hasOwnProperty('primary_key')) {
+                    return this.route(`voyager.${this.translate(this.bread.slug, true)}.${formfield.link_to}`, result.primary_key);
+                }
+            }
+
+            return null;
         }
     },
     computed: {

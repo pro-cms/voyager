@@ -146,29 +146,28 @@ trait Browsable
                     $method = $prop = null;
                     $computed = false;
                     if (Str::contains($column, '.computed.')) {
-                        list($method, $notneeded, $prop) = explode('.', $column);
+                        list($method,, $prop) = explode('.', $column);
                         $computed = true;
                     } else {
                         list($method, $prop) = explode('.', $column);
                     }
                     
                     if ($computed) {
-                        $item->{$column} = 'computed :)';
-                        $item->{$column} = $item->{$method}->transform(function ($value) use ($formfield, $prop) {
-                            if ($formfield->translatable ?? false) {
-                                return VoyagerFacade::getJson($value->{$prop});
-                            } else {
-                                return $value->{$prop};
-                            }
+                        $item->{$column} = $item->{$method}->transform(function ($value) use ($prop) {
+                            return [
+                                'key'   => $value->getKey(),
+                                'value' => $value->{$prop},
+                            ];
                         });
                     } else {
-                        $item->{$column} = $item->{$method}()->pluck($prop)->transform(function ($value) use ($formfield) {
-                            if ($formfield->translatable ?? false) {
-                                return VoyagerFacade::getJson($value);
-                            } else {
-                                return $value;
-                            }
-                        });
+                        $key = $item->{$method}()->getRelated()->getKeyName();
+                        $table = $item->{$method}()->getRelated()->getTable();
+                        $item->{$column} = $item->{$method}()->selectRaw("$table.$prop, $table.$key")->get()->transform(function ($item) use ($prop, $key) {
+                            return [
+                                'key'   => $item->{$key},
+                                'value' => $item->{$prop},
+                            ];
+                        })->values();
                     }
                 } elseif ($formfield->translatable ?? false) {
                     $value = $item->{$column};

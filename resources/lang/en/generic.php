@@ -120,6 +120,7 @@ return [
     'new_window'                => 'New window',
     'no'                        => 'No',
     'none'                      => 'None',
+    'nothing'                   => 'Nothing',
     'no_group'                  => 'No group',
     'no_results'                => 'No results',
     'ok'                        => 'OK',
