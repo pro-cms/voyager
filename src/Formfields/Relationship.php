@@ -13,7 +13,12 @@ use Voyager\Admin\Classes\Formfield;
 
 class Relationship extends Formfield
 {
-    public $notInLists, $noColumns, $noComputedProps, $noRelationshipProps, $noRelationshipPivots, $notAsSetting;
+    public bool$notInLists = true;
+    public bool $noColumns = true;
+    public bool $noComputedProps = true;
+    public bool $noRelationshipProps = true;
+    public bool $noRelationshipPivots = true;
+    public bool $notAsSetting = true;
 
     public function type(): string
     {

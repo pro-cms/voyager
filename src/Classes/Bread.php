@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Voyager\Admin\Traits\Translatable;
 
 /**
+ * Dynamically casted to strings by Translatable Trait
+ * 
  * @property string $slug
  * @property string $name_singular
  * @property string $name_plural
