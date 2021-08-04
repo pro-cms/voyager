@@ -22,17 +22,18 @@ class Layout implements \JsonSerializable
         collect($json)->each(function ($value, $key) use ($bread) {
             if ($key == 'formfields') {
                 foreach ($value as $f) {
-                    $formfield = $this->breadmanager->getFormfield($f->type);
-                    if (!$formfield) {
+                    $f = (object) $f;
+                    $class = $this->breadmanager->getFormfieldClass($f->type);
+                    if (!$class) {
                         throw new \Exception('Formfield with type "'.$f->type.'" does not exist!');
                     }
-                    $formfield = clone $formfield;
-                    foreach ($f as $key => $prop) {
-                        $formfield->{$key} = $prop;
-                    }
+                    
+                    $formfield = new $class($f);
                     $formfield->setBread($bread);
                     $this->formfields->push($formfield);
                 }
+            } elseif ($key == 'options') {
+                $this->{$key} = (object) $value;
             } else {
                 $this->{$key} = $value;
             }

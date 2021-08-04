@@ -2,11 +2,23 @@
 
 namespace Voyager\Admin\Classes;
 
-use Illuminate\Support\Str;
 use Voyager\Admin\Classes\Bread;
 
 class Formfield implements \JsonSerializable
 {
+    // The following properties will not be stored in JSON files
+    protected array $dontStore = [
+        'notTranslatable',
+        'notAsSetting',
+        'notInLists',
+        'notInViews',
+        'browseArray',
+        'noColumns',
+        'noComputedProps',
+        'noRelationships',
+        'noRelationshipProps',
+        'noRelationshipPivots'
+    ];
     public mixed $options;
     public object $column;
     public bool $translatable = false;
@@ -56,7 +68,7 @@ class Formfield implements \JsonSerializable
             foreach ($json as $key => $value) {
                 if ($key == 'column') {
                     $this->{$key} = (object) $value;
-                } else {
+                } else if (!in_array($key, $this->dontStore)) {
                     $this->{$key} = $value;
                 }
             }
@@ -66,18 +78,7 @@ class Formfield implements \JsonSerializable
     public function jsonSerialize()
     {
         return (object) collect((array) $this)->filter(function ($value, $key) {
-            return !in_array($key, [
-                'notTranslatable',
-                'notAsSetting',
-                'notInLists',
-                'notInViews',
-                'browseArray',
-                'noColumns',
-                'noComputedProps',
-                'noRelationships',
-                'noRelationshipProps',
-                'noRelationshipPivots'
-            ]);
+            return !in_array($key, $this->dontStore);
         })->toArray();
         
     }

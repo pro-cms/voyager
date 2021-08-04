@@ -13,7 +13,7 @@ use Voyager\Admin\Classes\Formfield;
 
 class Relationship extends Formfield
 {
-    public bool$notInLists = true;
+    public bool $notInLists = true;
     public bool $noColumns = true;
     public bool $noComputedProps = true;
     public bool $noRelationshipProps = true;
