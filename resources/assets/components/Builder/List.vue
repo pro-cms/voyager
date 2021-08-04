@@ -53,7 +53,11 @@
                                     v-model="formfield.title" />
                             </td>
                             <td class="inline-flex items-center space-x-1">
-                                <select class="input small w-full" v-model="formfield.link_to" :disabled="getRelatedBread(formfield.column) === null && formfield.column.type == 'relationship'">
+                                <select
+                                    class="input small w-full"
+                                    v-model="formfield.link_to"
+                                    :disabled="getRelatedBread(formfield.column) === null && formfield.column.type == 'relationship'"
+                                >
                                     <option :value="null">{{ __('voyager::generic.nothing') }}</option>
                                     <option value="edit">{{ __('voyager::generic.edit') }}</option>
                                     <option value="read">{{ __('voyager::generic.read') }}</option>

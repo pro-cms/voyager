@@ -61,11 +61,5 @@
                 "Voyager": "Voyager\\Admin\\Facades\\Voyager"
             }
         }
-    },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../voyager-testbench-plugin"
-        }
-    ]
+    }
 }
