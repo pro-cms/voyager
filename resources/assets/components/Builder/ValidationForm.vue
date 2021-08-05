@@ -5,8 +5,8 @@
                 <h5>{{ __('voyager::generic.validation') }}</h5>
             </div>
             <div class="flex-none">
-                <button class="button green small" @click.stop="addRule">
-                    <Icon icon="plus" />
+                <button class="button small" @click.stop="addRule">
+                    <Icon icon="plus" class="text-green-500" />
                 </button>
             </div>
         </div>
@@ -31,8 +31,8 @@
                                 v-model="rule.message" />
                         </td>
                         <td>
-                            <button class="button red small" @click.stop="removeRule(key)">
-                                <Icon icon="trash" />
+                            <button class="button small" @click.stop="removeRule(key)">
+                                <Icon icon="trash" class="text-red-500" />
                             </button>
                         </td>
                     </tr>

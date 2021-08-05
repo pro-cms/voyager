@@ -1,11 +1,12 @@
 # BREAD Builder
 
 The BREAD builder is the heart of Voyager.  
-This page will walk you through 
+This page will walk you through all options you find in the BREAD builder.
 
 ## Model
 
-When adding a BREAD, you have to provide a fully qualified model name.  
+When adding a BREAD Voyager will try to guess the name of your model and check if it exists. 
+If it does not, you can either enter the fully-qualified name or click `Create model` in the top right corner. 
 After that, you'll have to click `Reload properties`.  
 This will then load all fields from your model, accessors, scopes and relationships.
 
@@ -42,7 +43,7 @@ public function boot(BreadManager $breadmanager)
 ## Backup
 
 Voyager II allows you to create backups which you can restore at any time.  
-To create a backup, simply click `Backup` when browsing your BREADs or when editing a BREAD.
+To create a backup, simply click `Backup` when browsing your BREADs.
 
 ![](../.gitbook/assets/bread-builder/backup.png) 
 
@@ -63,13 +64,3 @@ To roll back a backup, simply click the `Rollback` button and select the backup 
 {% hint style="info" %}
 When rolling back a BREAD the current version will be backed-up as well allowing you to easily switch between two version.
 {% endhint %}
-
-## Layout mapping
-
-In this section you can map your layouts to the different BREA(D) actions.  
-Simply select the layout you want to use for browsing, reading, editing and adding.  
-Some plugins might override this section, allowing you to select layouts for various conditions.
-
-![](../.gitbook/assets/bread-builder/layout-mapping.png) 
-
-Read more about layouts in the next [article](layouts.md).

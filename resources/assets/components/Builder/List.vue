@@ -145,8 +145,8 @@
 
         <Collapsible :title="`${__('voyager::generic.filters')} (${options.filters.length || 0})`" closed ref="filters_collapsible">
             <template #actions>
-                <button class="button green small" @click.stop="addFilter">
-                    <Icon icon="plus" />
+                <button class="button small" @click.stop="addFilter">
+                    <Icon icon="plus" class="text-green-500" />
                 </button>
             </template>
             <div class="voyager-table">
@@ -212,8 +212,8 @@
                                 </Modal>
                             </td>
                             <td class="flex justify-end">
-                                <button class="button red small" @click.stop="removeFilter(key)">
-                                    <Icon icon="trash" />
+                                <button class="button small" @click.stop="removeFilter(key)">
+                                    <Icon icon="trash" class="text-red-500" />
                                 </button>
                             </td>
                         </tr>
