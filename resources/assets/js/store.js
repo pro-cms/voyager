@@ -17,7 +17,6 @@ export default reactive({
 
     pageLoading: true,
     sidebarOpen: true,
-    title: '',
     titleSuffix: '',
     rtl: false,
     csrfToken: '',

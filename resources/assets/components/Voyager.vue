@@ -46,11 +46,8 @@ export default {
         Notifications
     },
     created() {
-        watch(() => this.$store.title, (title) => {
-            document.title = title + ' - ' + this.$store.titleSuffix;
-        }, { immediate: true });
-
         Inertia.on('navigate', (event) => {
+            document.title = event.detail.page.props.page_title + ' - ' + this.$store.titleSuffix;
             this.$store.pageLoading = false;
             let url = String(window.location);
             if (!url.endsWith('/')) {

@@ -14,7 +14,7 @@
     <meta name="description" content="{{ Voyager::setting('admin.description', 'Voyager II') }}">
     <meta http-equiv="Cache-control" content="public">
 
-    <title>{{ Voyager::setting('admin.title', 'Voyager II') }}</title>
+    <title>{{ $title }} - {{ Voyager::setting('admin.title', 'Voyager II') }}</title>
     @if ($devServerWanted && $devServerAvailable)
         <link href="{{ $devServerUrl }}css/voyager.css" rel="stylesheet">
     @else
@@ -42,7 +42,7 @@
 @endif
 
 <script>
-createVoyager({!! json_encode(array_merge(['title' => $title], Voyager::getViewData())) !!});
+createVoyager({!! json_encode(Voyager::getViewData()) !!});
 </script>
 
 @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)

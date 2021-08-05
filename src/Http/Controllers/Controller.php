@@ -42,7 +42,7 @@ abstract class Controller extends BaseController
     {
         Inertia::setRootView($root_view ?? 'voyager::app');
 
-        return Inertia::render($page, $data)->withViewData('title', $title);
+        return Inertia::render($page, array_merge($data, ['page_title' => $title]))->withViewData('title', $title);
     }
 
     protected function validateData(Collection $formfields, array|Collection $data, bool $all_locales = false): array
