@@ -38,9 +38,9 @@ class Relationship extends Formfield
             if ($relationship['multiple'] === true) {
                 return [];
             }
-
-            return null;
         }
+        
+        return null;
     }
 
     public function stored(mixed $model, mixed $value): void
@@ -95,6 +95,6 @@ class Relationship extends Formfield
 
     protected function getRelationship(): mixed
     {
-        return $this->bread->relationships->where('method', $this->column->column)->first();
+        return $this->bread?->relationships?->where('method', $this->column->column)->first() ?? null;
     }
 }

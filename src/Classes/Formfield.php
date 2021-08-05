@@ -24,7 +24,7 @@ class Formfield implements \JsonSerializable
     public ?int $tab = null;
     public ?string $link_to = null;
     public bool $translatable = false;
-    protected Bread $bread;
+    protected ?Bread $bread = null;
 
     public function __construct(?object $json = null)
     {
