@@ -39,6 +39,7 @@ return [
     'component_does_not_exist'  => 'Component ":component" does not exist. Falling back to default component ":default"!',
     'content'                   => 'Content',
     'conroller'                 => 'Controller',
+    'copied_to_clipboard'       => 'Copied to clipboard',
     'copy_to_clipboard'         => 'Copy to clipboard',
     'create'                    => 'Create',
     'create_type'               => 'Create :type',

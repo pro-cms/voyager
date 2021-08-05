@@ -5,7 +5,6 @@ return [
     'check_for_updates'             => 'Check for updates',
     'cleared_preferences'           => 'Successfully cleared preferences for plugin ":plugin"!',
     'clear_preferences_confirm'     => 'Are you sure you want to clear the preferences of the plugin ":plugin"?',
-    'copy_notice'                   => 'Copied to clipboard',
     'enable_plugin_confirm'         => 'Are your sure you want to enable the ":name" Plugin?',
     'error_changing_plugin'         => 'There was an error changing the plugin:',
     'error_loading_plugins'         => 'Available plugins could not be loaded. Are you online?',

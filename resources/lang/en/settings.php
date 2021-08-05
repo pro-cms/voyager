@@ -3,6 +3,7 @@
 return [
     'add_group'                 => 'Add group',
     'add_setting'               => 'Add setting',
+    'click_setting'             => 'Click the title of a setting to display usage information!',
     'clone'                     => 'Clone',
     'enter_group_name'          => 'Enter the name of the group',
     'generate_key'              => 'Generate key',
@@ -11,6 +12,7 @@ return [
     'no_group'                  => 'No group',
     'no_name'                   => 'No name',
     'no_settings'               => 'There are no settings. Maybe you want to run `php artisan voyager:install`?',
+    'no_settings_match'         => 'No settings match your search',
     'no_settings_title'         => 'No settings found',
     'no_settings_in_group'      => 'There are no settings in this group',
     'search_settings'           => 'Search settings by name',
@@ -18,6 +20,7 @@ return [
     'setting'                   => 'Setting',
     'settings'                  => 'Settings',
     'settings_saved'            => 'Settings have been saved!',
+    'usage_information'         => 'Use the following code to use this setting in your code (double click to copy):',
     'validation_errors'         => 'There were errors validating your input.',
     'validation_no_key'         => 'There is at least one setting in this group without a key. Settings must have a key to be identifiable!',
 ];

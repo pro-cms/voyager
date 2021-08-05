@@ -46,7 +46,7 @@
                                 </div>
                             </div>
                             <div class="w-2/5 text-right" v-if="!pluginInstalled(plugin)">
-                                <input class="input w-full select-none" :value="'composer require '+plugin.name" @dblclick="copy(plugin)">
+                                <input class="input w-full select-none" :value="'composer require '+plugin.name" @dblclick.prevent.stop="copy(plugin)">
                             </div>
                             <div class="w-2/5 text-right" v-else>
                                 <Badge color="orange">{{ __('voyager::plugins.plugin_installed') }}</Badge>
@@ -113,10 +113,7 @@
             </div>
         </div>
         <div v-if="installed.plugins.length > 0">
-            <div v-if="filteredInstalledPlugins.length == 0" class="w-full text-center">
-                <h3>{{ __('voyager::plugins.no_plugins_match_search') }}</h3>
-            </div>
-            <div class="voyager-table striped" :class="$store.pageLoading ? 'loading' : null" v-else>
+            <div class="voyager-table striped" :class="$store.pageLoading ? 'loading' : null">
                 <table id="bread-builder-browse">
                     <thead>
                         <tr>
@@ -141,6 +138,9 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr v-if="filteredInstalledPlugins.length == 0" class="w-full text-center">
+                            <td colspan="6"><h4>{{ __('voyager::plugins.no_plugins_match_search') }}</h4></td>
+                        </tr>
                         <tr v-for="(plugin, i) in filteredInstalledPlugins.slice(installedStart, installedEnd)" :key="'installed-plugin-'+i">
                             <td>{{ translate(plugin.name) }}</td>
                             <td>{{ translate(plugin.description) }}</td>
@@ -204,12 +204,12 @@
                                         </button>
                                     </template>
                                 </Modal>
-                                <button v-if="!plugin.enabled" class="button small green" @click="enablePlugin(plugin, true)">
-                                    <Icon icon="play" />
+                                <button v-if="!plugin.enabled" class="button small" @click="enablePlugin(plugin, true)">
+                                    <Icon icon="play" class="text-green-500" />
                                     <span>{{ __('voyager::generic.enable') }}</span>
                                 </button>
-                                <button v-else class="button small red" @click="enablePlugin(plugin, false)">
-                                    <Icon icon="stop" />
+                                <button v-else class="button small" @click="enablePlugin(plugin, false)">
+                                    <Icon icon="stop" class="text-red-500" />
                                     <span>{{ __('voyager::generic.disable') }}</span>
                                 </button>
                             </td>
@@ -274,7 +274,7 @@ export default {
         },
         copy(plugin) {
             this.copyToClipboard('composer require ' + plugin.name);
-            new this.$notification(this.__('voyager::plugins.copy_notice')).timeout().show();
+            new this.$notification(this.__('voyager::generic.copied_to_clipboard')).timeout().show();
         },
         enablePlugin(plugin, enable) {
             var message = this.__('voyager::plugins.enable_plugin_confirm', {name: plugin.name});

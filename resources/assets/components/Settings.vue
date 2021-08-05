@@ -60,11 +60,27 @@
             {{ __('voyager::settings.validation_no_key') }}
         </Alert>
 
+        <Alert color="blue" class="mb-2">
+            <span v-if="selectedSetting === null">
+                {{ __('voyager::settings.click_setting') }}
+            </span>
+            <template v-else>
+                <p>{{ __('voyager::settings.usage_information') }}</p>
+                <code v-if="selectedSetting.group == null" @dblclick.prevent.stop="copyUsage" class="select-none cursor-pointer">
+                    \Voyager\Admin\Facades\Voyager::settings('{{ selectedSetting.key }}');
+                </code>
+                <code v-else @dblclick.prevent.stop="copyUsage" class="select-none cursor-pointer">
+                    \Voyager\Admin\Facades\Voyager::settings('{{ selectedSetting.group }}.{{ selectedSetting.key }}');
+                </code>
+            </template>
+        </Alert>
+
         <draggable v-model="settings" item-key="" handle=".dd-handle">
             <template #item="{ element: setting }">
                 <Card
                     :title="translate(setting.name, false) || __('voyager::settings.no_name')"
                     v-show="settingsInGroup(currentGroup).includes(setting)"
+                    @clickTitle="selectedSetting = setting"
                 >
                     <template #actions>
                         <div class="flex flex-wrap space-x-1">
@@ -136,7 +152,8 @@
                 </Card>
             </template>
         </draggable>
-        <h3 class="text-center" v-if="!groupHasSettings()">{{ __('voyager::settings.no_settings_in_group') }}</h3>
+        <h3 class="text-center" v-if="!groupHasSettings() && query == ''">{{ __('voyager::settings.no_settings_in_group') }}</h3>
+        <h3 class="text-center" v-else-if="!groupHasSettings()">{{ __('voyager::settings.no_settings_match') }}</h3>
     </Card>
     <Collapsible v-if="jsonOutput" :title="__('voyager::generic.json_output')" closed>
         <JsonEditor v-model="settings" />
@@ -169,6 +186,7 @@ export default {
             settings: this.input,
             savingSettings: false,
             currentGroup: null,
+            selectedSetting: null,
             query: '',
             errors: [],
             tempGroups: [], // Temporarily used when adding groups
@@ -332,6 +350,15 @@ export default {
 
             return 'accent';
         },
+        copyUsage() {
+            if (this.selectedSetting.group === null) {
+                this.copyToClipboard(`\\Voyager\\Admin\\Facades\\Voyager::settings('${this.selectedSetting.key}');`);
+            } else {
+                this.copyToClipboard(`\\Voyager\\Admin\\Facades\\Voyager::settings('${this.selectedSetting.group}.${this.selectedSetting.key}');`);
+            }
+
+            new this.$notification(this.__('voyager::generic.copied_to_clipboard')).timeout().show();
+        }
     },
     computed: {
         groups() {

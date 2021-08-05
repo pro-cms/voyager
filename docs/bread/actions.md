@@ -51,6 +51,10 @@ $action = (new Action('My title', 'my-icon', 'color'))
     });
 ```
 
+## URL
+
+Instead of a route name you can directly provide an URL like `->url('http://...')`
+
 ## Permission
 
 If you want your action to depend on a permission, use `->permission()`:

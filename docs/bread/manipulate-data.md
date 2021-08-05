@@ -4,16 +4,7 @@ This page shows you various ways to manipulate the data shown in your BREADs.
 
 ## Filters
 
-Filters are little but powerful buttons shown on top of the browse table.  
-They allow the user to apply customized queries or scopes to their results.
-
-### Customized queries
-
-
-
-### Scopes
-
-
+Read more about filters [here](bread-builder/layouts/lists.md#filters)
 
 ## Scopes
 
@@ -45,7 +36,7 @@ The mutator also has to follow the naming `set[X]Attribute`, for example `setFul
 
 ### Using your computed property
 
-Now that you created an accessor (and a mutator when you want to edit/add), you can simply select your accessor in the column dropdown in the `Column` dropdown.
+Now that you created an accessor (and a mutator when you want to edit/add), you can simply select your accessor in the `Column` dropdown.
 
 ![Selecting a computed property in a list](../.gitbook/assets/bread-builder/computed-list.png)
 

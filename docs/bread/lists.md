@@ -51,7 +51,8 @@ Opens a slide-in containing all options of the formfield.
 
 ## Filters
 
-This section allows you to create custom filters your user can click when browsing.  
+Filters are little but powerful buttons shown on top of the browse table.
+They allow the user to apply customized queries or scopes to their results.    
 By clicking the `+` icon you add filter which you then align to your needs.
 
 ![](../.gitbook/assets/bread-builder/filters.png) 
