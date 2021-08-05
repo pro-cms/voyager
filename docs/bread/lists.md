@@ -54,6 +54,8 @@ Opens a slide-in containing all options of the formfield.
 This section allows you to create custom filters your user can click when browsing.  
 By clicking the `+` icon you add filter which you then align to your needs.
 
+![](../.gitbook/assets/bread-builder/filters.png) 
+
 ### Name
 
 The name displayed in the button. This field is translatable.
