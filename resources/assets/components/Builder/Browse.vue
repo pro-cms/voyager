@@ -46,12 +46,12 @@
                         </td>
                         <td class="flex flex-no-wrap justify-end space-x-1">
                             <template v-if="hasBread(table)">
-                                <a class="button blue" :href="route('voyager.'+translate(getBread(table).slug, true)+'.browse')">
-                                    <Icon icon="globe" :size="4" />
+                                <a class="button" :href="route('voyager.'+translate(getBread(table).slug, true)+'.browse')">
+                                    <Icon icon="globe" :size="4" class="text-accent-500" />
                                     <span>{{ __('voyager::generic.browse') }}</span>
                                 </a>
-                                <button class="button green" @click="backupBread(table)">
-                                    <Icon icon="clock" :class="[backingUp ? 'animate-spin-reverse' : '']" :size="4" />
+                                <button class="button" @click="backupBread(table)">
+                                    <Icon icon="clock" :class="[backingUp ? 'animate-spin-reverse' : '']" :size="4" class="text-green-500" />
                                     <span>{{ __('voyager::generic.backup') }}</span>
                                 </button>
                                 <Dropdown v-if="getBackupsForTable(table).length > 0" placement="bottom">
@@ -65,23 +65,23 @@
                                         </a>
                                     </div>
                                     <template #opener>
-                                        <button class="button green">
-                                            <Icon icon="clock" :size="4" />
+                                        <button class="button">
+                                            <Icon icon="clock" :size="4" class="text-green-500" />
                                             <span>{{ __('voyager::builder.rollback') }} ({{ getBackupsForTable(table).length }})</span>
                                         </button>
                                     </template>
                                 </Dropdown>
-                                <Link as="button" class="button yellow" :href="route('voyager.bread.edit', table)">
-                                    <Icon icon="pencil" :size="4" />
+                                <Link as="button" class="button" :href="route('voyager.bread.edit', table)">
+                                    <Icon icon="pencil" :size="4" class="text-yellow-500" />
                                     <span>{{ __('voyager::generic.edit') }}</span>
                                 </Link>
-                                <button class="button red" @click="deleteBread(table)">
-                                    <Icon :icon="deleting ? 'refresh' : 'trash'" :class="[deleting ? 'animate-spin-reverse' : '']" :size="4" />
+                                <button class="button" @click="deleteBread(table)">
+                                    <Icon :icon="deleting ? 'refresh' : 'trash'" class="text-red-500" :class="[deleting ? 'animate-spin-reverse' : '']" :size="4" />
                                     <span>{{ __('voyager::generic.delete') }}</span>
                                 </button>
                             </template>
-                            <Link as="button" v-else class="button green" :href="route('voyager.bread.create', table)">
-                                <Icon icon="plus" :size="4" />
+                            <Link as="button" v-else class="button" :href="route('voyager.bread.create', table)">
+                                <Icon icon="plus" :size="4" class="text-green-500" />
                                 <span class="hidden md:block">
                                     {{ __('voyager::generic.add_type', { type: __('voyager::generic.bread') }) }}
                                 </span>

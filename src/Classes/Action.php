@@ -5,8 +5,10 @@ namespace Voyager\Admin\Classes;
 class Action
 {
     public string $title;
-    public string|null $icon;
-    public string $color = 'accent';
+    public ?string $icon;
+    public ?string $buttoncolor = null;
+    public ?string $iconcolor = null;
+    public ?string $textcolor = null;
     public string $method = 'get';
     public bool $download = false;
     public string $file_name = '';
@@ -16,31 +18,26 @@ class Action
     public string $permission = '';
     public mixed $route_callback = null;
     public mixed $callback = null;
-    public bool|null $display_deletable = null;
+    public ?bool $display_deletable = null;
     public bool $reload_after = false;
 
     /**
      * Create a new action.
-     *
-     * @param string $title The title as a string or translation-key.
-     * @param string $icon  The icon of the button. "null" for no icon.
-     * @param string $color The color of the button. Defaults to none.
-     * @return self
      */
-    public function __construct(string $title, string|null $icon = null, string $color = '')
+    public function __construct(string $title, ?string $icon = null, ?string $buttoncolor = null, ?string $iconcolor = null, ?string $textcolor = null)
     {
         $this->title = $title;
         $this->icon = $icon;
-        $this->color = $color;
+        $this->buttoncolor = $buttoncolor;
+        $this->iconcolor = $iconcolor;
+        $this->textcolor = $textcolor;
     }
 
     /**
      * Set the method that is used when calling/clicking the action.
-     *
-     * @param string $method The method. Either get, post, put, patch or delete.
-     * @return self
+     * Can be either get, post, put, patch or delete.
      */
-    public function method(string $method): Action
+    public function method(string $method): self
     {
         $method = strtolower($method);
         if (!in_array($method, ['get', 'post', 'put', 'patch', 'delete'])) {
@@ -53,11 +50,8 @@ class Action
 
     /**
      * Makes the action a download action.
-     *
-     * @param string $file_name The name of the file. Ex: download.pdf
-     * @return self
      */
-    public function download(string $file_name): Action
+    public function download(string $file_name): self
     {
         $this->download = true;
         $this->file_name = $file_name;
@@ -67,11 +61,8 @@ class Action
 
     /**
      * Resolve the route for a BREAD.
-     *
-     * @param callable|string $route A callback resolving the route or the route name as a string.
-     * @return self
      */
-    public function route(callable|string $route): Action
+    public function route(callable|string $route): self
     {
         $this->route_callback = $route;
 
@@ -80,13 +71,8 @@ class Action
 
     /**
      * Confirm the execution of the action.
-     *
-     * @param string $message The message as a string or translation-key.
-     * @param string $title   The title as a string or translation-key.
-     * @param string $color   The color of the notification. Defaults to "accent".
-     * @return self
      */
-    public function confirm(string $message, string $title = null, string $color = 'accent'): Action
+    public function confirm(string $message, string $title = null, string $color = 'accent'): self
     {
         $this->confirm = [
             'title'     => $title,
@@ -99,13 +85,8 @@ class Action
 
     /**
      * Display a message after executing the action.
-     *
-     * @param string $message The message as a string or translation-key.
-     * @param string $title   The title as a string or translation-key.
-     * @param string $color   The color of the notification. Defaults to "accent".
-     * @return self
      */
-    public function success(string $message, string $title = null, string $color = 'accent'): Action
+    public function success(string $message, string $title = null, string $color = 'accent'): self
     {
         $this->success = [
             'title'     => $title,
@@ -118,10 +99,8 @@ class Action
 
     /**
      * Make the action a bulk-action.
-     * 
-     * @return self
      */
-    public function bulk(): Action
+    public function bulk(): self
     {
         $this->bulk = true;
 
@@ -130,11 +109,8 @@ class Action
 
     /**
      * Authorize the action based on a permission.
-     *
-     * @param string $ability The ability.
-     * @return self
      */
-    public function permission(string $ability): Action
+    public function permission(string $ability): self
     {
         $this->permission = $ability;
 
@@ -143,11 +119,8 @@ class Action
 
     /**
      * Sets if this action should be displayed on a BREAD.
-     *
-     * @param callable $callback A callback function which gets the BREAD as an arguments.
-     * @return self
      */
-    public function displayOnBread(callable $callback): Action
+    public function displayOnBread(callable $callback): self
     {
         $this->callback = $callback;
 
@@ -156,10 +129,8 @@ class Action
 
     /**
      * This action should be displayed on deleted entries. Will receive the amount of deleted entries when it's a bulk-action (hidden if 0).
-     *
-     * @return self
      */
-    public function displayDeletable(): Action
+    public function displayDeletable(): self
     {
         $this->display_deletable = true;
 
@@ -168,10 +139,8 @@ class Action
 
     /**
      * This action should be displayed on deleted entries. Will receive the amount of deleted entries when it's a bulk-action (hidden if 0).
-     *
-     * @return self
      */
-    public function displayRestorable(): Action
+    public function displayRestorable(): self
     {
         $this->display_deletable = false;
 
@@ -180,10 +149,8 @@ class Action
 
     /**
      * Makes BREAD browse reload once the action finished.
-     *
-     * @return self
      */
-    public function reloadAfter(): Action
+    public function reloadAfter(): self
     {
         $this->reload_after = true;
 

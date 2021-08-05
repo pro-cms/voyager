@@ -7,8 +7,8 @@
         <template #actions>
             <div class="flex space-x-1 items-center">
                 <input type="text" class="input small" @dblclick="query = ''" @keydown.esc="query = ''" v-model="query" :placeholder="__('voyager::settings.search_settings')">
-                <button class="button accent space-x-0" @click="save" :disabled="savingSettings">
-                    <Icon icon="refresh" class="animate-spin-reverse" :size="savingSettings ? 4 : 0" :transition-size="4" />
+                <button class="button space-x-0" @click="save" :disabled="savingSettings">
+                    <Icon icon="refresh" class="animate-spin-reverse text-accent-500" :size="savingSettings ? 4 : 0" :transition-size="4" />
                     <span>{{ __('voyager::generic.save') }}</span>
                 </button>
                 <Dropdown placement="bottom-end">
@@ -31,14 +31,14 @@
                         </a>
                     </div>
                     <template #opener>
-                        <button class="button green">
-                            <Icon icon="plus" :size="4" />
+                        <button class="button">
+                            <Icon icon="plus" :size="4" class="text-green-500" />
                             <span>{{ __('voyager::settings.add_setting') }}</span>
                         </button>
                     </template>
                 </Dropdown>
-                <button class="button green" @click="addGroup">
-                    <Icon icon="plus" :size="4" />
+                <button class="button" @click="addGroup">
+                    <Icon icon="plus" class="text-green-500" :size="4" />
                     <span>{{ __('voyager::settings.add_group') }}</span>
                 </button>
                 <LocalePicker />

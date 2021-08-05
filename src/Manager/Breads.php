@@ -26,7 +26,7 @@ class Breads
 {
     protected Collection $formfields;
     protected string $path;
-    protected Collection|null $breads = null;
+    protected ?Collection $breads = null;
     protected array $backups = [];
     protected Collection $actions;
     protected PluginManager $pluginmanager;
@@ -151,19 +151,15 @@ class Breads
      *
      * @return \Voyager\Admin\Classes\Bread
      */
-    public function getBread($table): \Voyager\Admin\Classes\Bread|null
+    public function getBread($table): ?BreadClass
     {
         return $this->getBreads()->where('table', $table)->first();
     }
 
     /**
      * Get a BREAD by the table name.
-     *
-     * @param string $breadName
-     *
-     * @return \Voyager\Admin\Classes\Bread|null
      */
-    public function getBreadByName($breadName)
+    public function getBreadByName(string $breadName): ?BreadClass
     {
         return $this->getBreads()->get($breadName);
     }
@@ -346,19 +342,15 @@ class Breads
 
     /**
      * Get a formfield by type.
-     *
-     * @param string $type The type of the formfield
-     *
-     * @return Formfield|null The formfield or null
      */
-    public function getFormfield(string $type): Formfield|null
+    public function getFormfield(string $type): ?Formfield
     {
         return $this->formfields->filter(function ($formfield) use ($type) {
             return $formfield->type() == $type;
         })->first();
     }
 
-    public function getFormfieldClass(string $type): string|null
+    public function getFormfieldClass(string $type): ?string
     {
         return $this->formfields->filter(function ($formfield) use ($type) {
             return $formfield->type() == $type;

@@ -16,6 +16,9 @@ class Layout implements \JsonSerializable
     public array $tabs = [];
     protected BreadManager $breadmanager;
 
+    /**
+     * Construct a new layout based on JSON input.
+     */
     public function __construct(mixed $json, Bread $bread)
     {
         $this->breadmanager = resolve(BreadManager::class);
@@ -41,16 +44,25 @@ class Layout implements \JsonSerializable
         });
     }
 
+    /**
+     * Get all searchable formfields.
+     */
     public function searchableFormfields(): Collection
     {
         return $this->formfields->where('searchable');
     }
 
-    public function getFormfieldByColumn(string $column): Formfield|null
+    /**
+     * Get a formfield based on the column.
+     */
+    public function getFormfieldByColumn(string $column): ?Formfield
     {
         return $this->formfields->where('column.column', $column)->first();
     }
 
+    /**
+     * Get all formfields based on the column-type.
+     */
     public function getFormfieldsByColumnType(string $type): Collection
     {
         return $this->formfields->where('column.type', $type);

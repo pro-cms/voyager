@@ -11,7 +11,7 @@ use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 class Settings
 {
     protected string $path;
-    protected Collection|null $settings = null;
+    protected ?Collection $settings = null;
 
     public function __construct()
     {
@@ -36,14 +36,14 @@ class Settings
         return $this->path;
     }
 
-    public function get(): Collection|null
+    public function get(): ?Collection
     {
         $this->load();
         return $this->settings;
     }
 
     // Set a settings-value based on the key. When locale is not provided and the setting is translatable, it expects an array of locale-values
-    public function set(string $key, mixed $value, string|null $locale = null, bool $save = true): void
+    public function set(string $key, mixed $value, ?string $locale = null, bool $save = true): void
     {
         $this->load();
         $setting = $this->getSettingsByKey($key);
@@ -76,7 +76,7 @@ class Settings
         $this->settings = $this->settings?->merge($settings);
     }
 
-    public function setting(string|null $key = null, mixed $default = null, bool $translate = true): mixed
+    public function setting(?string $key = null, mixed $default = null, bool $translate = true): mixed
     {
         $this->load();
         $settings = $this->getSettingsByKey($key);
@@ -111,7 +111,7 @@ class Settings
         return $settings;
     }
 
-    public function exists(string|null $group, string $key): bool
+    public function exists(?string $group, string $key): bool
     {
         $this->load();
 
@@ -132,7 +132,7 @@ class Settings
         $this->load(true);
     }
 
-    public function getSettingsByKey(string|null $key): Collection
+    public function getSettingsByKey(?string $key): Collection
     {
         $key = $key ?? '';
         $this->load();

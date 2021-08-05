@@ -3,13 +3,13 @@
         <component
             :is="action.method == 'get' ? 'a' : 'button'"
             class="button small"
-            :class="action.color"
+            :class="action.buttoncolor"
             :href="getUrl(action)"
             @click="click(action, $event)"
             v-if="amount(action) > 0"
         >
-            <Icon v-if="action.icon !== null" :icon="action.icon" :size="4" />
-            <span>{{ trans_choice(action.title, amount(action), replace) }}</span>
+            <Icon v-if="action.icon !== null" :icon="action.icon" :size="4" :class="action.iconcolor ? `text-${action.iconcolor}-500` : null" />
+            <span :class="action.textcolor ? `text-${action.textcolor}-500` : null">{{ trans_choice(action.title, amount(action), replace) }}</span>
         </component>
     </template>
 </template>

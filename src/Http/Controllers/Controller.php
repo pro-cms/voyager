@@ -38,7 +38,7 @@ abstract class Controller extends BaseController
         $this->settingmanager = resolve(SettingManager::class);
     }
 
-    protected function inertiaRender(string $page, string|array|null $title = '', array $data = [], string|null $root_view = null): InertiaResponse
+    protected function inertiaRender(string $page, string|array|null $title = '', array $data = [], ?string $root_view = null): InertiaResponse
     {
         Inertia::setRootView($root_view ?? 'voyager::app');
 
@@ -83,7 +83,7 @@ abstract class Controller extends BaseController
         return $errors;
     }
 
-    protected function validateField(mixed $value, string $rule, mixed $message): string|null
+    protected function validateField(mixed $value, string $rule, mixed $message): ?string
     {
         $ruleSet = ['col' => $rule];
 

@@ -207,7 +207,7 @@ class VoyagerServiceProvider extends ServiceProvider
     {
         $breadmanager = $this->breadmanager;
 
-        $read_action = (new Action('voyager::generic.read', 'book-open'))
+        $read_action = (new Action('voyager::generic.read', 'book-open', null, 'accent'))
         ->route(function ($bread) {
             return 'voyager.'.$bread->slug.'.read';
         })->permission('read')
@@ -215,7 +215,7 @@ class VoyagerServiceProvider extends ServiceProvider
             return $breadmanager->getLayoutsForAction($bread, 'read')->count() > 0;
         });
 
-        $edit_action = (new Action('voyager::generic.edit', 'pencil'))
+        $edit_action = (new Action('voyager::generic.edit', 'pencil', null, 'yellow'))
         ->route(function ($bread) {
             return 'voyager.'.$bread->slug.'.edit';
         })->permission('edit')
@@ -223,7 +223,7 @@ class VoyagerServiceProvider extends ServiceProvider
             return $breadmanager->getLayoutsForAction($bread, 'edit')->count() > 0;
         });
 
-        $delete_action = (new Action('voyager::generic.delete', 'trash', 'red'))
+        $delete_action = (new Action('voyager::generic.delete', 'trash', null, 'red'))
         ->route(function ($bread) {
             return 'voyager.'.$bread->slug.'.delete';
         })
@@ -234,7 +234,7 @@ class VoyagerServiceProvider extends ServiceProvider
         ->reloadAfter()
         ->permission('delete');
 
-        $restore_action = (new Action('voyager::generic.restore', 'trash'))
+        $restore_action = (new Action('voyager::generic.restore', 'trash', null, 'yellow'))
         ->route(function ($bread) {
             return 'voyager.'.$bread->slug.'.restore';
         })
@@ -260,7 +260,7 @@ class VoyagerServiceProvider extends ServiceProvider
     {
         $breadmanager = $this->breadmanager;
 
-        $add_action = (new Action('voyager::generic.add_type', 'plus', 'green'))
+        $add_action = (new Action('voyager::generic.add_type', 'plus', null, 'green'))
         ->route(function ($bread) {
             return 'voyager.'.$bread->slug.'.add';
         })
@@ -269,7 +269,7 @@ class VoyagerServiceProvider extends ServiceProvider
             return $breadmanager->getLayoutsForAction($bread, 'add')->count() > 0;
         });
 
-        $delete_action = (new Action('voyager::bread.delete_type', 'trash', 'red'))
+        $delete_action = (new Action('voyager::bread.delete_type', 'trash', null, 'red'))
         ->route(function ($bread) {
             return 'voyager.'.$bread->slug.'.delete';
         })
@@ -280,7 +280,7 @@ class VoyagerServiceProvider extends ServiceProvider
         ->displayDeletable()
         ->reloadAfter();
 
-        $restore_action = (new Action('voyager::bread.restore_type', 'trash', 'yellow'))
+        $restore_action = (new Action('voyager::bread.restore_type', 'trash', null, 'yellow'))
         ->route(function ($bread) {
             return 'voyager.'.$bread->slug.'.restore';
         })

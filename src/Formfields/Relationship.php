@@ -78,7 +78,7 @@ class Relationship extends Formfield
 
                 break;
             default:
-                return;
+                
                 break;
         }
     }

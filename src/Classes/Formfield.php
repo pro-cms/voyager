@@ -21,50 +21,12 @@ class Formfield implements \JsonSerializable
     ];
     public mixed $options;
     public object $column;
-    public int|null $tab = null;
-    public string|null $link_to = null;
+    public ?int $tab = null;
+    public ?string $link_to = null;
     public bool $translatable = false;
     protected Bread $bread;
 
-    public function browse(mixed $value): mixed
-    {
-        return $value;
-    }
-
-    public function read(mixed $value): mixed
-    {
-        return $value;
-    }
-
-    public function edit(mixed $value): mixed
-    {
-        return $value;
-    }
-
-    public function update(mixed $model, mixed $value, mixed $old): mixed
-    {
-        return $value;
-    }
-
-    public function updated(mixed $model, mixed $value): void {}
-
-    public function add(): mixed
-    {
-        return '';
-    }
-
-    public function store(mixed $value): mixed
-    {
-        return $value;
-    }
-
-    public function stored(mixed $model, mixed $value): void {}
-
-    public function setBread(Bread $bread): void {
-        $this->bread = $bread;
-    }
-
-    public function __construct(object|null $json = null)
+    public function __construct(?object $json = null)
     {
         if ($json) {
             foreach ($json as $key => $value) {
@@ -75,6 +37,68 @@ class Formfield implements \JsonSerializable
                 }
             }
         }
+    }
+
+    /**
+     * Transform incoming data used when browsing.
+     */
+    public function browse(mixed $value): mixed
+    {
+        return $value;
+    }
+
+    /**
+     * Transform incoming data used when reading.
+     */
+    public function read(mixed $value): mixed
+    {
+        return $value;
+    }
+
+    /**
+     * Transform incoming data used when editing.
+     */
+    public function edit(mixed $value): mixed
+    {
+        return $value;
+    }
+
+    /**
+     * Transform incoming data before updating.
+     */
+    public function update(mixed $model, mixed $value, mixed $old): mixed
+    {
+        return $value;
+    }
+
+    /**
+     * Transform incoming data after updating.
+     */
+    public function updated(mixed $model, mixed $value): void {}
+
+    public function add(): mixed
+    {
+        return '';
+    }
+
+    /**
+     * Transform incoming data before storing.
+     */
+    public function store(mixed $value): mixed
+    {
+        return $value;
+    }
+
+    /**
+     * Transform incoming data after storing.
+     */
+    public function stored(mixed $model, mixed $value): void {}
+
+    /**
+     * Set the BREAD this formfields belongs to. Used internally.
+     */
+    public function setBread(Bread $bread): void {
+        $this->bread = $bread;
     }
 
     public function jsonSerialize()

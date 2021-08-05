@@ -73,7 +73,7 @@ class Plugins
                 $this->pluginmanager = $pluginmanager;
             }
 
-            public function set(string $key, mixed $value, string|null $locale = null): void {
+            public function set(string $key, mixed $value, ?string $locale = null): void {
                 $this->pluginmanager->setPreference($this->plugin->identifier, $key, $value, $locale);
             }
 
@@ -193,7 +193,7 @@ class Plugins
         return $assets;
     }
 
-    public function setPreference(string $identifier, string $key, mixed $value, string|null $locale = null): void
+    public function setPreference(string $identifier, string $key, mixed $value, ?string $locale = null): void
     {
         if (!is_null($locale)) {
             $value = VoyagerFacade::setTranslation(

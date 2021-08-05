@@ -322,7 +322,7 @@ class BreadController extends Controller
         ];
     }
 
-    public function restore(Request $request): array|null
+    public function restore(Request $request): ?array
     {
         // TODO: Check if layout allows usage of soft-deletes
         $bread = $this->getBread($request);

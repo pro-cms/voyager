@@ -96,7 +96,7 @@ class VoyagerController extends Controller
     }
 
     // Search all BREADS
-    public function globalSearch(Request $request): array|null
+    public function globalSearch(Request $request): ?array
     {
         $q = $request->get('query');
         $bread = $this->breadmanager->getBread($request->get('bread'));

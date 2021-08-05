@@ -33,7 +33,7 @@ trait Browsable
         return $query;
     }
 
-    public function globalSearchQuery(string|null $global, Layout $layout, string $locale, mixed $query): mixed
+    public function globalSearchQuery(?string $global, Layout $layout, string $locale, mixed $query): mixed
     {
         if (!empty($global)) {
             $query = $query->where(function ($query) use ($global, $layout, $locale) {
@@ -130,7 +130,7 @@ trait Browsable
         return $query;
     }
 
-    public function transformResults(Layout $layout, bool $translatable, mixed $query, string|null $global, mixed $filters): mixed
+    public function transformResults(Layout $layout, bool $translatable, mixed $query, ?string $global, mixed $filters): mixed
     {
         return $query->transform(function ($item) use ($translatable, $layout) {
             $item->primary_key = $item->getKey();

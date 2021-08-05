@@ -10,7 +10,7 @@ export default {
         },
         bread: {
             type: Object,
-            required: true,
+            default: () => {},
         },
         modelValue: {
             required: true,

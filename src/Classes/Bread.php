@@ -35,6 +35,9 @@ class Bread implements \JsonSerializable
 
     protected mixed $model_class = null;
 
+    /**
+     * Construct a BREAD class based on JSON input
+     */
     public function __construct(mixed $json)
     {
         $this->layouts = collect();
@@ -52,6 +55,9 @@ class Bread implements \JsonSerializable
         });
     }
 
+    /**
+     * Get an instance of the BREADs model.
+     */
     public function getModel(): mixed
     {
         if (!$this->model_class) {
@@ -61,6 +67,9 @@ class Bread implements \JsonSerializable
         return $this->model_class;
     }
 
+    /**
+     * Gets if the model/BREAD uses the translatable Trait.
+     */
     public function usesTranslatableTrait(): bool
     {
         $traits = class_uses($this->getModel());
@@ -71,6 +80,9 @@ class Bread implements \JsonSerializable
         return false;
     }
 
+    /**
+     * Gets if the model/BREAD uses the soft-delete trait.
+     */
     public function usesSoftDeletes(): bool
     {
         $traits = class_uses($this->getModel());

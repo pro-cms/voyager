@@ -18,6 +18,9 @@ class MenuItem implements \JsonSerializable
     public bool $exact = false;
     public Collection $children;
 
+    /**
+     * Create a new menu item.
+     */
     public function __construct(array|string|null $title = '', string $icon = '', bool $main = false)
     {
         $this->title = $title;
@@ -26,6 +29,9 @@ class MenuItem implements \JsonSerializable
         $this->children = collect();
     }
 
+    /**
+     * Set the permission needed to display this menu item.
+     */
     public function permission(string $ability, array $arguments = []): self
     {
         $this->permission = [
@@ -36,6 +42,9 @@ class MenuItem implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * Set the route name used to resolve the URL for this menu item.
+     */
     public function route(string $route, array $params = []): self
     {
         $this->route = $route;
@@ -44,6 +53,9 @@ class MenuItem implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * Set the URL for this menu item.
+     */
     public function url(string $url): self
     {
         $this->url = $url;
@@ -51,6 +63,9 @@ class MenuItem implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * Make this menu item a visual divider.
+     */
     public function divider(): self
     {
         $this->divider = true;
@@ -58,6 +73,9 @@ class MenuItem implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * Set that the URL of the menu item and the requested URL must be exactly the same to consider this item as "active".
+     */
     public function exact(): self
     {
         $this->exact = true;
@@ -65,6 +83,9 @@ class MenuItem implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * Add children to this menu item.
+     */
     public function addChildren(): self
     {
         $this->children = $this->children->merge(func_get_args());
@@ -72,6 +93,9 @@ class MenuItem implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * Resolves the URL for this menu item based on the route or the URL.
+     */
     private function resolveUrl(): string
     {
         if ($this->route !== '' && \Route::has($this->route)) {

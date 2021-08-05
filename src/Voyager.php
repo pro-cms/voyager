@@ -46,11 +46,8 @@ class Voyager
 
     /**
      * Set the callback that should be used to authenticate Horizon users.
-     *
-     * @param string $pathPrefix
-     * @return static
      */
-    public static function path(string $pathPrefix = '/admin')
+    public static function path(string $pathPrefix = '/admin'): static
     {
         static::$routePath = $pathPrefix;
 
@@ -64,26 +61,16 @@ class Voyager
 
     /**
      * Generate a Voyager route URL for Voyager resources and paths.
-     *
-     * @param string $name
-     * @param array  $parameters
-     * @param bool   $absolute
-     *
-     * @return string
      */
-    public function route($name, $parameters = [], $absolute = true): string
+    public function route(string $name, array $parameters = [], bool $absolute = true): string
     {
         return route('voyager.' . $name, $parameters, $absolute);
     }
 
     /**
      * Generate an absolute URL for an asset-file.
-     *
-     * @param string|null $path the relative path, e.g. js/voyager.js.
-     *
-     * @return string
      */
-    public function assetUrl($path = null)
+    public function assetUrl(?string $path = null): string
     {
         if ($path === null) {
             return route('voyager.voyager_assets').'?path='.urlencode($path ?? '');
@@ -94,10 +81,8 @@ class Voyager
 
     /**
      * Get the currently installed version of Voyager
-     *
-     * @return string
      */
-    public function getVersion()
+    public function getVersion(): string
     {
         if ($this->version == '') {
             $this->version = InstalledVersions::getPrettyVersion('voyager-admin/voyager') ?? '';
@@ -111,13 +96,8 @@ class Voyager
 
     /**
      * Flash a message to the UI.
-     *
-     * @param array|string|null $message The message
-     * @param string            $color   The tailwind color of the exception: blue, yellow, green, red...
-     * @param int|null          $timeout The timeout after which the message will close in ms or null
-     * @param bool              $next    If the message should be flashed after the next request.
      */
-    public function flashMessage(array|string|null $message, string $color, int|null $timeout = 5000, bool $next = false): void
+    public function flashMessage(array|string|null $message, string $color, ?int $timeout = 5000, bool $next = false): void
     {
         $this->messages[] = [
             'message' => $message,
@@ -135,10 +115,8 @@ class Voyager
 
     /**
      * Get all messages.
-     *
-     * @return \Illuminate\Support\Collection The messages.
      */
-    public function getMessages()
+    public function getMessages(): Collection
     {
         $messages = array_merge($this->messages, session()->get('voyager-messages', []));
         session()->forget('voyager-messages');
@@ -148,10 +126,8 @@ class Voyager
 
     /**
      * Get all Voyager translation strings.
-     *
-     * @return \Illuminate\Support\Collection The language strings.
      */
-    public function getLocalization()
+    public function getLocalization(): Collection
     {
         $translator = app()->make('translator');
 
@@ -165,9 +141,6 @@ class Voyager
 
     /**
      * Add translations to the Voyager namespace.
-     *
-     * @param string $namespace   The namespace.
-     * @param string $group       The group.
      */
     public function addTranslations(string $namespace, string $group): void
     {
@@ -186,11 +159,8 @@ class Voyager
 
     /**
      * Get all columns in a given table.
-     * 
-     * @param string $table The table name.
-     * @return array The columns of the table.
      */
-    public function getColumns($table)
+    public function getColumns(string $table): array
     {
         if (!array_key_exists($table, $this->tables)) {
             $builder = DB::getSchemaBuilder();
@@ -202,10 +172,8 @@ class Voyager
 
     /**
      * Get all locales supported by the app.
-     *
-     * @return array The locales.
      */
-    public function getLocales()
+    public function getLocales(): array
     {
         if (count($this->locales) == 0) {
             return config('app.locales', [$this->getLocale()]);
@@ -216,18 +184,14 @@ class Voyager
 
     /**
      * Add a locale to the supported locales.
-     *
-     * @param string $locale The locale.
      */
-    public function addLocale($locale): void
+    public function addLocale(string $locale): void
     {
         $this->locales[] = $locale;
     }
 
     /**
      * Set and override all locales.
-     *
-     * @param array $locales The locales.
      */
     public function setLocales(array $locales): void
     {
@@ -236,8 +200,6 @@ class Voyager
 
     /**
      * Get the current app-locale.
-     *
-     * @return string The current locale.
      */
     public function getLocale(): string
     {
@@ -246,8 +208,6 @@ class Voyager
 
     /**
      * Get the app fallback-locale.
-     *
-     * @return string The fallback locale.
      */
     public function getFallbackLocale(): string
     {
@@ -256,8 +216,6 @@ class Voyager
 
     /**
      * Get if the app is translatable or not.
-     *
-     * @return bool
      */
     public function isTranslatable(): bool
     {
@@ -266,8 +224,6 @@ class Voyager
 
     /**
      * Gets all widgets from installed and enabled plugins filtered by plugins.
-     *
-     * @return Collection The widgets.
      */
     public function getWidgets(): Collection
     {
@@ -301,13 +257,8 @@ class Voyager
 
     /**
      * Translate a given string/object/array.
-     *
-     * @param  mixed  $value The value as a string, object or array.
-     * @param  string $locale The locale which should be returned.
-     * @param  string $fallback The fallback locale.
-     * @return string The translated value.
      */
-    public function translate($value, $locale = null, $fallback = null): string
+    public function translate(mixed $value, ?string $locale = null, ?string $fallback = null): string
     {
         if ($locale == null) {
             $locale = app()->getLocale();
@@ -335,13 +286,8 @@ class Voyager
 
     /**
      * Set a translation in a given string/object/array.
-     *
-     * @param  mixed  $input The input as a string, object or array.
-     * @param  mixed  $value The value which should be set.
-     * @param  string $locale The fallback locale.
-     * @return mixed The translated value.
      */
-    public function setTranslation($input, $value, $locale = null)
+    public function setTranslation(mixed $input, mixed $value, ?string $locale = null): mixed
     {
         if ($locale == null) {
             $locale = app()->getLocale();
@@ -367,25 +313,16 @@ class Voyager
 
     /**
      * Get a setting, settings in a group or all settings.
-     *
-     * @param string $key The key of the setting or the group name.
-     * @param mixed  $default The value that should be returned when the setting does not exist.
-     * @param bool   $translate Should the setting be translated?
-     * @return mixed The setting(s).
      */
-    public function setting($key = null, $default = null, $translate = true)
+    public function setting(?string $key = null, mixed $default = null, bool $translate = true): mixed
     {
         return $this->settingmanager->setting($key, $default, $translate);
     }
 
     /**
      * Safely parse a string into JSON
-     *
-     * @param string $input   The JSON string.
-     * @param mixed  $default The value that should be returned when input is not valid JSON.
-     * @return mixed
      */
-    public function getJson(string $input, $default = false): mixed
+    public function getJson(string $input, mixed $default = false): mixed
     {
         $json = @json_decode($input);
         if (json_last_error() == JSON_ERROR_NONE) {
@@ -397,40 +334,32 @@ class Voyager
 
     /**
      * Set the path where BREAD JSON files are loaded from/stored to.
-     *
-     * @param string $path The path where BREAD JSON files should be loaded from/stored to.
      */
-    public function setBreadPath($path): void
+    public function setBreadPath(string $path): void
     {
         $this->breadmanager->setPath($path);
     }
 
     /**
      * Set the path where the plugins JSON file is loaded from/stored to.
-     *
-     * @param string $path The path where the plugins JSON file should be loaded from/stored to.
      */
-    public function setPluginsPath($path): void
+    public function setPluginsPath(string $path): void
     {
         $this->pluginmanager->setPath($path);
     }
 
     /**
      * Set the path where the settings JSON file is loaded from/stored to.
-     *
-     * @param string $path The path where the settings JSON file should be loaded from/stored to.
      */
-    public function setSettingsPath($path): void
+    public function setSettingsPath(string $path): void
     {
         $this->settingmanager->setPath($path);
     }
 
     /**
      * Gets the authentication plugin.
-     *
-     * @return AuthenticationPlugin The AuthenticationPlugin instance.
      */
-    public function auth()
+    public function auth(): AuthenticationPlugin
     {
         return $this->pluginmanager->getAllPlugins()->filter(function ($plugin) {
             return $plugin instanceof AuthenticationPlugin;
@@ -439,10 +368,8 @@ class Voyager
 
     /**
      * Ensures that a directory exists.
-     *
-     * @param string $path The path to the directory.
      */
-    public function ensureDirectoryExists($path): void
+    public function ensureDirectoryExists(string $path): void
     {
         if (!File::isDirectory($path)) {
             File::makeDirectory($path, 0755, true);
@@ -451,11 +378,8 @@ class Voyager
 
     /**
      * Ensures that a file exists.
-     *
-     * @param string $path The path to the file.
-     * @param string $content The content to write to the file if it doesn't exist.
      */
-    public function ensureFileExists($path, $content = ''): void
+    public function ensureFileExists(string $path, string $content = ''): void
     {
         $this->ensureDirectoryExists(dirname($path));
         if (!file_exists($path)) {
@@ -463,6 +387,9 @@ class Voyager
         }
     }
 
+    /**
+     * Safely write to a file.
+     */
     public function writeToFile(string $path, string|bool $content = ''): bool
     {
         // When passing in json_encode(), the result might be false
@@ -475,13 +402,8 @@ class Voyager
 
     /**
      * Authorize an action for a user.
-     *
-     * @param mixed $user The user.
-     * @param mixed $ability The ability.
-     * @param array $arguments Additional arguments.
-     * @return bool Wether the action is authorized or not.
      */
-    public function authorize($user, $ability, $arguments = []): bool
+    public function authorize(mixed $user, mixed $ability, array $arguments = []): bool
     {
         $authorized = true;
         $this->pluginmanager->getAllPlugins()->filter(function ($plugin) {
@@ -496,15 +418,16 @@ class Voyager
     }
 
     /**
-     * @param string $breadName
-     *
-     * @return Classes\Bread|null
+     * Get a BREAD by it's (table) name.
      */
-    public function getBreadByName($breadName): Classes\Bread|null
+    public function getBreadByName(string $breadName): ?Classes\Bread
     {
         return $this->breadmanager->getBreadByName($breadName);
     }
 
+    /**
+     * Get data used in all internal Voyager views.
+     */
     public function getViewData(): array
     {
         // This data gets directly written to the store and can be accessed through `this.$store` everywhere
