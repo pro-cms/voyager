@@ -22,4 +22,4 @@ This table gives you an overview of all built-in formfields and their recommende
 | [Text](text.md)                     | A standard text formfield                            | Text, Longtext, Varchar                    |
 
 
-*) Formfields with an asterisk **require** the column to be real JSON as the result is always an array.
+Formfields with an asterisk **require** the column to be real JSON as the result is always an array.
