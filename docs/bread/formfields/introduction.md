@@ -1,6 +1,7 @@
 # Formfields
 
-Lalelu
+Formfields are the heart of every layout.  
+They display, parse and handle incoming data and input.
 
 ## Overview
 
