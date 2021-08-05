@@ -177,32 +177,34 @@
             <div class="flex w-full">
                 <Collapsible title="Default" :title-size="5" class="w-full md:w-1/3">
                     <div class="inline-flex items-center space-x-1.5 w-full">
-                        <input type="checkbox" class="input" :class="inputClass" checked />
+                        <input type="checkbox" class="input" :class="inputColor" checked />
                         <label class="label">Checkbox 1</label>
                     </div>
                     <div class="inline-flex items-center space-x-1.5 w-full">
-                        <input type="checkbox" class="input" :class="inputClass" />
+                        <input type="checkbox" class="input" :class="inputColor" />
                         <label class="label">Checkbox 1</label>
                     </div>
                 </Collapsible>
                 <Collapsible title="Disabled" :title-size="5" class="w-full md:w-1/3">
                     <div class="inline-flex items-center space-x-1.5 w-full">
-                        <input type="checkbox" class="input" :class="inputClass" disabled checked />
+                        <input type="checkbox" class="input" :class="inputColor" disabled checked />
                         <label class="label">Checkbox 1</label>
                     </div>
                     <div class="inline-flex items-center space-x-1.5 w-full">
-                        <input type="checkbox" class="input" :class="inputClass" disabled />
+                        <input type="checkbox" class="input" :class="inputColor" disabled />
                         <label class="label">Checkbox 1</label>
                     </div>
                 </Collapsible>
                 <Collapsible title="Inline" :title-size="5" class="w-full md:w-1/3">
-                    <div class="inline-flex items-center space-x-1.5">
-                        <input type="checkbox" class="input" :class="inputClass" checked />
-                        <label class="label">Checkbox 1</label>
-                    </div>
-                    <div class="inline-flex items-center space-x-1.5">
-                        <input type="checkbox" class="input" :class="inputClass" />
-                        <label class="label">Checkbox 1</label>
+                    <div class="inline-flex space-x-2">
+                        <div class="inline-flex items-center space-x-1.5">
+                            <input type="checkbox" class="input" :class="inputColor" checked />
+                            <label class="label">Checkbox 1</label>
+                        </div>
+                        <div class="inline-flex items-center space-x-1.5">
+                            <input type="checkbox" class="input" :class="inputColor" />
+                            <label class="label">Checkbox 1</label>
+                        </div>
                     </div>
                 </Collapsible>
             </div>
@@ -211,32 +213,34 @@
             <div class="flex w-full">
                 <Collapsible title="Default" :title-size="5" class="w-full md:w-1/3">
                     <div class="inline-flex items-center space-x-1.5 w-full">
-                        <input type="radio" class="input" :class="inputClass" name="radio-normal" checked />
+                        <input type="radio" class="input" :class="inputColor" name="radio-normal" checked />
                         <label class="label">Radio 1</label>
                     </div>
                     <div class="inline-flex items-center space-x-1.5 w-full">
-                        <input type="radio" class="input" :class="inputClass" name="radio-normal" />
+                        <input type="radio" class="input" :class="inputColor" name="radio-normal" />
                         <label class="label">Radio 1</label>
                     </div>
                 </Collapsible>
                 <Collapsible title="Disabled" :title-size="5" class="w-full md:w-1/3">
                     <div class="inline-flex items-center space-x-1.5 w-full">
-                        <input type="radio" class="input" :class="inputClass" disabled name="radio-disabled" checked />
+                        <input type="radio" class="input" :class="inputColor" disabled name="radio-disabled" checked />
                         <label class="label">Radio 1</label>
                     </div>
                     <div class="inline-flex items-center space-x-1.5 w-full">
-                        <input type="radio" class="input" :class="inputClass" disabled name="radio-disabled" />
+                        <input type="radio" class="input" :class="inputColor" disabled name="radio-disabled" />
                         <label class="label">Radio 1</label>
                     </div>
                 </Collapsible>
                 <Collapsible title="Inline" :title-size="5" class="w-full md:w-1/3">
-                    <div class="inline-flex items-center space-x-1.5">
-                        <input type="radio" class="input" :class="inputClass" name="radio-inline" checked />
-                        <label class="label">Radio 1</label>
-                    </div>
-                    <div class="inline-flex items-center space-x-1.5">
-                        <input type="radio" class="input" :class="inputClass" name="radio-inline" />
-                        <label class="label">Radio 1</label>
+                    <div class="inline-flex space-x-2">
+                        <div class="inline-flex items-center space-x-1.5">
+                            <input type="radio" class="input" :class="inputColor" name="radio-inline" checked />
+                            <label class="label">Radio 1</label>
+                        </div>
+                        <div class="inline-flex items-center space-x-1.5">
+                            <input type="radio" class="input" :class="inputColor" name="radio-inline" />
+                            <label class="label">Radio 1</label>
+                        </div>
                     </div>
                 </Collapsible>
             </div>
@@ -244,19 +248,19 @@
         <Card title="Select">
             <div class="flex w-full">
                 <Collapsible title="Default" :title-size="5" class="w-full md:w-1/3">
-                    <select class="input w-full">
+                    <select class="input w-full" :class="inputColor">
                         <option>Option 1</option>
                         <option>Option 2</option>
                     </select>
                 </Collapsible>
                 <Collapsible title="Disabled" :title-size="5" class="w-full md:w-1/3">
-                    <select class="input w-full" disabled>
+                    <select class="input w-full" disabled :class="inputColor">
                         <option>Option 1</option>
                         <option>Option 2</option>
                     </select>
                 </Collapsible>
                 <Collapsible title="Small" :title-size="5" class="w-full md:w-1/3">
-                    <select class="input w-full small">
+                    <select class="input w-full small" :class="inputColor">
                         <option>Option 1</option>
                         <option>Option 2</option>
                     </select>

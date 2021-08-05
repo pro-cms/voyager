@@ -111,8 +111,8 @@
                                 <Icon icon="switch-vertical" />
                             </button>
 
-                            <button class="button small red" @click="deleteSetting(setting)" v-tooltip="__('voyager::generic.delete')">
-                                <Icon icon="trash" />
+                            <button class="button small" @click="deleteSetting(setting)" v-tooltip="__('voyager::generic.delete')">
+                                <Icon icon="trash" class="text-red-500" />
                             </button>
                         </div>
                     </template>

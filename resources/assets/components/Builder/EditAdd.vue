@@ -302,6 +302,8 @@
                     :columns="columns"
                     :relationships="relationships"
                     :tab="currentTab"
+                    :tabs="currentLayout.tabs"
+                    @update:formfield_tab="currentLayout.formfields[$event.key].tab = $event.tab"
                     v-model:formfields="currentLayout.formfields"
                     v-model:options="currentLayout.options"
                     v-on:delete="deleteFormfield($event)"

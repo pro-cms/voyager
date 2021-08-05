@@ -132,8 +132,8 @@
                                         </button>
                                     </template>
                                 </SlideIn>
-                                <button class="button red" @click="$emit('delete', key)">
-                                    <Icon icon="trash" />
+                                <button class="button" @click="$emit('delete', key)">
+                                    <Icon icon="trash" class="text-red-500" />
                                     <span>{{ __('voyager::generic.delete') }}</span>
                                 </button>
                             </td>

@@ -16,6 +16,21 @@
                                 <button class="button small" @mousedown="startResize(key)" v-tooltip="__('voyager::builder.resize')">
                                     <Icon icon="switch-horizontal" class="cursor-move" />
                                 </button>
+                                <Dropdown>
+                                    <div>
+                                        <div class="link" @click="$emit('update:formfield_tab', { key, tab: null })">
+                                            {{ __('voyager::bread.no_tab') }}
+                                        </div>
+                                        <div class="link" v-for="tab in tabs" :key="`tab-${tab}`" @click="$emit('update:formfield_tab', { key, tab })">
+                                            {{ translate(tab) }}
+                                        </div>
+                                    </div>
+                                    <template #opener>
+                                        <button class="button small">
+                                            <Icon icon="collection" />
+                                        </button>
+                                    </template>
+                                </Dropdown>
                                 <SlideIn :title="__('voyager::generic.options')">
                                     <template #actions>
                                         <LocalePicker />
@@ -109,8 +124,8 @@
                                         </button>
                                     </template>
                                 </SlideIn>
-                                <button class="button small red" @click="$emit('delete', key)">
-                                    <Icon icon="trash" />
+                                <button class="button small" @click="$emit('delete', key)">
+                                    <Icon icon="trash" class="text-red-500" />
                                 </button>
                             </div>
                         </template>
@@ -141,7 +156,7 @@ export default {
         BreadBuilderValidation,
         draggable,
     },
-    emits: ['delete', 'update:formfields', 'update:options'],
+    emits: ['delete', 'update:formfields', 'update:options', 'update:formfield_tab'],
     props: {
         computed: Array,
         columns: Array,
@@ -151,6 +166,10 @@ export default {
         tab: {
             type: [Number, null],
             default: null,
+        },
+        tabs: {
+            type: Array,
+            default: () => []
         },
         fromRepeater: {
             type: Boolean,
