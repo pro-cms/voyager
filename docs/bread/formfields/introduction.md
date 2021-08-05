@@ -15,8 +15,9 @@ This table gives you an overview of all built-in formfields and their recommende
 | [Media picker](media-picker.md)     | Select one or many files with the media manager      | JSON*                                      |
 | [Number](number.md)                 | Enter a number, float or double                      | Int, Float, Double                         |
 | [Password](password.md)             | A password formfield                                 | Text, Varchar                              |
-| [Radio](radio.md)                   | Select one of many given options                     | Text, Number, ... (depending on your keys) |
+| [Radio](radio.md)                   | Select one of many given options                     | Text, Number, ... (depending on your value)|
 | [Relationship](relationship.md)     | Display a relationship                               | Depending on your resulting key(s)         |
+| [Repeater](repeater.md)             | Display a repeatable set of formfields               | JSON*                                      |
 | [Select](select.md)                 | Select one or multiple given options                 | Text, Varchar, JSON                        |
 | [Simple array](simple-array.md)     | Enter multiple values of any kind                    | JSON*                                      |
 | [Slider](slider.md)                 | Select a numeric value from a slider/range           | Int, JSON*                                 |
