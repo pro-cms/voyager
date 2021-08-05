@@ -1,11 +1,11 @@
-# Dynamic select
+# Dynamic Input
 
-The dynamic select is a simple yet powerful formfield allowing you to provide select(s) and number or text inputs based on the currently selected value(s).  
+The dynamic input is a simple yet powerful formfield allowing you to provide select(s) and number or text inputs based on the currently selected value(s).  
 To retreive the possible options, Voyager will fetch a route you define in the formfield options.
 
 ### Knowing the BREAD action
 
-The incoming request contains a parameter `bread_action` which can be `query`, 'browse`, `edit` or `add`.
+The incoming request contains a parameter `bread_action` which can be `query`, `browse`, `edit` or `add`.
 
 ### Examples
 
