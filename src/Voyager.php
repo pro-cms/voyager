@@ -447,7 +447,6 @@ class Voyager
             'titleSuffix'           => $this->setting('admin.title', 'Voyager II'),
 
             'rtl'                   => (__('voyager::generic.is_rtl') == 'true'),
-            'currentUrl'            => Str::finish(url()->current(), '/'),
             'csrfToken'             => csrf_token(),
 
             'messages'              => $this->getMessages(),

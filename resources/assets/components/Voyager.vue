@@ -11,13 +11,13 @@
             </FadeTransition>
         </div>
         <template v-if="!isLogin">
-            <sidebar />
+            <Sidebar />
             <div class="flex flex-col w-0 flex-1 overflow-hidden">
                 <main class="flex-1 relative z-0 overflow-y-auto pt-2 pb-6 outline-none" id="content">
                     <div id="top"></div>
-                    <navbar></navbar>
+                    <Navbar />
                     <div class="mx-auto sm:px-3 md:px-4">
-                        <slot />
+                        <slot></slot>
                     </div>
                 </main>
             </div>
@@ -49,11 +49,6 @@ export default {
         Inertia.on('navigate', (event) => {
             document.title = event.detail.page.props.page_title + ' - ' + this.$store.titleSuffix;
             this.$store.pageLoading = false;
-            let url = String(window.location);
-            if (!url.endsWith('/')) {
-                url = url + '/';
-            }
-            this.$store.currentUrl = url;
         });
 
         Inertia.on('start', (event) => {

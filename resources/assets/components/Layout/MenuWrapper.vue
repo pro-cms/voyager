@@ -1,7 +1,7 @@
 <template>
     <div v-for="(item, i) in items" :key="i">
         <hr class="my-3 sidebar-border" v-if="item.divider" />
-        <menuItem
+        <MenuItem
             v-else
             :title="item.title"
             :icon="item.icon"
@@ -11,12 +11,11 @@
             :iconSize="iconSize"
         >
             <div v-if="item.children.length > 0">
-                <menuWrapper
+                <MenuWrapper
                     :items="item.children"
-                    :current-url="currentUrl"
                 />
             </div>
-        </menuItem>
+        </MenuItem>
     </div>
 </template>
 
@@ -26,16 +25,12 @@ import MenuItem from '@components/Layout/MenuItem.vue';
 export default {
     components: {
         MenuItem,
-        'menuWrapper': this,
+        'MenuWrapper': this,
     },
     props: {
         items: {
             type: Array,
             required: true,
-        },
-        currentUrl: {
-            type: String,
-            default: '',
         },
         iconSize: {
             type: Number,
@@ -44,16 +39,16 @@ export default {
     },
     methods: {
         isItemActive(item) {
-            var url = item.href;
-            if (!url.endsWith('/')) {
-                url = url + '/';
-            }
+            const reg = /.+?\:\/\/.+?(\/.+?)(?:#|\?|$)/;
+            let url = reg.exec(item.href)[1].startWith('/').endWith('/');
+
+            let current = this.$page.url.startWith('/').endWith('/');
 
             if (item.exact === true) {
-                return this.currentUrl == url;
+                return current == url;
             }
 
-            return this.currentUrl.startsWith(url);
+            return current.startsWith(url);
         }
     }
 }

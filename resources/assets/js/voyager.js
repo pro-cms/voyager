@@ -1,6 +1,7 @@
 __webpack_public_path__ = document.querySelector('meta[name="asset-url"]').content;
 
 import '@helper/array';
+import '@helper/string';
 
 import '../sass/voyager.scss';
 

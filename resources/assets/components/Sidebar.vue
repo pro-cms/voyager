@@ -19,9 +19,8 @@
                         </span>
                     </div>
                     <nav class="mt-3 px-2">
-                        <menuWrapper
+                        <MenuWrapper
                             :items="$store.sidebar.items"
-                            :current-url="$store.currentUrl"
                             :icon-size="iconSize"
                         />
                     </nav>
@@ -51,9 +50,8 @@
                         </span>
                     </div>            
                     <nav class="mt-4 flex-1 px-2">
-                        <menuWrapper
+                        <MenuWrapper
                             :items="$store.sidebar.items"
-                            :current-url="$store.currentUrl"
                             :icon-size="iconSize"
                         />
                     </nav>

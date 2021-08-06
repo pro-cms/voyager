@@ -20,7 +20,6 @@ export default reactive({
     titleSuffix: '',
     rtl: false,
     csrfToken: '',
-    currentUrl: '',
 
     version: '',
 

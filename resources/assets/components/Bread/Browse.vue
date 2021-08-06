@@ -334,17 +334,19 @@ export default {
             }
         },
         pushParameterToUrl(params) {
-            var url = window.location.href.split('?')[0];
-            for (var key in params) {
-                if (params.hasOwnProperty(key) && params[key] !== null && key !== 'filter') {
-                    if (this.isObject(params[key])) {
-                        url = this.addParameterToUrl(key, JSON.stringify(params[key]), url);
-                    } else {
-                        url = this.addParameterToUrl(key, params[key], url);
+            if (!this.fromRelationship) {
+                var url = window.location.href.split('?')[0];
+                for (var key in params) {
+                    if (params.hasOwnProperty(key) && params[key] !== null && key !== 'filter' && key !== 'forcedLayout') {
+                        if (this.isObject(params[key])) {
+                            url = this.addParameterToUrl(key, JSON.stringify(params[key]), url);
+                        } else {
+                            url = this.addParameterToUrl(key, params[key], url);
+                        }
                     }
                 }
+                this.pushToUrlHistory(url);
             }
-            this.pushToUrlHistory(url);
         },
         setFilter(filter) {
             if (this.isFilterSelected(filter)) {
