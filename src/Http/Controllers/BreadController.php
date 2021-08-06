@@ -47,7 +47,13 @@ class BreadController extends Controller
     {
         $start = microtime(true);
         $bread = $this->getBread($request);
-        $layout = $this->breadmanager->getLayoutForAction($bread, 'browse');
+        $forcedLayout = $request->get('forcedLayout', null);
+        if ($forcedLayout !== null) {
+            $layout = $bread->layouts->where('uuid', $forcedLayout)->first();
+        } else {
+            $layout = $this->breadmanager->getLayoutForAction($bread, 'browse');
+        }
+        
 
         $warnings = [];
 

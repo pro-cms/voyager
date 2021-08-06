@@ -276,7 +276,7 @@ export default {
         load() {
             this.loading = true;
 
-            axios.post(this.route('voyager.'+this.translate(this.bread.slug, true)+'.data'), this.parameters)
+            axios.post(this.route('voyager.'+this.translate(this.bread.slug, true)+'.data'), { ...this.parameters, forcedLayout: this.forcedLayout })
             .then((response) => {
                 for (var key in response.data) {
                     if (response.data.hasOwnProperty(key) && this.$data.hasOwnProperty(key)) {
