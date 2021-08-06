@@ -34,10 +34,12 @@ class BreadController extends Controller
     public function browse(Request $request): InertiaResponse
     {
         $bread = $this->getBread($request, true);
+        $layout = $this->breadmanager->getLayoutForAction($bread, 'browse');
 
         return $this->inertiaRender('Bread/Browse', __('voyager::bread.browse_type', ['type' => $bread->name_plural]), [
             'bread'         => $bread,
             'relationships' => $bread->relationships,
+            'defaultOrder'  => $layout->options?->default_order_column?->column ?? null,
         ]);
     }
 

@@ -229,6 +229,10 @@ export default {
         forcedLayout: {
             default: null,
         },
+        defaultOrder: {
+            type: [String, null],
+            default: null,
+        },
         // Selected key(s) from relationship
         selectedKeys: {
             default: () => []
@@ -259,7 +263,7 @@ export default {
                 perpage: this.perPage,
                 global: null,
                 filters: {},
-                order: null,
+                order: this.defaultOrder,
                 direction: 'asc',
                 softdeleted: 'show', // show, hide, only
                 locale: this.$store.locale,
@@ -283,10 +287,7 @@ export default {
                         });
                     }
                 }
-
-                if (this.parameters.order === null) {
-                    this.parameters.order = this.layout.options.default_order_column.column;
-                }
+                
                 if (response.data.execution > 500) {
                     new this.$notification(this.__('voyager::bread.execution_time_warning', { time: parseInt(response.data.execution) })).color('yellow').timeout().show();
                 }
@@ -484,7 +485,6 @@ export default {
         },
     },
     mounted() {
-        var parameter_found = false;
         for (var param of this.getParametersFromUrl()) {
             try {
                 var val = JSON.parse(param[1]);
@@ -492,14 +492,12 @@ export default {
             } catch {
                 this.parameters[param[0]] = param[1];
             }
-
-            parameter_found = true;
         }
 
-        if (!parameter_found) {
-            this.pushParameterToUrl(this.parameters);
+        this.$watch(() => this.parameters, debounce((parameters) => {
+            this.pushParameterToUrl(parameters);
             this.load();
-        }
+        }, 250), { deep: true, immediate: true });
     },
     created() {
         this.$watch(() => this.selectedKeys, (selected) => {
@@ -514,10 +512,6 @@ export default {
         this.$watch(() => this.$store.locale, (locale) => {
             this.parameters.locale = locale;
         });
-        this.$watch(() => this.parameters, debounce((parameters) => {
-            this.pushParameterToUrl(parameters);
-            this.load();
-        }, 250), { deep: true });
     },
 };
 </script>

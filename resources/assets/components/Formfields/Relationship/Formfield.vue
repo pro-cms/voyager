@@ -18,6 +18,7 @@
                         :bread="relationship.bread"
                         :relationships="relationship.bread.relationships"
                         :forcedLayout="relatedList.uuid"
+                        :defaultOrder="relatedList.options.default_order_column.column"
                         :fromRelationship="true"
                         :multiple="relationship.multiple"
                         :selectedKeys="selectedKeys"
