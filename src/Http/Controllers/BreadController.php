@@ -39,7 +39,7 @@ class BreadController extends Controller
         return $this->inertiaRender('Bread/Browse', __('voyager::bread.browse_type', ['type' => $bread->name_plural]), [
             'bread'         => $bread,
             'relationships' => $bread->relationships,
-            'defaultOrder'  => $layout->options?->default_order_column?->column ?? null,
+            'defaultOrder'  => $layout->options->default_order_column->column ?? null,
         ]);
     }
 
