@@ -3,6 +3,43 @@
 Formfields are the heart of every layout.  
 They display, parse and handle incoming data and input.
 
+## Common options
+
+### Column
+
+Here you select which column this formfield consumes.  
+This can be table columns, accessor, relationship properties or relationship methods.
+
+### Translatable
+
+If you want your data to be translatable, check this box.  
+Please note that some formfields, like the relationship formfield, can not be translated.
+
+### Title
+
+The title shown at the top of the formfield.  
+This field is translatable.
+
+### Description
+
+The description shown below the formfield.  
+This field is translatable.
+
+### Component
+
+Here you can provide a name of a custom Vue component.  
+Read more how to add components to Voyager [here](../../plugin-development/components.md)
+
+### Classes
+
+This input allows you to enter additional css classes applied to the parent formfield element.
+
+### Validation
+
+Here you enter all your validation rules and messages which wil be displayed when the rule fails.  
+The message field is translatable.  
+Learn more about validation [here](../../bread-builder/validation.md)
+
 ## Overview
 
 This table gives you an overview of all built-in formfields and their recommended column type

@@ -15,6 +15,7 @@ class Relationship extends Formfield
 {
     public bool $notInLists = true;
     public bool $noColumns = true;
+    public bool $notTranslatable = true;
     public bool $noComputedProps = true;
     public bool $noRelationshipProps = true;
     public bool $noRelationshipPivots = true;

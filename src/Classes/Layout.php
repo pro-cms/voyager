@@ -3,6 +3,7 @@
 namespace Voyager\Admin\Classes;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Classes\Bread;
 use Voyager\Admin\Classes\Formfield;
@@ -14,6 +15,7 @@ class Layout implements \JsonSerializable
     public \stdClass $options;
     public Collection $formfields;
     public array $tabs = [];
+    public ?string $uuid = null;
     protected BreadManager $breadmanager;
 
     /**
@@ -42,6 +44,10 @@ class Layout implements \JsonSerializable
                 $this->{$key} = $value;
             }
         });
+
+        if ($this->uuid === null) {
+            $this->uuid = (string) Str::uuid();
+        }
     }
 
     /**
@@ -72,6 +78,7 @@ class Layout implements \JsonSerializable
     {
         return [
             'name'       => $this->name,
+            'uuid'       => $this->uuid,
             'type'       => $this->type,
             'tabs'       => $this->tabs,
             'options'    => $this->options,

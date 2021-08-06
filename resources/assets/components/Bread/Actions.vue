@@ -1,23 +1,34 @@
 <template>
     <template v-for="(action, i) in filteredActions" :key="i">
-        <component
-            :is="action.method == 'get' ? 'a' : 'button'"
-            class="button small"
-            :class="action.buttoncolor"
-            :href="getUrl(action)"
-            @click="click(action, $event)"
-            v-if="amount(action) > 0"
-        >
-            <Icon v-if="action.icon !== null" :icon="action.icon" :size="4" :class="action.iconcolor ? `text-${action.iconcolor}-500` : null" />
-            <span :class="action.textcolor ? `text-${action.textcolor}-500` : null">{{ trans_choice(action.title, amount(action), replace) }}</span>
-        </component>
+        <template v-if="amount(action) > 0">
+            <template v-if="action.method == 'get'">
+                <Link
+                    v-if="amount(action) > 0"
+                    class="button small"
+                    :class="action.buttoncolor"
+                    :href="getUrl(action)"
+                    :target="openInNewTab ? '_blank' : null"
+                >
+                    <Icon v-if="action.icon !== null" :icon="action.icon" :size="4" :class="action.iconcolor ? `text-${action.iconcolor}-500` : null" />
+                    <span :class="action.textcolor ? `text-${action.textcolor}-500` : null">{{ trans_choice(action.title, amount(action), replace) }}</span>
+                </Link>
+            </template>
+            <template v-else>
+                <button class="button small" :class="action.buttoncolor" @click="click(action)">
+                    <Icon v-if="action.icon !== null" :icon="action.icon" :size="4" :class="action.iconcolor ? `text-${action.iconcolor}-500` : null" />
+                    <span :class="action.textcolor ? `text-${action.textcolor}-500` : null">{{ trans_choice(action.title, amount(action), replace) }}</span>
+                </button>
+            </template>
+        </template>
     </template>
 </template>
 
 <script>
 import axios from 'axios';
+import { Link } from '@inertiajs/inertia-vue3';
 
 export default {
+    components: { Link },
     emits: ['reload'],
     props: {
         bulk: {
@@ -36,6 +47,10 @@ export default {
             type: Array,
             required: true,
         },
+        openInNewTab: {
+            type: Boolean,
+            default: false,
+        }
     },
     computed: {
         filteredActions() {
@@ -66,26 +81,21 @@ export default {
 
             return '#';
         },
-        click(action, e) {
-            if (action.method !== 'get') {
-                e.preventDefault();
-                e.stopPropagation();
-
-                if (this.isObject(action.confirm)) {
-                    new this.$notification(this.trans_choice(action.confirm.message || null, this.amount(action), this.replace))
-                        .title(this.trans_choice(action.confirm.title || null, this.amount(action), this.replace))
-                        .color(action.confirm.color)
-                        .confirm()
-                        .timeout()
-                        .show()
-                        .then((response) => {
-                            if (response === true) {
-                                this.executeAction(action);
-                            }
-                        });
-                } else {
-                    this.executeAction(action);
-                }
+        click(action) {
+            if (this.isObject(action.confirm)) {
+                new this.$notification(this.trans_choice(action.confirm.message || null, this.amount(action), this.replace))
+                    .title(this.trans_choice(action.confirm.title || null, this.amount(action), this.replace))
+                    .color(action.confirm.color)
+                    .confirm()
+                    .timeout()
+                    .show()
+                    .then((response) => {
+                        if (response === true) {
+                            this.executeAction(action);
+                        }
+                    });
+            } else {
+                this.executeAction(action);
             }
         },
         executeAction(action) {

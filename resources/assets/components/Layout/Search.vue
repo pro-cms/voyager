@@ -18,13 +18,13 @@
                     <Card v-for="(bread, table) in searchResults" :key="'bread-results-'+table" class="w-full" :title="translate(getBreadByTable(table).name_plural, true)" :titleSize="5">
                         <template v-if="bread.hasOwnProperty('results') && bread.hasOwnProperty('count') && bread.count > 0">
                             <Card v-for="(result, key) in bread.results" :key="'result-'+table+'-'+key" class="w-full text-lg truncate" no-header>
-                                <a :href="getResultUrl(table, key)">
+                                <Link :href="getResultUrl(table, key)">
                                     {{ translate(result, true) }}
-                                </a>
+                                </Link>
                             </Card>
-                            <a :href="moreUrl(table)" v-if="bread.count > Object.keys(bread.results).length" class="italic rounded-md text-lg">
+                            <Link :href="moreUrl(table)" v-if="bread.count > Object.keys(bread.results).length" class="italic rounded-md text-lg">
                                 {{ __('voyager::generic.more_results', { num: (bread.count - Object.keys(bread.results).length)}) }}
-                            </a>
+                            </Link>
                         </template>
                         <template v-else-if="bread.loading">
                             {{ __('voyager::generic.loading_please_wait') }}
@@ -56,8 +56,10 @@
 import { nextTick } from 'vue';
 import axios from 'axios';
 import debounce from 'debounce';
+import { Link } from '@inertiajs/inertia-vue3';
 
 export default {
+    components: { Link },
     props: ['placeholder', 'mobilePlaceholder'],
     data() {
         return {

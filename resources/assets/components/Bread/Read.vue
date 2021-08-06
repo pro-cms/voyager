@@ -3,10 +3,10 @@
         <Card :title="__('voyager::bread.read_type', { type: translate(bread.name_singular, true) })" :icon="bread.icon">
             <template #actions>
                 <div class="flex flex-wrap items-center space-x-1">
-                    <a class="button small" v-if="prevUrl !== ''" :href="prevUrl">
+                    <Link class="button small" v-if="prevUrl !== ''" :href="prevUrl">
                         <Icon icon="chevron-left" />
                         <span>{{ __('voyager::generic.back') }}</span>
-                    </a>
+                    </Link>
                     <LocalePicker />
                 </div>
             </template>
@@ -62,7 +62,10 @@
 </template>
 
 <script>
+import { Link } from '@inertiajs/inertia-vue3';
+
 export default {
+    components: { Link },
     props: ['bread', 'data', 'primary', 'layout', 'prevUrl', 'relationships'],
     data() {
         return {

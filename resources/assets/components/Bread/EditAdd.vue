@@ -9,10 +9,10 @@
         >
             <template #actions v-if="true">
                 <div class="flex items-center space-x-2">
-                    <a class="button small" v-if="prevUrl !== ''" :href="prevUrl">
+                    <Link class="button small" v-if="prevUrl !== ''" :href="prevUrl">
                         <Icon icon="chevron-left" />
                         <span>{{ __('voyager::generic.back') }}</span>
-                    </a>
+                    </Link>
                     <LocalePicker />
                 </div>
             </template>
@@ -103,8 +103,10 @@
 
 <script>
 import axios from 'axios';
+import { Link } from '@inertiajs/inertia-vue3';
 
 export default {
+    components: { Link },
     emits: ['saved', 'output'],
     props: {
         bread: Object,

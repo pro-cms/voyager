@@ -401,6 +401,7 @@ class BreadController extends Controller
         $relatedKey = $data->getKeyName();
 
         $selected = collect();
+        $model = $bread->getModel()->find($request->get('key', null));
 
         // Test if field is translatable
         $traits = class_uses($data);
@@ -410,13 +411,15 @@ class BreadController extends Controller
 
         if ($computed) {
             list(, $accessor) = explode('.', $column);
-            $selected = $bread->getModel()->findOrFail($request->get('key', null))->{$method}->transform(function ($item) use ($column, $accessor) {
-                $item->{$column} = $item->{$accessor};
+            if ($model) {
+                $selected = $model->{$method}->transform(function ($item) use ($column, $accessor) {
+                    $item->{$column} = $item->{$accessor};
 
-                return $item;
-            })->mapWithKeys(function ($item) use ($column, $relatedKey) {
-                return [$item->{$relatedKey} => $item->{$column}];
-            });
+                    return $item;
+                })->mapWithKeys(function ($item) use ($column, $relatedKey) {
+                    return [$item->{$relatedKey} => $item->{$column}];
+                });
+            }
 
             $data = $data->get()->transform(function ($item) use ($column, $accessor) {
                 $item->{$column} = $item->{$accessor};
@@ -434,7 +437,9 @@ class BreadController extends Controller
                 return $item->{$column};
             });
         } else {
-            $selected = $bread->getModel()->findOrFail($request->get('key', null))->{$method}()->selectRaw("$relatedTable.$relatedKey, $relatedTable.$column")->pluck($column, $relatedKey);
+            if ($model) {
+                $selected = $model->{$method}()->selectRaw("$relatedTable.$relatedKey, $relatedTable.$column")->pluck($column, $relatedKey);
+            }
 
             if (!empty($query)) {
                 if ($translatable) {

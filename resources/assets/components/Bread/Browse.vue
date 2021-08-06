@@ -1,5 +1,9 @@
 <template>
-    <Card :title="__('voyager::bread.browse_type', { type: translate(bread.name_plural, true) })" :icon="bread.icon">
+    <component
+        :is="fromRelationship ? 'div' : 'Card'"
+        :title="__('voyager::bread.browse_type', { type: translate(bread.name_plural, true) })"
+        :icon="bread.icon"
+    >
         <template #actions>
             <div class="flex flex-wrap items-center space-x-1">
                 <input
@@ -18,7 +22,7 @@
                     <Icon icon="refresh" :class="[loading ? 'animate-spin-reverse' : '']" :size="4" />
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
-                <BreadActions :actions="actions" bulk @reload="load" :bread="bread" :selected="selectedEntries" />
+                <BreadActions :actions="actions" bulk @reload="load" :bread="bread" :selected="selectedEntries" :openInNewTab="fromRelationship" />
                 <LocalePicker />
             </div>
         </template>
@@ -36,12 +40,12 @@
                         </Badge>
                     </template>
                 </div>
-                <div class="voyager-table" :class="[loading ? 'loading' : '']">
+                <div class="voyager-table" :class="[loading ? 'loading' : null]">
                     <table>
                         <thead>
                             <tr>
                                 <th class="w-2">
-                                    <input type="checkbox" class="input" @change="selectAll($event.target.checked)" :checked="allSelected" />
+                                    <input type="checkbox" class="input" @change="selectAll($event.target.checked)" :checked="allSelected" v-if="multiple" />
                                 </th>
                                 <th v-if="uses_ordering"></th>
                                 <th
@@ -59,11 +63,11 @@
                                         </div>
                                     </div>
                                 </th>
-                                <th class="flex justify-end">
+                                <th class="flex justify-end" v-if="showActions">
                                     <span>{{ __('voyager::generic.actions') }}</span>
                                 </th>
                             </tr>
-                            <tr>
+                            <tr v-if="layout.formfields.where('searchable', true).length > 0">
                                 <th></th>
                                 <th v-if="uses_ordering"></th>
                                 <th v-for="(formfield, key) in layout.formfields" :key="'thead-search-' + key">
@@ -86,17 +90,19 @@
                                         >
                                     </component>
                                 </th>
-                                <th></th>
+                                <th v-if="showActions"></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(result, key) in results" :key="'row-' + key">
                                 <td>
                                     <input
-                                        type="checkbox"
+                                        :type="multiple ? 'checkbox' : 'radio'"
+                                        :name="`select-${translate(bread.slug, true)}`"
                                         class="input"
                                         v-model="selected"
                                         :value="result.primary_key"
+                                        @change="handleSelect($event, result)"
                                     />
                                 </td>
                                 <td v-if="uses_ordering">
@@ -156,9 +162,9 @@
                                         </component>
                                     </template>
                                 </td>
-                                <td>
+                                <td v-if="showActions">
                                     <div class="flex flex-no-wrap justify-end space-x-1">
-                                        <BreadActions :actions="actions" :selected="[result]" @reload="load" :bread="bread" />
+                                        <BreadActions :actions="actions" :selected="[result]" @reload="load" :bread="bread" :openInNewTab="fromRelationship" />
                                     </div>
                                 </td>
                             </tr>
@@ -189,7 +195,7 @@
                 </div>
             </div>
         </div>
-    </Card>
+    </component>
 </template>
 
 <script>
@@ -215,6 +221,26 @@ export default {
         relationships: {
             type: Array,
             default: () => []
+        },
+        fromRelationship: {
+            type: Boolean,
+            default: false,
+        },
+        forcedLayout: {
+            default: null,
+        },
+        // Selected key(s) from relationship
+        selectedKeys: {
+            default: () => []
+        },
+        // Allow selecting multiple (from relationship)
+        multiple: {
+            type: Boolean,
+            default: true,
+        },
+        showActions: {
+            type: Boolean,
+            default: true,
         }
     },
     data() {
@@ -224,7 +250,7 @@ export default {
             layout: null,
             total: 0,    // Total unfiltered amount of entries
             filtered: 0, // Amount of filtered entries
-            selected: [], // Array of selected primary-keys
+            selected: this.selectedKeys, // Array of selected primary-keys
             uses_soft_deletes: false, // If the model uses soft-deleting
             uses_ordering: false, // If the items can be re-ordered
             actions: [], // The actions which should be displayed
@@ -238,6 +264,7 @@ export default {
                 softdeleted: 'show', // show, hide, only
                 locale: this.$store.locale,
                 filter: null, // The current selected filter
+                forcedLayout: this.forcedLayout,
             },
         };
     },
@@ -387,6 +414,12 @@ export default {
             }
 
             return null;
+        },
+        handleSelect(e, result) {
+            this.$emit('select', {
+                selected: e.target.checked,
+                result
+            });
         }
     },
     computed: {
@@ -467,10 +500,10 @@ export default {
         }
     },
     created() {
-        this.$watch(() => this.selected, (selected) => {
-            this.$emit('select', selected);
+        this.$watch(() => this.selectedKeys, (selected) => {
+            this.selected = selected;
         });
-        this.$watch(() => this.parameters.page, (selected) => {
+        this.$watch(() => this.parameters.page, () => {
             this.selected = [];
         });
         this.$watch(() => this.parameters.softdeleted, () => {

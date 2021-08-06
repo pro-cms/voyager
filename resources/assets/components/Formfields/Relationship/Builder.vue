@@ -5,7 +5,44 @@
         </Alert>
 
         <template v-else>
-            <template v-if="true || relationship.bread === null">
+            <template v-if="relationship && relationship.bread !== null">
+                <div class="input-group mt-2">
+                    <label class="label">{{ __('voyager::formfields.relationship.browse_list') }}</label>
+                    <select class="input w-full" v-model="options.list">
+                        <option :value="null">{{ __('voyager::generic.none') }}</option>
+                        <option v-for="(list, i) in relationship.bread.layouts.where('type', 'list')" :key="`list-${i}`" :value="list.uuid">
+                            {{ list.name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="input-group mt-2">
+                    <label class="label">{{ __('voyager::formfields.relationship.add_view') }}</label>
+                    <select class="input w-full" v-model="options.view">
+                        <option :value="null">{{ __('voyager::generic.none') }}</option>
+                        <option v-for="(view, i) in relationship.bread.layouts.where('type', 'view')" :key="`view-${i}`" :value="view.uuid">
+                            {{ view.name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="input-group mt-2">
+                    <label class="label">{{ __('voyager::formfields.relationship.display_column') }}</label>
+                    <select class="input w-full" v-model="options.display_column" :disabled="!options.list || !relatedList">
+                        <option :value="null">
+                            {{ __('voyager::generic.none') }}
+                        </option>
+                        <template v-if="options.list && relatedList">
+                            <option v-for="column in relatedList.formfields" :value="column.column.column">
+                                {{ translate(column.title, true) }}
+                            </option>
+                        </template>
+                    </select>
+                </div>
+                <div class="input-group mt-2">
+                    <label class="label mt-4">{{ __('voyager::formfields.relationship.show_actions') }}</label>
+                    <input type="checkbox" v-model="options.show_actions" :disabled="!options.list || !relatedList">
+                </div>
+            </template>
+            <template v-else>
                 <Alert color="yellow" class="mt-2">
                     {{ __('voyager::formfields.relationship.no_bread') }}
                 </Alert>
@@ -13,18 +50,23 @@
                 <div class="input-group mt-2">
                     <label class="label">{{ __('voyager::formfields.relationship.display_column') }}</label>
                     <select class="input w-full" v-model="options.display_column">
+                        <option :value="null">
+                            {{ __('voyager::generic.none') }}
+                        </option>
+                        <option v-for="column in relationship.columns" :key="column">{{ column }}</option>
+                    </select>
+                </div>
+
+                <div class="input-group mt-2">
+                    <label class="label">{{ __('voyager::formfields.relationship.order_column') }}</label>
+                    <select class="input w-full" v-model="options.order_column">
+                        <option :value="null">
+                            {{ __('voyager::generic.none') }}
+                        </option>
                         <option v-for="column in relationship.columns" :key="column">{{ column }}</option>
                     </select>
                 </div>
             </template>
-            <template v-else>
-
-            </template>
-
-            <div class="input-group mt-2">
-                <label class="label mt-4">{{ __('voyager::formfields.relationship.allow_none') }}</label>
-                <input type="checkbox" v-model="options.allow_none">
-            </div>
 
             <div class="input-group mt-2">
                 <label class="label mt-4">{{ __('voyager::formfields.relationship.display_name') }}</label>
@@ -38,15 +80,8 @@
                 <thead>
                     <tr>
                         <th class="w-2"></th>
-                        <th class="flex">
-                            <div class="flex-none self-center">
-                                {{ translate(options.display_name, true) }}
-                            </div>
-                            <div class="flex flex-grow justify-end">
-                                <button class="button" v-if="options.allow_none" disabled>
-                                    {{ __('voyager::generic.none') }}
-                                </button>
-                            </div>
+                        <th>
+                            {{ translate(options.display_name, true) }}
                         </th>
                     </tr>
                     <tr>
@@ -77,11 +112,12 @@ export default {
     computed: {
         defaultViewOptions() {
             return {
-                display_column: '',
+                display_column: null,
                 display_name: '',
+                order_column: null,
+                show_actions: true,
                 view: null,
                 list: null,
-                allow_none: true,
             };
         },
         relationship() {
@@ -90,6 +126,9 @@ export default {
             }
 
             return undefined;
+        },
+        relatedList() {
+            return this.relationship.bread.layouts.where('type', 'list').where('uuid', this.options.list).first();
         }
     },
     data() {

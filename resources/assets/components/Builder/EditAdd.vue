@@ -165,12 +165,12 @@
                             </a>
                         </div>
                         <div class="divider"></div>
-                        <a
+                        <Link
                             :href="route('voyager.plugins.index')+'/?type=formfield'"
                             target="_blank"
                             class="w-full italic link text-center">
                             {{ __('voyager::builder.formfields_more') }}
-                        </a>
+                        </Link>
                     </div>
                     <template #opener>
                         <button class="button small"
@@ -319,6 +319,7 @@
 
 <script>
 import { defineAsyncComponent } from 'vue';
+import { Link } from '@inertiajs/inertia-vue3';
 import axios from 'axios';
 
 import focus from '@directives/focus';
@@ -330,7 +331,8 @@ export default {
     props: ['data', 'isNew'],
     components: {
         BreadBuilderList: defineAsyncComponent(() => import(/* webpackChunkName: "BreadBuilderList" */'@components/Builder/List')),
-        BreadBuilderView: defineAsyncComponent(() => import(/* webpackChunkName: "BreadBuilderView" */'@components/Builder/View'))
+        BreadBuilderView: defineAsyncComponent(() => import(/* webpackChunkName: "BreadBuilderView" */'@components/Builder/View')),
+        Link
     },
     data() {
         return {

@@ -46,10 +46,10 @@
                         </td>
                         <td class="flex flex-no-wrap justify-end space-x-1">
                             <template v-if="hasBread(table)">
-                                <a class="button" :href="route('voyager.'+translate(getBread(table).slug, true)+'.browse')">
+                                <Link class="button" :href="route('voyager.'+translate(getBread(table).slug, true)+'.browse')">
                                     <Icon icon="globe" :size="4" class="text-accent-500" />
                                     <span>{{ __('voyager::generic.browse') }}</span>
-                                </a>
+                                </Link>
                                 <button class="button" @click="backupBread(table)">
                                     <Icon icon="clock" :class="[backingUp ? 'animate-spin-reverse' : '']" :size="4" class="text-green-500" />
                                     <span>{{ __('voyager::generic.backup') }}</span>

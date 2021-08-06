@@ -16,21 +16,21 @@
                         <div>
                             <p class="font-semibold leading-none">{{ $store.user.name }}</p>
                             <p>
-                                <a href="#" class="text-sm leading-none hover:underline">
+                                <Link href="#" class="text-sm leading-none hover:underline">
                                     {{ __('voyager::generic.view_profile') }}
-                                </a>
+                                </Link>
                             </p>
                         </div>
                     </div>
-                    <a :href="route('voyager.dashboard')" class="link">
+                    <Link :href="route('voyager.dashboard')" class="link">
                         {{ __('voyager::generic.dashboard') }}
-                    </a>
-                    <a :href="route('voyager.settings.index')" class="link">
+                    </Link>
+                    <Link :href="route('voyager.settings.index')" class="link">
                         {{ __('voyager::generic.settings') }}
-                    </a>
-                    <a :href="route('voyager.logout')" class="link">
+                    </Link>
+                    <Link :href="route('voyager.logout')" class="link">
                         {{ __('voyager::auth.logout') }}
-                    </a>
+                    </Link>
                 </div>
                 <template #opener>
                     <button class="inline-flex justify-end w-48 max-w-sm space-x-2 items-center font-semibold focus:outline-none">
@@ -47,11 +47,13 @@
 </template>
 
 <script>
+import { Link } from '@inertiajs/inertia-vue3';
 import Search from '@components/Layout/Search.vue';
 
 export default {
     components: {
-        Search
+        Search,
+        Link
     },
 }
 </script>
