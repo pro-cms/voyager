@@ -67,6 +67,12 @@ import { Link } from '@inertiajs/inertia-vue3';
 export default {
     components: { Link },
     props: ['bread', 'data', 'primary', 'layout', 'prevUrl', 'relationships'],
+    provide() {
+        return {
+            bread: this.bread,
+            relationships: this.relationships,
+        }
+    },
     data() {
         return {
             currentTab: null,

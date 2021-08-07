@@ -22,7 +22,7 @@
                     <Icon icon="refresh" :class="[loading ? 'animate-spin-reverse' : '']" :size="4" />
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
-                <BreadActions :actions="actions" bulk @reload="load" :bread="bread" :selected="selectedEntries" :openInNewTab="fromRelationship" />
+                <BreadActions :actions="actions" bulk @reload="load" :selected="selectedEntries" :openInNewTab="fromRelationship" />
                 <LocalePicker />
             </div>
         </template>
@@ -80,7 +80,6 @@
                                         :column="formfield.column"
                                         :placeholder="__('voyager::bread.search_type', {type: translate(formfield.title, true)})"
                                         action="query"
-                                        :bread="bread"
                                     >
                                         <input type="text" class="input small w-full"
                                             :placeholder="__('voyager::bread.search_type', {type: translate(formfield.title, true)})"
@@ -119,7 +118,6 @@
                                         :translatable="formfield.translatable"
                                         :class="formfield.options.classes"
                                         :modelValue="getData(result, formfield, true)"
-                                        :bread="bread"
                                     >
                                     </component>
                                     <template v-else-if="formfield.column.type === 'relationship'">
@@ -133,8 +131,7 @@
                                                         :column="formfield.column"
                                                         :translatable="formfield.translatable"
                                                         :class="formfield.options.classes"
-                                                        :modelValue="translate(val.value)"
-                                                        :bread="bread">
+                                                        :modelValue="translate(val.value)">
                                                     </component>
                                                 </component>
                                             </template>
@@ -156,7 +153,6 @@
                                                 :translatable="formfield.translatable"
                                                 :class="formfield.options.classes"
                                                 :modelValue="getData(result, formfield, false)"
-                                                :bread="bread"
                                             >
                                             </component>
                                         </component>
@@ -164,7 +160,7 @@
                                 </td>
                                 <td v-if="showActions">
                                     <div class="flex flex-no-wrap justify-end space-x-1">
-                                        <BreadActions :actions="actions" :selected="[result]" @reload="load" :bread="bread" :openInNewTab="fromRelationship" />
+                                        <BreadActions :actions="actions" :selected="[result]" @reload="load" :openInNewTab="fromRelationship" />
                                     </div>
                                 </td>
                             </tr>
@@ -245,6 +241,12 @@ export default {
         showActions: {
             type: Boolean,
             default: true,
+        }
+    },
+    provide() {
+        return {
+            bread: this.bread,
+            relationships: this.relationships,
         }
     },
     data() {

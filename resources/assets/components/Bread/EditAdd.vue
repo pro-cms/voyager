@@ -71,10 +71,8 @@
                                     :modelValue="getData(formfield)"
                                     @update:modelValue="setData(formfield, $event)"
                                     :errors="getErrors(formfield.column)"
-                                    :bread="bread"
                                     :options="formfield.options"
                                     :column="formfield.column"
-                                    :relationships="relationships"
                                     :translatable="formfield.translatable"
                                     :from-repeater="fromRepeater"
                                     :action="currentAction"
@@ -118,6 +116,12 @@ export default {
         fromRepeater: {
             type: Boolean,
             default: false,
+        }
+    },
+    provide() {
+        return {
+            bread: this.bread,
+            relationships: this.relationships,
         }
     },
     data() {

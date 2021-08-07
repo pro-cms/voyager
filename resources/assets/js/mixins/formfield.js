@@ -1,5 +1,6 @@
 export default {
     emits: ['update:modelValue'],
+    inject: ['bread', 'relationships'],
     props: {
         action: {
             type: String,
@@ -7,10 +8,6 @@ export default {
             validator: function (value) {
                 return ['query', 'browse', 'read', 'edit', 'add'].indexOf(value) >= 0;
             }
-        },
-        bread: {
-            type: Object,
-            default: () => {},
         },
         modelValue: {
             required: true,
@@ -29,10 +26,6 @@ export default {
         translatable: {
             type: Boolean,
             default: false,
-        },
-        relationships: {
-            type: Array,
-            default: () => [],
         },
         fromRelationship: {
             type: Boolean,

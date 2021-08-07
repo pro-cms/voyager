@@ -30,6 +30,7 @@ import { Link } from '@inertiajs/inertia-vue3';
 export default {
     components: { Link },
     emits: ['reload'],
+    inject: ['bread'],
     props: {
         bulk: {
             type: Boolean,
@@ -37,10 +38,6 @@ export default {
         },
         actions: {
             type: Array,
-            required: true,
-        },
-        bread: {
-            type: Object,
             required: true,
         },
         selected: {
