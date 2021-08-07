@@ -6,9 +6,6 @@ use Illuminate\Support\Collection;
 
 class MenuItem implements \JsonSerializable
 {
-    public array|string|null $title;
-    public string $icon;
-    public bool $main;
     public array $permission = [];
     public string $url = '';
     public string $route = '';
@@ -21,11 +18,12 @@ class MenuItem implements \JsonSerializable
     /**
      * Create a new menu item.
      */
-    public function __construct(array|string|null $title = '', string $icon = '', bool $main = false)
+    public function __construct(
+        public array|string|null $title = '',
+        public string $icon = '',
+        public bool $main = false
+    )
     {
-        $this->title = $title;
-        $this->icon = $icon;
-        $this->main = $main;
         $this->children = collect();
     }
 

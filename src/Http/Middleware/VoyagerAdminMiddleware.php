@@ -12,12 +12,8 @@ use Voyager\Admin\Plugins\AuthenticationPlugin as DefaultAuthPlugin;
 
 class VoyagerAdminMiddleware extends InertiaMiddleware
 {
-    protected PluginManager $pluginmanager;
+    public function __construct(protected PluginManager $pluginmanager) { }
 
-    public function __construct(PluginManager $pluginmanager)
-    {
-        $this->pluginmanager = $pluginmanager;
-    }
     /**
      * Handle an incoming request.
      *

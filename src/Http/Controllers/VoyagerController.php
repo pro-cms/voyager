@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
 use Voyager\Admin\Classes\Bread;
 use Voyager\Admin\Classes\DynamicInput;
@@ -20,15 +19,11 @@ class VoyagerController extends Controller
 {
     use Browsable;
 
-    protected BreadManager $breadmanager;
-    protected PluginManager $pluginmanager;
-    protected SettingsManager $settingmanager;
-
-    public function __construct(BreadManager $breadmanager, PluginManager $pluginmanager, SettingsManager $settingmanager)
+    public function __construct(
+        protected BreadManager $breadmanager,
+        protected PluginManager $pluginmanager,
+        protected SettingsManager $settingmanager)
     {
-        $this->breadmanager = $breadmanager;
-        $this->pluginmanager = $pluginmanager;
-        $this->settingmanager = $settingmanager;
         parent::__construct();
     }
 

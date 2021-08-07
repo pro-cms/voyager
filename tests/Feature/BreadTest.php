@@ -79,14 +79,6 @@ class BreadTest extends TestCase
         $this->assertTrue($res['filtered'] !== $res['total']);
     }
 
-    public function test_can_not_access_methods_without_layout()
-    {
-        //resolve(BreadManager::class)->storeBread($this->getNoLayoutBreadJson());
-        
-        //$res = $this->postJson(route('voyager.no-layout.data'))->assertStatus(500);
-        //$this->assertTrue($res['exception'] == \Voyager\Admin\Exceptions\NoLayoutFoundException::class);
-    }
-
     private function getUsersBreadJson()
     {
         return json_decode(file_get_contents(__DIR__."/../Stubs/users.json"));

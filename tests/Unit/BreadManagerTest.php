@@ -63,12 +63,7 @@ class BreadManagerTest extends TestCase
         $this->postJson(route('voyager.bread.backup-bread'), ['table' => 'users'])
             ->assertStatus(200);
 
-        $breads = $this->post(route('voyager.bread.get-breads'))->assertStatus(200);
-        $backups = collect($breads->original['backups']);
-
-        $this->assertTrue($backups->filter(function ($backup) {
-            return $backup['table'] == 'users' && Str::startsWith($backup['path'], 'users.backup');
-        })->count() > 0);
+        // TODO: Check if backup exists on disk
 
         // TODO: Restore
 

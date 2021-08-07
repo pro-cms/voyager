@@ -29,20 +29,16 @@ class Voyager
     protected array $messages = [];
     protected array $tables = [];
     protected array $locales = [];
-    protected \Voyager\Admin\Manager\Breads $breadmanager;
-    protected \Voyager\Admin\Manager\Menu $menumanager;
-    protected \Voyager\Admin\Manager\Plugins $pluginmanager;
-    protected \Voyager\Admin\Manager\Settings $settingmanager;
     protected array $translations = [];
     protected string $version = '';
 
-    public function __construct(BreadManager $breadmanager, MenuManager $menumanager, PluginManager $pluginmanager, SettingManager $settingmanager)
-    {
-        $this->breadmanager = $breadmanager;
-        $this->menumanager = $menumanager;
-        $this->pluginmanager = $pluginmanager;
-        $this->settingmanager = $settingmanager;
-    }
+    public function __construct(
+        protected BreadManager $breadmanager,
+        protected MenuManager $menumanager,
+        protected PluginManager $pluginmanager,
+        protected SettingManager $settingmanager
+    )
+    { }
 
     /**
      * Set the callback that should be used to authenticate Horizon users.

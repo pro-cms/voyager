@@ -8,12 +8,8 @@ use Voyager\Admin\Manager\Settings as SettingsManager;
 
 class SettingsController extends Controller
 {
-    protected SettingsManager $settingmanager;
-
-    public function __construct(SettingsManager $settingmanager)
+    public function __construct(protected SettingsManager $settingmanager)
     {
-        $this->settingmanager = $settingmanager;
-
         parent::__construct();
     }
 

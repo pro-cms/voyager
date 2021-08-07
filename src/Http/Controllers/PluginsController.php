@@ -2,26 +2,17 @@
 
 namespace Voyager\Admin\Http\Controllers;
 
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
-use Illuminate\Support\Composer;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Inertia\Response as InertiaResponse;
-use Voyager\Admin\Contracts\Plugins\ThemePlugin;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\InstructionsComponent;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\SettingsComponent;
-use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 
 class PluginsController extends Controller
 {
-    protected PluginManager $pluginmanager;
-
-    public function __construct(PluginManager $pluginmanager)
+    public function __construct(protected PluginManager $pluginmanager)
     {
-        $this->pluginmanager = $pluginmanager;
-
         parent::__construct();
     }
 

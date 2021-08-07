@@ -29,12 +29,10 @@ class Breads
     protected ?Collection $breads = null;
     protected array $backups = [];
     protected Collection $actions;
-    protected PluginManager $pluginmanager;
 
-    public function __construct(PluginManager $pluginmanager)
+    public function __construct(protected PluginManager $pluginmanager)
     {
         $this->path = Str::finish(storage_path('voyager/breads'), '/');
-        $this->pluginmanager = $pluginmanager;
         $this->formfields = collect();
         $this->actions = collect();
     }

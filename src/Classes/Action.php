@@ -4,11 +4,6 @@ namespace Voyager\Admin\Classes;
 
 class Action
 {
-    public string $title;
-    public ?string $icon;
-    public ?string $buttoncolor = null;
-    public ?string $iconcolor = null;
-    public ?string $textcolor = null;
     public string $method = 'get';
     public bool $download = false;
     public string $file_name = '';
@@ -24,14 +19,14 @@ class Action
     /**
      * Create a new action.
      */
-    public function __construct(string $title, ?string $icon = null, ?string $buttoncolor = null, ?string $iconcolor = null, ?string $textcolor = null)
-    {
-        $this->title = $title;
-        $this->icon = $icon;
-        $this->buttoncolor = $buttoncolor;
-        $this->iconcolor = $iconcolor;
-        $this->textcolor = $textcolor;
-    }
+    public function __construct(
+        public string $title,
+        public ?string $icon = null,
+        public ?string $buttoncolor = null,
+        public ?string $iconcolor = null,
+        public ?string $textcolor = null
+        )
+    { }
 
     /**
      * Set the method that is used when calling/clicking the action.

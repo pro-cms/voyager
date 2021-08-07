@@ -3,10 +3,8 @@
 namespace Voyager\Admin\Manager;
 
 use Composer\InstalledVersions;
-use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Voyager\Admin\Contracts\Plugins\GenericPlugin;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\CSS as CSSProvider;
@@ -14,24 +12,17 @@ use Voyager\Admin\Contracts\Plugins\Features\Provider\FrontendRoutes;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\JS as JSProvider;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\MenuItems;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\ProtectedRoutes;
-use Voyager\Admin\Contracts\Plugins\Features\Provider\PublicRoutes;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\Settings as SettingsProvider;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
-use Voyager\Admin\Voyager;
-
 class Plugins
 {
-    protected Menu $menumanager;
-    protected Settings $settingsmanager;
     protected Collection $plugins;
     protected array $enabled_plugins = [];
     protected string $path;
     protected bool $preferences_changed = false;
 
-    public function __construct(Menu $menumanager, Settings $settingsmanager)
+    public function __construct(public Menu $menumanager, public Settings $settingsmanager)
     {
-        $this->menumanager = $menumanager;
-        $this->settingsmanager = $settingsmanager;
         $this->plugins = collect();
         $this->path = Str::finish(storage_path('voyager'), '/').'plugins.json';
     }

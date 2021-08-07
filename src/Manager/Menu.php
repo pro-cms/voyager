@@ -3,7 +3,6 @@
 namespace Voyager\Admin\Manager;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Voyager\Admin\Classes\MenuItem;
 use Voyager\Admin\Contracts\Plugins\Features\Filter\MenuItems as MenuItemFilter;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;

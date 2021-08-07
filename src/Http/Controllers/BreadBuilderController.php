@@ -22,11 +22,8 @@ use Voyager\Admin\Rules\DefaultLocale as DefaultLocaleRule;
 
 class BreadBuilderController extends Controller
 {
-    protected BreadManager $breadmanager;
-
-    public function __construct(BreadManager $breadmanager)
+    public function __construct(protected BreadManager $breadmanager)
     {
-        $this->breadmanager = $breadmanager;
         parent::__construct();
     }
 

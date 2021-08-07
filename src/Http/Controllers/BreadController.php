@@ -23,11 +23,9 @@ class BreadController extends Controller
     use Browsable, Saveable;
 
     public bool $uses_soft_deletes = false;
-    protected BreadManager $breadmanager;
 
-    public function __construct(BreadManager $breadmanager)
+    public function __construct(protected BreadManager $breadmanager)
     {
-        $this->breadmanager = $breadmanager;
         parent::__construct();
     }
 
