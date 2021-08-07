@@ -21,7 +21,7 @@ export default {
     props: {
         widgets: {
             type: Array,
-            default: () => { return [] }
+            default: () => [],
         }
     }
 }

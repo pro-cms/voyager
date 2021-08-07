@@ -15,6 +15,9 @@ export default {
         modelValue: {
             required: true,
         },
+        class: {
+            default: null
+        },
         column: {
             type: Object,
             required: true,
@@ -49,6 +52,6 @@ export default {
         errors: {
             type: Array,
             default: () => []
-        }
+        },
     },
 };

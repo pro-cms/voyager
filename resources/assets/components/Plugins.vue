@@ -10,8 +10,8 @@
                     @dblclick="installed.query = ''"
                     @keydown.esc="installed.query = ''"
                 >
-                <button class="button" @click="reload">
-                    <Icon icon="refresh" class="animate-spin-reverse" :size="$store.pageLoading ? 5 : 0" :transition-size="5" />
+                <button class="button space-x-1" @click="reload" :disabled="$store.pageLoading">
+                    <Icon icon="refresh" class="animate-spin-reverse" :size="$store.pageLoading ? 4 : 0" :transition-size="4" />
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
                 

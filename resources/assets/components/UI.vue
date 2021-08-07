@@ -25,6 +25,8 @@
         </div>
     </Card>
 
+    <Slug v-model="slug" lower strict />
+
     <Card no-header>
         <div class="w-full flex">
             <div class="w-6/12">
@@ -636,13 +638,16 @@ dayjs.extend(timezone);
 
 import { FORMATS } from './UI/DateTime.vue';
 
+import Slug from '@components/UI/Slug.vue';
+
 export default {
     directives: { scrollTo: scrollTo },
     components: {
-        draggable
+        draggable, Slug
     },
     data() {
         return {
+            slug: 'Test :)',
             name: 'Voyager',
             lorem: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.',
             tags: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipisicing', 'elit'],

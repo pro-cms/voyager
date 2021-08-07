@@ -38,7 +38,9 @@ class BreadBuilderController extends Controller
     public function index(): InertiaResponse
     {
         return $this->inertiaRender('Builder/Browse', __('voyager::generic.breads'), [
-            'tables' => VoyagerFacade::getTables(),
+            'tables'  => VoyagerFacade::getTables(),
+            'breads'  => $this->breadmanager->getBreads()->values(),
+            'backups' => $this->breadmanager->getBackups(),
         ]);
     }
 
@@ -200,19 +202,6 @@ class BreadBuilderController extends Controller
             'scopes'        => $this->breadmanager->getModelScopes($reflection)->values(),
             'relationships' => $this->breadmanager->getModelRelationships($reflection, $instance, $resolve_relationships)->values(),
             'softdeletes'   => $softdeletes,
-        ], 200);
-    }
-
-    /**
-     * Get all BREADs.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getBreads()
-    {
-        return response()->json([
-            'breads'  => $this->breadmanager->getBreads()->values(),
-            'backups' => $this->breadmanager->getBackups(),
         ], 200);
     }
 

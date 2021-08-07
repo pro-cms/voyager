@@ -67,50 +67,49 @@ class VoyagerServiceProvider extends ServiceProvider
 
         $this->registerResources();
 
-        $this->loadPluginFormfields();
-
-        $breads = $this->breadmanager->getBreads();
-
-        // Register menu-items
-        $this->registerMenuItems();
-        $this->registerBreadBuilderMenuItem($breads);
-        $this->registerBreadMenuItems($breads);
-
-        // Register BREAD policies
-        $this->registerBreadPolicies($breads);
-        $this->registerPolicies();
-
-        // Register actions
-        $this->registerActions();
-        $this->registerBulkActions();
-
         // Register permissions
         app(Gate::class)->before(static function ($user, $ability, $arguments = []) {
             return VoyagerFacade::authorize($user, $ability, $arguments);
         });
 
-        if ($this->settingmanager->setting('admin.dev-server', false) === true) {
-            $url = 'http://localhost:8081/';
-            view()->share('devServerUrl', $url);
-            view()->share('devServerWanted', true);
-            try {
-                Http::timeout(1)->get($url)->ok();
-                view()->share('devServerAvailable', true);
-            } catch (\Exception $e) {
-                view()->share('devServerAvailable', false);
-            }
-        } else {
-            view()->share('devServerAvailable', false);
-            view()->share('devServerWanted', false);
-            view()->share('devServerUrl', null);
-        }
-
-        view()->share('voyagerVersion', VoyagerFacade::getVersion());
-
-        Inertia::setRootView('voyager::app');
-
         // A Voyager page was requested. Dispatched in Controller::__construct()
         Event::listen('voyager.page', function () {
+            $this->loadPluginFormfields();
+
+            $breads = $this->breadmanager->getBreads();
+
+            // Register menu-items
+            $this->registerMenuItems();
+            $this->registerBreadBuilderMenuItem($breads);
+            $this->registerBreadMenuItems($breads);
+
+            // Register BREAD policies
+            $this->registerBreadPolicies($breads);
+            $this->registerPolicies();
+
+            // Register actions
+            $this->registerActions();
+            $this->registerBulkActions();
+
+            if ($this->settingmanager->setting('admin.dev-server', false) === true) {
+                $url = 'http://localhost:8081/';
+                view()->share('devServerUrl', $url);
+                view()->share('devServerWanted', true);
+                try {
+                    Http::timeout(1)->get($url)->ok();
+                    view()->share('devServerAvailable', true);
+                } catch (\Exception $e) {
+                    view()->share('devServerAvailable', false);
+                }
+            } else {
+                view()->share('devServerAvailable', false);
+                view()->share('devServerWanted', false);
+                view()->share('devServerUrl', null);
+            }
+    
+            view()->share('voyagerVersion', VoyagerFacade::getVersion());
+    
+            Inertia::setRootView('voyager::app');
             // Override ExceptionHandler only when on a Voyager page
             app()->singleton(
                 \Illuminate\Contracts\Debug\ExceptionHandler::class,

@@ -26,6 +26,9 @@
                         @select="handleSelected"
                     />
                 </template>
+                <template v-if="relatedView">
+                    
+                </template>
             </template>
             <template v-else>
                 <div class="voyager-table" :class="[loading ? 'loading' : '']">
@@ -99,7 +102,7 @@ import axios from 'axios';
 import Browse from '@components/Bread/Browse';
 
 export default {
-    mixins: [formfield],
+    mixins: [ formfield ],
     components: { Browse },
     data() {
         return {
@@ -125,6 +128,13 @@ export default {
         relatedList() {
             if (this.relationship && this.relationship.bread) {
                 return this.relationship.bread.layouts.where('type', 'list').where('uuid', this.options.list).first();
+            }
+
+            return null;
+        },
+        relatedView() {
+            if (this.relationship && this.relationship.bread) {
+                return this.relationship.bread.layouts.where('type', 'view').where('uuid', this.options.view).first();
             }
 
             return null;

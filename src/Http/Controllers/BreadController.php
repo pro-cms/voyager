@@ -50,6 +50,7 @@ class BreadController extends Controller
         $forcedLayout = $request->get('forcedLayout', null);
         if ($forcedLayout !== null) {
             $layout = $bread->layouts->where('uuid', $forcedLayout)->first();
+            // TODO: Authorize the layout
         } else {
             $layout = $this->breadmanager->getLayoutForAction($bread, 'browse');
         }

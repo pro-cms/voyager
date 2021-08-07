@@ -2,14 +2,14 @@
     <Card :title="__('voyager::generic.breads')" icon="bread">
         <template #actions>
             <div class="flex flex-wrap items-center space-x-1">
-                <button class="button space-x-0" @click="loadBreads" :disabled="loading">
-                    <Icon icon="refresh" class="animate-spin-reverse" :size="loading ? 4 : 0" :transition-size="4" />
+                <button class="button space-x-1" @click="reload" :disabled="$store.pageLoading">
+                    <Icon icon="refresh" class="animate-spin-reverse" :size="$store.pageLoading ? 4 : 0" :transition-size="4" />
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
                 <LocalePicker />
             </div>
         </template>
-        <div class="voyager-table striped" :class="[loading ? 'loading' : '']">
+        <div class="voyager-table striped" :class="[$store.pageLoading ? '$store.pageLoading' : '']">
             <table>
                 <thead>
                     <tr>
@@ -99,15 +99,25 @@ import axios from 'axios';
 import { Link } from '@inertiajs/inertia-vue3';
 
 export default {
-    props: ['tables'],
+    props: {
+        tables: {
+            type: Array,
+            default: () => [],
+        },
+        breads: {
+            type: Array,
+            default: () => [],
+        },
+        backups: {
+            type: Array,
+            default: () => [],
+        }
+    },
     components: {
         Link
     },
     data() {
         return {
-            breads: [],
-            backups: [],
-            loading: false,
             backingUp: false,
             deleting: false,
         };
@@ -142,7 +152,7 @@ export default {
                     })
                     .catch((response) => {})
                     .then(() => {
-                        this.loadBreads();
+                        this.reload();
                         this.deleting = false;
                     });
                 }
@@ -160,7 +170,7 @@ export default {
             .catch((response) => {})
             .then(() => {
                 this.backingUp = false;
-                this.loadBreads();
+                this.reload();
             });
         },
         rollbackBread(table, backup) {
@@ -173,31 +183,15 @@ export default {
             })
             .catch((response) => {})
             .then(() => {
-                this.loadBreads();
+                this.reload();
             });
         },
         getBackupsForTable(table) {
             return this.backups.where('table', table);
         },
-        loadBreads() {
-            if (this.loading) {
-                return;
-            }
-
-            this.loading = true;
-            axios.post(this.route('voyager.bread.get-breads'))
-            .then((response) => {
-                this.breads = response.data.breads;
-                this.backups = response.data.backups;
-            })
-            .catch((response) => {})
-            .then(() => {
-                this.loading = false;
-            });
+        reload() {
+            this.$inertia.get(route('voyager.bread.index'));
         }
     },
-    mounted() {
-        this.loadBreads();
-    }
 };
 </script>

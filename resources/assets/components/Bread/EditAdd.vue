@@ -48,44 +48,43 @@
                             :class="'md:' + formfield.options.width"
                             uses="md:w-1/6 md:w-2/6 md:w-3/6 md:w-4/6 md:w-5/6 md:w-full"
                         >
-                            <Card
+                            <component
+                                :is="`Card`"
                                 :title="translate(formfield.options.title, true)"
                                 :title-size="5"
                                 :show-title="translate(formfield.options.label, true) !== ''"
                             >
-                                <div>
-                                    <CollapseTransition>
-                                        <Alert v-if="getErrors(formfield.column).length > 0" color="red" class="mb-2">
-                                            <span v-if="getErrors(formfield.column).length == 1">
-                                                {{ getErrors(formfield.column)[0] }}
-                                            </span>
-                                            <ul class="list-disc" v-else>
-                                                <li v-for="(error, i) in getErrors(formfield.column)" :key="'error-'+i">
-                                                    {{ error }}
-                                                </li>
-                                            </ul>
-                                        </Alert>
-                                    </CollapseTransition>
-                                    <component
-                                        :is="getComponentForType(formfield)"
-                                        :modelValue="getData(formfield)"
-                                        @update:modelValue="setData(formfield, $event)"
-                                        :errors="getErrors(formfield.column)"
-                                        :bread="bread"
-                                        :options="formfield.options"
-                                        :column="formfield.column"
-                                        :relationships="relationships"
-                                        :translatable="formfield.translatable"
-                                        :from-repeater="fromRepeater"
-                                        :action="currentAction"
-                                        :primary-key="primaryKey"
-                                        :class="formfield.options.classes"
-                                    />
-                                    <p class="description" v-if="translate(formfield.options.description, true) !== ''">
-                                        {{ translate(formfield.options.description, true) }}
-                                    </p>
-                                </div>
-                            </Card>
+                                <CollapseTransition>
+                                    <Alert v-if="getErrors(formfield.column).length > 0" color="red" class="mb-2">
+                                        <span v-if="getErrors(formfield.column).length == 1">
+                                            {{ getErrors(formfield.column)[0] }}
+                                        </span>
+                                        <ul class="list-disc" v-else>
+                                            <li v-for="(error, i) in getErrors(formfield.column)" :key="'error-'+i">
+                                                {{ error }}
+                                            </li>
+                                        </ul>
+                                    </Alert>
+                                </CollapseTransition>
+                                <component
+                                    :is="getComponentForType(formfield)"
+                                    :modelValue="getData(formfield)"
+                                    @update:modelValue="setData(formfield, $event)"
+                                    :errors="getErrors(formfield.column)"
+                                    :bread="bread"
+                                    :options="formfield.options"
+                                    :column="formfield.column"
+                                    :relationships="relationships"
+                                    :translatable="formfield.translatable"
+                                    :from-repeater="fromRepeater"
+                                    :action="currentAction"
+                                    :primary-key="primaryKey"
+                                    :class="formfield.options.classes"
+                                />
+                                <p class="description" v-if="translate(formfield.options.description, true) !== ''">
+                                    {{ translate(formfield.options.description, true) }}
+                                </p>
+                            </component>
                         </div>
                     </template>
                 </div>
@@ -185,7 +184,7 @@ export default {
             this.isSaving = true;
             this.isSaved = false;
             let url = (this.currentAction == 'add' ? this.route('voyager.' + this.translate(this.bread.slug, true) + '.store') : this.route('voyager.' + this.translate(this.bread.slug, true) + '.update', this.id));
-            let req = axios({
+            axios({
                 method: this.currentAction == 'add' ? 'post' : 'put',
                 url: url,
                 data: {
