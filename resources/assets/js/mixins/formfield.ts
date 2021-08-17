@@ -5,7 +5,7 @@ export default {
         action: {
             type: String,
             required: true,
-            validator: function (value) {
+            validator: function (value: string) {
                 return ['query', 'browse', 'read', 'edit', 'add'].indexOf(value) >= 0;
             }
         },

@@ -81,6 +81,14 @@ module.exports = (env, options) => {
                     use: 'vue-loader'
                 },
                 {
+                    test: /\.tsx?$/,
+                    loader: 'ts-loader',
+                    options: {
+                        appendTsSuffixTo: [/\.vue$/],
+                    },
+                    exclude: /node_modules/,
+                },
+                {
                     test: /\.css$/,
                     use: [MiniCssExtractPlugin.loader, 'css-loader']
                 },

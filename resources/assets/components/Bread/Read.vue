@@ -64,6 +64,8 @@
 <script>
 import { Link } from '@inertiajs/inertia-vue3';
 
+import Store from '@/store';
+
 export default {
     components: { Link },
     props: ['bread', 'data', 'primary', 'layout', 'prevUrl', 'relationships'],
@@ -81,7 +83,7 @@ export default {
     methods: {
         getData(formfield) {
             if (formfield.translatable || false) {
-                return this.data[formfield.column.column][this.$store.locale] || '';
+                return this.data[formfield.column.column][Store.locale] || '';
             }
 
             return this.data[formfield.column.column];

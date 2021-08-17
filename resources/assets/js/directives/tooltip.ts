@@ -2,14 +2,21 @@ import { createPopper } from '@popperjs/core/lib/popper-lite';
 import { placements } from '@popperjs/core/lib/enums';
 import { v4 as uuidv4 } from 'uuid';
 
+interface TooltipElement extends HTMLElement {
+    uuid: string;
+    tooltip_value: string;
+    popper: any;
+}
+
 export default {
-    mounted(el, binding) {
+    mounted(el: TooltipElement, binding: any) {
         let placement = 'bottom';
         if (placements.includes(binding.arg)) {
             placement = binding.arg;
         } else if (binding.arg) {
             console.error(`'${binding.arg}' is not a valid placement for a tooltip. It can be ${placements.join(', ')}.`);
         } else {
+            // @ts-ignore
             let matches = Object.keys(binding.modifiers).filter(v => placements.includes(v));
             if (matches.length == 1) {
                 placement = matches[0];
@@ -23,8 +30,8 @@ export default {
             el.tooltip_value = binding.value;
         }
 
-        let popper;
-        let tooltip;
+        let popper: any;
+        let tooltip: HTMLElement;
 
         // Register event listener
         el.addEventListener('mouseenter', () => {
@@ -50,9 +57,10 @@ export default {
                 content.innerHTML = el.tooltip_value;
                 tooltip.appendChild(content);
 
-                document.getElementById('tooltips').appendChild(tooltip);
+                document.getElementById('tooltips')?.appendChild(tooltip);
 
                 popper = createPopper(el, tooltip, {
+                    // @ts-ignore
                     placement: placement,
                     strategy: 'fixed',
                 });
@@ -66,9 +74,8 @@ export default {
             }
             if (popper) {
                 popper.destroy();
-                popper = null;
-                tooltip.parentNode.removeChild(tooltip);
-                tooltip = null;
+                tooltip?.parentNode?.removeChild(tooltip);
+                tooltip.remove();
             }
         });
 
@@ -76,21 +83,22 @@ export default {
             el.dispatchEvent(new Event('mouseenter'));
         }
     },
-    updated(el, binding) {
+    updated(el: TooltipElement, binding: any) {
         if (binding.value !== binding.oldValue && el.uuid && binding.value !== null && binding.value !== undefined) {
-            if (document.getElementById(el.uuid)) {
+            if (document.getElementById(el.uuid) && document.getElementById(el.uuid)?.children[0]) {
+                // @ts-ignore
                 document.getElementById(el.uuid).children[0].innerHTML = binding.value;
             }
             el.tooltip_value = binding.value;
         }
     },
-    unmounted(el) {
+    unmounted(el: TooltipElement) {
         if (el.popper) {
             el.popper.destroy();
         }
         if (el.uuid) {
             let tooltipEl = document.getElementById(el.uuid);
-            if (tooltipEl) {
+            if (tooltipEl && tooltipEl.parentElement) {
                 tooltipEl.parentElement.removeChild(tooltipEl);
             }
         }

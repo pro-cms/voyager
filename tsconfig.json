@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "esnext",
+        "strict": true,
+        "jsx": "preserve",
+        "moduleResolution": "node",
+        "allowJs": true,
+        "paths": {
+            "@/*": [ "./resources/assets/js/*" ],
+            "@components/*": [ "./resources/assets/components/*" ]
+        },
+        "typeRoots": [
+            "./resources/assets/types", "./node_modules/@types"
+        ]
+    },
+    "exclude": ["node_modules"],
+    "include": [
+        "resources/assets/js/*",
+        "resources/assets/js/**/*",
+        "resources/assets/components/*",
+        "resources/assets/components/**/*",
+    ]
+}

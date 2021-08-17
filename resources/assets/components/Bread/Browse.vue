@@ -198,6 +198,7 @@
 import axios from 'axios';
 import debounce from 'debounce';
 
+import Store from '@/store';
 import BreadActions from '@components/Bread/Actions';
 
 export default {
@@ -268,7 +269,7 @@ export default {
                 order: this.defaultOrder,
                 direction: 'asc',
                 softdeleted: 'show', // show, hide, only
-                locale: this.$store.locale,
+                locale: Store.locale,
                 filter: null, // The current selected filter
                 forcedLayout: this.forcedLayout,
             },
@@ -511,7 +512,7 @@ export default {
         this.$watch(() => this.parameters.softdeleted, () => {
             this.parameters.page = 1;
         });
-        this.$watch(() => this.$store.locale, (locale) => {
+        this.$watch(() => Store.locale, (locale) => {
             this.parameters.locale = locale;
         });
     },

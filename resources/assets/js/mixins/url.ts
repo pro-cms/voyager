@@ -1,38 +1,40 @@
 export default {
     methods: {
-        addParameterToUrl: function (parameter, value, url = null) {
+        addParameterToUrl: function (parameter: string, value: string, url?: string) {
             var newurl = new URL(document.location.href);
         
-            if (url)  {
+            if (url !== undefined)  {
                 newurl = new URL(url);
             }
             newurl.searchParams.set(parameter, value);
         
             return newurl;
         },
-        getParameterFromUrl: function (key, default_value, url = null) {
+        getParameterFromUrl: function (key: string, default_value: any, url?: string) {
             var newurl = new URL(document.location.href);
-            if (url)  {
+            if (url !== undefined)  {
                 newurl = new URL(url);
             }
         
             return newurl.searchParams.get(key) || default_value;
         },
-        getParametersFromUrl: function (url = null) {
+        getParametersFromUrl: function (url?: string) {
             var newurl = new URL(document.location.href);
         
-            if (url)  {
+            if (url !== undefined)  {
                 newurl = new URL(url);
             }
             return newurl.searchParams.entries();
         },
-        pushToUrlHistory: function (url) {
+        pushToUrlHistory: function (url: URL) {
             window.history.pushState({ path:  url.href }, '', url.search);
         },
         route: function () {
+            // @ts-ignore
             return window.route(...arguments);
         },
-        asset: function (path) {
+        asset: function (path: string) {
+            // @ts-ignore
             return this.route('voyager.voyager_assets')+'?path='+encodeURI(path);
         }
     }

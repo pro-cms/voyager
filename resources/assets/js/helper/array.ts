@@ -1,6 +1,21 @@
-Array.prototype.where = function (prop, value = null) {
+interface Array<T> {
+    where(prop: string, value?: string): Array<T>;
+    whereNot(prop: string, value?: string): Array<T>;
+    whereLike(query: string, prop?: string): Array<T>;
+    whereNull(query: string): Array<T>;
+    shuffle(): Array<T>;
+    first(): T;
+    pluck(prop: string): Array<T>;
+    diff(arr: Array<T>): Array<T>;
+    insert(el: T): Array<T>;
+    moveElementUp(el: T): Array<T>;
+    moveElementDown(el: T): Array<T>;
+    removeAtIndex(index: number): Array<T>;
+}
+
+Array.prototype.where = function (prop, value = undefined) {
     return this.filter(function (el) {
-        if (value !== null) {
+        if (value !== undefined) {
             return el[prop] == value;
         }
 
@@ -8,9 +23,9 @@ Array.prototype.where = function (prop, value = null) {
     });
 }
 
-Array.prototype.whereNot = function (prop, value = null) {
+Array.prototype.whereNot = function (prop, value = undefined) {
     return this.filter(function (el) {
-        if (value !== null) {
+        if (value !== undefined) {
             return el[prop] !== value;
         }
 
@@ -18,9 +33,9 @@ Array.prototype.whereNot = function (prop, value = null) {
     });
 }
 
-Array.prototype.whereLike = function (query, prop = null) {
+Array.prototype.whereLike = function (query, prop = undefined) {
     return this.filter(function (el) {
-        if (prop !== null) {
+        if (prop !== undefined) {
             return el[prop].toLowerCase().includes(query.toLowerCase());
         } else {
             return el.toLowerCase().includes(query.toLowerCase());
@@ -30,7 +45,7 @@ Array.prototype.whereLike = function (query, prop = null) {
 
 Array.prototype.whereNull = function (prop) {
     return this.filter(function (el) {
-        return el[prop] === null;
+        return el[prop] === null || el[prop] === undefined;
     });
 }
 

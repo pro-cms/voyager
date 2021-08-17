@@ -39,7 +39,6 @@ import TooltipDirective from '@directives/tooltip';
 
 // Core modules
 import { Notification } from '@/notify';
-import Eventbus from '@/eventbus';
 import Store from '@/store';
 
 let voyager;
@@ -78,12 +77,8 @@ function prepareVoyager(data) {
     voyager.mixin(UrlMixin);
 
     voyager.config.globalProperties.slugify = slugify;
-    voyager.config.globalProperties.$store = Store;
     voyager.use(Global);
-    voyager.config.globalProperties.$eventbus = Eventbus;
     voyager.config.globalProperties.$notification = Notification;
-
-    window.$eventbus = Eventbus;
 
     voyager.config.globalProperties.colors = [
         'accent',

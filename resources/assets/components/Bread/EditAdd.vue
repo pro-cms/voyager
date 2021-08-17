@@ -102,6 +102,9 @@
 import axios from 'axios';
 import { Link } from '@inertiajs/inertia-vue3';
 
+import EventBus from '@/eventbus';
+import Store from '@/store';
+
 export default {
     components: { Link },
     emits: ['saved', 'output'],
@@ -140,11 +143,11 @@ export default {
             if ((formfield.translatable || false) && !this.isObject(this.output[formfield.column.column])) {
                 var value = this.output[formfield.column.column];
                 this.output[formfield.column.column] = {};
-                this.output[formfield.column.column][this.$store.locale] = value;
+                this.output[formfield.column.column][Store.locale] = value;
             }
             
             if (formfield.translatable || false) {
-                return this.output[formfield.column.column][this.$store.locale];
+                return this.output[formfield.column.column][Store.locale];
             }
 
             return this.output[formfield.column.column];
@@ -160,15 +163,15 @@ export default {
                 }
             }
             if (formfield.translatable || false) {
-                this.output[formfield.column.column][this.$store.locale] = value;
+                this.output[formfield.column.column][Store.locale] = value;
             } else {
                 this.output[formfield.column.column] = value;
             }
-            this.$eventbus.emit('input', {
+            EventBus.emit('input', {
                 column: formfield.column,
                 value: value,
             });
-            this.$eventbus.emit('output', this.output);
+            EventBus.emit('output', this.output);
             this.$emit('output', this.output);
         },
         getErrors(column) {
@@ -235,7 +238,7 @@ export default {
     },
     computed: {
         jsonOutput() {
-            return this.$store.jsonOutput;
+            return Store.jsonOutput;
         }
     },
     mounted() {
@@ -244,10 +247,10 @@ export default {
         this.layout.formfields.forEach((formfield) => {
             var value = this.output[formfield.column.column];
             if (formfield.translatable || false) {
-                value = this.output[formfield.column.column][this.$store.locale];
+                value = this.output[formfield.column.column][Store.locale];
             }
 
-            this.$eventbus.emit('input', {
+            EventBus.emit('input', {
                 column: formfield.column,
                 value: value,
             });

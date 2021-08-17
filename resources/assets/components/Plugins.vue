@@ -10,8 +10,8 @@
                     @dblclick="installed.query = ''"
                     @keydown.esc="installed.query = ''"
                 >
-                <button class="button space-x-1" @click="reload" :disabled="$store.pageLoading">
-                    <Icon icon="refresh" class="animate-spin-reverse" :size="$store.pageLoading ? 4 : 0" :transition-size="4" />
+                <button class="button space-x-1" @click="reload" :disabled="store.pageLoading">
+                    <Icon icon="refresh" class="animate-spin-reverse" :size="store.pageLoading ? 4 : 0" :transition-size="4" />
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
                 
@@ -113,7 +113,7 @@
             </div>
         </div>
         <div v-if="installed.plugins.length > 0">
-            <div class="voyager-table striped" :class="$store.pageLoading ? 'loading' : null">
+            <div class="voyager-table striped" :class="store.pageLoading ? 'loading' : null">
                 <table id="bread-builder-browse">
                     <thead>
                         <tr>
@@ -237,6 +237,8 @@
 import axios from 'axios';
 const compare = require('semver-compare');
 
+import Store from '@/store';
+
 export default {
     props: ['installedPlugins'],
     data() {
@@ -263,6 +265,7 @@ export default {
             },
             addPluginModalOpen: false,
             pp: [],
+            store: Store
         };
     },
     methods: {

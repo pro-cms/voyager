@@ -27,7 +27,7 @@
                 <div class="mb-4" v-if="false"></div>
                 <!-- Built-in login view -->
                 <form method="post" :action="route('voyager.login')" v-if="!passwordForgotOpen" key="login-form">
-                    <input type="hidden" name="_token" :value="$store.csrfToken" />
+                    <input type="hidden" name="_token" :value="store.csrfToken" />
                     <slot name="login">
                         <div class="w-full mt-1">
                             <label for="email" class="label">{{ __('voyager::auth.email') }}</label>
@@ -81,6 +81,8 @@
     </div>
 </template>
 <script>
+import Store from '@/store';
+
 export default {
     props: [
         'welcome',
@@ -89,6 +91,7 @@ export default {
     data() {
         return {
             passwordForgotOpen: false,
+            store: Store
         };
     }
 };

@@ -324,7 +324,7 @@ import axios from 'axios';
 
 import focus from '@directives/focus';
 import clickOutside from '@directives/click-outside';
-import formfield from '@mixins/formfield';
+import Store from '@/store';
 
 export default {
     directives: {focus: focus, clickOutside: clickOutside},
@@ -590,7 +590,7 @@ export default {
             });
         },
         setSlug(value) {
-            var l = this.$store.locale;
+            var l = Store.locale;
             this.bread.slug = this.get_translatable_object(this.bread.slug);
             this.bread.slug[l] = this.slugify(value[l], { strict: true, lower: true });
         },
@@ -653,7 +653,7 @@ export default {
             return this.bread.layouts.where('type', 'list');
         },
         filteredFormfields() {
-            return this.$store.formfields.filter((formfield) => {
+            return Store.formfields.filter((formfield) => {
                 if (this.currentLayout && this.currentLayout.type == 'list') {
                     return formfield.in_lists;
                 }
@@ -670,7 +670,7 @@ export default {
             })[0];
         },
         jsonOutput() {
-            return this.$store.jsonOutput;
+            return Store.jsonOutput;
         }
     },
     mounted() {

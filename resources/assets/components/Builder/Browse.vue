@@ -2,14 +2,14 @@
     <Card :title="__('voyager::generic.breads')" icon="bread">
         <template #actions>
             <div class="flex flex-wrap items-center space-x-1">
-                <button class="button space-x-1" @click="reload" :disabled="$store.pageLoading">
-                    <Icon icon="refresh" class="animate-spin-reverse" :size="$store.pageLoading ? 4 : 0" :transition-size="4" />
+                <button class="button space-x-1" @click="reload" :disabled="store.pageLoading">
+                    <Icon icon="refresh" class="animate-spin-reverse" :size="store.pageLoading ? 4 : 0" :transition-size="4" />
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
                 <LocalePicker />
             </div>
         </template>
-        <div class="voyager-table striped" :class="[$store.pageLoading ? '$store.pageLoading' : '']">
+        <div class="voyager-table striped" :class="[store.pageLoading ? 'store.pageLoading' : '']">
             <table>
                 <thead>
                     <tr>
@@ -98,6 +98,8 @@
 import axios from 'axios';
 import { Link } from '@inertiajs/inertia-vue3';
 
+import Store from '@/store';
+
 export default {
     props: {
         tables: {
@@ -120,6 +122,7 @@ export default {
         return {
             backingUp: false,
             deleting: false,
+            store: Store,
         };
     },
     methods: {

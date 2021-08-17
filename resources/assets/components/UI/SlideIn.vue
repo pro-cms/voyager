@@ -25,6 +25,7 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
 
+import EventBus from '@/eventbus';
 import closable from '@mixins/closable';
 import clickOutside from '@directives/click-outside';
 
@@ -46,7 +47,7 @@ export default {
         };
     },
     created() {
-        this.$eventbus.on('close-slide-ins', (uuid) => {
+        EventBus.on('close-slide-ins', (uuid) => {
             if (uuid !== this.uuid) {
                 this.close();
             }
@@ -56,7 +57,7 @@ export default {
         }, { immediate: true });
         this.$watch(() => this.opened, (open) => {
             if (open) {
-                this.$eventbus.emit('close-slide-ins', this.uuid);
+                EventBus.emit('close-slide-ins', this.uuid);
             }
         }, { immediate: true });
     },

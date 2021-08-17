@@ -23,12 +23,13 @@
 </template>
 
 <script>
+import EventBus from '@/eventbus';
 import formfield from '@mixins/formfield';
 
 export default {
     mixins: [formfield],
     created() {
-        this.$eventbus.on('input', (payload) => {
+        EventBus.on('input', (payload) => {
             if (payload.column.type == 'column' && payload.column.column == this.options.column) {
                 let slugged = this.slugValue(payload.value, this.options.strict);
                 if (this.modelValue !== slugged) {

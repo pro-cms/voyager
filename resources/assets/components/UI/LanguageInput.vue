@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import Store from '@/store';
+
 export default {
     emits: ['update:modelValue'],
     props: ['modelValue'],
@@ -14,10 +16,10 @@ export default {
     computed: {
         currentText: {
             get() {
-                return this.translations[this.$store.locale];
+                return this.translations[Store.locale];
             },
             set(value) {
-                this.translations[this.$store.locale] = value;
+                this.translations[Store.locale] = value;
                 this.$emit('update:modelValue', this.translations);
             }
         },

@@ -1,7 +1,12 @@
-let handler = [];
+interface EventHandler {
+    event: string;
+    callback: CallableFunction
+};
+
+let handler: Array<EventHandler> = [];
 
 export default {
-    on(event, callback) {
+    on(event: string, callback: CallableFunction) {
         handler.push({
             event: event,
             callback: callback,
@@ -20,7 +25,7 @@ export default {
         });
     },
 
-    hasListener(event) {
+    hasListener(event: string) {
         return handler.filter((h) => {
             return h.event == event;
         }).length > 0;

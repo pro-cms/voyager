@@ -1,6 +1,6 @@
 <template key="sidebar">
     <!-- Mobile sidebar -->
-    <div v-if="$store.sidebarOpen" class="md:hidden">
+    <div v-if="store.sidebarOpen" class="md:hidden">
         <div class="fixed inset-0 z-30">
             <div class="absolute inset-0 bg-gray-600 opacity-75"></div>
         </div>
@@ -15,23 +15,23 @@
                     <div class="flex-shrink-0 flex items-center px-4">
                         <Icon icon="helm" :size="10" class="icon" />
                         <span class="font-black text-lg uppercase pl-2 title">
-                            {{ $store.sidebar.title }}
+                            {{ store.sidebar.title }}
                         </span>
                     </div>
                     <nav class="mt-3 px-2">
                         <MenuWrapper
-                            :items="$store.sidebar.items"
+                            :items="store.sidebar.items"
                             :icon-size="iconSize"
                         />
                     </nav>
                 </div>
                 <div class="flex-shrink-0 flex border-t sidebar-border p-4">
-                    <button class="button accent" @click="$store.toggleDarkMode()">
-                        <Icon icon="moon" v-if="$store.darkmode == 'dark'" />
-                        <Icon icon="sun" v-else-if="$store.darkmode == 'light'" />
+                    <button class="button accent" @click="store.toggleDarkMode()">
+                        <Icon icon="moon" v-if="store.darkmode == 'dark'" />
+                        <Icon icon="sun" v-else-if="store.darkmode == 'light'" />
                         <Icon icon="desktop-computer" v-else />
                     </button>
-                    <img :src="$store.user.avatar" class="rounded-full m-4 w-8" alt="User Avatar">
+                    <img :src="store.user.avatar" class="rounded-full m-4 w-8" alt="User Avatar">
                 </div>
             </div>
             <div class="flex-shrink-0 w-14"></div>
@@ -40,26 +40,26 @@
 
     <!-- Desktop sidebar -->
     <CollapseXTransition>
-        <div class="hidden md:flex md:flex-shrink-0 sidebar" v-if="$store.sidebarOpen" id="sidebar">
+        <div class="hidden md:flex md:flex-shrink-0 sidebar" v-if="store.sidebarOpen" id="sidebar">
             <div class="flex flex-col w-64 border-r sidebar-border">
                 <div class="h-0 flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
                     <div class="flex space-x-2 items-center flex-shrink-0 px-4">
                         <Icon icon="helm" :size="10" class="icon" />
                         <span class="font-black text-lg uppercase title whitespace-nowrap">
-                            {{ $store.sidebar.title }}
+                            {{ store.sidebar.title }}
                         </span>
                     </div>            
                     <nav class="mt-4 flex-1 px-2">
                         <MenuWrapper
-                            :items="$store.sidebar.items"
+                            :items="store.sidebar.items"
                             :icon-size="iconSize"
                         />
                     </nav>
                 </div>
                 <div class="flex-shrink-0 inline-flex space-x-2 border-t sidebar-border p-4 h-auto overflow-x-hidden">
-                    <button class="button accent small" @click="toggleDarkMode()" :aria-label="__(`voyager::generic.darkmode_${$store.darkmode}`)" v-tooltip:top-start="__(`voyager::generic.darkmode_${$store.darkmode}`)">
-                        <Icon icon="moon" v-if="$store.darkmode == 'dark'" />
-                        <Icon icon="sun" v-else-if="$store.darkmode == 'light'" />
+                    <button class="button accent small" @click="toggleDarkMode()" :aria-label="__(`voyager::generic.darkmode_${store.darkmode}`)" v-tooltip:top-start="__(`voyager::generic.darkmode_${store.darkmode}`)">
+                        <Icon icon="moon" v-if="store.darkmode == 'dark'" />
+                        <Icon icon="sun" v-else-if="store.darkmode == 'light'" />
                         <Icon icon="desktop-computer" v-else />
                     </button>
                     <button class="button accent small" v-scroll-to="''" :aria-label="__('voyager::generic.go_to_top')" v-tooltip:top-start="__('voyager::generic.go_to_top')">
@@ -77,6 +77,8 @@
 <script>
 import scrollTo from '@directives/scroll-to';
 import MenuWrapper from '@components/Layout/MenuWrapper.vue';
+import EventBus from '@/eventbus';
+import Store from '@/store';
 
 export default {
     components: { MenuWrapper },
@@ -84,18 +86,19 @@ export default {
     data() {
         return {
             iconSize: 6,
+            store: Store
         };
     },
     mounted() {
-        $eventbus.on('setting-updated', (s) => {
+        EventBus.on('setting-updated', (s) => {
             if (s.group == 'admin' && s.key == 'sidebar-title') {
-                this.$store.sidebar.title = this.translate(s.value);
+                Store.sidebar.title = this.translate(s.value);
             } else if (s.group == 'admin' && s.key == 'icon-size') {
                 this.iconSize = s.value;
             }
         });
 
-        this.iconSize = this.$store.sidebar.iconSize || 6;
+        this.iconSize = Store.sidebar.iconSize || 6;
     }
 }
 </script>

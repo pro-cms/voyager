@@ -58,6 +58,8 @@ import axios from 'axios';
 import debounce from 'debounce';
 import { Link } from '@inertiajs/inertia-vue3';
 
+import Store from '@/store';
+
 export default {
     components: { Link },
     props: ['placeholder', 'mobilePlaceholder'],
@@ -93,11 +95,11 @@ export default {
             }
 
             this.loading = true;
-            Object.values(this.$store.breads).filter((bread) => {
+            Object.values(Store.breads).filter((bread) => {
                 // TODO: Check if user can browse this BREAD
                 return bread.global_search_field !== null;
             }).forEach((bread) => {
-                this.$store.pageLoading = true;
+                Store.pageLoading = true;
                 this.searchResults[bread.table] = {
                     loading: true,
                 };
@@ -111,7 +113,7 @@ export default {
                 .catch((response) => {})
                 .then(() => {
                     this.loading = false;
-                    this.$store.pageLoading = false;
+                    Store.pageLoading = false;
                 });
             });
             
@@ -128,11 +130,11 @@ export default {
             return this.route('voyager.'+this.translate(bread.slug, true)+'.read', key);
         },
         getBreadByTable(table) {
-            if (this.isObject(this.$store.breads)) {
-                return Object.values(this.$store.breads).where('table', table).first();
+            if (this.isObject(Store.breads)) {
+                return Object.values(Store.breads).where('table', table).first();
             }
 
-            return this.$store.breads.where('table', table).first();
+            return Store.breads.where('table', table).first();
         },
         openModal() {
             this.$refs.results_modal.open();

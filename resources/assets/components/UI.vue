@@ -17,15 +17,13 @@
                 <button class="button accent my-2" v-scroll-to="'ui-pagination'">Pagination</button>
                 <button
                     class="button accent my-2"
-                    v-for="el in $store.ui"
+                    v-for="el in store.ui"
                     v-scroll-to="`ui-${slugify(el.title, { lower: true })}`"
                     :key="`ui-${el.title}`"
                 >{{ el.title }}</button>
             </div>
         </div>
     </Card>
-
-    <Slug v-model="slug" lower strict />
 
     <Card no-header>
         <div class="w-full flex">
@@ -617,7 +615,7 @@
     </Collapsible>
 
     <Collapsible
-        v-for="el in $store.ui"
+        v-for="el in store.ui"
         :id="`ui-${slugify(el.title, { lower: true })}`"
         :title="el.title"
         :key="`ui-${el.title}`"
@@ -637,17 +635,16 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 import { FORMATS } from './UI/DateTime.vue';
-
-import Slug from '@components/UI/Slug.vue';
+import Store from '@/store';
 
 export default {
     directives: { scrollTo: scrollTo },
     components: {
-        draggable, Slug
+        draggable
     },
     data() {
         return {
-            slug: 'Test :)',
+            store: Store,
             name: 'Voyager',
             lorem: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.',
             tags: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipisicing', 'elit'],

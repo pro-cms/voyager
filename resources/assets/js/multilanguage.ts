@@ -1,41 +1,43 @@
-import $store from '@/store';
+import Store from '@/store';
 
 export default {
-    
-    install(app) {
-        app.config.globalProperties.__ = function (key, replace = {}) {
+    install(app: any) {
+        app.config.globalProperties.__ = function (key: string, replace = {}) {
             return this.trans(key, replace);
         };
-        app.config.globalProperties.trans = function (key, replace = {}) {
-            let translation = key.split('.').reduce((t, i) => t[i] || null, $store.localization);
+        app.config.globalProperties.trans = function (key: string, replace = {}) {
+            let translation = key.split('.').reduce((t, i) => t[i as any] || null, Store.localization);
 
             if (!translation) {
                 return key;
             }
 
             for (var placeholder in replace) {
+                // @ts-ignore
                 translation = translation.replace(new RegExp(':'+placeholder, 'g'), replace[placeholder]);
             }
 
             return translation;
         };
-        app.config.globalProperties.trans_choice = function (key, count = 1, replace = {}) {
-            if (key === null) {
+        app.config.globalProperties.trans_choice = function (key?: string, count = 1, replace = {}) {
+            if (key === undefined) {
                 return key;
             }
-            let translation = key.split('.').reduce((t, i) => t[i] || key, $store.localization).split('|');
+            // @ts-ignore
+            let translation = key.split('.').reduce((t, i) => t[i as any] || key, Store.localization).split('|');
 
             translation = count > 1 ? translation[1] : translation[0];
 
             translation = translation.replace(`:num`, count);
 
             for (var placeholder in replace) {
+                // @ts-ignore
                 translation = translation.replace(`:${placeholder}`, replace[placeholder]);
             }
 
             return translation;
         };
-        app.config.globalProperties.get_translatable_object = function (input) {
+        app.config.globalProperties.get_translatable_object = function (input: any) {
             if (this.isString(input) || this.isNumber(input) || this.isBoolean(input)) {
                 try {
                     input = JSON.parse(input);
@@ -43,7 +45,7 @@ export default {
                 if (!this.isObject(input)) {
                     var value = input;
                     input = {};
-                    input[this.$store.initialLocale] = value;
+                    input[Store.initialLocale] = value;
                 }
             } else if (!this.isObject(input)) {
                 input = {};
@@ -51,30 +53,30 @@ export default {
 
             return input;
         };
-        app.config.globalProperties.translate = function (input, once = false, default_value = '') {
+        app.config.globalProperties.translate = function (input: any, once = false, default_value = '') {
             if (!this.isObject(input)) {
                 input = this.get_translatable_object(input);
             }
             if (this.isObject(input)) {
-                return input[once ? this.$store.initialLocale : this.$store.locale] || default_value;
+                return input[once ? Store.initialLocale : Store.locale] || default_value;
             }
 
             return input;
         };
         app.config.globalProperties.nextLocale = function () {
-            var index = this.$store.locales.indexOf(this.$store.locale);
-            if (index >= this.$store.locales.length - 1) {
-                this.$store.locale = this.$store.locales[0];
+            var index = Store.locales.indexOf(Store.locale as never);
+            if (index >= Store.locales.length - 1) {
+                Store.locale = Store.locales[0];
             } else {
-                this.$store.locale = this.$store.locales[index + 1];
+                Store.locale = Store.locales[index + 1];
             }
         };
         app.config.globalProperties.previousLocale = function () {
-            var index = this.$store.locales.indexOf(this.$store.locale);
+            var index = Store.locales.indexOf(Store.locale as never);
             if (index <= 0) {
-                this.$store.locale = this.$store.locales[this.$store.locales.length - 1];
+                Store.locale = Store.locales[Store.locales.length - 1];
             } else {
-                this.$store.locale = this.$store.locales[index - 1];
+                Store.locale = Store.locales[index - 1];
             }
         };
     }

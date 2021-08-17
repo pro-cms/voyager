@@ -1,9 +1,27 @@
 import { reactive } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 
+interface NotificationItem {
+    _message: string;
+    _title: string;
+    _icon: string;
+    _color: string;
+    _buttons: Array<any>;
+    _uuid: string;
+
+    resolve: CallableFunction;
+    reject: CallableFunction;
+
+    _prompt: boolean;
+    _prompt_value: string;
+    _timeout_running: boolean;
+    _indeterminate: boolean;
+    _timeout: number;
+}
+
 const Notify = {
-    notifications: reactive([]),
-    addNotification(obj) {
+    notifications: reactive<Array<NotificationItem>>([]),
+    addNotification(obj: NotificationItem) {
         var vm = this;
 
         return new Promise((resolve, reject) => {
@@ -14,7 +32,7 @@ const Notify = {
            vm.notifications.push(obj);
         });
     },
-    removeNotification(obj, result, message = null) {
+    removeNotification(obj: NotificationItem, result: any, message = null) {
         if (obj._prompt == true) {
             obj.resolve((result == true ? message : false));
         } else if (result !== null) {
@@ -24,8 +42,27 @@ const Notify = {
     }
 };
 
-const Notification = class Notification {
-    constructor(message) {
+const Notification = class Notification implements NotificationItem {
+    _message: string;
+    _title: string = '';
+    _icon: string;
+    _color: string;
+    _buttons: Array<any>;
+    _uuid: string;
+
+    _indeterminate: boolean = false;
+    _timeout: number = 0;
+    _timeout_running: boolean = false;
+
+    _prompt: boolean = false;
+    _prompt_value: string = '';
+
+    _confirm: boolean = false;
+
+    resolve: CallableFunction = () => {};
+    reject: CallableFunction = () => {};
+
+    constructor(message: string) {
         this._message = message;
         this._icon = 'information-circle';
         this._color = 'accent';
@@ -35,25 +72,25 @@ const Notification = class Notification {
         return this;
     }
 
-    title(title) {
+    title(title: string) {
         this._title = title;
 
         return this;
     }
 
-    message(message) {
+    message(message: string) {
         this._message = message;
 
         return this;
     }
 
-    icon(icon) {
+    icon(icon: string) {
         this._icon = icon;
 
         return this;
     }
 
-    color(color) {
+    color(color: string) {
         this._color = color;
 
         return this;
@@ -84,7 +121,7 @@ const Notification = class Notification {
         return this;
     }
 
-    addButton(button) {
+    addButton(button: any) {
         this._buttons.push(button);
 
         return this;
@@ -122,6 +159,7 @@ const Notification = class Notification {
         return new Promise((resolve, reject) => {
             Notify.addNotification(vm)
             .then((result, message = null) => {
+                // @ts-ignore
                 resolve(result, message);
             });
         });

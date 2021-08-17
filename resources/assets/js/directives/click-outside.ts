@@ -1,16 +1,16 @@
 export default {
-    mounted(el, binding) {
+    mounted(el: Element, binding: any) {
         var first = false;
 
         document.documentElement.addEventListener('mousedown', (e) => {
-            var target = e.target;
+            var target = <HTMLElement>e.target;
             var inside = false;
 
             do {
                 if (target == el) {
                     inside = true;
                 }
-            } while (target = target.parentNode);
+            } while (target = <HTMLElement>target?.parentNode);
 
             if (!inside && first) {
                 binding.value();

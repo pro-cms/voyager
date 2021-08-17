@@ -162,9 +162,11 @@
 
 <script>
 import axios from 'axios';
+import draggable from 'vuedraggable';
 
 import BreadBuilderValidation from '@components/Builder/ValidationForm.vue';
-import draggable from 'vuedraggable';
+import EventBus from '@/eventbus';
+import Store from '@/store';
 
 export default {
     components: {
@@ -291,12 +293,12 @@ export default {
             }
             if (value !== null) {
                 if (setting.translatable || false) {
-                    setting.value[this.$store.locale] = value;
+                    setting.value[Store.locale] = value;
                 } else {
                     setting.value = value;
                 }
 
-                $eventbus.emit('setting-updated', setting);
+                EventBus.emit('setting-updated', setting);
             }
             if (setting.translatable || false) {
                 return this.translate(this.get_translatable_object(setting.value));
@@ -369,7 +371,7 @@ export default {
             }).sort()];
         },
         filteredFormfields() {
-            return this.$store.formfields.filter((formfield) => {
+            return Store.formfields.filter((formfield) => {
                 return formfield.in_settings;
             });
         },
@@ -379,7 +381,7 @@ export default {
             });
         },
         jsonOutput() {
-            return this.$store.jsonOutput;
+            return Store.jsonOutput;
         }
     },
     mounted() {

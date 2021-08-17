@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import Store from '@/store';
+
 export default {
     mounted() {
         document.addEventListener('keydown', (e) => {
@@ -49,14 +51,14 @@ export default {
     },
     computed: {
         locales() {
-            return this.$store.locales;
+            return Store.locales;
         },
         locale: {
             get() {
-                return this.$store.locale;
+                return Store.locale;
             },
             set(locale) {
-                this.$store.locale = locale;
+                Store.locale = locale;
             }
         },
     }

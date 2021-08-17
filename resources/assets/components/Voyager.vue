@@ -2,7 +2,7 @@
     <div :class="!isLogin ? 'h-screen flex overflow-hidden' : null ">
         <div>
             <FadeTransition>
-                <div class="absolute w-full h-1.5 overflow-hidden" style="z-index: 9999;" v-if="$store.pageLoading">
+                <div class="absolute w-full h-1.5 overflow-hidden" style="z-index: 9999;" v-if="store.pageLoading">
                     <div class="indeterminate">
                         <div class="before rounded" :class="`bg-blue-500`"></div>
                         <div class="after rounded" :class="`bg-blue-500`"></div>
@@ -26,18 +26,20 @@
         <template v-else>
             <slot />
         </template>
-        <Notifications :position="$store.notificationPosition" />
+        <Notifications :position="store.notificationPosition" />
     </div>
 </template>
 
 <script>
-import Sidebar from '@components/Sidebar.vue';
-import Navbar from '@components/Navbar.vue';
-import Notifications from '@components/UI/Notifications.vue';
-import { watch } from 'vue';
 import { usePage } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';
 import axios from 'axios';
+
+import Sidebar from '@components/Sidebar.vue';
+import Navbar from '@components/Navbar.vue';
+import Notifications from '@components/UI/Notifications.vue';
+import EventBus from '@/eventbus';
+import Store from '@/store';
 
 export default {
     components: {
@@ -45,22 +47,27 @@ export default {
         Navbar,
         Notifications
     },
+    data() {
+        return {
+            store: Store,
+        };
+    },
     created() {
         Inertia.on('navigate', (event) => {
-            document.title = event.detail.page.props.page_title + ' - ' + this.$store.titleSuffix;
-            this.$store.pageLoading = false;
+            document.title = event.detail.page.props.page_title + ' - ' + Store.titleSuffix;
+            Store.pageLoading = false;
         });
 
         Inertia.on('start', (event) => {
-            this.$store.pageLoading = true;
+            Store.pageLoading = true;
         });
 
         Inertia.on('finish', (e) => {
-            this.$store.pageLoading = false;
+            Store.pageLoading = false;
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            this.$store.pageLoading = false;
+            Store.pageLoading = false;
         });
 
         // Toggle sidebar when cookie is set
@@ -68,12 +75,12 @@ export default {
         if (sidebar_open == 'false') {
             this.closeSidebar();
         }
-        $eventbus.on('sidebar-open', (open) => {
+        EventBus.on('sidebar-open', (open) => {
             this.setCookie('sidebar-open', open);
         });
 
         // Show dev server warning if not available
-        if (this.$store.devServer.wanted && !this.$store.devServer.available) {
+        if (Store.devServer.wanted && !Store.devServer.available) {
             new this.$notification(this.__('voyager::generic.dev_server_unavailable', { url: 'http://localhost:8081' }))
                     .color('yellow')
                     .timeout(5000)
@@ -93,17 +100,17 @@ export default {
         }
 
         axios.interceptors.request.use((config) => {
-            this.$store.pageLoading = true;
+            Store.pageLoading = true;
             return config;
         }, (error) => {
             return Promise.reject(error);
         });
 
         axios.interceptors.response.use((response) => {
-            this.$store.pageLoading = false;
+            Store.pageLoading = false;
             return response;
         }, (error) => {
-            this.$store.pageLoading = false;
+            Store.pageLoading = false;
             let response = error;
             if (response.response.status !== 422) {
                 if (response.hasOwnProperty('response')) {
