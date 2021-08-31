@@ -256,7 +256,7 @@ export default {
                 query: '',
                 currentType: null,
                 page: 0,
-                resultsPerPage: 3,
+                resultsPerPage: 5,
             },
             update: {
                 updates: [],
@@ -402,8 +402,14 @@ export default {
             }
             axios.get(url)
                 .then((response) => {
-                    // TODO: Filter out "unwanted" plugins here
-                    this.available.plugins = [...this.available.plugins, ...response.data.results];
+                    let plugins = response.data.results.filter((plugin) => {
+                        if (plugin.name.startsWith('voyager-admin') && plugin.name.endsWith('boilerplate')) {
+                            return false;
+                        }
+
+                        return true;
+                    });
+                    this.available.plugins = [...this.available.plugins, ...plugins];
                     if (response.data.hasOwnProperty('next')) {
                         this.getAvailablePlugins(response.data.next);
                     }
