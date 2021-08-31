@@ -13,6 +13,8 @@ Next, open your console and run the command.
 After that, your plugin will appear on your plugins page as disabled. Click `Enable` to enable it. Your plugin is now active!  
 There might be additional steps to install a plugin. Please revise the instructions by clicking the `Instructions` button or by visiting the plugin page.
 
+![](./.gitbook/assets/plugins/search.png) 
+
 ## Plugin Types
 
 Plugins can be of the following types, giving them special powers
