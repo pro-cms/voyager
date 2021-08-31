@@ -169,6 +169,10 @@ import EventBus from '@/eventbus';
 import Store from '@/store';
 
 export default {
+    provide: {
+        bread: null,
+        relationships: [],
+    },
     components: {
         BreadBuilderValidation,
         draggable,
@@ -207,6 +211,8 @@ export default {
             } else {
                 window.location.hash = this.currentGroup;
             }
+
+            this.selectedSetting = null;
         },
         save(e = null) {
             if (this.savingSettings) {
