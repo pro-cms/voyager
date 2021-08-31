@@ -1,4 +1,6 @@
-<p align="center"><a href="https://the-control-group.github.io/voyager/" target="_blank"><img width="400" src="https://s3.amazonaws.com/thecontrolgroup/voyager.png"></a></p>
+<p align="center"><a href="https://the-control-group.github.io/voyager/" target="_blank">
+    ![Voyager II](./resources/assets/dist/images/helm.svg)
+</p>
 
 <p align="center">
     <a href="https://packagist.org/packages/voyager-admin/voyager">
