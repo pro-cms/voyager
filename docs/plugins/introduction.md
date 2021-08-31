@@ -55,6 +55,16 @@ class MyPlugin implements GenericPlugin
 }
 ```
 
+**composer.json**
+
+To be able to find your plugin through Voyagers UI you have to provide the tag `voyager2-plugin` in your composer.json file:
+
+```json
+{
+    "keywords": ["voyager2-plugin"],
+}
+```
+
 ## Types
 
 Plugins can be of various types:
