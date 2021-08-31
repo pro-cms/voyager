@@ -54,7 +54,9 @@ export default {
     },
     created() {
         Inertia.on('navigate', (event) => {
-            document.title = event.detail.page.props.page_title + ' - ' + Store.titleSuffix;
+            if (event.detail.page.props.page_title) {
+                document.title = event.detail.page.props.page_title + ' - ' + Store.titleSuffix;
+            }
             Store.pageLoading = false;
         });
 
