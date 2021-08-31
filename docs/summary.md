@@ -62,4 +62,5 @@
 * [Settings](plugins/settings.md)
 * [Preferences](plugins/preferences.md)
 * [Menu Items](plugins/menu-items.md)
+* [Pages](plugins/pages.md)
 * [Features](plugins/features.md)

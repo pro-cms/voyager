@@ -11,5 +11,5 @@ We created templates for all types of plugins on Github to get you started easil
 {% hint style="info" %}
 One package can provide multiple plugins.  
 For example, a plugin could provide multiple widgets or even different types of plugins like a theme and widgets.  
-All plugins can be enabled/disabled independently.
+All plugins can be enabled/disabled independently. Make sure they don't depend on each other!
 {% endhint %}

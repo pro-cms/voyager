@@ -1,34 +1,40 @@
 # Settings
 
-A plugin can provide multiple settings. To do so implement a method `registerSettings` like this:
+A plugin can provide multiple settings. To do so implement the `Settings` provider and add a method `provideSettings` like this:
 
 ```php
-public function registerSettings()
+use Voyager\Admin\Contracts\Plugins\GenericPlugin;
+use Voyager\Admin\Contracts\Plugins\Features\Provider\Settings;
+
+class MyPlugin implements GenericPlugin, Settings
 {
-    return [
-        [
-            'type'          => 'text',
-            'group'         => 'My group',
-            'name'          => 'My setting',
-            'key'           => 'my_setting',
-            'value'         => 'Value',
-            'translatable'  => false,
-            'info'          => 'This is a setting provided by a plugin',
-            'options'       => [],
-            'validation'    => [],
-        ],
-        [
-            'type'          => 'text',
-            'group'         => 'My group',
-            'name'          => 'My second setting',
-            'key'           => 'my_second_setting',
-            'value'         => 'Value',
-            'translatable'  => false,
-            'info'          => 'This is another setting provided by a plugin',
-            'options'       => [],
-            'validation'    => [],
-        ]
-    ];
+    public function provideSettings(): array
+    {
+        return [
+            [
+                'type'          => 'text',
+                'group'         => 'My group',
+                'name'          => 'My setting',
+                'key'           => 'my_setting',
+                'value'         => 'Value',
+                'translatable'  => false,
+                'info'          => 'This is a setting provided by a plugin',
+                'options'       => [],
+                'validation'    => [],
+            ],
+            [
+                'type'          => 'text',
+                'group'         => 'My group',
+                'name'          => 'My second setting',
+                'key'           => 'my_second_setting',
+                'value'         => 'Value',
+                'translatable'  => false,
+                'info'          => 'This is another setting provided by a plugin',
+                'options'       => [],
+                'validation'    => [],
+            ]
+        ];
+    }
 }
 ```
 
