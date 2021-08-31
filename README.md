@@ -1,5 +1,5 @@
 <p align="center"><a href="https://the-control-group.github.io/voyager/" target="_blank">
-    ![Voyager II](./resources/assets/dist/images/helm.svg)
+    <img width="400" src="./resources/assets/dist/images/helm.svg"></a>
 </p>
 
 <p align="center">
