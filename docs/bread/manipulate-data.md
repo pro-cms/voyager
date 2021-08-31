@@ -4,12 +4,12 @@ This page shows you various ways to manipulate the data shown in your BREADs.
 
 ## Filters
 
-Read more about filters [here](bread-builder/layouts/lists.md#filters)
+Read more about filters [here](../plugins/introduction.md#filter)
 
 ## Scopes
 
 You can apply a scope to every layout in a BREAD.  
-The [Laravel documentation](https://laravel.com/docs/8.x/eloquent#local-scopes) shows you how to implement them.
+The [Laravel documentation](https://laravel.com/docs/eloquent#local-scopes) shows you how to implement them.
 
 For Voyager to recognize your scope, please make sure to follow the naming convention `scope[X]`, for example `scopeActive`.  
 You can now select the scope you want to use in the layout options:

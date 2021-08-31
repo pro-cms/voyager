@@ -11,4 +11,22 @@ With additional plugins, layouts can be mapped to various conditions.
 For example, users use layout X for adding/editing and admins use layout Y.
 {% endhint %}
 
-## Adding a formfield
+## Add a layout
+
+Click the `Add Layout` button and select `View` or `List`.  
+Now a dialog will open asking you to enter a name. 
+After that, 
+
+## Rename a layout
+
+Click on the `Actions` button and select `Rename layout`, enter the new name and hit enter (or press `Ok`).
+
+## Delete a layout
+
+Click on the `Actions` button and select `Delete layout` and confirm that you want to delete this layout. 
+Please be aware that all formfields in this layout will be deleted as well!
+
+## Add a formfield to a layout
+
+Click the `Add Formfield` button and select the formfield you want to add. 
+Read more about formfields [here](./formfields/introduction.md).

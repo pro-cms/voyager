@@ -8,7 +8,9 @@ They display, parse and handle incoming data and input.
 ### Column
 
 Here you select which column this formfield consumes.  
-This can be table columns, accessor, relationship properties or relationship methods.
+This can be table columns, accessor, relationship properties or relationship methods. 
+Please be aware that (most of the time) the column is necessary.  
+When saving the BREAD with a formfield that does not have a column assigned, a warning will be thrown.
 
 ### Translatable
 
@@ -38,7 +40,7 @@ This input allows you to enter additional css classes applied to the parent form
 
 Here you enter all your validation rules and messages which wil be displayed when the rule fails.  
 The message field is translatable.  
-Learn more about validation [here](../../bread-builder/validation.md)
+Learn more about validation [here](../validation.md)
 
 ## Overview
 

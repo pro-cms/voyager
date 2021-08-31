@@ -1,6 +1,8 @@
 # Multilanguage
 
-Voyager was built with multi-language support in mind.
+Voyager was built with multi-language support in mind. 
+Translatable fields will be stored as JSON in your database.  
+In order to query (search) for translated values, Voyager uses the JSON SQL syntax and therefore needs _real_ JSON columns to function properly.
 
 
 ## Configuring your model
