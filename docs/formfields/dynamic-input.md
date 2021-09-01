@@ -127,7 +127,7 @@ class MyController {
 
 The data stored in the database will be `['language' => 'en']` or `['language' => 'de']`.
 
-### Selects based in previous selection
+### Selects based on previous selection
 
 In this example the user is asked to select a country first.  
 Once the country is selected, another select is shown which allows the user to enter the state.
