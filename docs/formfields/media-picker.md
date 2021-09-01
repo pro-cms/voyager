@@ -1,6 +1,6 @@
 # Media Picker
 
-The media-picker provides an easy way to use the [media manager](../../media-manager.md) as a powerful formfield for your BREADs.
+The media-picker provides an easy way to use the [media manager](../media-manager.md) as a powerful formfield for your BREADs.
 
 ## Picking files
 
