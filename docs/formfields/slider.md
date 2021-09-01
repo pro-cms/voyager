@@ -3,7 +3,7 @@
 The slider allows you to select a number between a given minimum and maximum value.  
 A range options makes it possible to select two values where one is the lower and the other is the higher value.
 
-![](../../.gitbook/assets/bread/formfields/slider/slider.png) 
+![](../.gitbook/assets/bread/formfields/slider/slider.png) 
 
 ## Options
 
@@ -24,7 +24,7 @@ Specifies the interval between numbers.
 Set to true to select a range.  
 Please make sure your column is JSON!
 
-![](../../.gitbook/assets/bread/formfields/slider/range.png) 
+![](../.gitbook/assets/bread/formfields/slider/range.png) 
 
 ### Distance
 

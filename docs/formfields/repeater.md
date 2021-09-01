@@ -4,11 +4,11 @@ The repeater allows you to repeat a given set of other formfields.
 For example you could a list with guests for your birthday party.  
 First, you add a text formfield for the name, another text formfield for the telephone number and a checkbox wether the guest is attending or not.
 
-![](../../.gitbook/assets/bread/formfields/repeater/repeater-builder.png) 
+![](../.gitbook/assets/bread/formfields/repeater/repeater-builder.png) 
 
 This would result in the following when editing or adding an item:
 
-![](../../.gitbook/assets/bread/formfields/repeater/repeater-bread.png) 
+![](../.gitbook/assets/bread/formfields/repeater/repeater-bread.png) 
 
 And the following would be stored in our database:
 
