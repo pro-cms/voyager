@@ -38,5 +38,5 @@ If you want to move a formfield from a tab to another, simply click the layer ic
 
 No problem, keep all your formfields in `No tab` and they won't be shown.
 
-![](../.gitbook/assets/bread-builder/tabs.png) 
-![](../.gitbook/assets/bread-builder/tabs-bread.png) 
+![Tabs in the BREAD Builder](../.gitbook/assets/bread-builder/tabs.png) 
+![Tabs in a BREAD](../.gitbook/assets/bread-builder/tabs-bread.png) 

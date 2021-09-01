@@ -10,7 +10,7 @@ If it does not, you can either enter the fully-qualified name or click `Create m
 After that, you'll have to click `Reload properties`.  
 This will then load all fields from your model, accessors, scopes and relationships.
 
-![](../.gitbook/assets/bread-builder/model-warning.png) 
+![Model warning](../.gitbook/assets/bread-builder/model-warning.png) 
 
 ## Icon
 
@@ -18,7 +18,7 @@ Clicking this button opens a modal showing you all icons which you can use for y
 Double-click the icon you want to use and the modal will close.  
 This icon is shown in your BREAD and in the menu.
 
-![](../.gitbook/assets/bread-builder/icon-modal.png) 
+![Icon modal](../.gitbook/assets/bread-builder/icon-modal.png) 
 
 ## Global search field
 
@@ -45,7 +45,7 @@ public function boot(BreadManager $breadmanager)
 Voyager II allows you to create backups which you can restore at any time.  
 To create a backup, simply click `Backup` when browsing your BREADs.
 
-![](../.gitbook/assets/bread-builder/backup.png) 
+![Backup a BREAD](../.gitbook/assets/bread-builder/backup.png) 
 
 {% hint style="info" %}
 When creating a backup while editing a BREAD, only the actually stored BREAD is backed-up.  
@@ -59,7 +59,7 @@ For example `users.backup.2020-06-22@23-28-10.json`
 
 To roll back a backup, simply click the `Rollback` button and select the backup you want to rollback.
 
-![](../.gitbook/assets/bread-builder/rollback.png) 
+![Rollback a BREAD](../.gitbook/assets/bread-builder/rollback.png) 
 
 {% hint style="info" %}
 When rolling back a BREAD the current version will be backed-up as well allowing you to easily switch between two version.

@@ -2,7 +2,7 @@
 
 Display one or many checkboxes from a given set of options.
 
-![](../.gitbook/assets/bread/formfields/checkboxes/checkboxes.png) 
+![Checkboxes](../.gitbook/assets/bread/formfields/checkboxes/checkboxes.png) 
 
 ## Options
 
@@ -16,4 +16,4 @@ Value is translatable.
 
 Check this box if you want the checkboxes to be shown in one line.
 
-![](../.gitbook/assets/bread/formfields/checkboxes/inline.png) 
+![Inline checkboxes](../.gitbook/assets/bread/formfields/checkboxes/inline.png) 

@@ -6,7 +6,7 @@ Lists are used for browsing a BREAD.
 
 Click and hold the up/down arrows on the left side of your formfield and move your mouse to the desired positions.
 
-![](../.gitbook/assets/bread-builder/list-order.png) 
+![Order items in a list](../.gitbook/assets/bread-builder/list-order.png) 
 
 ### Column
 
@@ -55,7 +55,7 @@ Filters are little but powerful buttons shown on top of the browse table.
 They allow the user to apply customized queries or scopes to their results.    
 By clicking the `+` icon you add filter which you then align to your needs.
 
-![](../.gitbook/assets/bread-builder/filters.png) 
+![Filters in a list](../.gitbook/assets/bread-builder/filters.png) 
 
 ### Name
 

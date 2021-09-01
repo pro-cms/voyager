@@ -4,7 +4,7 @@ This formfield allows you to enter one or multiple free-text tags.
 Enter your text and hit enter to create a tag.  
 To remove the previous tag, simply hat backspace twice.
 
-![](../.gitbook/assets/bread/formfields/tags/tags.png) 
+![Tags input](../.gitbook/assets/bread/formfields/tags/tags.png) 
 
 ## Options
 

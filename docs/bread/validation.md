@@ -5,7 +5,7 @@ To start open the options for a formfield and look for the `Validation` section.
 Click the `+` button to add a rule and fill in the `Rule` and the `Message` which will be displayed when this rule fails. 
 The message field is translatable to display translated error messages to users.
 
-![](./.gitbook/assets/bread-builder/validation.png) 
+![Validation input](./.gitbook/assets/bread-builder/validation.png) 
 
 Please check the [Laravel documentation](https://laravel.com/docs/validation#available-validation-rules) for all available validation rules.
 
