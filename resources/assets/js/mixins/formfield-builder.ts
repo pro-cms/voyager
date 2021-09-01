@@ -27,7 +27,7 @@ export default defineComponent({
             default: () => [],
         }
     },
-    mounted: function () {
+    created: function () {
         // Merge default options into options.
         // This is useful when adding options at a later time, so code won't fail because props don't exist.
 

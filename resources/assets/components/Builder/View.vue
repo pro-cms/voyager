@@ -1,6 +1,6 @@
 <template>
     <div>
-        <draggable class="flex flex-wrap w-full min-h-64" :modelValue="JSON.parse(JSON.stringify(formfields))" @update:modelValue="$emit('update:formfields', $event)" item-key="" group="view-builder-dd" handle=".dd-handle">
+        <draggable class="flex flex-wrap w-full min-h-64" :modelValue="formfields" @update:modelValue="$emit('update:formfields', JSON.parse(JSON.stringify($event)))" item-key="" group="view-builder-dd" handle=".dd-handle">
             <template #item="{ element: formfield, index: key }">
                 <div
                     v-show="formfield.tab === tab"
