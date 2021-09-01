@@ -68,7 +68,15 @@ export default {
                         this.$refs.opener,
                         this.$refs.dropdown,
                         {
-                            placement: this.placement
+                            placement: this.placement,
+                            modifiers: [
+                                {
+                                    name: 'flip',
+                                    options: {
+                                        flipVariations: true,
+                                    },
+                                },
+                            ],
                         }
                     );
                 });

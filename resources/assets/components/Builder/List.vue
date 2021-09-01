@@ -112,7 +112,7 @@
                                     </template>
                                     <component
                                         :is="getFormfieldByType(formfield.type).builder_component"
-                                        v-model:options="formfield.options"
+                                        v-model:orgoptions="formfield.options"
                                         :column="formfield.column"
                                         :columns="columns"
                                         action="list-options" />

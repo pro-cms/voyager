@@ -10,7 +10,7 @@ export default defineComponent({
                 return ['view', 'view-options', 'list-options'].indexOf(value) >= 0;
             }
         },
-        options: {
+        orgoptions: {
             type: Object,
             required: true,
         },
@@ -25,20 +25,25 @@ export default defineComponent({
         relationships: {
             type: Array,
             default: () => [],
+        },
+    },
+    computed: {
+        defaultListOptions() {
+            return {};
+        },
+        defaultViewOptions() {
+            return {};
+        },
+        options: {
+            get() {
+                if (this.defaultListOptions && this.action == 'list-options') {
+                    return { ...this.defaultListOptions, ...this.orgoptions };
+                }
+                return { ...this.defaultViewOptions, ...this.orgoptions };
+            },
+            set(options: Object) {
+                this.$emit('update:options', options);
+            }
         }
     },
-    created: function () {
-        // Merge default options into options.
-        // This is useful when adding options at a later time, so code won't fail because props don't exist.
-
-        // @ts-ignore
-        if (this.defaultListOptions && this.action == 'list-options') {
-            // @ts-ignore
-            this.$emit('update:options', Object.assign({ ...this.defaultListOptions, ...this.options }));
-            // @ts-ignore
-        } else if (this.defaultViewOptions && this.action == 'view-options') {
-            // @ts-ignore
-            this.$emit('update:options', Object.assign({ ...this.defaultViewOptions, ...this.options }));
-        }
-    }
 });

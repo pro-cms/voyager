@@ -17,7 +17,6 @@ Instead, they are listed here:
 - When querying a xMany relationship, it should only display those
 - Let dynamic input provide validation rules
 - Remove margin-bottom from card (This requires every usage to be aligned)
-- Default options for formfields are only shown in the builder when opening options twice. Call the created hook somehow
 
 ## Formfields testing
 
