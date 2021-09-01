@@ -21,7 +21,8 @@
 
                 <div class="slider">
                     <div class="track"></div>
-                    <div class="distance" :class="`bg-${color}-500`" :style="`right:${upperPos}%; left:${lowerPos}%`"></div>
+                    <div class="distance" :class="`bg-${color}-500`" :style="`right:${upperPos}%; left:${lowerPos}%`" v-if="range"></div>
+                    <div class="distance" :class="`bg-${color}-500`" :style="`left:0%; width: ${lowerPos}%`" v-else></div>
                     <div class="thumb -ml-1" :class="`bg-${color}-500`" :style="`left: ${lowerPos}%`"></div>
                     <div class="thumb -mr-3" :class="`bg-${color}-500`" :style="`right: ${upperPos}%`" v-if="range"></div>
                 </div>
@@ -83,6 +84,7 @@ export default {
         },
         upperPos() {
             if (!this.range) {
+                console.log(this.lowerPos);
                 return 0;
             }
 

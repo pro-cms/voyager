@@ -1,7 +1,7 @@
 <template>
     <div>
         <Card
-            :dontShowHeader="fromRepeater"
+            :noHeader="fromRepeater"
             :title="__('voyager::generic.'+currentAction+'_type', { type: translate(bread.name_singular, true) })"
             :class="fromRepeater ? 'border-none' : null"
             :style="fromRepeater ? 'box-shadow: none !important' : null"
@@ -17,7 +17,7 @@
                 </div>
             </template>
             <div>
-                <div class="tabs mb-4" v-if="layout.tabs.length > 0">
+                <div class="tabs mb-4" v-if="!fromRepeater && layout.tabs.length > 0">
                     <nav>
                         <a
                             v-if="layout.formfields.filter(x => x.tab === null).length > 0"

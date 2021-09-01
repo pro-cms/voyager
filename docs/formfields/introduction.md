@@ -10,16 +10,17 @@ They display, parse and handle incoming data and input.
 Here you select which column this formfield consumes.  
 This can be table columns, accessor, relationship properties or relationship methods. 
 Please be aware that (most of the time) the column is necessary.  
-When saving the BREAD with a formfield that does not have a column assigned, a warning will be thrown.
+When saving the BREAD with a formfield that does not have a column assigned, a warning will be shown.
 
 ### Translatable
 
 If you want your data to be translatable, check this box.  
-Please note that some formfields, like the relationship formfield, can not be translated.
+Please note that some formfields, like the relationship formfield, can not be translated.In this case the checkbox is not shown.   
+Read more about multilanguage [here](../bread/multilanguage.md)
 
 ### Title
 
-The title shown at the top of the formfield.  
+The title shown above the formfield.  
 This field is translatable.
 
 ### Description
@@ -30,17 +31,17 @@ This field is translatable.
 ### Component
 
 Here you can provide a name of a custom Vue component.  
-Read more how to add components to Voyager [here](../../plugin-development/components.md)
+Read more how to add components to Voyager [here](../plugins/components.md)
 
 ### Classes
 
-This input allows you to enter additional css classes applied to the parent formfield element.
+This input allows you to enter additional CSS classes applied to the parent formfield element.
 
 ### Validation
 
 Here you enter all your validation rules and messages which wil be displayed when the rule fails.  
 The message field is translatable.  
-Learn more about validation [here](../validation.md)
+Learn more about validation [here](../bread/validation.md)
 
 ## Overview
 

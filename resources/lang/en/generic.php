@@ -84,8 +84,6 @@ return [
     'inputmode'                 => 'Input mode',
     'inputmodes'                => [
         'text'      => 'Text',
-        'decimal'   => 'Decimal',
-        'numeric'   => 'Numeric',
         'tel'       => 'Telephone',
         'search'    => 'Search',
         'email'     => 'Email',

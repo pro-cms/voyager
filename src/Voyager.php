@@ -318,7 +318,7 @@ class Voyager
     /**
      * Safely parse a string into JSON
      */
-    public function getJson(string $input, mixed $default = false): mixed
+    public function getJson(?string $input, mixed $default = false): mixed
     {
         $json = @json_decode($input);
         if (json_last_error() == JSON_ERROR_NONE) {

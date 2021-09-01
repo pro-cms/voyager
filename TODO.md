@@ -14,9 +14,8 @@ Instead, they are listed here:
 - Test (download) actions
 - Catch some common errors (Not a JSON column, column can not be null, Column does not exist, Prop is hidden, ...)
 - Revamp what happens when bread stored or updated. Clear? Edit again?
-- Link to related item when browsing
 - When querying a xMany relationship, it should only display those
-- Let dynamic input provide validation rules (?)
+- Let dynamic input provide validation rules
 - Remove margin-bottom from card (This requires every usage to be aligned)
 
 ## Formfields testing
