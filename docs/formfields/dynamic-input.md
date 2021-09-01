@@ -1,8 +1,10 @@
 # Dynamic Input
 
 The dynamic input is a simple yet powerful formfield allowing you to provide selects, number or text inputs, checkboxes, radios and switches based on your conditions/code.  
+
 To retreive the possible options, Voyager will fetch a route you define in the formfield options.  
 This route has to return a JSON object containing the set of fields you want to show.  
+
 For easy use Voyager provides a class `VoyagerAdmin\Voyager\Classes\DynamicInput` that helps you create those responses.
 
 ## Available methods
