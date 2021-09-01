@@ -24,13 +24,13 @@
 ## Formfields
 
 * [Introduction](formfields/introduction.md)
-* [Checkbox](formfields/checkbox.md)
+* [Checkboxes](formfields/checkboxes.md)
 * [Date & Time](formfields/datetime.md)
 * [Dynamic input](formfields/dynamic-input.md)
 * [Media Picker](formfields/media-picker.md)
 * [Number](formfields/number.md)
 * [Password](formfields/password.md)
-* [Radio](formfields/radio.md)
+* [Radios](formfields/radios.md)
 * [Relationship](formfields/relationship.md)
 * [Repeater](formfields/repeater.md)
 * [Select](formfields/select.md)

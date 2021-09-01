@@ -13,7 +13,7 @@ module.exports = {
             'space-y-2',
             'fill-current', // Icons
             'opacity-0',    // Tooltip disappear
-            'opacity-100',  // Tooltip appear
+            'lg:max-w-4/6',     // Images in documentation
 
             'h-4',
             'h-5',
@@ -118,6 +118,9 @@ module.exports = {
             },
             minHeight: {
                 '64': '8rem',
+            },
+            maxWidth: {
+                '4/6': '66.666667%'
             },
             animation: {
                 'spin-reverse': 'spin-reverse 1s linear infinite',

@@ -49,13 +49,13 @@ This table gives you an overview of all built-in formfields and their recommende
 
 | **Formfield**                       | **Description**                                      | **Recommended column type**                |
 |-------------------------------------|------------------------------------------------------|--------------------------------------------|
-| [Checkbox](checkbox.md)             | Check one or many given options                      | JSON*                                      |
+| [Checkboxes](checkboxes.md)         | Check one or many given options                      | JSON*                                      |
 | [Date & Time](datetime.md)          | Select date and/or time. Single or range             | Date, Timestamp, JSON*                     |
 | [Dynamic input](dynamic-input.md)   | A dynamic form containing user generated data/inputs | Depending on your resulting key(s)         |
 | [Media picker](media-picker.md)     | Select one or many files with the media manager      | JSON*                                      |
 | [Number](number.md)                 | Enter a number, float or double                      | Int, Float, Double                         |
 | [Password](password.md)             | A password formfield                                 | Text, Varchar                              |
-| [Radio](radio.md)                   | Select one of many given options                     | Text, Number, ... (depending on your value)|
+| [Radios](radio.md)                  | Select one of many given options                     | Text, Number, ... (depending on your value)|
 | [Relationship](relationship.md)     | Display a relationship                               | Depending on your resulting key(s)         |
 | [Repeater](repeater.md)             | Display a repeatable set of formfields               | JSON*                                      |
 | [Select](select.md)                 | Select one or multiple given options                 | Text, Varchar, JSON                        |
