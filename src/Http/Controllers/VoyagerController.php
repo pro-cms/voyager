@@ -140,7 +140,7 @@ class VoyagerController extends Controller
         $method = $request->input('method', 'fit');
 
         $select = (new DynamicInput())
-        ->addText('name', 'Name', 'Name')
+        ->addText('name', __('voyager::generic.name'), __('voyager::generic.name'))
         ->addSelect('method', 'Method', [
             'fit'    => __('voyager::media.thumbnails.fit'),
             'crop'   => __('voyager::media.thumbnails.crop'),

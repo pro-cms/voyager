@@ -1,7 +1,7 @@
 # Relationships
 
 This page describes how to implement relationships in your model. 
-For informations on how to use the relationship formfields visit [this page](./formfields/relationship.md)!
+For informations on how to use the relationship formfields visit [this page](../formfields/relationship.md)!
 
 
 Voyager currently supports the following relationship types:

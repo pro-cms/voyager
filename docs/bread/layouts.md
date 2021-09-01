@@ -29,4 +29,4 @@ Please be aware that all formfields in this layout will be deleted as well!
 ## Add a formfield to a layout
 
 Click the `Add Formfield` button and select the formfield you want to add. 
-Read more about formfields [here](./formfields/introduction.md).
+Read more about formfields [here](../formfields/introduction.md).
