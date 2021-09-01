@@ -7,7 +7,7 @@ The relationship formfield is a powerful tool to display, search, select, add an
 It gets even more powerful when your related model contains a BREAD.  
 This way you can select lists for browsing your relationship and views for adding more items directly on the same page.
 
-![Relationship with a BREAD and a list to display items](../.gitbook/assets/bread/formfields/relationship/relationship.png) 
+![Relationship with a BREAD and a list to display items](../.gitbook/assets/formfields/relationship/relationship.png) 
 
 ## Options
 
