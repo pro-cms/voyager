@@ -1,7 +1,7 @@
 # Repeater
 
 The repeater allows you to repeat a given set of other formfields.  
-For example you could a list with guests for your birthday party.  
+For example you could add a list with guests for your birthday party.  
 First, you add a text formfield for the name, another text formfield for the telephone number and a checkbox wether the guest is attending or not.
 
 ![](../.gitbook/assets/bread/formfields/repeater/repeater-builder.png) 
