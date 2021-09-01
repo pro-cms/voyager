@@ -31,6 +31,7 @@
 
                         <a
                             v-for="(tab, i) in layout.tabs"
+                            :key="`tab-${i}`"
                             href="#"
                             class="tab"
                             :class="{ 'active': currentTab === i }"
@@ -125,7 +126,7 @@ export default {
         return {
             bread: this.bread,
             relationships: this.relationships,
-        }
+        };
     },
     data() {
         return {

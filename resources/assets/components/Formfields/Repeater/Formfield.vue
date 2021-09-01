@@ -48,6 +48,7 @@ import EditAdd from '@components/Bread/EditAdd.vue';
 
 export default {
     mixins: [formfield],
+    inject: ['bread'],
     components: { EditAdd, draggable },
     computed: {
         rows: {
@@ -142,9 +143,6 @@ export default {
     },
     data() {
         return {
-            bread: {
-                name_singular: '',
-            },
             layout: {
                 formfields: this.options.formfields
             },

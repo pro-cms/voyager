@@ -16,7 +16,7 @@
                         <th class="flex justify-end">{{ __('voyager::generic.actions') }}</th>
                     </tr>
                 </thead>
-                <draggable tag="tbody" :modelValue="formfields" @update:modelValue="$emit('update:formfields', $event)" item-key="">
+                <draggable tag="tbody" :modelValue="JSON.parse(JSON.stringify(formfields))" @update:modelValue="$emit('update:formfields', $event)" item-key="">
                     <template #item="{ element: formfield, index: key }">
                         <tr>
                             <td class="hidden md:table-cell dd-handle cursor-move" v-tooltip="__('voyager::generic.move')">
