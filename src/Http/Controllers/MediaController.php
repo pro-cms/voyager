@@ -11,6 +11,7 @@ use Inertia\Response as InertiaResponse;
 use Intervention\Image\Facades\Image as Intervention;
 use League\Flysystem\Plugin\ListWith;
 use League\Flysystem\Util;
+use Pharaonic\Laravel\Readable\Readable;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class MediaController extends Controller

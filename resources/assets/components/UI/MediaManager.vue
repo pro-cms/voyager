@@ -87,7 +87,7 @@
                                         <p class="text-sm" v-if="file.file.thumbnails.length > 0">
                                             {{ trans_choice('voyager::media.thumbnail_amount', file.file.thumbnails.length) }}
                                         </p>
-                                        <p class="text-xs" v-if="file.file.type !== 'directory'">{{ readableFileSize(file.file.size) }}</p>
+                                        <p class="text-xs" v-if="file.file.type !== 'directory'">{{ file.file.readable_size }}</p>
                                     </div>
                                     <div class="flex items-end justify-end flex-grow">
                                         <button @click.stop="deleteUpload(file)" v-if="file.is_upload">
@@ -124,7 +124,7 @@
                     <div v-if="selectedFiles.length > 0">
                         <div class="w-full flex justify-center">
                             <div v-if="selectedFiles.length > 1" class="w-full flex justify-center h-32">
-                                <Icon icon="document-duplicate" size="32" />
+                                <Icon icon="document-duplicate" :size="32" />
                             </div>
                             <img :src="selectedFiles[0].preview" class="rounded object-contain h-32 max-w-full" v-else-if="selectedFiles[0].preview" />
                             <img :src="selectedFiles[0].file.url" class="rounded object-contain h-32 max-w-full" v-else-if="matchMime(selectedFiles[0].file.type, 'image/*')" />
@@ -141,7 +141,7 @@
                         <div class="w-full flex justify-start mt-2">
                             <div v-if="selectedFiles.length == 1">
                                 <p>{{ selectedFiles[0].file.name }}</p>
-                                <p>{{ __('voyager::media.size') }}: {{ readableFileSize(selectedFiles[0].file.size) }}</p>
+                                <p>{{ __('voyager::media.size') }}: {{ selectedFiles[0].file.readable_size }}</p>
                                 <input
                                     type="text"
                                     class="input small w-full mt-1 select-none"
