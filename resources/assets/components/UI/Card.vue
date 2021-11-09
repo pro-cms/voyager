@@ -57,6 +57,7 @@ export default {
 };
 </script>
 
+<!-- Styles are not scoped so those classes can be used even without using the component! -->
 <style lang="scss">
 @import "@sassmixins/bg-color";
 @import "@sassmixins/border-color";

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bdc7efc37eade19cbb0f6bc991916297",
+    "content-hash": "ba3ea2795d5a74692d25fc9ed4825cf4",
     "packages": [
         {
             "name": "brick/math",
@@ -2968,68 +2968,6 @@
                 "source": "https://github.com/opis/closure/tree/3.6.2"
             },
             "time": "2021-04-09T13:42:10+00:00"
-        },
-        {
-            "name": "pharaonic/laravel-readable",
-            "version": "1.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Pharaonic/laravel-readable.git",
-                "reference": "42bc9ece47c98ae07397bb8ac77333b71fb32097"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Pharaonic/laravel-readable/zipball/42bc9ece47c98ae07397bb8ac77333b71fb32097",
-                "reference": "42bc9ece47c98ae07397bb8ac77333b71fb32097",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/framework": ">=6.0",
-                "php": ">=7.2"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Pharaonic\\Laravel\\Readable\\ReadableServiceProvider"
-                    ],
-                    "aliases": {
-                        "Readable": "Pharaonic\\Laravel\\Readable\\Readable"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Pharaonic\\Laravel\\Readable\\": "src"
-                },
-                "files": [
-                    "src/Helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Raggi",
-                    "email": "support@pharaonic.io",
-                    "homepage": "https://pharaonic.io"
-                }
-            ],
-            "description": "Laravel - Readable Number (Integer|decimal) & DateTime & Time Length & File Size.",
-            "keywords": [
-                "human readable",
-                "laravel",
-                "pharaonic",
-                "php",
-                "readable"
-            ],
-            "support": {
-                "issues": "https://github.com/Pharaonic/laravel-readable/issues",
-                "source": "https://github.com/Pharaonic/laravel-readable/tree/1.0.4"
-            },
-            "time": "2021-05-09T13:30:55+00:00"
         },
         {
             "name": "phpoption/phpoption",

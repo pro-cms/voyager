@@ -9,7 +9,7 @@
         </div>
         <div class="flex badge" :class="hasChildren ? 'ltr:mr-2 rtl:ml-2' : null" v-if="badgeColor !== null">
             <span v-if="badgeValue !== null" :class="`bg-${badgeColor}-500 ml-auto inline-block text-xs rounded-full py-0.5 px-3`">
-                {{ badgeValue }}
+                {{ isNumeric(badgeValue) ? humanReadableNumber(badgeValue) : badgeValue }}
             </span>
             <span v-else :class="`bg-${badgeColor}-500 rounded-full h-4 w-4`"></span>
         </div>

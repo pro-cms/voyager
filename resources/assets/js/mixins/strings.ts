@@ -49,6 +49,15 @@ export default {
         
             return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
         },
+        humanReadableNumber: function (input: number) {
+            if (input >= 1000 && input < 1000000) {
+                return Math.floor(input / 1000) + 'k';
+            } else if (input >= 1000000) {
+                return Math.floor(input / 1000000) + 'M';
+            }
+
+            return input;
+        },
         stringAfterLast: function (char: string, input: string) {
             var parts = input.split(char);
 

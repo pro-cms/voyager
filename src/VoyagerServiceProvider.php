@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
-use Pharaonic\Laravel\Readable\Readable;
 use Voyager\Admin\Classes\Action;
 use Voyager\Admin\Classes\Bread;
 use Voyager\Admin\Classes\MenuItem;
@@ -365,7 +364,7 @@ class VoyagerServiceProvider extends ServiceProvider
                         ->route('voyager.'.$bread->slug.'.browse')
                         ->badge(
                             $bread->badge_color,
-                            !is_null($bread->badge_color) ? Readable::getHumanNumber($bread->getModel()->count()) : null
+                            !is_null($bread->badge_color) ? $bread->getModel()->count() : null
                         )
                 );
             });

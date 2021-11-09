@@ -3,7 +3,6 @@
 namespace Voyager\Admin\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use ImageOptimizer;
@@ -11,7 +10,6 @@ use Inertia\Response as InertiaResponse;
 use Intervention\Image\Facades\Image as Intervention;
 use League\Flysystem\Plugin\ListWith;
 use League\Flysystem\Util;
-use Pharaonic\Laravel\Readable\Readable;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class MediaController extends Controller
@@ -202,7 +200,6 @@ class MediaController extends Controller
                     'filename'      => $file['filename'],
                     'relative_path' => $relative,
                     'size'          => $file['size'] ?? 0,
-                    'readable_size' => Readable::getSize($file['size'] ?? 0),
                     'url'           => $storage->url($file['path']),
                     'disk'          => $this->disk,
                     'thumbnails'    => [],

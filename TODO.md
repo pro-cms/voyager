@@ -4,7 +4,6 @@ Instead, they are listed here:
 
 - Test everything on mobile (especially media manager)
 - Modal should show scrollbar inside container, not outside
-- Measure bread loading times and cache them if necessary
 - Media manager: While uploading files, they are shown in every folder
 - Media manager: When navigating through folders, it is not possible to use browser-back
 - Media manager: X and Y offset for watermarks should be percentage(?)
@@ -13,14 +12,14 @@ Instead, they are listed here:
 - Remove plugins that are no longer installed from `plugins.json`
 - Test (download) actions
 - Catch some common errors (Not a JSON column, column can not be null, Column does not exist, Prop is hidden, ...)
-- Revamp what happens when bread stored or updated. Clear? Edit again?
+- Rethink what buttons are shown when a BREAD was stored. Directly allow to update?
 - When querying a xMany relationship, it should only display those
 - Let dynamic input provide validation rules
-- Remove margin-bottom from card (This requires every usage to be aligned)
 
 ## Formfields testing
 
 - [X] Checkbox
+- [ ] Date/Time picker
 - [ ] Dynamic Input
 - [ ] MediaPicker
 - [X] Number
@@ -32,6 +31,10 @@ Instead, they are listed here:
 - [X] Slug
 - [X] Tags
 - [X] Text
+
+## Missing formfields
+
+- Switch (boolean value)
 
 ## Documentation
 - Scopes need to start with `scope` (ex. `scopeCurrentUser()`)

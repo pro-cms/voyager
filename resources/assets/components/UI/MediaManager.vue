@@ -87,7 +87,7 @@
                                         <p class="text-sm" v-if="file.file.thumbnails.length > 0">
                                             {{ trans_choice('voyager::media.thumbnail_amount', file.file.thumbnails.length) }}
                                         </p>
-                                        <p class="text-xs" v-if="file.file.type !== 'directory'">{{ file.file.readable_size }}</p>
+                                        <p class="text-xs" v-if="file.file.type !== 'directory'">{{ readableFileSize(file.file.size) }}</p>
                                     </div>
                                     <div class="flex items-end justify-end flex-grow">
                                         <button @click.stop="deleteUpload(file)" v-if="file.is_upload">
@@ -141,7 +141,7 @@
                         <div class="w-full flex justify-start mt-2">
                             <div v-if="selectedFiles.length == 1">
                                 <p>{{ selectedFiles[0].file.name }}</p>
-                                <p>{{ __('voyager::media.size') }}: {{ selectedFiles[0].file.readable_size }}</p>
+                                <p>{{ __('voyager::media.size') }}: {{ readableFileSize(selectedFiles[0].file.size) }}</p>
                                 <input
                                     type="text"
                                     class="input small w-full mt-1 select-none"
