@@ -202,6 +202,7 @@ class MediaController extends Controller
                     'filename'      => $file['filename'],
                     'relative_path' => $relative,
                     'size'          => $file['size'] ?? 0,
+                    'readable_size' => Readable::getSize($file['size'] ?? 0),
                     'url'           => $storage->url($file['path']),
                     'disk'          => $this->disk,
                     'thumbnails'    => [],
