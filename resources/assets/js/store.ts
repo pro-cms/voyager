@@ -1,6 +1,7 @@
 import { reactive } from 'vue';
+import { StoreData } from '../types/interfaces';
 
-export default reactive({
+export default reactive<StoreData>({
     darkmode: 'system',
     systemDarkmode: false,
 

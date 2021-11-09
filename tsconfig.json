@@ -8,7 +8,9 @@
         "allowJs": true,
         "paths": {
             "@/*": [ "./resources/assets/js/*" ],
-            "@components/*": [ "./resources/assets/components/*" ]
+            "@components/*": [ "./resources/assets/components/*" ],
+            "@directives/*": [ "./resources/assets/js/directives/*" ],
+            "@mixins/*": [ "./resources/assets/js/mixins/*" ]
         },
         "typeRoots": [
             "./resources/assets/types", "./node_modules/@types"

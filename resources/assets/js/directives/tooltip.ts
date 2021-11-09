@@ -1,5 +1,4 @@
-import { createPopper } from '@popperjs/core/lib/popper-lite';
-import { placements } from '@popperjs/core/lib/enums';
+import { createPopper, placements } from '@popperjs/core';
 import { v4 as uuidv4 } from 'uuid';
 
 interface TooltipElement extends HTMLElement {
@@ -76,6 +75,8 @@ export default {
                 popper.destroy();
                 tooltip?.parentNode?.removeChild(tooltip);
                 tooltip.remove();
+
+                popper = null;
             }
         });
 

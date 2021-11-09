@@ -1,14 +1,16 @@
+import { Voyager } from '../types/interfaces';
+
 import EventBus from '@/eventbus';
 import Store from '@/store';
 
 export default {
-    install(app) {
+    install(app: Voyager) {
         app.config.globalProperties.toggleDirection = function () {
             Store.rtl = !Store.rtl;
             if (Store.rtl) {
-                document.querySelector('html').setAttribute('dir', 'rtl');
+                document.querySelector('html')?.setAttribute('dir', 'rtl');
             } else {
-                document.querySelector('html').setAttribute('dir', 'ltr');
+                document.querySelector('html')?.setAttribute('dir', 'ltr');
             }
         };
 
@@ -28,7 +30,7 @@ export default {
             }
         };
 
-        app.config.globalProperties.setDarkMode = function (mode) {
+        app.config.globalProperties.setDarkMode = function (mode: string) {
             if (mode == 'dark') {
                 document.documentElement.classList.add('dark')
             } else if (mode == 'light') {
@@ -74,7 +76,7 @@ export default {
         };
 
         // Formfield
-        app.config.globalProperties.getFormfieldByType = function (type) {
+        app.config.globalProperties.getFormfieldByType = function (type: string) {
             var formfield = Store.formfields.where('type', type).first();
             if (!formfield) {
                 console.error('Formfield with type "'+type+'" does not exist!');

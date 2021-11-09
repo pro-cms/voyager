@@ -40,7 +40,12 @@ const IconError = defineComponent({
 export default {
 `;
 
+console.log('Generating icon components from all heroicons.');
+
+let amount = 0;
+
 Object.keys(icons).forEach(icon => {
+    amount++;
     let name = icon.replace('Icon', '');
     content += `    ${name}: defineAsyncComponent({ loader: () => import(/* webpackChunkName: "${icon}" */'@heroicons/vue/outline/esm/${icon}'), loadingComponent: IconLoader, errorComponent: IconError }),\n`;
 });
@@ -51,7 +56,7 @@ content += `    Helm: defineAsyncComponent({ loader: () => import(/* webpackChun
 
 content += "}";
 
-fs.writeFile('resources/assets/js/icons.js', content, (err) => {
+fs.writeFile('resources/assets/js/icons.ts', content, (err) => {
     if (err) throw err;
-    console.log('Icons file generated at "resources/assets/js/icons.js"');
+    console.log(`Icons file generated at "resources/assets/js/icons.ts" containing ${amount} icons.`);
 });

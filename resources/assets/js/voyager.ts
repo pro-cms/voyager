@@ -1,9 +1,5 @@
-__webpack_public_path__ = document.querySelector('meta[name="asset-url"]').content;
-
-import '@helper/array';
-import '@helper/string';
-
-import '../sass/voyager.scss';
+// @ts-ignore
+__webpack_public_path__ = document.querySelector('meta[name="asset-url"]')?.content;
 
 // External libraries
 import * as Vue from 'vue';
@@ -11,13 +7,28 @@ import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import slugify from 'slugify';
 import axios from 'axios';
 
+import {
+    Voyager as VoyagerApp,
+    WindowEx,
+    Data as VoyagerData,
+    Message,
+} from '../types/interfaces';
+
+declare let window: WindowEx;
+
 import scrollTo from '@directives/scroll-to';
+
+import '@helper/array';
+import '@helper/string';
+
+import '../sass/voyager.scss';
 
 window.slugify = slugify;
 window.Vue = Vue;
 window.axios = axios;
 window.scrollTo = scrollTo;
 
+// @ts-ignore
 import Voyager from '@components/Voyager.vue';
 
 // Multilanguage
@@ -41,18 +52,19 @@ import TooltipDirective from '@directives/tooltip';
 import { Notification } from '@/notify';
 import Store from '@/store';
 
-let voyager;
+let voyager: Voyager;
 
-function prepareVoyager(data) {
+function prepareVoyager(data: VoyagerData) {
     for (let key of Object.keys(data)) {
+        // @ts-ignore
         Store[key] = data[key];
     }
 
-    voyager.addToUI = function (title, component) {
+    voyager.addToUI = function (title: string, component: Object) {
         Store.ui.push({ title, component });
     };
 
-    voyager.componentExists = function (component) {
+    voyager.componentExists = function (component: string) {
         return Object.keys(this._context.components).includes(component);
     };
 
@@ -140,9 +152,9 @@ function prepareVoyager(data) {
     }
 }
 
-let mountTo;
+let mountTo: Element;
 
-window.createVoyager = (data = {}, el = 'voyager') => {
+window.createVoyager = (data: VoyagerData, el = 'voyager') => {
     createInertiaApp({
         resolve: name => {
             // This is necessary so webpack doesn't load ALL components (by using require(`@components/${name}`))

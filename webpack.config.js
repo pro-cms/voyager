@@ -21,7 +21,7 @@ module.exports = (env, options) => {
             host: '127.0.0.1'
         },
         entry: {
-            voyager: path.resolve(__dirname, './resources/assets/js/voyager.js')
+            voyager: path.resolve(__dirname, './resources/assets/js/voyager.ts')
         },
         output: {
             path: path.resolve(__dirname, './resources/assets/dist'),

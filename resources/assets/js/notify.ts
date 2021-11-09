@@ -16,7 +16,7 @@ interface NotificationItem {
     _prompt_value: string;
     _timeout_running: boolean;
     _indeterminate: boolean;
-    _timeout: number;
+    _timeout?: number;
 }
 
 const Notify = {
@@ -51,7 +51,7 @@ const Notification = class Notification implements NotificationItem {
     _uuid: string;
 
     _indeterminate: boolean = false;
-    _timeout: number = 0;
+    _timeout?: number = undefined;
     _timeout_running: boolean = false;
 
     _prompt: boolean = false;

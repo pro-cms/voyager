@@ -1,7 +1,9 @@
+import { Voyager } from '../types/interfaces';
+
 import Store from '@/store';
 
 export default {
-    install(app: any) {
+    install(app: Voyager) {
         app.config.globalProperties.__ = function (key: string, replace = {}) {
             return this.trans(key, replace);
         };

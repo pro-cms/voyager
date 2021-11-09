@@ -1,27 +1,23 @@
 interface EventHandler {
     event: string;
-    callback: CallableFunction
+    callback: Function
 };
 
 let handler: Array<EventHandler> = [];
 
 export default {
-    on(event: string, callback: CallableFunction) {
+    on(event: string, callback: Function) {
         handler.push({
             event: event,
             callback: callback,
         });
     },
 
-    emit() {
-        var args = Array.from(arguments);
-        var event = args[0];
-        var payload = args.splice(1);
-
+    emit(event: string, payload: any) {
         handler.filter((h) => {
             return h.event == event;
         }).forEach((h) => {
-            h.callback(...payload);
+            h.callback(payload);
         });
     },
 

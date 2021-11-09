@@ -17,8 +17,7 @@ import { nextTick } from 'vue';
 import closable from '@mixins/closable';
 import clickOutside from '@directives/click-outside';
 
-import { createPopper } from '@popperjs/core/lib/popper-lite';
-import { placements } from '@popperjs/core/lib/enums';
+import { createPopper, placements } from '@popperjs/core';
 
 export default {
     mixins: [closable],

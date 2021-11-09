@@ -114,25 +114,26 @@ export default {
             };
         },
         stopTimeout(notification) {
-            if (notification._timeout !== null) {
+            if (notification._timeout !== undefined) {
                 notification._timeout_running = false;
             }
         },
         startTimeout(notification) {
-            if (notification._timeout !== null) {
+            if (notification._timeout !== undefined) {
                 notification._timeout_running = true;
             }
         },
         timeout(e) {
-            if (e.animationName.startsWith('scale-x')) {
-                var uuid = e.target.dataset.uuid;
-                var notification = notify.notifications.where('_uuid', uuid).first();
-                if (notification._timeout !== null) {
+            var uuid = e.target.dataset.uuid;
+            var notification = notify.notifications.where('_uuid', uuid).first();
+
+            if (e.animationName.startsWith('scale-x') && !notification._prompt && !notification._confirm) {
+                if (notification._timeout !== undefined) {
                     this.close(notification);
                 }
             }
         },
-    },
+    }
 };
 </script>
 
