@@ -13,6 +13,8 @@ class MenuItem implements \JsonSerializable
     public string $href = '';
     public bool $divider = false;
     public bool $exact = false;
+    public ?string $badge_value = null;
+    public ?string $badge_color = null;
     public Collection $children;
 
     /**
@@ -87,6 +89,17 @@ class MenuItem implements \JsonSerializable
     public function addChildren(): self
     {
         $this->children = $this->children->merge(func_get_args());
+
+        return $this;
+    }
+
+    /**
+     * Display a badge on this menu item.
+     */
+    public function badge(?string $color = 'green', ?string $value = null): self
+    {
+        $this->badge_color = $color;
+        $this->badge_value = $value;
 
         return $this;
     }

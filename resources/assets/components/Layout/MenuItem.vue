@@ -7,6 +7,12 @@
                 <span>{{ title }}</span>
             </Link>
         </div>
+        <div class="flex badge" :class="hasChildren ? 'ltr:mr-2 rtl:ml-2' : null" v-if="badgeColor !== null">
+            <span v-if="badgeValue !== null" :class="`bg-${badgeColor}-500 ml-auto inline-block text-xs rounded-full py-0.5 px-3`">
+                {{ badgeValue }}
+            </span>
+            <span v-else :class="`bg-${badgeColor}-500 rounded-full h-4 w-4`"></span>
+        </div>
         <div class="flex-shrink-0 cursor-pointer inline-flex items-center" @click="open = !open" v-if="hasChildren">
             <Icon icon="chevron-up" :size="4" class="icon" :class="open ? 'rotate-0' : 'rotate-180'" />
         </div>
@@ -56,6 +62,14 @@ export default {
         iconSize: {
             type: Number,
             default: 6,
+        },
+        badgeColor: {
+            type: [String, null],
+            default: null,
+        },
+        badgeValue: {
+            type: [String, null],
+            default: null,
         }
     },
     data() {
@@ -80,9 +94,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@sassmixins/text-color";
+
+.dark {
+    .menuitem {
+        .item {
+            .badge {
+                @include text-color(badge-text-color-dark, 'colors.white');
+            }
+        }
+    }
+}
+
 .menuitem {
     .item {
         @apply flex items-center justify-between rounded-md font-medium mt-1 px-2 py-2;
+
+        .badge {
+            @include text-color(badge-text-color, 'colors.white');
+        }
     }
 }
 </style>

@@ -4,6 +4,8 @@ return [
     'add_formfield'                     => 'Add Formfield',
     'add_formfield_to_layout'           => 'Add a formfield to this layout by selecting one from the formfields dropdown',
     'add_layout'                        => 'Add Layout',
+    'badge_color'                       => 'Badge color',
+    'badge_color_hint'                  => 'Shows a colored badge with the amount of items in the navigation. Select none to hide.',
     'border_color'                      => 'Border color',
     'bread_already_exists'              => 'A BREAD for table ":table" already exists!',
     'bread_backed_up'                   => 'BREAD successfully backed-up as ":name"',

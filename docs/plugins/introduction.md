@@ -81,10 +81,11 @@ Plugins can be of various types:
 Voyager uses provider traits to provide various things. 
 Those are:
 
-- **CSS** to provide your custom css throughout Voyager (as a string)
+- **CSS** to provide your custom css throughout Voyager (as a string). [Read more](./assets.md#css)
 - **FrontendRoutes** provide additional routes accessible by everyone
 - **InstructionsComponent** a component that can be displayed in the plugins UI to give the user some instructions (your component name as a string)
-- **JS** provide custom js throughout Voyager (as a string)
+- **JS** provide custom js throughout Voyager (as a string). [Read more](./assets.md#javascript)
+- **MenuItems** provide one or many menu items to be shown in the navigation bar. [Read more](./menu-items.md)
 - **ProtectedRoutes** register protected routes that can only be accessed by users signed-in to Voyager
 - **Settings** register additional settings to be stored in `settings.json`
 - **SettingsComponent** a component that can be displayed in the plugins UI to set some settings depending on your needs (your component name as a string)

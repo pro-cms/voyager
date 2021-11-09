@@ -1,6 +1,6 @@
 {
     "name": "voyager-admin/voyager",
-    "description": "A Laravel Admin Package for The Control Group to make your life easier and steer your project in the right direction",
+    "description": "A Laravel Admin Package to make your life easier and steer your project in the right direction",
     "keywords": ["laravel", "admin", "panel"],
     "license": "MIT",
     "homepage": "https://voyager-admin.com",
@@ -26,7 +26,8 @@
         "intervention/image": "^2.6",
         "inertiajs/inertia-laravel": "^0.4.1",
         "tightenco/ziggy": "^1.3",
-        "guzzlehttp/guzzle": "^7.3"
+        "guzzlehttp/guzzle": "^7.3",
+        "pharaonic/laravel-readable": "^1.0"
     },
     "require-dev": {
         "orchestra/testbench": "^6.0",

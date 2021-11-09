@@ -30,6 +30,7 @@ class Bread implements \JsonSerializable
     public mixed $policy = null;
     public mixed $global_search_field = null;
     public mixed $order_field = null;
+    public ?string $badge_color = null;
     public Collection $layouts;
     public Collection $relationships;
 
@@ -106,6 +107,7 @@ class Bread implements \JsonSerializable
             'policy'              => $this->policy,
             'global_search_field' => $this->global_search_field,
             'order_field'         => $this->order_field,
+            'badge_color'         => $this->badge_color,
             'layouts'             => $this->layouts,
         ];
     }

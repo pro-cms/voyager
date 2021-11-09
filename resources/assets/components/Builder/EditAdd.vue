@@ -73,6 +73,18 @@
                             </template>
                         </Modal>
                     </div>
+                    <div>
+                        <label class="label inline-flex" for="badge_color">
+                            <span class="mx-2">{{ __('voyager::builder.badge_color') }}</span>
+                            <Icon icon="question-mark-circle" v-tooltip="__('voyager::builder.badge_color_hint')" />
+                        </label>
+                        <select class="input w-full" v-model="bread.badge_color">
+                            <option :value="null">{{ __('voyager::generic.none') }}</option>
+                            <option v-for="color in colors" :key="color" :value="color">
+                                {{ __('voyager::generic.color_names.'+color) }}
+                            </option>
+                        </select>
+                    </div>
                 </div>
                 
                 <div class="w-full flex-none lg:flex space-x-0 lg:space-x-4 mb-2">

@@ -6,6 +6,8 @@
             :title="item.title"
             :icon="item.icon"
             :href="item.href"
+            :badgeColor="item.badge_color"
+            :badgeValue="item.badge_value"
             :active="isItemActive(item)"
             :hasChildren="item.children.length > 0"
             :iconSize="iconSize"
