@@ -3,6 +3,7 @@
 return [
     'disable_plugin_confirm'        => 'Are your sure you want to disable the ":name" Plugin?',
     'check_for_updates'             => 'Check for updates',
+    'cleaned_up'                    => 'Cleaned-up your package.json file!',
     'cleared_preferences'           => 'Successfully cleared preferences for plugin ":plugin"!',
     'clear_preferences_confirm'     => 'Are you sure you want to clear the preferences of the plugin ":plugin"?',
     'enable_plugin_confirm'         => 'Are your sure you want to enable the ":name" Plugin?',
@@ -19,6 +20,8 @@ return [
     'plugin_installed'              => 'Already installed!',
     'preferences'                   => 'Preferences',
     'preview_theme'                 => 'You see a preview of the theme ":name".<br>It will disappear when you reload the page.',
+    'registered_not_installed'      => 'The following plugins are registered but not installed:',
+    'registered_not_installed_clean'=> 'Do you want to clean your plugins.json file?',
     'reload'                        => 'Reload',
     'reload_page'                   => 'You might need to reload the page in order to take effect',
     'saved_preferences'             => 'Successfully saved preferences for plugin ":plugin"!',

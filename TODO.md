@@ -7,8 +7,6 @@ Instead, they are listed here:
 - Media manager: While uploading files, they are shown in every folder
 - Media manager: When navigating through folders, it is not possible to use browser-back
 - Media manager: X and Y offset for watermarks should be percentage(?)
-- Make a command to "remove" translations (transform a value from JSON to normal string)
-- Show a dark background when using darkmode to prevent white flashing
 - Remove plugins that are no longer installed from `plugins.json`
 - Test (download) actions
 - Catch some common errors (Not a JSON column, column can not be null, Column does not exist, Prop is hidden, ...)

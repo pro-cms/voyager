@@ -19,7 +19,8 @@ class PluginsController extends Controller
     public function index(): InertiaResponse
     {
         return $this->inertiaRender('Plugins', __('voyager::plugins.plugins'), [
-            'installed-plugins' => $this->getInstalledPlugins()
+            'installed-plugins'     => $this->getInstalledPlugins(),
+            'uninstalled-plugins'   => $this->getUninstalledPlugins(),
         ]);
     }
 
@@ -43,6 +44,11 @@ class PluginsController extends Controller
         $this->pluginmanager->setPreferences($request->get('identifier'), $request->get('preferences'));
     }
 
+    public function cleanUp(): void
+    {
+        $this->pluginmanager->cleanUninstalledPlugins();
+    }
+
     private function getInstalledPlugins(): \Illuminate\Support\Collection
     {
         return $this->pluginmanager->getAllPlugins(false)->sortBy('identifier')->transform(function ($plugin) {
@@ -62,6 +68,13 @@ class PluginsController extends Controller
             $plugin->preferences = $this->pluginmanager->getPreferences($plugin->identifier);
 
             return $plugin;
+        })->values();
+    }
+
+    private function getUninstalledPlugins(): \Illuminate\Support\Collection
+    {
+        return $this->pluginmanager->getRegisteredPlugins()->filter(function ($identifier) {
+            return $this->pluginmanager->getAllPlugins(false)->where('identifier', $identifier)->count() == 0;
         })->values();
     }
 }

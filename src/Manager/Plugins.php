@@ -132,6 +132,13 @@ class Plugins
         return $this->plugins;
     }
 
+    public function getRegisteredPlugins(): Collection
+    {
+        return collect(VoyagerFacade::getJson(File::get($this->path), []))->map(function ($plugin) {
+            return $plugin->identifier;
+        });
+    }
+
     public function enablePlugin(string $identifier, bool $enable = true): bool
     {
         $found = false;
@@ -235,6 +242,15 @@ class Plugins
         $this->preferences_changed = true;
 
         return true;
+    }
+
+    public function cleanUninstalledPlugins(): void
+    {
+        $plugins = collect(VoyagerFacade::getJson(File::get($this->getPath()), []))->filter(function ($plugin) {
+            return $this->getAllPlugins(false)->where('identifier', $plugin->identifier)->count() > 0;
+        })->values();
+
+        VoyagerFacade::writeToFile($this->getPath(), json_encode($plugins, JSON_PRETTY_PRINT));
     }
 
     public function __destruct()

@@ -84,6 +84,20 @@
                 </div>
             </Alert>
         </CollapseTransition>
+        <CollapseTransition>
+            <Alert color="blue" v-if="intUninstalledPlugins.length > 0" class="mb-4">
+                <span>{{ __('voyager::plugins.registered_not_installed') }}</span>
+                <ul class="my-2">
+                    <li v-for="(ident, i) in intUninstalledPlugins" :key="`uninstalled-${i}`">
+                        {{ ident }}
+                    </li>
+                </ul>
+                <span>
+                    {{ __('voyager::plugins.registered_not_installed_clean') }}
+                    <button class="button" @click="cleanUp">{{ __('voyager::generic.clean') }}</button>
+                </span>
+            </Alert>
+        </CollapseTransition>
         <div class="w-full flex">
             <div class="flex-grow space-x-1">
                 <Badge
@@ -240,7 +254,7 @@ const compare = require('semver-compare');
 import Store from '@/store';
 
 export default {
-    props: ['installedPlugins'],
+    props: ['installedPlugins', 'uninstalledPlugins'],
     data() {
         return {
             installed: {
@@ -263,6 +277,7 @@ export default {
                 checked: 0,
                 installed: 0,
             },
+            intUninstalledPlugins: this.uninstalledPlugins,
             addPluginModalOpen: false,
             pp: [],
             store: Store
@@ -292,7 +307,7 @@ export default {
                         enable: enable,
                     })
                     .then(() => {
-                        new this.$notification(this.__('voyager::plugins.reload_page')).show();
+                        new this.$notification(this.__('voyager::plugins.reload_page')).timeout().show();
                     })
                     .catch(response => {})
                     .then(() => {
@@ -440,6 +455,15 @@ export default {
             })
             .then(() => {
                 new this.$notification(this.__('voyager::plugins.saved_preferences', { plugin: plugin.name })).timeout().show();
+            })
+            .catch(response => {})
+            .then(() => {});
+        },
+        cleanUp() {
+            axios.post(this.route('voyager.plugins.clean-up'))
+            .then(() => {
+                new this.$notification(this.__('voyager::plugins.cleaned_up')).timeout().show();
+                this.intUninstalledPlugins = [];
             })
             .catch(response => {})
             .then(() => {});
