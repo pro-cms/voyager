@@ -64,6 +64,7 @@ This table gives you an overview of all built-in formfields and their recommende
 | [Slug](slug.md)                     | Generate a slug from a given formfield               | Text, Varchar                              |
 | [Tags](tags.md)                     | Allows you to enter tags                             | JSON*                                      |
 | [Text](text.md)                     | A standard text formfield                            | Text, Longtext, Varchar                    |
+| [Toggle](toggle.md)                 | A binary switch                                      | Varchar, Integer, Binary                   |
 
 
 Formfields with an asterisk **require** the column to be real JSON as the result is always an array.
