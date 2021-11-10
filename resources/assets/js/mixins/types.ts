@@ -18,5 +18,24 @@ export default {
         isBoolean: function (input: any) {
             return (typeof input === 'boolean');
         },
+        boolVal: function (input: any) {
+            if (input === false) {
+                return false;
+            }
+            if (input === 0 || input === 0.0) {
+                return false;
+            }
+            if (input === '' || input === '0') {
+                return false;
+            }
+            if (Array.isArray(input)) {
+                return false;
+            }
+            if (input === null || input === undefined) {
+                return false;
+            }
+
+            return true;
+        }
     }
 };

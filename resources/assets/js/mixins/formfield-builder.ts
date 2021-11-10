@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue';
+import { defineComponent, reactive } from 'vue';
 
 export default defineComponent({
     emits: ['update:options'],
@@ -10,7 +10,7 @@ export default defineComponent({
                 return ['view', 'view-options', 'list-options'].indexOf(value) >= 0;
             }
         },
-        orgoptions: {
+        options: {
             type: Object,
             required: true,
         },
@@ -34,16 +34,25 @@ export default defineComponent({
         defaultViewOptions() {
             return {};
         },
-        options: {
-            get() {
-                if (this.defaultListOptions && this.action == 'list-options') {
-                    return { ...this.defaultListOptions, ...this.orgoptions };
-                }
-                return { ...this.defaultViewOptions, ...this.orgoptions };
-            },
-            set(options: Object) {
-                this.$emit('update:options', options);
+    },
+    methods: {
+        mergeOptions() {
+            let options = {};
+            if (this.defaultListOptions && this.action == 'list-options') {
+                options = reactive({ ...this.defaultListOptions, ...this.options });
+            } else {
+                options = reactive({ ...this.defaultViewOptions, ...this.options });
             }
+
+            let key, value;
+            for ([key, value] of Object.entries(options)) {
+                this.options[key] = value;
+            }
+
+            this.$emit('update:options', options);
         }
     },
+    created() {
+        this.mergeOptions();
+    }
 });

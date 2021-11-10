@@ -38,7 +38,7 @@ export default {
             return 'X';
         },
         classes() {
-            return this.$props.class + ` ${this.noTransition ? null : 'transition-all duration-500'} h-${this.currentSize} w-${this.size}`;
+            return (this.$props.class || '') + ` ${this.noTransition ? null : 'transition-all duration-500'} h-${this.currentSize} w-${this.size}`;
         },
         currentSize() {
             return this.transitionSize > 0 ? this.transitionSize : this.size;

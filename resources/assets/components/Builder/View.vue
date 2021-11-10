@@ -99,7 +99,7 @@
 
                                     <component
                                         :is="getFormfieldByType(formfield.type).builder_component"
-                                        v-model:orgoptions="formfield.options"
+                                        v-model:options="formfield.options"
                                         :column="formfield.column"
                                         :columns="columns"
                                         :relationships="relationships"
@@ -131,7 +131,7 @@
                         </template>
                         <component
                             :is="getFormfieldByType(formfield.type).builder_component"
-                            v-bind:orgoptions="formfield.options"
+                            v-model:options="formfield.options"
                             :class="formfield.options.classes"
                             :column="formfield.column"
                             :columns="columns"

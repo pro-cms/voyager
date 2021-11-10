@@ -27,10 +27,6 @@
                 <input type="checkbox" class="input" v-model="options.inline">
             </div>
             <div class="input-group mt-2">
-                <label class="label">Inline</label>
-                <input type="checkbox" class="input" v-model="options.inline">
-            </div>
-            <div class="input-group mt-2">
                 <label class="label">Close on select</label>
                 <input type="checkbox" class="input" v-model="options.closeOnSelect">
             </div>

@@ -267,6 +267,13 @@
                 </Collapsible>
             </div>
         </Card>
+        <Card title="Toggle">
+            <div class="flex w-full">
+                <Collapsible title="Default" :title-size="5" class="w-full">
+                    <Toggle v-model="toggle" />
+                </Collapsible>
+            </div>
+        </Card>
     </Collapsible>
 
     <Collapsible title="Color picker" id="ui-color-picker">
@@ -677,6 +684,7 @@ export default {
                 from: dayjs().tz(dayjs.tz.guess()).toISOString(),
                 to: dayjs().add(3, 'day').tz(dayjs.tz.guess()).toISOString(),
             },
+            toggle: false,
             placements,
         };
     },

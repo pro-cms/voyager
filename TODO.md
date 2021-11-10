@@ -31,10 +31,7 @@ Instead, they are listed here:
 - [X] Slug
 - [X] Tags
 - [X] Text
-
-## Missing formfields
-
-- Switch (boolean value)
+- [X] Toggle
 
 ## Documentation
 - Scopes need to start with `scope` (ex. `scopeCurrentUser()`)
