@@ -42,15 +42,20 @@ export default {
     methods: {
         isItemActive(item) {
             const reg = /.+?\:\/\/.+?(\/.+?)(?:#|\?|$)/;
-            let url = reg.exec(item.href)[1].startWith('/').endWith('/');
+            let parts = reg.exec(item.href);
+            if (parts) {
+                let url = parts[1].startWith('/').endWith('/');
 
-            let current = this.$page.url.startWith('/').endWith('/');
+                let current = this.$page.url.startWith('/').endWith('/');
 
-            if (item.exact === true) {
-                return current == url;
+                if (item.exact === true) {
+                    return current == url;
+                }
+
+                return current.startsWith(url);
             }
 
-            return current.startsWith(url);
+            return false;
         }
     }
 }

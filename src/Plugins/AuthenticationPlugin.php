@@ -22,7 +22,12 @@ class AuthenticationPlugin implements AuthContract
 
     public function name(): ?string
     {
-        return Auth::user()?->name; // @phpstan-ignore-line
+        return Auth::user()?->{$this->nameField()}; // @phpstan-ignore-line
+    }
+
+    public function nameField(): string
+    {
+        return 'name';
     }
 
     public function avatar(): ?string

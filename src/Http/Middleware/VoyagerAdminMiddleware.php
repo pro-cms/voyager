@@ -4,6 +4,7 @@ namespace Voyager\Admin\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Event;
 use Inertia\Middleware as InertiaMiddleware;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Contracts\Plugins\AuthenticationPlugin;
@@ -24,6 +25,8 @@ class VoyagerAdminMiddleware extends InertiaMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
+        Event::dispatch('voyager.page');
+
         $plugin = $this->pluginmanager->getAllPlugins()->filter(function ($plugin) {
             return $plugin instanceof AuthenticationPlugin;
         })->first() ?? new DefaultAuthPlugin();

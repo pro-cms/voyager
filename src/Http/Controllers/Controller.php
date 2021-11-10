@@ -7,7 +7,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -30,8 +29,6 @@ abstract class Controller extends BaseController
 
     public function __construct()
     {
-        Event::dispatch('voyager.page');
-
         $this->breadmanager = resolve(BreadManager::class);
         $this->menumanager = resolve(MenuManager::class);
         $this->pluginmanager = resolve(PluginManager::class);

@@ -72,7 +72,7 @@ class VoyagerServiceProvider extends ServiceProvider
             return VoyagerFacade::authorize($user, $ability, $arguments);
         });
 
-        // A Voyager page was requested. Dispatched in Controller::__construct()
+        // A Voyager page was requested. Dispatched in middleware
         Event::listen('voyager.page', function () {
             $this->loadPluginFormfields();
 
