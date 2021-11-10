@@ -39,6 +39,7 @@
 * [Slug](formfields/slug.md)
 * [Tags](formfields/tags.md)
 * [Text](formfields/text.md)
+* [Toggle](formfields/toggle.md)
 
 ## Miscellaneous
 
