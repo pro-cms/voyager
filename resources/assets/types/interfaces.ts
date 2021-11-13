@@ -11,6 +11,7 @@ interface WindowEx extends Window {
     Status: Object;
     voyager: Vue.App;
     scrollTo: any;
+    debounce: any;
     createVoyager: (data: Data, el: string) => void;
     mountVoyager: () => void;
 }

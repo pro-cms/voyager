@@ -1,5 +1,5 @@
 <template>
-<div class="card border-default">
+<div class="card" :class="!hasBorder ? 'border-default' : null">
     <div class="header" v-if="!noHeader">
         <div class="flex flex-wrap justify-between">
             <slot name="title">
@@ -54,6 +54,11 @@ export default {
             default: '',
         },
     },
+    computed: {
+        hasBorder() {
+            return this.$attrs.class && this.$attrs.class.includes('border-');
+        }
+    }
 };
 </script>
 

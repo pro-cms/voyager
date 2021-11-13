@@ -6,6 +6,7 @@ import * as Vue from 'vue';
 import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import slugify from 'slugify';
 import axios from 'axios';
+import { debounce } from 'debounce';
 
 import {
     Voyager as VoyagerApp,
@@ -27,6 +28,7 @@ window.slugify = slugify;
 window.Vue = Vue;
 window.axios = axios;
 window.scrollTo = scrollTo;
+window.debounce = debounce;
 
 // @ts-ignore
 import Voyager from '@components/Voyager.vue';
