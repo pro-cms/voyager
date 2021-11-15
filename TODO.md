@@ -36,4 +36,3 @@ Instead, they are listed here:
 - Accessors need to be named `getFieldAttribute` (ex. `getFullNameAttribute`)
 - Computed properties need to implement an accessor AND mutator when used for adding or editing
 - Ordering only works when there are actual values in the field. Those have to be set by a mutator (or similar)
-

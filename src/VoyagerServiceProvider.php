@@ -139,6 +139,7 @@ class VoyagerServiceProvider extends ServiceProvider
     protected function registerRoutes(Collection $breads)
     {
         Route::group(['as' => 'voyager.', 'prefix' => Voyager::$routePath, 'namespace' => 'Voyager\Admin\Http\Controllers'], function () use ($breads) {
+            Event::dispatch('voyager.page');
             Route::group(['middleware' => config('auth.defaults.guard', 'web')], function () use ($breads) {
                 $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
                 $this->pluginmanager->launchPlugins();
