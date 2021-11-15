@@ -13,6 +13,7 @@ Instead, they are listed here:
 - Rethink what buttons are shown when a BREAD was stored. Directly allow to update?
 - When querying a xMany relationship, it should only display those
 - Let dynamic input provide validation rules
+- When a BREAD slug is empty (translated) it will override the `voyager.dashboard` route and make the whole admin panel break
 
 ## Formfields testing
 

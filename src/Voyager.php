@@ -254,7 +254,7 @@ class Voyager
     /**
      * Translate a given string/object/array.
      */
-    public function translate(mixed $value, ?string $locale = null, ?string $fallback = null): string
+    public function translate(mixed $value, ?string $locale = null, ?string $fallback = null): ?string
     {
         if ($locale == null) {
             $locale = app()->getLocale();
