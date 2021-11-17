@@ -93,6 +93,7 @@ function prepareVoyager(data: VoyagerData) {
     voyager.config.globalProperties.slugify = slugify;
     voyager.use(Global);
     voyager.config.globalProperties.$notification = Notification;
+    voyager.config.globalProperties.$store = Store;
 
     voyager.config.globalProperties.colors = [
         'accent',

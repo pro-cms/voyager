@@ -414,6 +414,24 @@ class Voyager
     }
 
     /**
+     * Resolve a batch of permissions for a given user.
+     */
+    public function resolvePermissions(array $permissions, $user = null): Collection
+    {
+        if ($user === null) {
+            $user = $this->auth()->user();
+        }
+
+        return collect($permissions)->mapWithKeys(function ($arguments, $ability) use ($user) {
+            if (is_int($ability)) {
+                return [$arguments => $this->authorize($user, $arguments)];
+            }
+
+            return [$ability => $this->authorize($user, $ability, $arguments)];
+        });
+    }
+
+    /**
      * Get a BREAD by it's (table) name.
      */
     public function getBreadByName(string $breadName): ?Classes\Bread
@@ -430,6 +448,7 @@ class Voyager
         $viewData = [
             'breads'                => $this->breadmanager->getBreads(),
             'formfields'            => $this->breadmanager->getFormfields(),
+            'tables'                => $this->getTables(),
 
             'localization'          => $this->getLocalization(),
             'locales'               => $this->getLocales(),

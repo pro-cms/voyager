@@ -433,6 +433,7 @@ export default {
 
             axios.post(this.route('voyager.bread.get-properties'), {
                 model: this.bread.model,
+                table: this.bread.table,
                 resolve_relationships: true,
             })
             .then((response) => {

@@ -7,6 +7,7 @@ export default reactive<StoreData>({
 
     breads: [],
     formfields: [],
+    tables: [],
 
     localization: [],
     locales: [],

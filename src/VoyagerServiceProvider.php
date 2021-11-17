@@ -80,7 +80,7 @@ class VoyagerServiceProvider extends ServiceProvider
 
             // Register menu-items
             $this->registerMenuItems();
-            $this->registerBreadBuilderMenuItem($breads);
+            $this->registerBreadBuilderMenuItems($breads);
             $this->registerBreadMenuItems($breads);
 
             // Register BREAD policies
@@ -331,17 +331,17 @@ class VoyagerServiceProvider extends ServiceProvider
      *
      * @param Collection $breads A collection of the Voyager apps current BREADs.
      */
-    public function registerBreadBuilderMenuItem(Collection $breads): void
+    public function registerBreadBuilderMenuItems(Collection $breads): void
     {
         $bread_builder_item = (new MenuItem(__('voyager::generic.bread'), 'bread', true))
-                                ->permission('browse', ['breads'])
+                                ->permission('browse', [Bread::class])
                                 ->route('voyager.bread.index');
 
         $this->menumanager->addItems($bread_builder_item);
 
         $breads->each(static function ($bread) use ($bread_builder_item) {
             $bread_builder_item->addChildren(
-                (new MenuItem($bread->name_plural, $bread->icon, true))->permission('edit', [$bread->table])
+                (new MenuItem($bread->name_plural, $bread->icon, true))->permission('edit', [$bread])
                     ->route('voyager.bread.edit', ['table' => $bread->table])
             );
         });
@@ -361,7 +361,7 @@ class VoyagerServiceProvider extends ServiceProvider
 
             $breads->each(function ($bread) {
                 $this->menumanager->addItems(
-                    (new MenuItem($bread->name_plural, $bread->icon, true))->permission('browse', [$bread])
+                    (new MenuItem($bread->name_plural, $bread->icon, true))->permission('browse', [$bread->model, $bread])
                         ->route('voyager.'.$bread->slug.'.browse')
                         ->badge(
                             $bread->badge_color,

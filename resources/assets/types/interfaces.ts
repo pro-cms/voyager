@@ -27,6 +27,7 @@ interface StoreData {
     systemDarkmode: boolean;
     breads: Array<Object>;
     formfields: Array<Object>;
+    tables: Array<string>;
     localization: Array<any>;
     locales: Array<string>;
     locale: string;

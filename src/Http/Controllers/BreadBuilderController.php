@@ -34,6 +34,8 @@ class BreadBuilderController extends Controller
      */
     public function index(): InertiaResponse
     {
+        $this->authorize('browse', Bread::class);
+
         return $this->inertiaRender('Builder/Browse', __('voyager::generic.breads'), [
             'tables'  => VoyagerFacade::getTables(),
             'breads'  => $this->breadmanager->getBreads()->values(),
@@ -50,6 +52,7 @@ class BreadBuilderController extends Controller
      */
     public function create($table): InertiaResponse|\Illuminate\Http\RedirectResponse
     {
+        $this->authorize('add', [Bread::class, $table]);
         if (!in_array($table, VoyagerFacade::getTables())) {
             throw new \Voyager\Admin\Exceptions\TableNotFoundException('Table "'.$table.'" does not exist');
         }
@@ -89,6 +92,8 @@ class BreadBuilderController extends Controller
             return redirect()->route('voyager.bread.create', $table);
         }
 
+        $this->authorize('edit', $bread);
+
         return $this->inertiaRender('Builder/EditAdd', __('voyager::generic.edit_type', ['type' => __('voyager::generic.bread')]), [
             'data'   => $bread,
             'is-new' => false,
@@ -106,6 +111,13 @@ class BreadBuilderController extends Controller
     public function update(Request $request, $table)
     {
         $bread = $request->bread;
+        $exists = $this->breadmanager->getBread($table);
+
+        if ($exists) {
+            $this->authorize('edit', $bread);
+        } else {
+            $this->authorize('add', [Bread::class, $table]);
+        }
 
         if (!is_array($bread)) {
             return response()->json([__('voyager::bread.json_data_not_valid')], 422);
@@ -125,7 +137,6 @@ class BreadBuilderController extends Controller
         ]);
 
         if ($validator->passes()) {
-            $exists = $this->breadmanager->getBread($table);
             if (!$this->breadmanager->storeBread($bread)) {
                 $validator->errors()->add('bread', __('voyager::builder.bread_save_failed')); // @phpstan-ignore-line
 
@@ -156,6 +167,7 @@ class BreadBuilderController extends Controller
     public function destroy($table)
     {
         $bread = $this->breadmanager->getBread($table);
+        $this->authorize('delete', $bread);
         if (is_null($bread)) {
             return response('', 500);
         }
@@ -173,6 +185,14 @@ class BreadBuilderController extends Controller
      */
     public function getProperties(Request $request)
     {
+        $table = $request->get('table', null);
+
+        if ($this->breadmanager->getBread($table)) {
+            $this->authorize('edit', $this->breadmanager->getBread($table));
+        } else {
+            $this->authorize('add', [Bread::class, $table]);
+        }
+
         $model = $request->get('model', null);
 
         $validator = Validator::make(['model' => $model], [
@@ -251,6 +271,7 @@ class BreadBuilderController extends Controller
         $table = $request->get('table', '');
         $result = $this->breadmanager->backupBread($table);
         $bread = $this->breadmanager->getBread($table);
+        $this->authorize('backup', $bread);
         if ($bread !== null) {
             event(new BackedUpEvent($bread));
         }
@@ -274,7 +295,7 @@ class BreadBuilderController extends Controller
         $table = $request->get('table', '');
         $result = $this->breadmanager->rollbackBread($table, $request->get('path', ''));
         $bread = $this->breadmanager->getBread($table);
-
+        $this->authorize('restore', $bread);
         if ($bread !== null) {
             event(new RestoredEvent($bread));
         }

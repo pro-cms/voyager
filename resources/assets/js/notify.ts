@@ -14,6 +14,8 @@ interface NotificationItem {
 
     _prompt: boolean;
     _prompt_value: string;
+    _select: Array<Object>;
+    _select_values: Array<any>;
     _timeout_running: boolean;
     _indeterminate: boolean;
     _timeout?: number;
@@ -33,7 +35,7 @@ const Notify = {
         });
     },
     removeNotification(obj: NotificationItem, result: any, message = null) {
-        if (obj._prompt == true) {
+        if (obj._prompt == true || obj._select.length > 0) {
             obj.resolve((result == true ? message : false));
         } else if (result !== null) {
             obj.resolve(result);
@@ -58,6 +60,9 @@ const Notification = class Notification implements NotificationItem {
     _prompt_value: string = '';
 
     _confirm: boolean = false;
+
+    _select: Array<Object> = [];
+    _select_values: Array<any> = [];
 
     resolve: CallableFunction = () => {};
     reject: CallableFunction = () => {};
@@ -117,6 +122,12 @@ const Notification = class Notification implements NotificationItem {
 
     confirm() {
         this._confirm = true;
+
+        return this;
+    }
+
+    select(options: Object) {
+        this._select.push(options);
 
         return this;
     }

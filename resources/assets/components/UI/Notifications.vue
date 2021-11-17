@@ -31,6 +31,13 @@
                             <p class="message mt-1">{{ notification._message }}</p>
                         </span>
                         <p class="title" v-else v-html="notification._message"></p>
+                        <div v-for="(options, i) in notification._select" :key="`select-${i}`" class="mt-4 flex">
+                            <select class="input small w-full" v-model="notification._select_values[i]">
+                                <option v-for="(value, key) in options" :key="`option-${key}`" :value="key">
+                                    {{ value }}
+                                </option>
+                            </select>
+                        </div>
                         <div class="mt-4 flex" v-if="notification._prompt">
                             <input
                                 type="text"
@@ -102,6 +109,8 @@ export default {
         clickButton(notification, button) {
             if (notification._prompt) {
                 this.close(notification, button.key, notification._prompt_value);
+            } else if (notification._select.length > 0) {
+                this.close(notification, button.key, notification._select_values);
             } else {
                 this.close(notification, button.key);
             }
