@@ -39,7 +39,7 @@ export default {
     }
 
     .icon {
-        @apply cursor-pointer;
+        @apply cursor-pointer ml-1;
     }
 }
 </style>

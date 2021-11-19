@@ -52,6 +52,11 @@ class MyPlugin implements GenericPlugin
     public $website = 'https://github.com/my/plugin';
 
     // Methods depending on your plugin-type, providers and filters.
+
+    public function __construct() {
+        // Provide a README file that can be displayed in the plugin UI
+        $this->readme = realpath(dirname(__DIR__, 1).'/README.md');
+    }
 }
 ```
 
@@ -83,7 +88,6 @@ Those are:
 
 - **CSS** to provide your custom css throughout Voyager (as a string). [Read more](./assets.md#css)
 - **FrontendRoutes** provide additional routes accessible by everyone
-- **InstructionsComponent** a component that can be displayed in the plugins UI to give the user some instructions (your component name as a string)
 - **JS** provide custom js throughout Voyager (as a string). [Read more](./assets.md#javascript)
 - **MenuItems** provide one or many menu items to be shown in the navigation bar. [Read more](./menu-items.md)
 - **ProtectedRoutes** register protected routes that can only be accessed by users signed-in to Voyager

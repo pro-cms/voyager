@@ -191,12 +191,14 @@
                                     </template>
                                 </Modal>
 
-                                <Modal v-if="plugin.instructions_component" :title="__('voyager::generic.instructions')">
-                                    <component :is="plugin.instructions_component"></component>
+                                <Modal v-if="plugin.readme" :title="__('voyager::generic.readme')">
+                                    <MarkdownView>
+                                        {{ plugin.readme }}
+                                    </MarkdownView>
                                     <template #opener>
                                         <button class="button small">
                                         <Icon icon="eye" />
-                                        <span>{{ __('voyager::generic.instructions') }}</span>
+                                        <span>{{ __('voyager::generic.readme') }}</span>
                                     </button>
                                     </template>
                                 </Modal>

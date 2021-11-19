@@ -5,7 +5,6 @@ namespace Voyager\Admin\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Response as InertiaResponse;
-use Voyager\Admin\Contracts\Plugins\Features\Provider\InstructionsComponent;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\SettingsComponent;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 
@@ -61,8 +60,9 @@ class PluginsController extends Controller
             if ($plugin instanceof SettingsComponent) {
                 $plugin->settings_component = $plugin->getSettingsComponent();
             }
-            if ($plugin instanceof InstructionsComponent) {
-                $plugin->instructions_component = $plugin->getInstructionsComponent();
+
+            if (isset($plugin->readme) && file_exists($plugin->readme)) {
+                $plugin->readme = file_get_contents($plugin->readme);
             }
 
             $plugin->preferences = $this->pluginmanager->getPreferences($plugin->identifier);

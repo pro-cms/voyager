@@ -11,7 +11,7 @@ To install a plugin, simply click `Search Plugins` and find the plugin you want 
 Once found, double click the textbox next to it to copy the according command to your clipboard.  
 Next, open your console and run the command.  
 After that, your plugin will appear on your plugins page as disabled. Click `Enable` to enable it. Your plugin is now active!  
-There might be additional steps to install a plugin. Please revise the instructions by clicking the `Instructions` button or by visiting the plugin page.
+There might be additional steps to install a plugin. Please revise the instructions by clicking the `Readme` button or by visiting the plugin page.
 
 ![Plugins overview](./.gitbook/assets/plugins/search.png) 
 
