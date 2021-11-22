@@ -34,7 +34,7 @@ class BreadBuilderController extends Controller
      */
     public function index(): InertiaResponse
     {
-        $this->authorize('browse', Bread::class);
+        $this->authorize('browse', new Bread(''));
 
         return $this->inertiaRender('Builder/Browse', __('voyager::generic.breads'), [
             'tables'  => VoyagerFacade::getTables(),

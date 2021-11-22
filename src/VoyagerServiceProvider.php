@@ -334,7 +334,7 @@ class VoyagerServiceProvider extends ServiceProvider
     public function registerBreadBuilderMenuItems(Collection $breads): void
     {
         $bread_builder_item = (new MenuItem(__('voyager::generic.bread'), 'bread', true))
-                                ->permission('browse', [Bread::class])
+                                ->permission('browse', [new BREAD('')])
                                 ->route('voyager.bread.index');
 
         $this->menumanager->addItems($bread_builder_item);
@@ -378,7 +378,7 @@ class VoyagerServiceProvider extends ServiceProvider
     private function registerMenuItems(): void
     {
         $this->menumanager->addItems(
-            (new MenuItem(__('voyager::generic.dashboard'), 'home', true))->permission('browse', ['admin'])->route('voyager.dashboard')->exact()
+            (new MenuItem(__('voyager::generic.dashboard'), 'home', true))->permission('browse', ['voyager'])->route('voyager.dashboard')->exact()
         );
         $this->menumanager->addItems(
             (new MenuItem(__('voyager::generic.media'), 'photograph', true))->permission('browse', ['media'])->route('voyager.media')

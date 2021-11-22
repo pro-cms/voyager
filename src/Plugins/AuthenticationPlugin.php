@@ -85,7 +85,7 @@ class AuthenticationPlugin implements AuthContract
             Event::dispatch('voyager.auth.registered', $this);
         }
 
-        if ($this->user() && !Auth::guest()) {
+        if ($this->user() && !Auth::guest() && VoyagerFacade::authorize($this->user(), 'browse', ['voyager'])) {
             return $next($request);
         }
 

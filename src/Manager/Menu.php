@@ -54,6 +54,6 @@ class Menu
                 $item->permission['ability'] ?? null,
                 $item->permission['arguments'] ?? []
             );
-        });
+        })->values();
     }
 }
