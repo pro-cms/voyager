@@ -43,7 +43,7 @@ interface StoreData {
     jsonOutput: boolean;
     devServer: { url: String|null; available: boolean; wanted: boolean; };
     sidebar: { items: Array<any>; title: String; iconSize: Number; };
-    user: { name: String; avatar: String; };
+    user: { name: String; avatar: String; items: Array<Object> };
 }
 
 interface Data {

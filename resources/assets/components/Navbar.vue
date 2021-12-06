@@ -22,15 +22,14 @@
                             </p>
                         </div>
                     </div>
-                    <Link :href="route('voyager.dashboard')" class="link">
-                        {{ __('voyager::generic.dashboard') }}
-                    </Link>
-                    <Link :href="route('voyager.settings.index')" class="link">
-                        {{ __('voyager::generic.settings') }}
-                    </Link>
-                    <Link :href="route('voyager.logout')" class="link">
-                        {{ __('voyager::auth.logout') }}
-                    </Link>
+                    <template v-for="(item, i) in store.user.items" :key="`user-item-${i}`">
+                        <template v-if="item.divider">
+                            <hr class="sidebar-border" />
+                        </template>
+                        <Link v-else :href="item.href" class="link">
+                            {{ item.title }}
+                        </Link>
+                    </template>
                 </div>
                 <template #opener>
                     <button class="inline-flex justify-end w-48 max-w-sm space-x-2 items-center font-semibold focus:outline-none">

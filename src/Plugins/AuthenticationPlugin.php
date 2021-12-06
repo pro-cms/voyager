@@ -7,9 +7,10 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
-use Illuminate\View\View;
+use Voyager\Admin\Classes\UserMenuItem;
 use Voyager\Admin\Contracts\Plugins\AuthenticationPlugin as AuthContract;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
+use Voyager\Admin\Manager\Menu as MenuManager;
 
 class AuthenticationPlugin implements AuthContract
 {
@@ -83,6 +84,12 @@ class AuthenticationPlugin implements AuthContract
             auth()->setDefaultDriver($this->guard());
             $this->registered = true;
             Event::dispatch('voyager.auth.registered', $this);
+
+            app(MenuManager::class)->addItems(
+                (new UserMenuItem(__('voyager::generic.dashboard')))->route('voyager.dashboard'),
+                (new UserMenuItem('', ''))->divider(),
+                (new UserMenuItem(__('voyager::auth.logout')))->route('voyager.logout')
+            );
         }
 
         if ($this->user() && !Auth::guest() && VoyagerFacade::authorize($this->user(), 'browse', ['voyager'])) {
@@ -92,13 +99,13 @@ class AuthenticationPlugin implements AuthContract
         return redirect()->guest(route('voyager.login'));
     }
 
-    public function loginView(): ?View
+    public function loginComponent(): ?string
     {
         return null; // Return null will show the default form
     }
 
-    public function forgotPasswordView(): ?View
+    public function forgotPasswordView(): bool
     {
-        return null;
+        return true;
     }
 }

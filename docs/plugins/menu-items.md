@@ -43,3 +43,8 @@ $menumanager->addItems(
 | exact       | Apply the active class only when the current URL matches exactly | `->exact()`                                                       | -                                                                                                  |
 | badge       | Display a badge next to the title                                | `->badge('green', '10k+')` or `->badge('red')`                    | string color: Tailwind color of the badge (red, green, blue, ...), string value: The value or null |
 | addChildren | Add children to the item                                         | `->addChildren(new MenuItem('Child 1'), new MenuItem('Child 2'))` | MenuItem item: One or many children                                                                |
+
+
+## User dropdown
+
+When you want to display menu items in the user dropdown simply use `Voyager\Admin\Classes\UserMenuItem` instead of `Voyager\Admin\Classes\MenuItem`.

@@ -14,21 +14,23 @@
 
         <div class="mt-8 mx-2 sm:mx-auto sm:w-full sm:max-w-md">
             <div class="form py-8 px-4 shadow rounded-lg px-10">
-                <Alert v-if="false" color="red" role="alert">
+                <Alert v-if="errors.length > 0" color="red" role="alert">
                     <ul>
-                        <li v-if="loginForm.hasErrors" v-for="(error, i) in loginForm.errors" :key="`login-error-${i}`">
-                            {{ error }}
-                        </li>
-                        <li v-if="passwordForm.hasErrors" v-for="(error, i) in passwordForm.errors" :key="`password-error-${i}`">
+                        <li v-for="(error, i) in errors" :key="`login-error-${i}`">
                             {{ error }}
                         </li>
                     </ul>
                 </Alert>
-                <div class="mb-4" v-if="false"></div>
                 <!-- Built-in login view -->
                 <form method="post" :action="route('voyager.login')" v-if="!passwordForgotOpen" key="login-form">
                     <input type="hidden" name="_token" :value="store.csrfToken" />
-                    <slot name="login">
+                    <template v-if="loginComponent !== null">
+                        <component
+                            :is="loginComponent"
+                            :welcome="welcome"
+                        />
+                    </template>
+                    <div v-else name="login">
                         <div class="w-full mt-1">
                             <label for="email" class="label">{{ __('voyager::auth.email') }}</label>
                             <div class="mt-1 rounded-md shadow-sm">
@@ -47,19 +49,19 @@
                                 <label for="remember" class="text-sm leading-8 mx-1">{{ __('voyager::auth.remember_me') }}</label>
                             </div>
                             
-                            <a href="#" v-if="has_password_view" class="font-medium text-sm leading-8" @click.prevent="passwordForgotOpen = true">
+                            <a href="#" v-if="hasPasswordView" class="font-medium text-sm leading-8" @click.prevent="passwordForgotOpen = true">
                                 {{ __('voyager::auth.forgot_password') }}
                             </a>
                         </div>
-                    </slot>
 
-                    <div class="flex items-center justify-between mt-4">
-                        <button class="button large accent w-full justify-center" type="submit">
-                            {{ __('voyager::auth.login') }}
-                        </button>
+                        <div class="flex items-center justify-between mt-4">
+                            <button class="button large accent w-full justify-center" type="submit">
+                                {{ __('voyager::auth.login') }}
+                            </button>
+                        </div>
                     </div>
                 </form>
-                <form method="post" :action="route('voyager.forgot_password')" v-if="has_password_view && passwordForgotOpen" key="password-form">
+                <form method="post" :action="route('voyager.forgot_password')" v-if="hasPasswordView && passwordForgotOpen" key="password-form">
                     <p>{{ __('voyager::auth.forgot_password_info') }}</p>
                     <div class="mt-4">
                         <!-- Built-in forgot password view -->
@@ -84,10 +86,12 @@
 import Store from '@/store';
 
 export default {
-    props: [
-        'welcome',
-        'has_password_view'
-    ],
+    props: {
+        welcome: String,
+        hasPasswordView: Boolean,
+        loginComponent: String,
+        errors: Array,
+    },
     data() {
         return {
             passwordForgotOpen: false,

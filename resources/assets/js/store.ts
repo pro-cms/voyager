@@ -42,5 +42,6 @@ export default reactive<StoreData>({
     user: {
         name: '',
         avatar: '',
+        items: [],
     }
 });

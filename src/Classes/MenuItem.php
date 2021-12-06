@@ -16,6 +16,7 @@ class MenuItem implements \JsonSerializable
     public ?string $badge_value = null;
     public ?string $badge_color = null;
     public Collection $children;
+    public $userMenu = false;
 
     /**
      * Create a new menu item.

@@ -29,7 +29,7 @@ interface AuthenticationPlugin extends GenericPlugin
 
     public function handleRequest(Request $request, Closure $next): mixed;
 
-    public function loginView(): ?View;
+    public function loginComponent(): ?string;
 
-    public function forgotPasswordView(): ?View;
+    public function forgotPasswordView(): bool;
 }

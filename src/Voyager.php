@@ -482,6 +482,7 @@ class Voyager
                 'user'                  => [
                     'name'      => $this->auth()->name(),
                     'avatar'    => $this->auth()->avatar(),
+                    'items'     => $this->menumanager->getItems($this->pluginmanager, true)
                 ]
             ]);
         }

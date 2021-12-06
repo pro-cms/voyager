@@ -25,9 +25,11 @@ class Menu
         }
     }
 
-    public function getItems(Plugins $pluginmanager): Collection
+    public function getItems(Plugins $pluginmanager, $userMenu = false): Collection
     {
-        $items = $this->items->sortBy(function ($item) {
+        $items = $this->items->filter(function ($item) use ($userMenu) {
+            return $item->userMenu == $userMenu;
+        })->sortBy(function ($item) {
             return $item->main ? 0 : 99999999;
         })->values();
         
