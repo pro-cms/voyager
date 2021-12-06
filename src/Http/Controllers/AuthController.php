@@ -31,6 +31,7 @@ class AuthController extends Controller
             'hasPasswordView'   => VoyagerFacade::auth()->forgotPasswordView(),
             'loginComponent'    => VoyagerFacade::auth()->loginComponent(),
             'errors'            => $errors,
+            'data'              => $request->all(),
         ]);
     }
 

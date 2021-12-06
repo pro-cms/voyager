@@ -85,11 +85,7 @@ class AuthenticationPlugin implements AuthContract
             $this->registered = true;
             Event::dispatch('voyager.auth.registered', $this);
 
-            app(MenuManager::class)->addItems(
-                (new UserMenuItem(__('voyager::generic.dashboard')))->route('voyager.dashboard'),
-                (new UserMenuItem('', ''))->divider(),
-                (new UserMenuItem(__('voyager::auth.logout')))->route('voyager.logout')
-            );
+            $this->registerUserMenuItems();
         }
 
         if ($this->user() && !Auth::guest() && VoyagerFacade::authorize($this->user(), 'browse', ['voyager'])) {
@@ -107,5 +103,12 @@ class AuthenticationPlugin implements AuthContract
     public function forgotPasswordView(): bool
     {
         return true;
+    }
+
+    private function registerUserMenuItems() {
+        app(MenuManager::class)->addItems(
+            (new UserMenuItem(__('voyager::generic.dashboard')))->route('voyager.dashboard'),
+            (new UserMenuItem(__('voyager::auth.logout')))->route('voyager.logout')
+        );
     }
 }

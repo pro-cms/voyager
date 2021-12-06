@@ -28,24 +28,26 @@
                         <component
                             :is="loginComponent"
                             :welcome="welcome"
+                            :errors="errors"
+                            :data="data"
                         />
                     </template>
                     <div v-else name="login">
                         <div class="w-full mt-1">
                             <label for="email" class="label">{{ __('voyager::auth.email') }}</label>
                             <div class="mt-1 rounded-md shadow-sm">
-                                <input type="email" name="email" id="email" class="input w-full mb-4 placeholder-gray-400" autofocus>
+                                <input type="email" name="email" id="email" class="input w-full mb-4 placeholder-gray-400" :value="data.email" autofocus>
                             </div>
                         </div>
                         <div class="w-full mt-6">
                             <label for="password" class="label">{{ __('voyager::auth.password') }}</label>
                             <div class="mt-1 rounded-md shadow-sm">
-                                <input type="password" name="password" id="password" class="input w-full mb-3 placeholder-gray-400">
+                                <input type="password" name="password" id="password" class="input w-full mb-3 placeholder-gray-400" :value="data.password">
                             </div>
                         </div>
                         <div class="w-full flex justify-between mt-4">
                             <div class="select-none">
-                                <input type="checkbox" class="input" name="remember" id="remember">
+                                <input type="checkbox" class="input" name="remember" id="remember" :checked="data.remember == 'on' || false">
                                 <label for="remember" class="text-sm leading-8 mx-1">{{ __('voyager::auth.remember_me') }}</label>
                             </div>
                             
@@ -91,6 +93,7 @@ export default {
         hasPasswordView: Boolean,
         loginComponent: String,
         errors: Array,
+        data: Object,
     },
     data() {
         return {
