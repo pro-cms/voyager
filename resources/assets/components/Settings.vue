@@ -67,10 +67,10 @@
             <template v-else>
                 <p>{{ __('voyager::settings.usage_information') }}</p>
                 <code v-if="selectedSetting.group == null" @dblclick.prevent.stop="copyUsage" class="select-none cursor-pointer">
-                    \Voyager\Admin\Facades\Voyager::settings('{{ selectedSetting.key }}');
+                    \Voyager\Admin\Facades\Voyager::setting('{{ selectedSetting.key }}');
                 </code>
                 <code v-else @dblclick.prevent.stop="copyUsage" class="select-none cursor-pointer">
-                    \Voyager\Admin\Facades\Voyager::settings('{{ selectedSetting.group }}.{{ selectedSetting.key }}');
+                    \Voyager\Admin\Facades\Voyager::setting('{{ selectedSetting.group }}.{{ selectedSetting.key }}');
                 </code>
             </template>
         </Alert>
@@ -140,6 +140,8 @@
                             </li>
                         </ul>
                     </Alert>
+
+                    <p v-if="setting.info != ''" class="mb-2">{{ setting.info }}</p>
 
                     <component
                         :is="getFormfieldByType(setting.type).component"
@@ -360,9 +362,9 @@ export default {
         },
         copyUsage() {
             if (this.selectedSetting.group === null) {
-                this.copyToClipboard(`\\Voyager\\Admin\\Facades\\Voyager::settings('${this.selectedSetting.key}');`);
+                this.copyToClipboard(`\\Voyager\\Admin\\Facades\\Voyager::setting('${this.selectedSetting.key}');`);
             } else {
-                this.copyToClipboard(`\\Voyager\\Admin\\Facades\\Voyager::settings('${this.selectedSetting.group}.${this.selectedSetting.key}');`);
+                this.copyToClipboard(`\\Voyager\\Admin\\Facades\\Voyager::setting('${this.selectedSetting.group}.${this.selectedSetting.key}');`);
             }
 
             new this.$notification(this.__('voyager::generic.copied_to_clipboard')).timeout().show();

@@ -103,7 +103,15 @@ class Plugins
                     }
                     // Merge settings
                     if ($plugin instanceof SettingsProvider) {
-                        $this->settingsmanager->merge($plugin->provideSettings());
+                        $this->settingsmanager->merge(
+                            collect($plugin->provideSettings())->transform(function ($setting) {
+                                // Transform single setting to object
+                                return (object) $setting;
+                            })->filter(function ($setting) {
+                                // Filter out settings that are already stored
+                                return !$this->settingsmanager->exists($setting->group, $setting->key);
+                            })->toArray()
+                        );
                     }
                 }
             }
