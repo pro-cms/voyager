@@ -57,6 +57,14 @@ jobs:
       - name: Install Composer dependencies
         run: composer require "illuminate/support:${{ matrix.laravel }}" "illuminate/contracts:${{ matrix.laravel }}"
 
+      # Display installed laravel version
+      - name: Show laravel version
+        run: composer show laravel/framework
+
+      # Display installed PHP version
+      - name: Show PHP version
+        run: composer show php -p
+
       # Run tests
       - name: Run tests
         run: composer run test
