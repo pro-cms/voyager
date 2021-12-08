@@ -9,16 +9,22 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Voyager\Admin\Classes\UserMenuItem;
 use Voyager\Admin\Contracts\Plugins\AuthenticationPlugin as AuthContract;
+use Voyager\Admin\Contracts\Plugins\ThemePlugin as ThemeContract;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Menu as MenuManager;
 
-class AuthenticationPlugin implements AuthContract
+class AuthenticationPlugin implements AuthContract, ThemeContract
 {
     private bool $registered = false;
 
     public function user(): ?Authenticatable
     {
         return Auth::user();
+    }
+
+    public function provideCSS(): string
+    {
+        return '';
     }
 
     public function name(): ?string

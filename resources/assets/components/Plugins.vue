@@ -158,10 +158,13 @@
                         <tr v-for="(plugin, i) in filteredInstalledPlugins.slice(installedStart, installedEnd)" :key="'installed-plugin-'+i">
                             <td>{{ translate(plugin.name) }}</td>
                             <td>{{ translate(plugin.description) }}</td>
-                            <td>
-                                <Badge :color="getPluginTypeColor(plugin.type)">
-                                    {{ __('voyager::plugins.types.'+plugin.type) }}
-                                </Badge>
+                            <td class="space-x-1">
+                                <template v-for="(type, i) in plugin.types" :key="`type-${i}`">
+                                    <Badge :color="getPluginTypeColor(type)" @click="setTypeFilter(type)">
+                                        {{ __('voyager::plugins.types.'+type) }}
+                                    </Badge>
+                                </template>
+                                
                             </td>
                             <td>
                                 {{ plugin.version || '-' }}
@@ -202,8 +205,7 @@
                                     </button>
                                     </template>
                                 </Modal>
-
-                                <button v-if="plugin.type == 'theme' && !plugin.enabled" class="button small" @click="previewTheme(plugin.name)">
+                                <button v-if="plugin.types.includes('theme') && !plugin.enabled" class="button small" @click="previewTheme(plugin.name)">
                                     <Icon icon="eye" />
                                     <span>{{ __('voyager::generic.preview') }}</span>
                                 </button>
@@ -476,7 +478,7 @@ export default {
             var query = this.available.query.toLowerCase();
             return this.available.plugins.filter((plugin) => {
                 if (this.available.currentType !== null) {
-                    return plugin.type == this.available.currentType;
+                    return plugin.types.includes(this.available.currentType);
                 }
 
                 return true;
@@ -496,7 +498,7 @@ export default {
                 return true;
             }).filter((plugin) => {
                 if (this.installed.currentType !== null) {
-                    return plugin.type == this.installed.currentType;
+                    return plugin.types.includes(this.installed.currentType);
                 }
 
                 return true;
@@ -524,8 +526,8 @@ export default {
         },
         installedTypes() {
             return this.installed.plugins.map((plugin) => {
-                return plugin.type;
-            }).filter((value, index, self) => {
+                return plugin.types;
+            }).flat().filter((value, index, self) => {
                 return self.indexOf(value) === index;
             });
         },

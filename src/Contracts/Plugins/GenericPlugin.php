@@ -2,8 +2,6 @@
 
 namespace Voyager\Admin\Contracts\Plugins;
 
-use Illuminate\View\View;
-
 /**
  * @property-read string  $name                      The name of this voyager plugin.
  * @property-read string  $description               A short description of this plugins function.
@@ -15,6 +13,7 @@ use Illuminate\View\View;
  * @property      bool    $enabled                   Wether the plugin is enabled or not.
  * @property      ?string $readme                    Absolute path to the readme file.
  */
+
 interface GenericPlugin
 {
 }

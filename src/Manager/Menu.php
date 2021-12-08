@@ -33,9 +33,9 @@ class Menu
             return $item->main ? 0 : 99999999;
         })->values();
         
-        $pluginmanager->getAllPlugins()->each(function ($plugin) use (&$items) {
+        $pluginmanager->getAllPlugins()->each(function ($plugin) use (&$items, $userMenu) {
             if ($plugin instanceof MenuItemFilter) {
-                $items = $plugin->filterMenuItems($items);
+                $items = $plugin->filterMenuItems($items, !$userMenu);
             }
         });
 

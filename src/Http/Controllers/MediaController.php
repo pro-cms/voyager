@@ -11,6 +11,8 @@ use Intervention\Image\Facades\Image as Intervention;
 use League\Flysystem\Plugin\ListWith;
 use League\Flysystem\Util;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
+use Voyager\Admin\Contracts\Plugins\Features\Filter\Media as MediaFilter;
+use Voyager\Admin\Manager\Plugins;
 
 class MediaController extends Controller
 {
@@ -24,8 +26,9 @@ class MediaController extends Controller
         /* 'image/svg+xml' */
     ];
 
-    public function __construct()
+    public function __construct(Plugins $pluginmanager)
     {
+        $this->pluginmanager = $pluginmanager;
         $this->disk = VoyagerFacade::setting('media.disk', 'public');
         $this->path = Str::finish(VoyagerFacade::setting('media.path', '/'), '/');
 
@@ -247,6 +250,13 @@ class MediaController extends Controller
 
         $files = $files->sortBy('file.name')->sortBy(function ($file) {
             return $file['file']['type'] == 'directory' ? 0 : 99999999;
+        });
+
+        // Process
+        $this->pluginmanager->getAllPlugins()->each(function ($plugin) use (&$files) {
+            if ($plugin instanceof MediaFilter) {
+                $files = $plugin->filterMedia($files);
+            }
         });
 
         return response()->json($files->values());

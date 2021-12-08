@@ -51,11 +51,18 @@ class PluginsController extends Controller
     private function getInstalledPlugins(): \Illuminate\Support\Collection
     {
         return $this->pluginmanager->getAllPlugins(false)->sortBy('identifier')->transform(function ($plugin) {
-            $plugin->type = collect(class_implements($plugin))->filter(static function ($interface) {
+            $plugin->types = collect(class_implements($plugin))->filter(static function ($interface) {
                 return Str::startsWith($interface, 'Voyager\\Admin\\Contracts\\Plugins\\') && Str::endsWith($interface, 'Plugin');
             })->transform(static function ($interface) {
-                return Str::of($interface)->replace('Voyager\\Admin\\Contracts\\Plugins\\', '')->replace('Plugin', '')->lower();
-            })->first();
+                return (string)Str::of($interface)->replace('Voyager\\Admin\\Contracts\\Plugins\\', '')->replace('Plugin', '')->lower();
+            })->values();
+
+            // Remove "generic" from types when types is more than 1 because all other types include "GenericPlugin".
+            if ($plugin->types->count() > 1) {
+                $plugin->types = $plugin->types->filter(function ($type) {
+                    return $type !== 'generic';
+                });
+            }
 
             if ($plugin instanceof SettingsComponent) {
                 $plugin->settings_component = $plugin->getSettingsComponent();

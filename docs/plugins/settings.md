@@ -1,6 +1,9 @@
 # Settings
 
-A plugin can provide multiple settings. To do so implement the `Settings` provider and add a method `provideSettings` like this:
+A plugin can provide settings.  
+Those settings will be merged in the existing settings and will be stored in `settings.json` only when the user hits `Save` on the settings-page.  
+Always make sure to use default values when accessing them!  
+To provide additional settings implement the `Settings` provider and add a method `provideSettings` like this:
 
 ```php
 use Voyager\Admin\Contracts\Plugins\GenericPlugin;
@@ -38,5 +41,7 @@ class MyPlugin implements GenericPlugin, Settings
 }
 ```
 
+{% hint style="info" %}
 Make sure to always return an array containing settings (as an array).  
 The best way to generate this setting is to simply create it through the UI and then copy/paste it from your `settings.json` file.
+{% endhint %}

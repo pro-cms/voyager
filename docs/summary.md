@@ -69,3 +69,5 @@
 * [Menu Items](plugins/menu-items.md)
 * [Pages](plugins/pages.md)
 * [Features](plugins/features.md)
+* [Filter](plugins/filter.md)
+* [Routes](plugins/routes.md)
