@@ -2,7 +2,6 @@ const colors = require('tailwindcss/colors');
 
 module.exports = {
     mode: 'jit',
-    purge: {
         preserveHtmlElements: true,
         content: [
             './resources/**/*.vue',
@@ -14,7 +13,10 @@ module.exports = {
             'fill-current', // Icons
             'opacity-0',    // Tooltip disappear
             'lg:max-w-4/6',     // Images in documentation
-
+            'grid-cols-1',
+            'md:grid-cols-2',
+            'lg:grid-cols-3',
+            'xl:grid-cols-4',
             'h-4',
             'h-5',
             'h-6',
@@ -73,7 +75,6 @@ module.exports = {
             'bg-gray-900',
             'bg-gray-950',
         ],
-    },
     darkMode: 'class',
     theme: {
         extend: {
