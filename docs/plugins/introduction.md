@@ -57,7 +57,7 @@ class MyPluginServiceProvider extends ServiceProvider
 
 {% hint style="info" %}
 One package can provide multiple plugins.  
-For example, a plugin could provide multiple widgets or even different types of plugins like a theme and widgets.  
+For example, a plugin could provide multiple themes or even different types of plugins like authorization and authentication.  
 All plugins can be enabled/disabled independently. Make sure they don't depend on each other!
 {% endhint %}
 
@@ -109,7 +109,6 @@ Plugins can be of various types:
 | Formfield      | [\Voyager\Admin\Contracts\Plugins\FormfieldPlugin](https://github.com/voyager-admin/voyager/blob/2.x/src/Contracts/Plugins/FormfieldPlugin.php)                                                                                               | Provides one or many formfields                                            |
 | Generic        | [\Voyager\Admin\Contracts\Plugins\GenericPlugin](https://github.com/voyager-admin/voyager/blob/2.x/src/Contracts/Plugins/GenericPlugin.php)                                                                                                     | A plugin that doesn't fit the other types                                  |
 | Theme          | [\Voyager\Admin\Contracts\Plugins\ThemePlugin](https://github.com/voyager-admin/voyager/blob/2.x/src/Contracts/Plugins/ThemePlugin.php)                                                                                                       | Provides one or many themes                                                |
-| Widget         | [\Voyager\Admin\Contrcts\Plugins\WidgetPlugin](https://github.com/voyager-admin/voyager/blob/2.x/src/Contracts/Plugins/WidgetPlugin.php)                                                                                                       | Provides one or many widgets                                               |
 
 Each type has individual methods you have to implement in your plugin class.  
 Check the Github link to find out more about those methods.
@@ -123,8 +122,8 @@ Because the plugin type classes are interfaces you can implement multiple types 
 Voyager uses provider traits to provide various things. 
 Those are:
 
-| **Type**          | **Class**                                                           | **Description**                                                              | **Documentation**                |
-|-------------------|---------------------------------------------------------------------|------------------------------------------------------------------------------|----------------------------------|
+| **Type**          | **Class**                                                           | **Description**                                                              | **Documentation**                |   |
+|-------------------|---------------------------------------------------------------------|------------------------------------------------------------------------------|----------------------------------|---|
 | CSS               | Voyager\Admin\Contracts\Plugins\Features\Provider\CSS               | Provide CSS throughout Voyager                                               | [Here](./assets.md#css)          |
 | FrontendRoutes    | Voyager\Admin\Contracts\Plugins\Features\Provider\FrontendRoutes    | Register additional routes accessible by everyone                            | [Here](./routes.md#frontend)     |
 | JS                | Voyager\Admin\Contracts\Plugins\Features\Provider\JS                | Provide JavaScript throughout Voyager                                        | [Here](./assets.md#js)           |
@@ -132,6 +131,7 @@ Those are:
 | ProtectedRoutes   | Voyager\Admin\Contracts\Plugins\Features\Provider\ProtectedRoutes   | Register additional routes only accessible by users logged-in to Voyager     | [Here](./routes.md#protected)    |
 | Settings          | Voyager\Admin\Contracts\Plugins\Features\Provider\Settings          | Register additional settings to be stored in settings.json                   | [Here](./settings.md)            |
 | SettingsComponent | Voyager\Admin\Contracts\Plugins\Features\Provider\SettingsComponent | Name of a component to be used when clicking `Settings` in the plugins table | [Here](./components.md#settings) |
+| Widgets           | Voyager\Admin\Contracts\Plugins\Features\Provider\Widgets           | Add widgets to the dashboard                                                 | [Here](./widgets.md)             |
 
 
 
@@ -158,4 +158,3 @@ We created templates for all types of plugins on Github to get you started easil
 | Formfield      | https://github.com/voyager-admin/formfield-boilerplate      |
 | Generic        | https://github.com/voyager-admin/generic-boilerplate        |
 | Theme          | https://github.com/voyager-admin/theme-boilerplate          |
-| Widget         | https://github.com/voyager-admin/widget-boilerplate         |

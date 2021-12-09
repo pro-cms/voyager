@@ -45,10 +45,3 @@ After a theme was installed you can preview it by clicking `Preview`.
 You won't see the theme anymore after reloading your page.
 
 ![Previewing a theme](./.gitbook/assets/plugins/theme-preview.png) 
-
-### Widget Plugins
-
-Widget plugins simply provide a widget which is shown on your dashboard.  
-For example stats about users registered or Google Analytics.
-
-![A widget showing user stats](./.gitbook/assets/plugins/widget.png)

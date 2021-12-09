@@ -13,6 +13,7 @@ use Voyager\Admin\Contracts\Plugins\Features\Provider\JS as JSProvider;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\MenuItems;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\ProtectedRoutes;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\Settings as SettingsProvider;
+use Voyager\Admin\Contracts\Plugins\Features\Provider\Widgets as WidgetsProvider;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 class Plugins
 {
@@ -84,35 +85,39 @@ class Plugins
         $this->plugins->push($plugin);
     }
 
-    public function launchPlugins(bool $protected = false, bool $public = false): void
+    public function launchPlugins(?bool $protected = null): void
     {
-        $this->getAllPlugins(false)->each(function ($plugin) use ($protected, $public) {
-            if ($plugin->enabled) {
-                if ($protected) {
-                    if ($plugin instanceof ProtectedRoutes) {
-                        $plugin->provideProtectedRoutes();
-                    }
-                } elseif ($public) {
-                    if ($plugin instanceof FrontendRoutes) {
-                        $plugin->provideFrontendRoutes();
-                    }
-                } else {
-                    // Register menu items
-                    if ($plugin instanceof MenuItems) {
-                        $plugin->provideMenuItems($this->menumanager);
-                    }
-                    // Merge settings
-                    if ($plugin instanceof SettingsProvider) {
-                        $this->settingsmanager->merge(
-                            collect($plugin->provideSettings())->transform(function ($setting) {
-                                // Transform single setting to object
-                                return (object) $setting;
-                            })->filter(function ($setting) {
-                                // Filter out settings that are already stored
-                                return !$this->settingsmanager->exists($setting->group, $setting->key);
-                            })->toArray()
-                        );
-                    }
+        $this->getAllPlugins()->each(function ($plugin) use ($protected) {
+            if ($protected === true) {
+                if ($plugin instanceof ProtectedRoutes) {
+                    $plugin->provideProtectedRoutes();
+                }
+            } elseif ($protected === false) {
+                if ($plugin instanceof FrontendRoutes) {
+                    $plugin->provideFrontendRoutes();
+                }
+            } else {
+                // Register menu items
+                if ($plugin instanceof MenuItems) {
+                    $plugin->provideMenuItems($this->menumanager);
+                }
+                // Merge settings
+                if ($plugin instanceof SettingsProvider) {
+                    $this->settingsmanager->merge(
+                        collect($plugin->provideSettings())->transform(function ($setting) {
+                            // Transform single setting to object
+                            return (object) $setting;
+                        })->filter(function ($setting) {
+                            // Filter out settings that are already stored
+                            return !$this->settingsmanager->exists($setting->group, $setting->key);
+                        })->toArray()
+                    );
+                }
+                // Add widgets
+                if ($plugin instanceof WidgetsProvider) {
+                    $plugin->provideWidgets()->each(function ($widget) {
+                        VoyagerFacade::addWidgets($widget);
+                    });
                 }
             }
         });

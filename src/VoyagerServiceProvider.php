@@ -56,6 +56,8 @@ class VoyagerServiceProvider extends ServiceProvider
      */
     protected $settingmanager;
 
+    protected $i = 0;
+
     /**
      * Bootstrap the application services.
      *
@@ -70,6 +72,10 @@ class VoyagerServiceProvider extends ServiceProvider
         // Register permissions
         app(Gate::class)->before(static function ($user, $ability, $arguments = []) {
             return VoyagerFacade::authorize($user, $ability, $arguments);
+        });
+
+        Route::matched(function() {
+            $this->pluginmanager->launchPlugins();
         });
 
         // A Voyager page was requested. Dispatched in middleware
@@ -142,7 +148,7 @@ class VoyagerServiceProvider extends ServiceProvider
             Event::dispatch('voyager.page');
             Route::group(['middleware' => config('auth.defaults.guard', 'web')], function () use ($breads) {
                 $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
-                $this->pluginmanager->launchPlugins();
+                $this->pluginmanager->launchPlugins(false, true);
                 // Protected routes
                 Route::group(['middleware' => 'voyager.admin'], function () use ($breads) {
                     $this->registerBreadRoutes($breads);
@@ -150,8 +156,6 @@ class VoyagerServiceProvider extends ServiceProvider
                 });
             });
         });
-        
-        $this->pluginmanager->launchPlugins(false, true);
     }
 
     /**

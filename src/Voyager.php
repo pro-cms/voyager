@@ -7,9 +7,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Voyager\Admin\Contracts\Plugins\AuthenticationPlugin;
-use Voyager\Admin\Contracts\Plugins\AuthorizationPlugin;
-use Voyager\Admin\Contracts\Plugins\WidgetPlugin;
+use Voyager\Admin\Classes\Widget;
+use Voyager\Admin\Contracts\Plugins\{AuthenticationPlugin, AuthorizationPlugin};
 use Voyager\Admin\Contracts\Plugins\Features\Filter\Widgets as WidgetFilter;
 use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Manager\Menu as MenuManager;
@@ -30,6 +29,7 @@ class Voyager
     protected array $tables = [];
     protected array $locales = [];
     protected array $translations = [];
+    protected Collection $widgets;
     protected string $version = '';
 
     public function __construct(
@@ -38,7 +38,9 @@ class Voyager
         protected PluginManager $pluginmanager,
         protected SettingManager $settingmanager
     )
-    { }
+    {
+        $this->widgets = collect();
+    }
 
     /**
      * Set the callback that should be used to authenticate Horizon users.
@@ -223,25 +225,17 @@ class Voyager
      */
     public function getWidgets(): Collection
     {
-        $widgets = collect($this->pluginmanager->getAllPlugins()->filter(function ($plugin) {
-            return $plugin instanceof WidgetPlugin;
-        })->transform(function ($plugin) {
-            $width = $plugin->getWidth();
-            if ($width >= 1 && $width <= 11) {
-                $width = 'w-'.$width.'/12';
-            } else {
-                $width = 'w-full';
+        $widgets = $this->widgets->filter(function ($widget) {
+            if (($widget->permission['ability'] ?? null) === null) {
+                return true;
             }
 
-            return (object) [
-                'width'         => $width,
-                'title'         => $plugin->getTitle(),
-                'icon'          => $plugin->getIcon(),
-                'component'     => $plugin->getWidgetComponent(),
-                'parameters'    => $plugin->getWidgetParameters()
-            ];
-        }));
-
+            return $this->authorize(
+                $this->auth()->user(),
+                $widget->permission['ability'] ?? null,
+                $widget->permission['arguments'] ?? []
+            );
+        });
         $this->pluginmanager->getAllPlugins()->each(function ($plugin) use (&$widgets) {
             if ($plugin instanceof WidgetFilter) {
                 $widgets = $plugin->filterWidgets($widgets);
@@ -249,6 +243,16 @@ class Voyager
         });
 
         return $widgets;
+    }
+
+    /**
+     * Add one or many widgets to the dashboard.
+     */
+    public function addWidgets(): void
+    {
+        $this->widgets = $this->widgets->merge(collect(func_get_args())->filter(function ($widget) {
+            return $widget instanceof Widget;
+        }));
     }
 
     /**

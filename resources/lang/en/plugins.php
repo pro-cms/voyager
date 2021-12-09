@@ -34,7 +34,6 @@ return [
         'generic'                       => 'Generic',
         'menu'                          => 'Menu',
         'theme'                         => 'Theme',
-        'widget'                        => 'Widget',
     ],
     'updates_available'             => 'The following packages can be updated:',
     'updates_available_install'     => 'Run <code>composer update</code> to update them!',

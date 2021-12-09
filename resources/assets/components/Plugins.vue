@@ -338,8 +338,6 @@ export default {
                 return 'yellow';
             } else if (type == 'theme') {
                 return 'purple';
-            } else if (type == 'widget') {
-                return 'orange';
             } else if (type == 'formfield') {
                 return 'teal';
             }
