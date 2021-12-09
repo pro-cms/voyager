@@ -15,11 +15,15 @@ For example, users use layout X for adding/editing and admins use layout Y.
 
 Click the `Add Layout` button and select `View` or `List`.  
 Now a dialog will open asking you to enter a name. 
-After that, 
 
 ## Rename a layout
 
 Click on the `Actions` button and select `Rename layout`, enter the new name and hit enter (or press `Ok`).
+
+## Clone a layout
+
+To clone a layout with all formfields and settings, click on the `Actions` button and select `Clone layout`.  
+This will create a cloned layout named `Name 2`. You can now rename it to whatever you desire.
 
 ## Delete a layout
 

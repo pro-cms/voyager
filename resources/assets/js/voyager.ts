@@ -15,6 +15,8 @@ import {
     Message,
 } from '../types/interfaces';
 
+import eventbus from '@/eventbus';
+
 declare let window: WindowEx;
 
 import scrollTo from '@directives/scroll-to';
@@ -29,6 +31,7 @@ window.Vue = Vue;
 window.axios = axios;
 window.scrollTo = scrollTo;
 window.debounce = debounce;
+window.eventbus = eventbus;
 
 // @ts-ignore
 import Voyager from '@components/Voyager.vue';

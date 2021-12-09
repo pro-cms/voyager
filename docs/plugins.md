@@ -23,7 +23,7 @@ Plugins can be of the following types, giving them special powers
 
 These plugin integrate different ways to log-in to Voyager.  
 For example through OAuth or social-media.  
-They can also provide two-factor-authorization.
+They can also provide two-factor-authentication.
 
 ### Authorization Plugins
 

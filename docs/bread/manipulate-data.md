@@ -32,7 +32,8 @@ Please be aware that an accessor has to be named `get[X]Attribute` (for example 
 ### Setting data
 
 If you want to be able to edit and/or add the data of a non-existing property, you **have** to create a [mutator](https://laravel.com/docs/8.x/eloquent-mutators#defining-a-mutator).  
-The mutator also has to follow the naming `set[X]Attribute`, for example `setFullNameAttribute`.
+When used in a list, an accessor is suficient.  
+The mutator also has to follow the naming convention `set[X]Attribute`, for example `setFullNameAttribute`.
 
 ### Using your computed property
 

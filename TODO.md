@@ -15,6 +15,7 @@ Instead, they are listed here:
 - Let dynamic input provide validation rules
 - When a BREAD slug is empty (translated) it will override the `voyager.dashboard` route and make the whole admin panel break
 - Revamp notifications. Don't use promises but callbacks instead: `.addButton('Yes', 'color', () => { // Clicked yes })`
+- Make list filters draggable
 
 ## Formfields testing
 

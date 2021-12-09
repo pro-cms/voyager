@@ -57,26 +57,13 @@ By clicking the `+` icon you add filter which you then align to your needs.
 
 ![Filters in a list](../.gitbook/assets/bread-builder/filters.png) 
 
-### Name
+Here are the options for a filter:
 
-The name displayed in the button. This field is translatable.
-
-### Column
-
-The column you want to filter by. Select `None` if you want to use a scope.
-
-### Operator
-
-The operator which will be used in the query.
-
-### Value or scope-name
-
-The value you want to test against, or the name of the scope to use.
-
-### Color
-
-The color of the filter button.
-
-### Icon
-
-Here you can select an icon which is displayed in the filter button.
+| **Field**           | **Description**                                                            |
+|---------------------|----------------------------------------------------------------------------|
+| Name                | The name displayed in the button. This field is translatable               |
+| Column              | The column you want to filter by. Select `None` if you want to use a scope |
+| Operator            | The operator which will be used in the query                               |
+| Value or scope-name | The value you want to test against or the name of the scope to use         |
+| Color               | The color of the filter button                                             |
+| Icon                | An icon that is shown on the left in the button. Can be none               |

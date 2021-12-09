@@ -5,7 +5,7 @@ This page will walk you through all options you find in the BREAD builder.
 
 ## Model
 
-When adding a BREAD Voyager will try to guess the name of your model and check if it exists. 
+When adding a BREAD, Voyager will try to guess the name of your model and check if it exists. 
 If it does not, you can either enter the fully-qualified name or click `Create model` in the top right corner. 
 After that, you'll have to click `Reload properties`.  
 This will then load all fields from your model, accessors, scopes and relationships.
