@@ -2,20 +2,22 @@
     <transition
         v-if="!group"
         name="collapse"
+        @before-enter="beforeEnter"
         @enter="enter"
+        @after-enter="afterEnter"
         @before-leave="beforeLeave"
         @leave="leave"
-        @after-leave="afterLeave"
     >
         <slot></slot>
     </transition>
     <transition-group
         v-else
         name="collapse"
+        @before-enter="beforeEnter"
         @enter="enter"
+        @after-enter="afterEnter"
         @before-leave="beforeLeave"
         @leave="leave"
-        @after-leave="afterLeave"
     >
         <slot></slot>
     </transition-group>
@@ -27,26 +29,66 @@ import base from './base';
 export default {
     mixins: [base],
     methods: {
-        enter(el) {
-            this.getElementHeight(el).then((height) => {
-                el.style.transition = `${(this.enterDuration)}ms height ease-in-out`;
-                el.style.height = height+'px';
+        afterEnter(el) {
+            el.style.height = 'auto';
+        },
+        enter(element) {
+            const { width } = getComputedStyle(element);
+            element.style.width = width;
+            element.style.position = 'absolute';
+            element.style.visibility = 'hidden';
+            element.style.height = 'auto';
+            const { height } = getComputedStyle(element);
+            element.style.width = null;
+            element.style.position = null;
+            element.style.visibility = null;
+            element.style.height = 0;
+            getComputedStyle(element).height;
+            requestAnimationFrame(() => {
+                element.style.height = height;
             });
         },
-        beforeLeave(el) {
-            el.style.height = el.scrollHeight + 'px';
-            el.style.overflow = 'hidden';
+        leave(element) {
+            const { height } = getComputedStyle(element);
+            element.style.height = height;
+            getComputedStyle(element).height;
+            requestAnimationFrame(() => {
+                element.style.height = 0;
+            });
         },
-        leave(el) {
-            if (el.scrollHeight !== 0) {
-                el.style.transition = `${(this.leaveDuration)}ms height ease-in-out`;
-                el.style.height = 0;
-            }
+        beforeEnter() {
+            this.entering = true;
         },
-        afterLeave(el) {
-            el.style.transition = '';
-            el.style.height = '';
+        beforeLeave() {
+            this.entering = false;
         }
+    },
+    computed: {
+        transitionStyle() {
+            return `height ${this.entering ? this.enterDuration : this.leaveDuration}ms ease-in-out`
+        }
+    },
+    data() {
+        return {
+            entering: true,
+        };
     }
 }
 </script>
+
+<style scoped>
+* {
+    will-change: height;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+.collapse-enter-active, .collapse-leave-active {
+    transition: v-bind(transitionStyle);
+    overflow: hidden;
+}
+.collapse-enter, .collapse-leave-to {
+    height: 0;
+}
+</style>

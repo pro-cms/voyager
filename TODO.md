@@ -7,7 +7,6 @@ Instead, they are listed here:
 - Media manager: While uploading files, they are shown in every folder
 - Media manager: When navigating through folders, it is not possible to use browser-back
 - Media manager: X and Y offset for watermarks should be percentage(?)
-- Remove plugins that are no longer installed from `plugins.json`
 - Test (download) actions
 - Catch some common errors (Not a JSON column, column can not be null, Column does not exist, Prop is hidden, ...)
 - Rethink what buttons are shown when a BREAD was stored. Directly allow to update?
