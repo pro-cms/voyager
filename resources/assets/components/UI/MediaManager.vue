@@ -135,7 +135,7 @@
                                 <source :src="selectedFiles[0].file.url" :type="selectedFiles[0].file.type" />
                             </audio>
                             <div v-else class="w-full flex justify-center h-32">
-                                <Icon :icon="getFileIcon(selectedFiles[0].file.type)" size="32" />
+                                <Icon :icon="getFileIcon(selectedFiles[0].file.type)" :size="32" />
                             </div>
                         </div>
                         <div class="w-full flex justify-start mt-2">
@@ -508,7 +508,7 @@ export default {
             .show()
             .then((response) => {
                 if (response === true) {
-                    axios.delete(this.route('voyager.media.delete'), { files: this.selectedFiles })
+                    axios.delete(this.route('voyager.media.delete'), { data: { files: this.selectedFiles }})
                     .then((response) => {
                         if (response.data.files > 0) {
                             new this.$notification(this.trans_choice('voyager::media.delete_files_success', response.data.files)).color('green').timeout().show();
