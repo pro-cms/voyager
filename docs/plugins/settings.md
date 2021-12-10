@@ -47,5 +47,5 @@ The best way to generate this setting is to simply create it through the UI and 
 {% endhint %}
 
 {% hint style="warning" %}
-Whenever a setting with a group and key already exists, your provided setting will be ignored!
+Whenever a setting with a matching group and key already exists, your provided setting will be ignored!
 {% endhint %}
