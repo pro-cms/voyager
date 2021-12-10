@@ -72,10 +72,6 @@ class VoyagerServiceProvider extends ServiceProvider
             return VoyagerFacade::authorize($user, $ability, $arguments);
         });
 
-        Route::matched(function() {
-            $this->pluginmanager->launchPlugins();
-        });
-
         // A Voyager page was requested. Dispatched in middleware
         Event::listen('voyager.page', function () {
             $this->loadPluginFormfields();
@@ -153,6 +149,10 @@ class VoyagerServiceProvider extends ServiceProvider
                     $this->pluginmanager->launchPlugins(true);
                 });
             });
+
+            // Make sure all registered routes by plugins exist
+            app(Router::class)->getRoutes()->refreshNameLookups();
+            $this->pluginmanager->launchPlugins();
         });
     }
 
