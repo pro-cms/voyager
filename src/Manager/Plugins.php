@@ -3,17 +3,11 @@
 namespace Voyager\Admin\Manager;
 
 use Composer\InstalledVersions;
-use Illuminate\Support\Collection;
+use Illuminate\Support\{Collection, Str};
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 use Voyager\Admin\Contracts\Plugins\GenericPlugin;
-use Voyager\Admin\Contracts\Plugins\Features\Provider\CSS as CSSProvider;
-use Voyager\Admin\Contracts\Plugins\Features\Provider\FrontendRoutes;
-use Voyager\Admin\Contracts\Plugins\Features\Provider\JS as JSProvider;
-use Voyager\Admin\Contracts\Plugins\Features\Provider\MenuItems;
-use Voyager\Admin\Contracts\Plugins\Features\Provider\ProtectedRoutes;
-use Voyager\Admin\Contracts\Plugins\Features\Provider\Settings as SettingsProvider;
-use Voyager\Admin\Contracts\Plugins\Features\Provider\Widgets as WidgetsProvider;
+use Voyager\Admin\Contracts\Plugins\Features\Provider\{CSS as CSSProvider, FrontendRoutes, JS as JSProvider, MenuItems, ProtectedRoutes, Settings as SettingsProvider, Widgets as WidgetsProvider};
+use Voyager\Admin\Contracts\Plugins\Features\Filter\{Layouts as LayoutFilter, Media as MediaFilter, MenuItems as MenuItemFilter, Widgets as WidgetFilter};
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 class Plugins
 {
@@ -88,23 +82,39 @@ class Plugins
     public function launchPlugins(?bool $protected = null): void
     {
         $this->getAllPlugins()->each(function ($plugin) use ($protected) {
+            if (!isset($plugin->stats)) {
+                $plugin->stats = [
+                    'settings'          => 0,
+                    'menuitems'         => 0,
+                    'widgets'           => 0,
+                    'public_routes'     => false,
+                    'protected_routes'  => false,
+                ];
+            }
             if ($protected === true) {
                 if ($plugin instanceof ProtectedRoutes) {
                     $plugin->provideProtectedRoutes();
+                    $plugin->stats['protected_routes'] = true;
                 }
             } elseif ($protected === false) {
                 if ($plugin instanceof FrontendRoutes) {
                     $plugin->provideFrontendRoutes();
+                    $plugin->stats['public_routes'] = true;
                 }
             } else {
                 // Register menu items
                 if ($plugin instanceof MenuItems) {
+                    $before = $this->menumanager->getUnfilteredItems()->count();
                     $plugin->provideMenuItems($this->menumanager);
+                    $after = $this->menumanager->getUnfilteredItems()->count();
+
+                    $plugin->stats['menuitems'] = $after - $before;
                 }
                 // Merge settings
                 if ($plugin instanceof SettingsProvider) {
                     $this->settingsmanager->merge(
-                        collect($plugin->provideSettings())->transform(function ($setting) {
+                        collect($plugin->provideSettings())->transform(function ($setting) use (&$plugin) {
+                            $plugin->stats['settings']++;
                             // Transform single setting to object
                             return (object) $setting;
                         })->filter(function ($setting) {
@@ -115,10 +125,19 @@ class Plugins
                 }
                 // Add widgets
                 if ($plugin instanceof WidgetsProvider) {
-                    $plugin->provideWidgets()->each(function ($widget) {
+                    $plugin->provideWidgets()->each(function ($widget) use (&$plugin) {
                         VoyagerFacade::addWidgets($widget);
+                        $plugin->stats['widgets']++;
                     });
                 }
+
+                // Add some more stats
+                $plugin->stats['js'] = $plugin instanceof JSProvider;
+                $plugin->stats['css'] = $plugin instanceof CSSProvider;
+                $plugin->stats['layout_filter'] = $plugin instanceof LayoutFilter;
+                $plugin->stats['media_filter'] = $plugin instanceof MediaFilter;
+                $plugin->stats['menu_item_filter'] = $plugin instanceof MenuItemFilter;
+                $plugin->stats['widget_filter'] = $plugin instanceof WidgetFilter;
             }
         });
     }

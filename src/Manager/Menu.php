@@ -42,6 +42,11 @@ class Menu
         return $this->validatePermissions($items);
     }
 
+    public function getUnfilteredItems(): Collection
+    {
+        return $this->items;
+    }
+
     private function validatePermissions(Collection $collection): Collection
     {
         return $collection->filter(function ($item) {

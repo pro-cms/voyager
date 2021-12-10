@@ -77,7 +77,13 @@
                     <span v-html="__('voyager::plugins.updates_available')"></span>
                     <ul class="my-2">
                         <li v-for="(plugin, i) in update.updates" :key="`update-${i}`">
-                            {{ plugin.repo }} ({{ plugin.current }} => {{ plugin.newest }})
+                            <template v-if="plugin.current.startsWith('dev-')">
+                                <!-- TODO: Dev version installed. Skip? -->
+                                {{ plugin.repo }} ({{ plugin.current }} => {{ plugin.newest }})
+                            </template>
+                            <template v-else>
+                                {{ plugin.repo }} ({{ plugin.current }} => {{ plugin.newest }})
+                            </template>
                         </li>
                     </ul>
                     <span v-html="__('voyager::plugins.updates_available_install')"></span>
@@ -143,6 +149,9 @@
                             <th>
                                 {{ __('voyager::generic.version') }}
                             </th>
+                            <th>
+                                Stats
+                            </th>
                             <th v-if="update.checked > 0">
                                 {{ __('voyager::plugins.newest_version') }}
                             </th>
@@ -158,7 +167,7 @@
                         <tr v-for="(plugin, i) in filteredInstalledPlugins.slice(installedStart, installedEnd)" :key="'installed-plugin-'+i">
                             <td>{{ translate(plugin.name) }}</td>
                             <td>{{ translate(plugin.description) }}</td>
-                            <td class="space-x-1">
+                            <td class="space-x-1 space-y-1">
                                 <template v-for="(type, i) in plugin.types" :key="`type-${i}`">
                                     <Badge :color="getPluginTypeColor(type)" @click="setTypeFilter(type)">
                                         {{ __('voyager::plugins.types.'+type) }}
@@ -176,7 +185,19 @@
                                 <span v-else class="text-red-500" v-tooltip="`composer update ${plugin.repository}`">
                                     {{ getNewestVersion(plugin) }}
                                 </span>
-                                
+                            </td>
+                            <td class="space-x-1 space-y-1">
+                                <Badge v-if="plugin.stats.settings > 0">{{ trans_choice('voyager::plugins.stats.settings', plugin.stats.settings) }}</Badge>
+                                <Badge v-if="plugin.stats.widgets > 0">{{ trans_choice('voyager::plugins.stats.widgets', plugin.stats.widgets) }}</Badge>
+                                <Badge v-if="plugin.stats.menuitems > 0">{{ trans_choice('voyager::plugins.stats.menu_items', plugin.stats.menuitems) }}</Badge>
+                                <Badge v-if="plugin.stats.public_routes">{{ __('voyager::plugins.stats.public_routes') }}</Badge>
+                                <Badge v-if="plugin.stats.protected_routes">{{ __('voyager::plugins.stats.protected_routes') }}</Badge>
+                                <Badge v-if="plugin.stats.js">{{ __('voyager::plugins.stats.javascript') }}</Badge>
+                                <Badge v-if="plugin.stats.css">{{ __('voyager::plugins.stats.css') }}</Badge>
+                                <Badge v-if="plugin.stats.layout_filter">{{ __('voyager::plugins.stats.layout_filter') }}</Badge>
+                                <Badge v-if="plugin.stats.media_filter">{{ __('voyager::plugins.stats.media_filter') }}</Badge>
+                                <Badge v-if="plugin.stats.menu_item_filter">{{ __('voyager::plugins.stats.menu_item_filter') }}</Badge>
+                                <Badge v-if="plugin.stats.widget_filter">{{ __('voyager::plugins.stats.widget_filter') }}</Badge>
                             </td>
                             <td class="w-full inline-flex space-x-1 justify-end">
                                 <a class="button small" v-if="plugin.website" :href="translate(plugin.website)" target="_blank">
@@ -195,7 +216,7 @@
                                 </Modal>
 
                                 <Modal v-if="plugin.readme" :title="__('voyager::generic.readme')">
-                                    <MarkdownView>
+                                    <MarkdownView :renderer="renderer(plugin)">
                                         {{ plugin.readme }}
                                     </MarkdownView>
                                     <template #opener>
@@ -469,6 +490,14 @@ export default {
             })
             .catch(response => {})
             .then(() => {});
+        },
+        renderer(plugin) {
+            return {
+                image(href, title, text) {
+                    href = ((plugin.readme_assets_path || '') + href).replaceAll('./', '');
+                    return `<img src="${href}" alt="${title || text}">`;
+                },
+            };
         }
     },
     computed: {

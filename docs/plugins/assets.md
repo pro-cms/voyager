@@ -22,8 +22,7 @@ Implement the contract `Voyager\Admin\Contracts\Features\Features\Provider\CSS` 
 
 ```php
 use Voyager\Admin\Contracts\Plugins\GenericPlugin;
-use Voyager\Admin\Contracts\Plugins\Features\Provider\CSS;
-use Voyager\Admin\Contracts\Plugins\Features\Provider\JS;
+use Voyager\Admin\Contracts\Plugins\Features\Provider\{CSS, JS};
 
 class VoyagerDocs implements GenericPlugin, CSS, JS
 {

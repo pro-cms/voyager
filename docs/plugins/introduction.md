@@ -158,3 +158,24 @@ We created templates for all types of plugins on Github to get you started easil
 | Formfield      | https://github.com/voyager-admin/formfield-boilerplate      |
 | Generic        | https://github.com/voyager-admin/generic-boilerplate        |
 | Theme          | https://github.com/voyager-admin/theme-boilerplate          |
+
+
+## Readme
+
+You can specify a markdown file that will be shown in a modal on the plugins page.  
+To do so, provide an absolute path `$readme` pointing to your markdown file.  
+Whenever you use image in this file, you have to provide a URL `$readme_assets_path` pointing where the browser can access them.  
+For example:
+
+```php
+use Voyager\Admin\Contracts\Plugins\GenericPlugin;
+
+class MyPlugin implements GenericPlugin
+{
+    public function __construct()
+    {
+        $this->readme = realpath(dirname(__DIR__, 1).'/README.md');
+        $this->readme_assets_path = 'https://raw.githubusercontent.com/me/my-plugin/branch/';
+    }
+}
+```
