@@ -22,7 +22,7 @@ class AuthenticationPlugin implements AuthContract
 
     public function name(): ?string
     {
-        return Auth::user()?->{$this->nameField()}; // @phpstan-ignore-line
+        return Auth::user()?->{$this->nameField()};
     }
 
     public function nameField(): string
@@ -104,7 +104,8 @@ class AuthenticationPlugin implements AuthContract
         return true;
     }
 
-    private function registerUserMenuItems() {
+    private function registerUserMenuItems(): void
+    {
         app(MenuManager::class)->addItems(
             (new UserMenuItem(__('voyager::generic.dashboard')))->route('voyager.dashboard'),
             (new UserMenuItem(__('voyager::auth.logout')))->route('voyager.logout')

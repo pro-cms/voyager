@@ -48,7 +48,7 @@ trait Browsable
 
     public function columnSearchQuery(array $filters, Layout $layout, mixed $query, string $locale, array &$warnings): mixed
     {
-        collect(array_filter($filters))->each(function ($filter, $column) use ($layout, &$query, $locale, &$warnings) {
+        collect(array_filter($filters))->each(function (mixed $filter, string $column) use ($layout, &$query, $locale, &$warnings) {
             $formfield = $layout->getFormfieldByColumn($column);
             if (!$formfield) {
                 $warnings[] = __('voyager::bread.column_does_not_exist_search', ['column' => $column]);

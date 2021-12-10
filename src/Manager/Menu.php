@@ -25,7 +25,7 @@ class Menu
         }
     }
 
-    public function getItems(Plugins $pluginmanager, $userMenu = false): Collection
+    public function getItems(Plugins $pluginmanager, bool $userMenu = false): Collection
     {
         $items = $this->items->filter(function ($item) use ($userMenu) {
             return $item->userMenu == $userMenu;

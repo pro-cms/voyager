@@ -161,11 +161,11 @@ class BreadController extends Controller
         $data = $request->get('data', []);
 
         if ($bread->usesTranslatableTrait()) {
-            $model->dontTranslate();
+            $model->dontTranslate(); // @phpstan-ignore-line
         }
 
         // Validate Data
-        $validate_all_locales = $layout->options->validate_locales == 'all' ?? false;
+        $validate_all_locales = $layout->options->validate_locales == 'all';
         $validation_errors = $this->validateData($layout->formfields, $data, $validate_all_locales);
         if (count($validation_errors) > 0) {
             return response()->json($validation_errors, 422);
@@ -287,7 +287,7 @@ class BreadController extends Controller
         }
 
         // Validate Data
-        $validate_all_locales = $layout->options->validate_locales == 'all' ?? false;
+        $validate_all_locales = $layout->options->validate_locales == 'all';
         $validation_errors = $this->validateData($layout->formfields, $data, $validate_all_locales);
         if (count($validation_errors) > 0) {
             return response()->json($validation_errors, 422);

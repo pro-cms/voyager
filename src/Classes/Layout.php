@@ -35,8 +35,10 @@ class Layout implements \JsonSerializable
                     }
                     
                     $formfield = new $class($f);
-                    $formfield->setBread($bread);
-                    $this->formfields->push($formfield);
+                    if ($formfield instanceof Formfield) {
+                        $formfield->setBread($bread);
+                        $this->formfields->push($formfield);
+                    }
                 }
             } elseif ($key == 'options') {
                 $this->{$key} = (object) $value;

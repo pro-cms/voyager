@@ -3,7 +3,6 @@
 namespace Voyager\Admin\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
 use Voyager\Admin\Manager\Settings as SettingManager;
 
 class InstallCommand extends Command
@@ -46,7 +45,7 @@ class InstallCommand extends Command
                     $this->info('Default settings written');
                 } else {
                     if ($this->confirm('Settings JSON file already exists. Do you want to migrate new settings?')) {
-                        $preset = json_decode($content ?? '');
+                        $preset = json_decode($content);
                         $new = 0;
                         foreach ($preset as $setting) {
                             if (!$settingsmanager->exists($setting->group, $setting->key)) {

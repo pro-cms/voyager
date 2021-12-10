@@ -20,7 +20,7 @@ class Formfield implements \JsonSerializable
         'noRelationshipPivots'
     ];
     public mixed $options;
-    public object $column;
+    public Column $column;
     public ?int $tab = null;
     public ?string $link_to = null;
     public bool $translatable = false;
@@ -29,9 +29,10 @@ class Formfield implements \JsonSerializable
     public function __construct(?object $json = null)
     {
         if ($json) {
-            foreach ($json as $key => $value) {
+            foreach ((array)$json as $key => $value) {
                 if ($key == 'column') {
-                    $this->{$key} = (object) $value;
+                    $value = (object)$value;
+                    $this->column = new Column($value->type, $value->column);
                 } else if (!in_array($key, $this->dontStore)) {
                     $this->{$key} = $value;
                 }

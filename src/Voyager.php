@@ -71,10 +71,10 @@ class Voyager
     public function assetUrl(?string $path = null): string
     {
         if ($path === null) {
-            return route('voyager.voyager_assets').'?path='.urlencode($path ?? '');
+            return route('voyager.voyager_assets').'?path=';
         }
 
-        return route('voyager.voyager_assets').'?path='.urlencode($path ?? '').'&version='.$this->getVersion();
+        return route('voyager.voyager_assets').'?path='.urlencode($path).'&version='.$this->getVersion();
     }
 
     /**
@@ -324,6 +324,9 @@ class Voyager
      */
     public function getJson(?string $input, mixed $default = false): mixed
     {
+        if (is_null($input)) {
+            return $default;
+        }
         $json = @json_decode($input);
         if (json_last_error() == JSON_ERROR_NONE) {
             return $json;
@@ -420,7 +423,7 @@ class Voyager
     /**
      * Resolve a batch of permissions for a given user.
      */
-    public function resolvePermissions(array $permissions, $user = null): Collection
+    public function resolvePermissions(array $permissions, ?\Illuminate\Contracts\Auth\Authenticatable $user = null): Collection
     {
         if ($user === null) {
             $user = $this->auth()->user();

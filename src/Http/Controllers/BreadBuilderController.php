@@ -3,6 +3,7 @@
 namespace Voyager\Admin\Http\Controllers;
 
 use Illuminate\Container\Container;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -204,22 +205,26 @@ class BreadBuilderController extends Controller
         }
         
         $instance = new $model();
-        $reflection = $this->breadmanager->getModelReflectionClass($model);
-        $resolve_relationships = $request->get('resolve_relationships', true);
+        if ($instance instanceof Model) {
+            $reflection = $this->breadmanager->getModelReflectionClass($model);
+            $resolve_relationships = $request->get('resolve_relationships', true);
 
-        $softdeletes = false;
-        $traits = class_uses($instance);
-        if ($traits !== false && in_array(SoftDeletes::class, $traits)) {
-            $softdeletes = true;
+            $softdeletes = false;
+            $traits = class_uses($instance);
+            if ($traits !== false && in_array(SoftDeletes::class, $traits)) {
+                $softdeletes = true;
+            }
+
+            return response()->json([
+                'columns'       => VoyagerFacade::getColumns($instance->getTable()),
+                'computed'      => $this->breadmanager->getModelComputedProperties($reflection)->values(),
+                'scopes'        => $this->breadmanager->getModelScopes($reflection)->values(),
+                'relationships' => $this->breadmanager->getModelRelationships($reflection, $instance, $resolve_relationships)->values(),
+                'softdeletes'   => $softdeletes,
+            ], 200);
         }
 
-        return response()->json([
-            'columns'       => VoyagerFacade::getColumns($instance->getTable()),
-            'computed'      => $this->breadmanager->getModelComputedProperties($reflection)->values(),
-            'scopes'        => $this->breadmanager->getModelScopes($reflection)->values(),
-            'relationships' => $this->breadmanager->getModelRelationships($reflection, $instance, $resolve_relationships)->values(),
-            'softdeletes'   => $softdeletes,
-        ], 200);
+        return response()->json([], 500);
     }
 
     /**

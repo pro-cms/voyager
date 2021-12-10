@@ -90,8 +90,8 @@ class Breads
 
                 return $b;
             })->filter(function ($bread) {
-                return $bread !== null;
-            })->values()->mapWithKeys(static function ($value, $key) {
+                return $bread !== null && $bread instanceof BreadClass;
+            })->values()->mapWithKeys(static function ($value) {
                 return [$value->name_singular => $value];
             });
         }
@@ -268,12 +268,12 @@ class Breads
 
         if ($breads->count() > 1) {
             return __('voyager::generic.search_for_breads', [
-                'bread'  => $breads->get(0)?->name_plural,
-                'bread2' => $breads->get(1)?->name_plural,
+                'bread'  => $breads[0]?->name_plural,
+                'bread2' => $breads[1]?->name_plural,
             ]);
         } elseif ($breads->count() == 1) {
             return __('voyager::generic.search_for_bread', [
-                'bread' => $breads->get(0)?->name_plural,
+                'bread' => $breads[0]?->name_plural,
             ]);
         }
 
@@ -360,13 +360,13 @@ class Breads
     /**
      * Get the reflection class for a model.
      *
-     * @param string $model The fully qualified model name
+     * @param class-string $model The fully qualified model name
      *
      * @return \ReflectionClass The reflection object
      */
     public function getModelReflectionClass(string $model): \ReflectionClass
     {
-        return new \ReflectionClass($model); // @phpstan-ignore-line
+        return new \ReflectionClass($model);
     }
 
     public function getModelScopes(\ReflectionClass $reflection): Collection
@@ -424,12 +424,14 @@ class Breads
                             $relationship->getRelatedPivotKeyName(),
                         ]));
                     }
-                    $relationship_reflection = $this->getModelReflectionClass(get_class($related));
-                    $columns = array_merge(VoyagerFacade::getColumns($table), $this->getModelComputedProperties($relationship_reflection)->values()->transform(function ($name) {
-                        return 'computed.'.$name;
-                    })->toArray());
+                    if (get_class($related) !== false) {
+                        $relationship_reflection = $this->getModelReflectionClass(get_class($related));
+                        $columns = array_merge(VoyagerFacade::getColumns($table), $this->getModelComputedProperties($relationship_reflection)->values()->transform(function ($name) {
+                            return 'computed.'.$name;
+                        })->toArray());
 
-                    $scopes = $this->getModelScopes($relationship_reflection)->values();
+                        $scopes = $this->getModelScopes($relationship_reflection)->values();
+                    }
                 }
 
                 return [

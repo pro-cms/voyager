@@ -32,7 +32,7 @@ class Plugins
         return $this->path;
     }
 
-    public function addPlugin(mixed $plugin): void
+    public function addPlugin(string|GenericPlugin $plugin): void
     {
         if (!$this->enabled_plugins) {
             $this->loadEnabledPlugins();
@@ -49,6 +49,7 @@ class Plugins
         $plugin->enabled = array_key_exists($plugin->identifier, $this->enabled_plugins);
         $plugin->version = InstalledVersions::getPrettyVersion($plugin->repository) ?? '';
         $plugin->version_normalized = InstalledVersions::getVersion($plugin->repository) ?? '';
+        $plugin->stats = [];
 
         $plugin->preferences = new class ($plugin, $this) { // @phpstan-ignore-line
             private GenericPlugin $plugin;
@@ -81,16 +82,21 @@ class Plugins
 
     public function launchPlugins(?bool $protected = null): void
     {
-        $this->getAllPlugins()->each(function ($plugin) use ($protected) {
-            if (!isset($plugin->stats)) {
-                $plugin->stats = [
-                    'settings'          => 0,
-                    'menuitems'         => 0,
-                    'widgets'           => 0,
-                    'public_routes'     => false,
-                    'protected_routes'  => false,
-                ];
-            }
+        $this->getAllPlugins()->each(function (GenericPlugin $plugin) use ($protected) {
+            $plugin->stats = [
+                'settings'          => 0,
+                'menuitems'         => 0,
+                'widgets'           => 0,
+                'public_routes'     => false,
+                'protected_routes'  => false,
+                'js'                => false,
+                'css'               => false,
+                'layout_filter'     => false,
+                'media_filter'      => false,
+                'menu_item_filter'  => false,
+                'widget_filter'     => false,
+
+            ];
             if ($protected === true) {
                 if ($plugin instanceof ProtectedRoutes) {
                     $plugin->provideProtectedRoutes();

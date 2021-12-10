@@ -56,8 +56,6 @@ class VoyagerServiceProvider extends ServiceProvider
      */
     protected $settingmanager;
 
-    protected $i = 0;
-
     /**
      * Bootstrap the application services.
      *
@@ -148,7 +146,7 @@ class VoyagerServiceProvider extends ServiceProvider
             Event::dispatch('voyager.page');
             Route::group(['middleware' => config('auth.defaults.guard', 'web')], function () use ($breads) {
                 $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
-                $this->pluginmanager->launchPlugins(false, true);
+                $this->pluginmanager->launchPlugins(false);
                 // Protected routes
                 Route::group(['middleware' => 'voyager.admin'], function () use ($breads) {
                     $this->registerBreadRoutes($breads);
@@ -167,7 +165,7 @@ class VoyagerServiceProvider extends ServiceProvider
     {
         $breads->each(static function (Bread $bread) {
             $controller = 'BreadController';
-            if (!empty($bread->controller)) {
+            if (is_string($bread->controller)) {
                 $controller = Str::start($bread->controller, '\\');
             }
             Route::group([

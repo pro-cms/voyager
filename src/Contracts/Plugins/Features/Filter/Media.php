@@ -12,7 +12,7 @@ interface Media
     /**
     * Filter media files.
     *
-    * @param Collection $media A Collection containing all files in the current directory.
+    * @param Collection $files A Collection containing all files in the current directory.
     *
     * @return Collection The filtered media files
     */

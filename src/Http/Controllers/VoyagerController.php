@@ -127,7 +127,8 @@ class VoyagerController extends Controller
 
     public function getDisks(Request $request): \Illuminate\Http\JsonResponse
     {
-        $disks = collect(array_keys(config('filesystems.disks')))->mapWithKeys(function ($disk) {
+        $disks = collect(array_keys(config('filesystems.disks')))->mapWithKeys(function (int|string $disk) {
+            $disk = (string) $disk;
             return [$disk => Str::title($disk)];
         })->toArray();
         $select = (new DynamicInput())->addSelect(null, null, $disks, false, 'public');
@@ -154,7 +155,7 @@ class VoyagerController extends Controller
             $select->addNumber('height', $heightTitle, $heightTitle, null, 0);
 
             if ($method == 'fit') {
-                $positions = collect(__('voyager::media.positions'))->mapWithKeys(function ($value, $key) {
+                $positions = collect(__('voyager::media.positions'))->mapWithKeys(function (string $value, string $key) {
                     return [Str::slug($key) => $value];
                 })->toArray();
                 $select->addSelect('position', __('voyager::media.thumbnails.position'), $positions, false, 'center');
@@ -173,7 +174,7 @@ class VoyagerController extends Controller
 
     public function getWatermarkOptions(Request $request): DynamicInput
     {
-        $positions = collect(__('voyager::media.positions'))->mapWithKeys(function ($value, $key) {
+        $positions = collect(__('voyager::media.positions'))->mapWithKeys(function (string $value, string $key) {
             return [Str::slug($key) => $value];
         })->toArray();
 
