@@ -46,6 +46,7 @@
 * [Settings](settings.md)
 * [Plugins](plugins.md)
 * [Media Manager](media-manager.md)
+* [Javascript](javascript.md)
 
 ## Overriding
 

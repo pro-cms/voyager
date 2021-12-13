@@ -136,7 +136,7 @@ export default {
             var uuid = e.target.dataset.uuid;
             var notification = notify.notifications.where('_uuid', uuid).first();
 
-            if (e.animationName.startsWith('scale-x') && !notification._prompt && !notification._confirm) {
+            if (e.animationName.startsWith('scale-x')) {
                 if (notification._timeout !== undefined) {
                     this.close(notification);
                 }

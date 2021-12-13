@@ -14,6 +14,8 @@ A formfield plugin automatically implements the JS contract.
 You don't need to do this manually!
 {% endhint %}
 
+Read more about public Javascript APIs [here](../javascript.md)
+
 ## CSS
 
 Implement the contract `Voyager\Admin\Contracts\Features\Features\Provider\CSS` and provide a method `provideCSS()` returning a string containing your CSS.

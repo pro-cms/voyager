@@ -97,6 +97,8 @@ function prepareVoyager(data: VoyagerData) {
     voyager.use(Global);
     voyager.config.globalProperties.$notification = Notification;
     voyager.config.globalProperties.$store = Store;
+    voyager.config.globalProperties.$eventbus = eventbus;
+    voyager.config.globalProperties.$debounce = debounce;
 
     voyager.config.globalProperties.colors = [
         'accent',

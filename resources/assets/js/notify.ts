@@ -61,6 +61,7 @@ const Notification = class Notification implements NotificationItem {
 
     _confirm: boolean = false;
 
+    _has_select: boolean = false;
     _select: Array<Object> = [];
     _select_values: Array<any> = [];
 
@@ -127,6 +128,7 @@ const Notification = class Notification implements NotificationItem {
     }
 
     select(options: Object) {
+        this._has_select = true;
         this._select.push(options);
 
         return this;
@@ -149,7 +151,7 @@ const Notification = class Notification implements NotificationItem {
                 value: 'voyager::generic.no',
                 color: 'red',
             });
-        } else if (this._prompt && this._buttons.length == 0) {
+        } else if ((this._has_select || this._prompt) && this._buttons.length == 0) {
             this.addButton({
                 key: true,
                 value: 'voyager::generic.ok',
@@ -160,7 +162,7 @@ const Notification = class Notification implements NotificationItem {
                 color: 'red',
             });
         }
-        if (!this._prompt && !this._confirm) {
+        if (!this._prompt && !this._confirm && !this._has_select) {
             Notify.addNotification(this);
 
             return this;
