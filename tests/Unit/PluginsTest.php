@@ -14,17 +14,6 @@ class PluginsTest extends TestCase
         Auth::loginUsingId(1);
     }
 
-    public function test_can_not_add_invalid_plugin()
-    {
-        $message = null;
-        try {
-            resolve(PluginManager::class)->addPlugin(new \stdClass());
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
-        }
-        $this->assertEquals($message, 'Plugin added to Voyager has to inherit GenericPlugin');
-    }
-
     public function test_can_write_enabled_plugins()
     {
         $this->assertTrue(resolve(PluginManager::class)->enablePlugin('voyager-admin/voyager-testbench-plugin@GenericPlugin') > 0);
