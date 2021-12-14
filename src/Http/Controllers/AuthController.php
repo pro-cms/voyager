@@ -4,6 +4,7 @@ namespace Voyager\Admin\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Event;
 use Inertia\Response as InertiaResponse;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
@@ -11,6 +12,7 @@ class AuthController extends Controller
 {
     public function login(Request $request): InertiaResponse|RedirectResponse
     {
+        Event::dispatch('voyager.page');
         $errors = [];
         $auth = VoyagerFacade::auth();
         if ($auth->user()) {
