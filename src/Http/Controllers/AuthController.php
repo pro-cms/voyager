@@ -44,6 +44,8 @@ class AuthController extends Controller
 
     public function forgotPassword(Request $request): RedirectResponse
     {
+        Event::dispatch('voyager.page');
+
         return VoyagerFacade::auth()->forgotPassword($request);
     }
 }
