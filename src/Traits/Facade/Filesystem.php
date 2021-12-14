@@ -1,6 +1,6 @@
 <?php
 
-namespace Voyager\Admin\Traits\Voyager;
+namespace Voyager\Admin\Traits\Facade;
 
 use Illuminate\Support\Facades\File;
 

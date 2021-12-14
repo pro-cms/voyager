@@ -23,7 +23,7 @@
         "composer/composer": "^2.0",
         "emptynick/voyager-tiptap": "*",
         "spatie/laravel-image-optimizer": "^1.6",
-        "intervention/image": "^2.6",
+        "intervention/image": "^2.7",
         "inertiajs/inertia-laravel": "^0.4.1",
         "tightenco/ziggy": "^1.3",
         "guzzlehttp/guzzle": "^7.3"
@@ -53,8 +53,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Voyager\\Admin\\VoyagerServiceProvider",
-                "Intervention\\Image\\ImageServiceProvider"
+                "Voyager\\Admin\\VoyagerServiceProvider"
             ],
             "aliases": {
                 "Voyager": "Voyager\\Admin\\Facades\\Voyager"

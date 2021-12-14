@@ -6,33 +6,23 @@ use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\{Event, Http, Route};
+use Illuminate\Support\{Collection, Str};
 use Inertia\Inertia;
-use Voyager\Admin\Classes\Action;
-use Voyager\Admin\Classes\Bread;
-use Voyager\Admin\Classes\MenuItem;
-use Voyager\Admin\Commands\DevCommand;
-use Voyager\Admin\Commands\InstallCommand;
-use Voyager\Admin\Commands\ModelCommand;
-use Voyager\Admin\Commands\PluginsCommand;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Voyager\Admin\Classes\{Action, Bread, MenuItem};
+use Voyager\Admin\Commands\{DevCommand, InstallCommand, ModelCommand, PluginsCommand};
 use Voyager\Admin\Exceptions\Handler as ExceptionHandler;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Http\Middleware\VoyagerAdminMiddleware;
-use Voyager\Admin\Manager\Breads as BreadManager;
-use Voyager\Admin\Manager\Menu as MenuManager;
-use Voyager\Admin\Manager\Plugins as PluginManager;
-use Voyager\Admin\Manager\Settings as SettingManager;
+use Voyager\Admin\Manager\{Breads as BreadManager, Menu as MenuManager, Plugins as PluginManager, Settings as SettingManager};
 use Voyager\Admin\Contracts\Plugins\FormfieldPlugin;
 use Voyager\Admin\Policies\BasePolicy;
 
 class VoyagerServiceProvider extends ServiceProvider
 {
     /**
-     * @var array
+     * @var array<string>
      */
     protected $policies = [];
 
@@ -57,6 +47,11 @@ class VoyagerServiceProvider extends ServiceProvider
     protected $settingmanager;
 
     /**
+     * @var bool
+     */
+    protected $dataLoaded = false;
+
+    /**
      * Bootstrap the application services.
      *
      * @param \Illuminate\Routing\Router $router
@@ -74,47 +69,50 @@ class VoyagerServiceProvider extends ServiceProvider
 
         // A Voyager page was requested. Dispatched in middleware
         Event::listen('voyager.page', function () {
-            $this->loadPluginFormfields();
+            if (!$this->dataLoaded) {
+                $this->loadPluginFormfields();
 
-            $breads = $this->breadmanager->getBreads();
+                $breads = $this->breadmanager->getBreads();
 
-            // Register menu-items
-            $this->registerMenuItems();
-            $this->registerBreadBuilderMenuItems($breads);
-            $this->registerBreadMenuItems($breads);
+                // Register menu-items
+                $this->registerMenuItems();
+                $this->registerBreadBuilderMenuItems($breads);
+                $this->registerBreadMenuItems($breads);
 
-            // Register BREAD policies
-            $this->registerBreadPolicies($breads);
-            $this->registerPolicies();
+                // Register BREAD policies
+                $this->registerBreadPolicies($breads);
+                $this->registerPolicies();
 
-            // Register actions
-            $this->registerActions();
-            $this->registerBulkActions();
+                // Register actions
+                $this->registerActions();
+                $this->registerBulkActions();
 
-            if ($this->settingmanager->setting('admin.dev-server', false) === true) {
-                $url = 'http://localhost:8081/';
-                view()->share('devServerUrl', $url);
-                view()->share('devServerWanted', true);
-                try {
-                    Http::timeout(1)->get($url)->ok();
-                    view()->share('devServerAvailable', true);
-                } catch (\Exception $e) {
+                if ($this->settingmanager->setting('admin.dev-server', false) === true) {
+                    $url = 'http://localhost:8081/';
+                    view()->share('devServerUrl', $url);
+                    view()->share('devServerWanted', true);
+                    try {
+                        Http::timeout(1)->get($url)->ok();
+                        view()->share('devServerAvailable', true);
+                    } catch (\Exception $e) {
+                        view()->share('devServerAvailable', false);
+                    }
+                } else {
                     view()->share('devServerAvailable', false);
+                    view()->share('devServerWanted', false);
+                    view()->share('devServerUrl', null);
                 }
-            } else {
-                view()->share('devServerAvailable', false);
-                view()->share('devServerWanted', false);
-                view()->share('devServerUrl', null);
+        
+                view()->share('voyagerVersion', VoyagerFacade::getVersion());
+        
+                Inertia::setRootView('voyager::app');
+                // Override ExceptionHandler only when on a Voyager page
+                app()->singleton(
+                    \Illuminate\Contracts\Debug\ExceptionHandler::class,
+                    ExceptionHandler::class
+                );
+                $this->dataLoaded = true;
             }
-    
-            view()->share('voyagerVersion', VoyagerFacade::getVersion());
-    
-            Inertia::setRootView('voyager::app');
-            // Override ExceptionHandler only when on a Voyager page
-            app()->singleton(
-                \Illuminate\Contracts\Debug\ExceptionHandler::class,
-                ExceptionHandler::class
-            );
         });
     }
 
@@ -139,7 +137,6 @@ class VoyagerServiceProvider extends ServiceProvider
     protected function registerRoutes(Collection $breads)
     {
         Route::group(['as' => 'voyager.', 'prefix' => Voyager::$routePath, 'namespace' => 'Voyager\Admin\Http\Controllers'], function () use ($breads) {
-            Event::dispatch('voyager.page');
             Route::group(['middleware' => config('auth.defaults.guard', 'web')], function () use ($breads) {
                 $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
                 $this->pluginmanager->launchPlugins(false);
@@ -148,6 +145,12 @@ class VoyagerServiceProvider extends ServiceProvider
                     $this->registerBreadRoutes($breads);
                     $this->pluginmanager->launchPlugins(true);
                 });
+
+                // Catch all other routes
+                Route::any('{all}', function () {
+                    Event::dispatch('voyager.page');
+                    throw new NotFoundHttpException();
+                })->where('all', '.*');
             });
 
             // Make sure all registered routes by plugins exist

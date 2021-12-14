@@ -119,7 +119,7 @@ class MenuItem implements \JsonSerializable
         return '#';
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return array_merge((array) $this, [
             'href'  => $this->resolveUrl()

@@ -5,7 +5,6 @@ namespace Voyager\Admin\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Inertia\Inertia;
 use Throwable;
-use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class Handler extends ExceptionHandler
 {
@@ -13,27 +12,14 @@ class Handler extends ExceptionHandler
      * Prepare exception for rendering.
      *
      * @param  \Throwable  $e
-     * @return \Throwable
      */
-    public function render($request, Throwable $e)
+    public function render($request, Throwable $e): \Symfony\Component\HttpFoundation\Response
     {
         $response = parent::render($request, $e);
 
-        // TODO: This needs more proof
-        return $response; // @phpstan-ignore-line
-
-        /*$exception = [
-            'status'    => $response->status(),
-            'message'   => $e->getMessage(),
-            'file'      => $e->getFile(),
-            'line'      => $e->getLine(),
-            'exception' => get_class($e),
-        ];
-
-        if ($response->status() === 419) {
-            return back()->with([
-                'exception' => $exception,
-            ]);
+        $status = 500;
+        if (method_exists($response, 'status')) {
+            $status = $response->status();
         }
 
         // If this is an AJAX request let original handler handle the JSON response
@@ -41,11 +27,19 @@ class Handler extends ExceptionHandler
             return $this->prepareJsonResponse($request, $e);
         }
 
+        // TODO: Don't pass everything when not in development mode
         return Inertia::render('Error', [
-            'title'     => __('voyager::generic.error', [ 'code' => $response->status() ]),
-            'exception' => $exception
+            'exception' => [
+                'status'    => $status,
+                'message'   => $e->getMessage(),
+                'file'      => $e->getFile(),
+                'line'      => $e->getLine(),
+                'trace'     => json_decode(json_encode($e->getTrace()) ?: '[]'),
+                'exception' => get_class($e),
+            ],
         ])
+        ->withViewData('title', __('voyager::generic.error', [ 'code' => $status ]))
         ->toResponse($request)
-        ->setStatusCode($response->status());*/
+        ->setStatusCode($status);
     }
 }

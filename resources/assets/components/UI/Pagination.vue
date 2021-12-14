@@ -5,7 +5,7 @@
         @click="selectFirstPage()"
         class="button"
         :disabled="isFirstPage"
-        :class="[isFirstPage ? 'disabled' : '', color, small ? 'small' : '']"
+        :class="[isFirstPage ? 'disabled' : '', small ? 'small' : '']"
     >
         <Icon icon="chevron-double-left" />
     </a>
@@ -14,7 +14,7 @@
         v-if="prevNextButtons"
         @click="prevPage()"
         class="button"
-        :class="[isFirstPage ? 'disabled' : '', color, small ? 'small' : '']"
+        :class="[isFirstPage ? 'disabled' : '', small ? 'small' : '']"
     >
         <Icon icon="chevron-left" />
     </a>
@@ -24,7 +24,7 @@
         :key="'page-'+i"
         @click="selectPage(page.index + 1)"
         class="button"
-        :class="[page.selected ? 'active' : '', page.disabled ? 'disabled' : '', color, small ? 'small' : '']"
+        :class="[page.selected ? color : '', page.disabled ? 'disabled' : '', small ? 'small' : '']"
     >
         <i
             v-if="page.breakView"
@@ -42,7 +42,7 @@
         v-if="prevNextButtons"
         @click="nextPage()"
         class="button"
-        :class="[isLastPage ? 'disabled' : '', color, small ? 'small' : '']"
+        :class="[isLastPage ? 'disabled' : '', small ? 'small' : '']"
         :tabindex="isLastPage ? -1 : 0"
     >
         <Icon icon="chevron-right" />
@@ -51,7 +51,7 @@
         v-if="firstLastButtons"
         @click="selectLastPage()"
         class="button"
-        :class="[isLastPage ? 'disabled' : '', color, small ? 'small' : '']"
+        :class="[isLastPage ? 'disabled' : '', small ? 'small' : '']"
         :tabindex="isLastPage ? -1 : 0"
     >
         <Icon icon="chevron-double-right" />

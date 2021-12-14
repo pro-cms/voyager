@@ -1,11 +1,13 @@
 <?php
 
-namespace Voyager\Admin\Traits\Voyager;
+namespace Voyager\Admin\Traits\Facade;
 
 use Illuminate\Support\Facades\DB;
 
 trait Database
 {
+    protected array $tables = [];
+
     /**
      * Get all tables in the database.
      *

@@ -15,7 +15,7 @@ trait Translatable
     {
         if (!$this->current_locale) {
             $this->current_locale = app()->getLocale();
-            $this->fallback_locale = config('app.fallback_locale');
+            $this->fallback_locale = config('app.fallback_locale', 'en');
         }
     }
 

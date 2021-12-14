@@ -1,6 +1,8 @@
 <?php
 
-namespace Voyager\Admin\Traits\Voyager;
+namespace Voyager\Admin\Traits\Facade;
+
+use Voyager\Admin\Manager\{Breads as BreadManager, Menu as MenuManager, Plugins as PluginManager, Settings as SettingManager};
 
 trait Routes
 {

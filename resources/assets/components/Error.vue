@@ -1,9 +1,17 @@
 <template>
-    <div>
-        <h1>{{ __('voyager::generic.error', { code: exception.status }) }}</h1>
-        <p>{{ exception.message }}</p>
-        <p>{{ exception.file }} at line {{ exception.line }}</p>
-    </div>
+    <Card :title="__('voyager::generic.error', { code: exception.status })">
+        <h4>{{ exception.message }}</h4>
+        <p class="mb-4">
+            <code>{{ exception.file }}</code> at line <code>{{ exception.line }}</code>
+        </p>
+
+        <template v-for="(line, i) in exception.trace" :key="`trace-${i}`">
+            <Collapsible :title-size="6" :title="`${line.file} @ line ${line.line}`" closed>
+                <p>{{ line.class }}::{{ line.function }}</p>
+                <pre>{{ JSON.stringify(line.args, null, 4) }}</pre>
+            </Collapsible>
+        </template>
+    </Card>
 </template>
 <script>
 export default {

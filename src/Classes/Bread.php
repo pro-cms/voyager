@@ -2,6 +2,7 @@
 
 namespace Voyager\Admin\Classes;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Voyager\Admin\Traits\Translatable;
@@ -59,7 +60,7 @@ class Bread implements \JsonSerializable
     /**
      * Get an instance of the BREADs model.
      */
-    public function getModel(): mixed
+    public function getModel(): Model
     {
         if (!$this->model_class) {
             $this->model_class = app($this->model);

@@ -3,26 +3,22 @@
 namespace Voyager\Admin;
 
 use Composer\InstalledVersions;
-use Illuminate\Support\{Collection, Str};
+use Illuminate\Support\Str;
 
-use Voyager\Admin\Classes\Widget;
-use Voyager\Admin\Contracts\Plugins\{AuthenticationPlugin, AuthorizationPlugin};
-use Voyager\Admin\Contracts\Plugins\Features\Filter\Widgets as WidgetFilter;
 use Voyager\Admin\Manager\{Breads as BreadManager, Menu as MenuManager, Plugins as PluginManager, Settings as SettingManager};
-use Voyager\Admin\Plugins\AuthenticationPlugin as DefaultAuthPlugin;
-use Voyager\Admin\Traits\Voyager\{Assets, Database, Filesystem, Localization, Messages, Routes};
+use Voyager\Admin\Traits\Facade\{Assets, Auth, Database, Filesystem, Localization, Messages, Routes, Widgets};
 
 class Voyager
 {
     use Assets,
+        Auth,
         Database,
         Filesystem,
         Localization,
         Messages,
-        Routes;
-
-    protected array $tables = [];
-    protected Collection $widgets;
+        Routes,
+        Widgets;
+    
     protected string $version = '';
 
     public function __construct(
@@ -49,41 +45,6 @@ class Voyager
         }
 
         return $this->version;
-    }
-
-    /**
-     * Gets all widgets from installed and enabled plugins filtered by plugins.
-     */
-    public function getWidgets(): Collection
-    {
-        $widgets = $this->widgets->filter(function ($widget) {
-            if (($widget->permission['ability'] ?? null) === null) {
-                return true;
-            }
-
-            return $this->authorize(
-                $this->auth()->user(),
-                $widget->permission['ability'] ?? null,
-                $widget->permission['arguments'] ?? []
-            );
-        });
-        $this->pluginmanager->getAllPlugins()->each(function ($plugin) use (&$widgets) {
-            if ($plugin instanceof WidgetFilter) {
-                $widgets = $plugin->filterWidgets($widgets);
-            }
-        });
-
-        return $widgets;
-    }
-
-    /**
-     * Add one or many widgets to the dashboard.
-     */
-    public function addWidgets(): void
-    {
-        $this->widgets = $this->widgets->merge(collect(func_get_args())->filter(function ($widget) {
-            return $widget instanceof Widget;
-        }));
     }
 
     /**
@@ -116,51 +77,6 @@ class Voyager
     public function setSettingsPath(string $path): void
     {
         $this->settingmanager->setPath($path);
-    }
-
-    /**
-     * Gets the authentication plugin.
-     */
-    public function auth(): AuthenticationPlugin
-    {
-        return $this->pluginmanager->getAllPlugins()->filter(function ($plugin) {
-            return $plugin instanceof AuthenticationPlugin;
-        })->first() ?? new DefaultAuthPlugin();
-    }
-
-    /**
-     * Authorize an action for a user.
-     */
-    public function authorize(mixed $user, mixed $ability, array $arguments = []): bool
-    {
-        $authorized = true;
-        $this->pluginmanager->getAllPlugins()->filter(function ($plugin) {
-            return $plugin instanceof AuthorizationPlugin;
-        })->each(function ($plugin) use ($user, $ability, $arguments, &$authorized) {
-            if ($plugin->authorize($user, $ability, $arguments) === false) {
-                $authorized = false;
-            }
-        });
-
-        return $authorized;
-    }
-
-    /**
-     * Resolve a batch of permissions for a given user.
-     */
-    public function resolvePermissions(array $permissions, ?\Illuminate\Contracts\Auth\Authenticatable $user = null): Collection
-    {
-        if ($user === null) {
-            $user = $this->auth()->user();
-        }
-
-        return collect($permissions)->mapWithKeys(function ($arguments, $ability) use ($user) {
-            if (is_int($ability)) {
-                return [$arguments => $this->authorize($user, $arguments)];
-            }
-
-            return [$ability => $this->authorize($user, $ability, $arguments)];
-        });
     }
 
     /**

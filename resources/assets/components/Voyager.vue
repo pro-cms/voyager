@@ -121,14 +121,15 @@ export default {
                 if (response.hasOwnProperty('data')) {
                     response = response.data;
                 }
-
+                
                 var notification = new this.$notification(response.message).color('red').timeout();
                 if (response.hasOwnProperty('stack')) {
                     notification = notification.message(response.stack);
                     notification = notification.title(response.message);
                 }
-        
-                notification.show();
+                if (response.message !== undefined) {
+                    notification.show();
+                }
             }
 
             throw error;

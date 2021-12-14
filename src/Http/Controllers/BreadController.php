@@ -3,6 +3,7 @@
 namespace Voyager\Admin\Http\Controllers;
 
 use DB;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
@@ -317,7 +318,7 @@ class BreadController extends Controller
             if (!is_array($ids)) {
                 $ids = [$ids];
             }
-            $model->find($ids)->each(function ($entry) use (&$deleted) {
+            $model->find($ids)->each(function (Model $entry) use (&$deleted) {
                 $this->authorize('delete', $entry);
                 $entry->delete();
                 $deleted++;
@@ -339,7 +340,7 @@ class BreadController extends Controller
 
         $restored = 0;
 
-        $model = $bread->getModel()->withTrashed();
+        $model = $bread->getModel()->withTrashed(); // @phpstan-ignore-line
 
         if ($request->has('primary')) {
             $ids = $request->get('primary');
@@ -374,7 +375,7 @@ class BreadController extends Controller
             $current_order = $move_item->{$bread->order_field};
 
             $next_item = $model->where($bread->order_field, ($up ? $current_order - 1 : $current_order + 1))->first();
-            if ($next_item) {
+            if ($next_item && $move_item instanceof Model) {
                 $next_item->{$bread->order_field} = $current_order;
                 $next_item->save();
 
