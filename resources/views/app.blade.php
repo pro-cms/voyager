@@ -26,6 +26,10 @@
             <link href="{{ Voyager::assetUrl('plugin/'.Str::slug($plugin->name).'.css') }}" rel="stylesheet">
         @endif
     @endforeach
+
+    @foreach (Voyager::getAssets()->where('type', 'css') as $asset)
+        <link href="{{ $asset['path'] }}" rel="stylesheet">
+    @endforeach
 </head>
 
 <body>
@@ -50,6 +54,11 @@ createVoyager({!! json_encode(Voyager::getViewData()) !!});
         <script src="{{ Voyager::assetUrl('plugin/'.Str::slug($plugin->name).'.js') }}"></script>
     @endif
 @endforeach
+
+@foreach (Voyager::getAssets()->where('type', 'js') as $asset)
+    <script src="{{ $asset['path'] }}"></script>
+@endforeach
+
 <script>
 mountVoyager();
 </script>
