@@ -22,8 +22,8 @@
     </a>
 </p>
 
-# Voyager - The Missing Laravel Admin
-<p>
+<p align="center">
+    <h1>Voyager - The Missing Laravel Admin</h1>
     <a href="https://voyager-admin.com/" target="_blank">Website</a>
     |
     <a href="https://tcg.gitbook.io/voyager-2/" target="_blank">Documentation</a>
