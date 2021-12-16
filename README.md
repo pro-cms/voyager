@@ -1,8 +1,6 @@
 <p align="center">
-    <a href="https://the-control-group.github.io/voyager/" target="_blank">
-        <img width="400" src="./resources/assets/dist/images/helm_dark.svg#gh-light-mode-only">
-        <img width="400" src="./resources/assets/dist/images/helm.svg#gh-dark-mode-only">
-    </a>
+    [![img](./resources/assets/dist/images/helm_dark.svg#gh-light-mode-only)](https://the-control-group.github.io/voyager/#gh-light-mode-only)
+    [![img](./resources/assets/dist/images/helm.svg#gh-dark-mode-only)](https://the-control-group.github.io/voyager/#gh-dark-mode-only)
 </p>
 
 <p align="center">
