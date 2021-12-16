@@ -9,6 +9,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.1
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Install and built documentation
         run: |
@@ -18,10 +20,10 @@ jobs:
       - name: Deploy to Github Pages
         uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: docs/.vitepress/dist # The folder the action should deploy.
+          branch: gh-pages
+          folder: docs/.vitepress/dist
 
       - name: Push changes back
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Build docs
+          commit_message: Build documentation
