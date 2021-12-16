@@ -1,7 +1,6 @@
-<p align="center">
-    [Voyager](./resources/assets/dist/images/helm_dark.svg#gh-light-mode-only)
-    [Voyager](./resources/assets/dist/images/helm.svg#gh-dark-mode-only)
-</p>
+
+[Voyager](./resources/assets/dist/images/helm_dark.svg#gh-light-mode-only)
+[Voyager](./resources/assets/dist/images/helm.svg#gh-dark-mode-only)
 
 <p align="center">
     <a href="https://packagist.org/packages/voyager-admin/voyager">
