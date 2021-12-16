@@ -1,5 +1,8 @@
-<p align="center"><a href="https://the-control-group.github.io/voyager/" target="_blank">
-    <img width="400" src="./resources/assets/dist/images/helm.svg"></a>
+<p align="center">
+    <a href="https://the-control-group.github.io/voyager/" target="_blank">
+        <img width="400" src="./resources/assets/dist/images/helm_dark.svg#gh-light-mode-only">
+        <img width="400" src="./resources/assets/dist/images/helm.svg#gh-dark-mode-only">
+    </a>
 </p>
 
 <p align="center">
