@@ -1,7 +1,7 @@
 
 <p align="center">
-  <img src="./resources/assets/dist/images/helm_dark.svg#gh-light-mode-only" />
-  <img src="./resources/assets/dist/images/helm.svg#gh-dark-mode-only" />
+  <img src="./resources/assets/dist/images/helm_dark.svg#gh-light-mode-only" width="400" />
+  <img src="./resources/assets/dist/images/helm.svg#gh-dark-mode-only" width="400" />
 </p>
 
 <p align="center">
