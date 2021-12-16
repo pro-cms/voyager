@@ -1,6 +1,6 @@
 <p align="center">
-    [![img](./resources/assets/dist/images/helm_dark.svg#gh-light-mode-only)](https://the-control-group.github.io/voyager/#gh-light-mode-only)
-    [![img](./resources/assets/dist/images/helm.svg#gh-dark-mode-only)](https://the-control-group.github.io/voyager/#gh-dark-mode-only)
+    [Voyager](./resources/assets/dist/images/helm_dark.svg#gh-light-mode-only)
+    [Voyager](./resources/assets/dist/images/helm.svg#gh-dark-mode-only)
 </p>
 
 <p align="center">
