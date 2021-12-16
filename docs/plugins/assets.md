@@ -9,12 +9,12 @@ Don't worry - Voyager takes care of caching your assets.
 
 Implement the contract `Voyager\Admin\Contracts\Features\Features\Provider\JS` and provide a method `provideJS()` returning a string containing your Javascript code.
 
-{% hint style="info" %}
+::: info
 A formfield plugin automatically implements the JS contract.  
 You don't need to do this manually!
-{% endhint %}
+:::
 
-Read more about public Javascript APIs [here](../javascript.md)
+Read more about public Javascript APIs [here](../javascript)
 
 ## CSS
 

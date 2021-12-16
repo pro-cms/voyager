@@ -1,7 +1,7 @@
 # Custom pages
 
 This page shows how to add a custom page with a component only to logged-in users.  
-You need to define and register a [component](./components.md) and add a [menu-item](./menu-items.md) to Voyager if you want.
+You need to define and register a [component](/plugins/components) and add a [menu-item](/plugins/menu-items) to Voyager if you want.
 
 ```php
 use Illuminate\Support\Facades\Route;

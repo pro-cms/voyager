@@ -31,10 +31,10 @@ class MyPlugin implements ProtectedRoutes
 }
 ```
 
-{% hint style="info" %}
+::: info
 This example shows an Inertia response that will show a Vue component inside Voyagers master-view.  
 However, you can return whatever you want, a blade-view for example.
-{% endhint %}
+:::
 
 ## Frontend
 
@@ -64,6 +64,6 @@ class MyPlugin implements FrontendRoutes
 }
 ```
 
-{% hint style="info" %}
+::: info
 You are not able to display a component/view inside Voyagers master-view as this uses some data that is not available when the user is not logged-in.
-{% endhint %}
+::: info

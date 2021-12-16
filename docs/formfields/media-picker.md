@@ -1,6 +1,6 @@
 # Media Picker
 
-The media-picker provides an easy way to use the [media manager](../media-manager.md) as a powerful formfield for your BREADs.
+The media-picker provides an easy way to use the [media manager](../media-manager) as a powerful formfield for your BREADs.
 
 ## Picking files
 
@@ -8,9 +8,9 @@ There are two ways to pick files.
 1. Double click the file you want to pick
 2. Select multiple files and hit the button "Select X files"
 
-{% hint style="info" %}
+::: info
 Files that are already picked will be removed when picking them again
-{% endhint %}
+:::
 
 ## Options
 
@@ -26,13 +26,13 @@ This option lets you add simple textboxes to every picked file.
 For example, when you want to pick images, you could add a title and an alt-tag.  
 Click `+` to add a new property and add the key (for example `title`) and the textbox placeholder (`Title`).
 
-![Media picker meta options in the BREAD builder](../.gitbook/assets/formfields/media-picker/meta-options.png) 
+![Media picker meta options in the BREAD builder](/formfields/media-picker/meta-options.png) 
 
-![Media picker meta options in a BREAD](../.gitbook/assets/formfields/media-picker/meta-result.png) 
+![Media picker meta options in a BREAD](/formfields/media-picker/meta-result.png) 
 
-{% hint style="info" %}
+::: info
 Meta properties are translatable. Simply toggle the locale and enter the translated text!
-{% endhint %}
+:::
 
 ### Mime types
 
@@ -45,10 +45,10 @@ Here are some examples:
 
 When no types are defined all are allowed.  
 
-{% hint style="warning" %}
+::: warning
 Note that a mime-type can not be guessed for all files.  
 Always consider official resources like the [official IANA MIME type list](http://www.iana.org/assignments/media-types/media-types.xhtml).
-{% endhint %}
+:::
 
 ## Using media files in your model
 

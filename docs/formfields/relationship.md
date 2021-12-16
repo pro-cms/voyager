@@ -1,13 +1,13 @@
 # Relationship
 
-This page describes the relationship formfield. For informations on how to use the relationship formfields visit [this page](../bread/relationships.md)!  
+This page describes the relationship formfield. For informations on how to use the relationship formfields visit [this page](/bread/relationships)!  
 
 The relationship formfield is a powerful tool to display, search, select, add and even edit related items.  
 
 It gets even more powerful when your related model contains a BREAD.  
 This way you can select lists for browsing your relationship and views for adding more items directly on the same page.
 
-![Relationship with a BREAD and a list to display items](../.gitbook/assets/formfields/relationship/relationship.png) 
+![Relationship with a BREAD and a list to display items](/formfields/relationship/relationship.png) 
 
 ## Options
 

@@ -1,7 +1,7 @@
 # Select
 
 Provides a simple select with given options.  
-For a more advanced select formfield with support for conditional/depending inputs, check out the [dynamic input](./dynamic-input.md)
+For a more advanced select formfield with support for conditional/depending inputs, check out the [dynamic input](/formfields/dynamic-input)
 
 ## Options
 

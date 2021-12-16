@@ -2,7 +2,7 @@
 
 Display one or many radios from a given set of options.
 
-![Radios](../.gitbook/assets/formfields/radios/radios.png) 
+![Radios](/formfields/radios/radios.png) 
 
 ## Options
 
@@ -16,4 +16,4 @@ Value is translatable.
 
 Check this box if you want the radios to be shown in one line.
 
-![Inline radios](../.gitbook/assets/formfields/radios/inline.png) 
+![Inline radios](/formfields/radios/inline.png) 

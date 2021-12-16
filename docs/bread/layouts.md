@@ -3,13 +3,13 @@
 Layouts are used when browsing, reading, editing or adding an entry to your BREAD.  
 A BREAD can contain endless layouts and different layouts can then be used for different actions.
 
-There are two kinds of layouts, [lists](lists.md) and [views](views.md).  
+There are two kinds of layouts, [lists](lists) and [views](views).  
 Lists are used for browsing a BREAD/relationships and views for editing, adding and reading.
 
-{% hint style="info" %}
+::: info
 With additional plugins, layouts can be mapped to various conditions.  
 For example, users use layout X for adding/editing and admins use layout Y.
-{% endhint %}
+:::
 
 ## Add a layout
 
@@ -33,4 +33,4 @@ Please be aware that all formfields in this layout will be deleted as well!
 ## Add a formfield to a layout
 
 Click the `Add Formfield` button and select the formfield you want to add. 
-Read more about formfields [here](../formfields/introduction.md).
+Read more about formfields [here](../formfields/).

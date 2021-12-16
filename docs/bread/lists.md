@@ -6,7 +6,7 @@ Lists are used for browsing a BREAD.
 
 Click and hold the up/down arrows on the left side of your formfield and move your mouse to the desired positions.
 
-![Order items in a list](../.gitbook/assets/bread-builder/list-order.png) 
+![Order items in a list](/bread-builder/list-order.png) 
 
 ### Column
 
@@ -24,6 +24,8 @@ This also works for relationships if a BREAD exists for the related item.
 
 ### Options
 
+Blub
+
 #### Searchable
 
 Makes the field searchable.
@@ -36,14 +38,14 @@ Makes the formfield orderable.
 
 When browsing your BREAD, it will be ordered by this formfield by default.
 
-{% hint style="info" %}
+::: info
 Searching and ordering does **not** work on accessors and ordering does not work on relationship properties because it would require to load **all** results and then searching/ordering through them.
-{% endhint %}
+:::
 
 #### Translatable
 
 Check this checkbox if you want this field to be translatable.  
-Read more about multilanguage [here](multilanguage.md).
+Read more about multilanguage [here](multilanguage).
 
 #### Options
 
@@ -55,7 +57,7 @@ Filters are little but powerful buttons shown on top of the browse table.
 They allow the user to apply customized queries or scopes to their results.    
 By clicking the `+` icon you add filter which you then align to your needs.
 
-![Filters in a list](../.gitbook/assets/bread-builder/filters.png) 
+![Filters in a list](/bread-builder/filters.png) 
 
 Here are the options for a filter:
 

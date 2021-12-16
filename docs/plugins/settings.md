@@ -41,11 +41,11 @@ class MyPlugin implements GenericPlugin, Settings
 }
 ```
 
-{% hint style="info" %}
+::: info
 Make sure to always return an array containing settings (as an array).  
 The best way to generate this setting is to simply create it through the UI and then copy/paste it from your `settings.json` file.
-{% endhint %}
+:::
 
-{% hint style="warning" %}
+::: warning
 Whenever a setting with a matching group and key already exists, your provided setting will be ignored!
-{% endhint %}
+:::

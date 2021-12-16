@@ -14,7 +14,7 @@ If you selected more than one file a ZIP archive will be generated.
 ## Mime types
 
 You can set which mime-types are shown in the media-manager by adding mimes to the `media.mime-types` setting.  
-Read more about this [here](./formfields/media-picker.md#mime-types).
+Read more about this [here](/formfields/media-picker#mime-types).
 
 ## Image optimization
 

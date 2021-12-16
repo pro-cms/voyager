@@ -4,7 +4,7 @@ This formfield allows you to enter one or multiple free-text tags.
 Enter your text and hit enter to create a tag.  
 To remove the previous tag, simply hat backspace twice.
 
-![Tags input](../.gitbook/assets/formfields/tags/tags.png) 
+![Tags input](/formfields/tags/tags.png) 
 
 ## Options
 
@@ -12,10 +12,10 @@ To remove the previous tag, simply hat backspace twice.
 
 The min and max option allow you to restrict users to enter less or more than the given amount of tags.  
 
-{% hint style="info" %}
+::: info
 Please note that the min/max options **do not** replace validation!  
 They only server as visual feedback for the user.
-{% endhint %}
+:::
 
 ### Allow reordering
 
