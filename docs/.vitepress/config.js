@@ -5,6 +5,7 @@ module.exports = {
     title: 'Voyager',
     description: 'Documentation for Voyager II',
     lang: 'en-US',
+    base: '/voyager/',
     themeConfig: {
         logo: '/helm.svg',
         sidebar,
