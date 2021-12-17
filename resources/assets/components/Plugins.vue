@@ -441,7 +441,7 @@ export default {
             axios.get(url)
                 .then((response) => {
                     let plugins = response.data.results.filter((plugin) => {
-                        if (plugin.name.startsWith('voyager-admin') && plugin.name.endsWith('boilerplate')) {
+                        if ((plugin.name.startsWith('voyager-admin') && plugin.name.endsWith('boilerplate')) || plugin.name.endsWith('voyager-docs')) {
                             return false;
                         }
 
