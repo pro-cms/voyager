@@ -1,4 +1,5 @@
 {
+    "name": "voyager-admin",
     "scripts": {
         "dev": "npm run scripts && webpack --mode development --progress",
         "build": "npm run scripts && webpack --mode production --progress",
