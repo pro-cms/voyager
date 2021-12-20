@@ -26,7 +26,7 @@
     <h1>Voyager - The Missing Laravel Admin</h1>
     <a href="https://voyager-admin.com/" target="_blank">Website</a>
     |
-    <a href="https://tcg.gitbook.io/voyager-2/" target="_blank">Documentation</a>
+    <a href="https://voyager-admin.github.io/voyager" target="_blank">Documentation</a>
     |
     <a href="https://voyager-slack-invitation.herokuapp.com" target="_blank">Slack chat</a>
 </p>
