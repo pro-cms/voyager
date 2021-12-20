@@ -16,6 +16,4 @@ namespace Voyager\Admin\Contracts\Plugins;
  * @property      array   $stats                     Stats array shown in the plugin UI
  */
 
-interface GenericPlugin
-{
-}
+interface GenericPlugin {}
