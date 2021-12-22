@@ -27,7 +27,7 @@
                     <div v-if="filteredAvailablePlugins.length == 0" class="w-full text-center">
                         <h4>{{ __('voyager::plugins.no_plugins_match_search') }}</h4>
                     </div>
-                    <div v-for="(plugin, i) in filteredAvailablePlugins.slice(availableStart, availableEnd)" :key="'plugin-'+i">
+                    <div v-for="(plugin, i) in filteredAvailablePlugins.slice(availableStart, availableEnd)" :key="'plugin-'+i" :class="pluginInstalled(plugin) ? 'opacity-50' : null">
                         <div class="flex">
                             <div class="w-3/5">
                                 <div class="w-full inline-flex space-x-2">
@@ -367,7 +367,7 @@ export default {
             return 'red';
         },
         pluginInstalled(plugin) {
-            return this.installed.plugins.where('repository', plugin.repository).length > 0;
+            return this.installed.plugins.where('repository', plugin.name).length > 0;
         },
         setTypeFilter(type) {
             if (this.installed.currentType == type) {
