@@ -150,7 +150,10 @@
                                 {{ __('voyager::generic.version') }}
                             </th>
                             <th>
-                                Stats
+                                {{ __('voyager::plugins.statistics') }}
+                            </th>
+                            <th>
+                                {{ __('voyager::plugins.loading_time') }}
                             </th>
                             <th v-if="update.checked > 0">
                                 {{ __('voyager::plugins.newest_version') }}
@@ -187,18 +190,16 @@
                                 </span>
                             </td>
                             <td class="space-x-1 space-y-1">
-                                <Badge v-if="plugin.stats.settings > 0">{{ trans_choice('voyager::plugins.stats.settings', plugin.stats.settings) }}</Badge>
-                                <Badge v-if="plugin.stats.widgets > 0">{{ trans_choice('voyager::plugins.stats.widgets', plugin.stats.widgets) }}</Badge>
-                                <Badge v-if="plugin.stats.menuitems > 0">{{ trans_choice('voyager::plugins.stats.menu_items', plugin.stats.menuitems) }}</Badge>
-                                <Badge v-if="plugin.stats.public_routes">{{ __('voyager::plugins.stats.public_routes') }}</Badge>
-                                <Badge v-if="plugin.stats.protected_routes">{{ __('voyager::plugins.stats.protected_routes') }}</Badge>
-                                <Badge v-if="plugin.stats.js">{{ __('voyager::plugins.stats.javascript') }}</Badge>
-                                <Badge v-if="plugin.stats.css">{{ __('voyager::plugins.stats.css') }}</Badge>
-                                <Badge v-if="plugin.stats.layout_filter">{{ __('voyager::plugins.stats.layout_filter') }}</Badge>
-                                <Badge v-if="plugin.stats.media_filter">{{ __('voyager::plugins.stats.media_filter') }}</Badge>
-                                <Badge v-if="plugin.stats.menu_item_filter">{{ __('voyager::plugins.stats.menu_item_filter') }}</Badge>
-                                <Badge v-if="plugin.stats.widget_filter">{{ __('voyager::plugins.stats.widget_filter') }}</Badge>
+                                <template v-for="stat in Object.keys(plugin.stats)">
+                                    <template v-if="isBoolean(plugin.stats[stat]) && plugin.stats[stat] === true">
+                                        <Badge>{{ __(`voyager::plugins.stats.${stat}`) }}</Badge>
+                                    </template>
+                                    <template v-else-if="isNumeric(plugin.stats[stat]) && plugin.stats[stat] > 0">
+                                        <Badge>{{ trans_choice(`voyager::plugins.stats.${stat}`, plugin.stats[stat]) }}</Badge>
+                                    </template>
+                                </template>
                             </td>
+                            <td>{{ plugin.loading_time }}ms</td>
                             <td class="w-full inline-flex space-x-1 justify-end">
                                 <a class="button small" v-if="plugin.website" :href="translate(plugin.website)" target="_blank">
                                     <Icon icon="globe" />

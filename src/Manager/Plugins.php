@@ -34,6 +34,7 @@ class Plugins
 
     public function addPlugin(string|GenericPlugin $plugin): void
     {
+        $start = round(microtime(true) * 1000);
         if (!$this->enabled_plugins) {
             $this->loadEnabledPlugins();
         }
@@ -77,15 +78,18 @@ class Plugins
             }
         };
 
+        $plugin->loading_time = round(microtime(true) * 1000) - $start;
+
         $this->plugins->push($plugin);
     }
 
     public function launchPlugins(?bool $protected = null): void
     {
         $this->getAllPlugins()->each(function (GenericPlugin $plugin) use ($protected) {
+            $start = round(microtime(true) * 1000);
             $plugin->stats = [
                 'settings'          => 0,
-                'menuitems'         => 0,
+                'menu_items'        => 0,
                 'widgets'           => 0,
                 'public_routes'     => false,
                 'protected_routes'  => false,
@@ -114,7 +118,7 @@ class Plugins
                     $plugin->provideMenuItems($this->menumanager);
                     $after = $this->menumanager->getUnfilteredItems()->count();
 
-                    $plugin->stats['menuitems'] = $after - $before;
+                    $plugin->stats['menu_items'] = $after - $before;
                 }
                 // Merge settings
                 if ($plugin instanceof SettingsProvider) {
@@ -145,6 +149,7 @@ class Plugins
                 $plugin->stats['menu_item_filter'] = $plugin instanceof MenuItemFilter;
                 $plugin->stats['widget_filter'] = $plugin instanceof WidgetFilter;
             }
+            $plugin->loading_time = $plugin->loading_time + (round(microtime(true) * 1000) - $start);
         });
     }
 
