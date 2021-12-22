@@ -1,5 +1,5 @@
-import sidebar from './sidebar'
-// import sidebar_de from './sidebar_de'
+import sidebar from './sidebar.json';
+// import sidebar_de from './sidebar_de.json'
 
 module.exports = {
     title: 'Voyager',
