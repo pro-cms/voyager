@@ -4,7 +4,7 @@ import sidebar from './sidebar'
 module.exports = {
     title: 'Voyager',
     description: 'Documentation for Voyager II',
-    lang: 'en-US',
+    lang: 'en',
     base: '/voyager/',
     themeConfig: {
         logo: '/helm.svg',
@@ -28,12 +28,12 @@ module.exports = {
     },
     locales: {
         '/': {
-            lang: 'en-US',
+            lang: 'en',
             title: 'Voyager II',
             description: 'Documentation for Voyager II'
         },
         /*'/de/': {
-            lang: 'de-DE',
+            lang: 'de',
             title: 'Voyager II',
             description: 'Dokumentation für Voyager II'
         }*/

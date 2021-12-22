@@ -193,6 +193,10 @@ module.exports = [
                 link: '/plugins/'
             },
             {
+                text: 'Best practices',
+                link: '/plugins/best-practices'
+            },
+            {
                 text: 'Assets',
                 link: '/plugins/assets'
             },
