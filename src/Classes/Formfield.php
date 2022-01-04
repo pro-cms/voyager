@@ -32,7 +32,7 @@ class Formfield implements \JsonSerializable
             foreach ((array)$json as $key => $value) {
                 if ($key == 'column') {
                     $value = (object)$value;
-                    $this->column = new Column($value->type, $value->column);
+                    $this->column = new Column($value->type ?? '', $value->column ?? '');
                 } else if (!in_array($key, $this->dontStore)) {
                     $this->{$key} = $value;
                 }
