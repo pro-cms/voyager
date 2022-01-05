@@ -510,7 +510,8 @@ export default {
                         name: value,
                         type: (view ? 'view' : 'list'),
                         options: (view ? view_options : list_options),
-                        formfields: []
+                        formfields: [],
+                        tabs: [],
                     });
 
                     this.currentLayoutName = value;

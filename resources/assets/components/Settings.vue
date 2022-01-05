@@ -112,7 +112,7 @@
                                 </div>
                                 <component
                                     :is="getFormfieldByType(setting.type).builder_component"
-                                    v-model:orgoptions="setting.options"
+                                    v-model:options="setting.options"
                                     :column="{}"
                                     action="view-options" />
                                 <BreadBuilderValidation v-model="setting.validation" />

@@ -15,6 +15,7 @@ Instead, they are listed here:
 - When a BREAD slug is empty (translated) it will override the `voyager.dashboard` route and make the whole admin panel break
 - Multiple timeout notifications don't close properly (timeout bar disappears)
 - Make list filters draggable
+- Sanitize formfields where a column does not exist (anymore)
 
 ## Formfields testing
 

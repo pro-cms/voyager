@@ -48,7 +48,7 @@
         "slugify": "^1.6.5",
         "uuid": "^8.3.2",
         "vue": "^3.2.26",
-        "vuedraggable": "^4.0.1"
+        "vuedraggable": "^4.1.0"
     },
     "peerDependencies": {
         "postcss": "^8.4.5"
