@@ -15,6 +15,7 @@
                 <button class="button accent my-2" v-scroll-to="'ui-tooltips'">Tooltips</button>
                 <button class="button accent my-2" v-scroll-to="'ui-notifications'">Notifications</button>
                 <button class="button accent my-2" v-scroll-to="'ui-pagination'">Pagination</button>
+                <button class="button accent my-2" v-scroll-to="'ui-draggable'">Draggable</button>
                 <button
                     class="button accent my-2"
                     v-for="el in store.ui"
@@ -23,34 +24,6 @@
                 >{{ el.title }}</button>
             </div>
         </div>
-    </Card>
-
-    <Card>
-        <Draggable v-model="draggable" class="w-full">
-            <template v-slot:item="{item}" :class="`ble`">
-                <Card :title="item.title">
-                    This is {{ item.title }}
-
-                    <template #actions>
-                        <button class="button">Drag me</button>
-                    </template>
-                </Card>
-            </template>
-        </Draggable>
-        <hr />
-        <Draggable v-model="draggable" class="w-full mt-4 flex flex-wrap" handle=".dd-handle" tag="div" itemTag="span" :transition="200" :itemAttrs="dragCB">
-            <template v-slot:item="{item}" class="w-1/3">
-                <Card :title="item.title">
-                    This is {{ item.title }}
-
-                    <template #actions>
-                        <button class="button dd-handle">Drag me</button>
-                        <button class="button dd-handle">Drag me 2</button>
-                    </template>
-                </Card>
-            </template>
-        </Draggable>
-        <textarea class="input w-full" rows="20">{{ JSON.stringify(draggable, null, 4) }}</textarea>
     </Card>
 
     <Card no-header>
@@ -647,6 +620,29 @@
                 />
             </Collapsible>
         </div>
+    </Collapsible>
+
+    <Collapsible title="Draggable" id="ui-draggable">
+        <Card title="Drag from everywhere">
+            <Draggable v-model="draggable" class="w-full">
+                <template v-slot:item="{item}">
+                    <Card no-header>
+                        {{ item.title }}
+                    </Card>
+                </template>
+            </Draggable>
+        </Card>
+        <Card title="Drag with handle and custom item attributes">
+            <Draggable v-model="draggable" class="w-full mt-4 flex flex-wrap" handle=".dd-handle" tag="div" itemTag="span" :transition="200" :itemAttrs="dragCB">
+                <template v-slot:item="{item}" class="w-1/3">
+                    <Card :title="item.title">
+                        <template #actions>
+                            <button class="button dd-handle">Drag</button>
+                        </template>
+                    </Card>
+                </template>
+            </Draggable>
+        </Card>
     </Collapsible>
 
     <Collapsible
