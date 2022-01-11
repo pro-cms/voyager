@@ -124,6 +124,18 @@ class Settings
             $content = $this->settings;
         }
         $this->load();
+
+        if (is_string($content)) {
+            $content = VoyagerFacade::getJson($content, []);
+        }
+
+        // Remove UUID from settings
+        foreach ($content as $key => $setting) {
+            if (array_key_exists('uuid', $setting)) {
+                unset($content[$key]['uuid']);
+            }
+        }
+
         if (!is_string($content)) {
             $content = json_encode($content, JSON_PRETTY_PRINT);
         }

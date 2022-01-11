@@ -4,7 +4,7 @@
     </div>
     <div v-else-if="action == 'browse'" v-html="browseData"></div>
     <div v-else-if="action == 'edit' || action == 'add'" class="w-full">
-        <draggable :list="rows" :item-key="keyForRow" handle=".dd-handle">
+        <Draggable v-model="rows" :index="keyForRow" handle=".dd-handle">
             <template #item="{ element: entry, index: key }" :key="key">
                 <Card :title="`${this.translate(this.options.type, true) || ''} #${key+1}`" :titleSize="6">
                     <template #actions>
@@ -27,7 +27,7 @@
                     />
                 </Card>
             </template>
-        </draggable>
+        </Draggable>
         
         <button class="button green w-full justify-center" @click="addRow">
             <Icon icon="plus-circle" />
@@ -40,16 +40,16 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable';
 import { v4 as uuidv4 } from 'uuid';
 
 import formfield from '@mixins/formfield';
 import EditAdd from '@components/Bread/EditAdd.vue';
+import Draggable from '@components/UI/Draggable.vue';
 
 export default {
     mixins: [formfield],
     inject: ['bread'],
-    components: { EditAdd, draggable },
+    components: { EditAdd, Draggable },
     computed: {
         rows: {
             get() {

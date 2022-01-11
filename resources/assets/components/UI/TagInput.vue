@@ -1,7 +1,7 @@
 <template>
     <div class="input flex flex-wrap space-x-1" @click="$refs.input.focus()">
-        <component :is="!noReorder ? 'draggable' : 'span'" v-model="tags" class="flex flex-wrap" item-key="">
-            <template #item="{ element: tag }">
+        <component :is="false ? 'draggable' : 'span'" v-model="tags" class="flex flex-wrap" item-key="">
+            <template v-for="tag in tags" :key="tag">
                 <Badge :color="badgeColor" icon="x" @click-icon="removeTag(tag)" class="mt-1 ml-1" :class="[!noReorder ? 'cursor-move' : '']">
                     {{ tag }}
                 </Badge>
@@ -11,11 +11,8 @@
     </div>
 </template>
 <script>
-import draggable from 'vuedraggable';
-
 export default {
     emits: ['update:modelValue'],
-    components: { draggable },
     props: {
         modelValue: {
             type: Array,

@@ -25,6 +25,34 @@
         </div>
     </Card>
 
+    <Card>
+        <Draggable v-model="draggable" class="w-full">
+            <template v-slot:item="{item}" :class="`ble`">
+                <Card :title="item.title">
+                    This is {{ item.title }}
+
+                    <template #actions>
+                        <button class="button">Drag me</button>
+                    </template>
+                </Card>
+            </template>
+        </Draggable>
+        <hr />
+        <Draggable v-model="draggable" class="w-full mt-4 flex flex-wrap" handle=".dd-handle" tag="div" itemTag="span" :transition="200" :itemAttrs="dragCB">
+            <template v-slot:item="{item}" class="w-1/3">
+                <Card :title="item.title">
+                    This is {{ item.title }}
+
+                    <template #actions>
+                        <button class="button dd-handle">Drag me</button>
+                        <button class="button dd-handle">Drag me 2</button>
+                    </template>
+                </Card>
+            </template>
+        </Draggable>
+        <textarea class="input w-full" rows="20">{{ JSON.stringify(draggable, null, 4) }}</textarea>
+    </Card>
+
     <Card no-header>
         <div class="w-full flex">
             <div class="w-6/12">
@@ -633,7 +661,7 @@
 <script>
 import { placements } from '@popperjs/core/lib/enums';
 import scrollTo from '@directives/scroll-to';
-import draggable from 'vuedraggable';
+import Draggable from './UI/Draggable.vue';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
@@ -647,7 +675,7 @@ import Store from '@/store';
 export default {
     directives: { scrollTo: scrollTo },
     components: {
-        draggable
+        Draggable
     },
     data() {
         return {
@@ -686,6 +714,33 @@ export default {
             },
             toggle: false,
             placements,
+            draggable: [
+                {
+                    id: 0,
+                    title: 'Number 1',
+                    class: 'w-1/3'
+                },
+                {
+                    id: 1,
+                    title: 'Number 2',
+                    class: 'w-1/3'
+                },
+                {
+                    id: 2,
+                    title: 'Number 3',
+                    class: 'w-1/3'
+                },
+                {
+                    id: 3,
+                    title: 'Number 4',
+                    class: 'w-1/2'
+                },
+                {
+                    id: 4,
+                    title: 'Number 5',
+                    class: 'w-1/2'
+                },
+            ]
         };
     },
     computed: {
@@ -704,6 +759,11 @@ export default {
                 this.colorSize -= 1;
             }
         },
+        dragCB(item) {
+            return {
+                class: item.class,
+            };
+        }
     },
     mounted() {
         this.$watch(() => this.range.minprice, (min) => {

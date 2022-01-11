@@ -333,6 +333,7 @@
 import { defineAsyncComponent } from 'vue';
 import { Link } from '@inertiajs/inertia-vue3';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
 import focus from '@directives/focus';
 import clickOutside from '@directives/click-outside';
@@ -677,7 +678,12 @@ export default {
         currentLayout() {
             return this.bread.layouts.filter((layout, key) => {
                 if (layout.name == this.currentLayoutName) {
+                    layout.formfields.map((formfield) => {
+                        formfield.uuid = uuidv4();
+                    });
+                    layout.uuid = uuidv4();
                     this.pushToUrlHistory(this.addParameterToUrl('layout', key));
+
                     return true;
                 }
                 return false;

@@ -17,7 +17,8 @@ class Formfield implements \JsonSerializable
         'noComputedProps',
         'noRelationships',
         'noRelationshipProps',
-        'noRelationshipPivots'
+        'noRelationshipPivots',
+        'uuid',
     ];
     public mixed $options;
     public Column $column;

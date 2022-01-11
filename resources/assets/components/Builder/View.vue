@@ -1,10 +1,16 @@
 <template>
     <div>
-        <draggable class="flex flex-wrap w-full min-h-64" v-model="clonedFormfields" item-key="" group="view-builder-dd" handle=".dd-handle">
-            <template #item="{ element: formfield, index: key }">
+        <Draggable
+            class="flex flex-wrap w-full min-h-64"
+            :modelValue="formfields"
+            @update:modelValue="$emit('update:formfields', JSON.parse(JSON.stringify($event)))"
+            index="uuid"
+            handle=".dd-handle"
+            :itemAttrs="formfieldAttributes"
+        >
+            <template #item="{ item: formfield }" class="m-0" :class="formfield.options.width">
                 <div
                     v-show="formfield.tab === tab"
-                    class="m-0" :class="formfield.options.width"
                     uses="w-1/6 w-2/6 w-3/6 w-4/6 w-5/6 w-full"
                 >
                     <Card :title="translate(formfield.options.title) || ''" :title-size="5">
@@ -142,19 +148,19 @@
                     </Card>
                 </div>
             </template>
-        </draggable>
+        </Draggable>
     </div>
 </template>
 
 <script>
-import draggable from 'vuedraggable';
+import Draggable from '@components/UI/Draggable.vue';
 
 import BreadBuilderValidation from '@components/Builder/ValidationForm.vue';
 
 export default {
     components: {
         BreadBuilderValidation,
-        draggable,
+        Draggable,
     },
     emits: ['delete', 'update:formfields', 'update:options', 'update:formfield_tab'],
     props: {
@@ -189,26 +195,15 @@ export default {
             ],
         };
     },
-    computed: {
-        clonedFormfields: {
-            get() {
-                return JSON.parse(JSON.stringify(this.formfields));
-            },
-            set(formfields) {
-                this.$emit('update:formfields', JSON.parse(JSON.stringify(formfields)));
-            }
-        }
-    },
     methods: {
         startResize(key) {
             this.resizingFormfield = key;
         },
-        prev(formfield) {
-            this.$emit('update:formfields', this.formfields.moveElementUp(formfield));
-        },
-        next(formfield) {
-            this.$emit('update:formfields', this.formfields.moveElementDown(formfield));
-        },
+        formfieldAttributes(formfield) {
+            return {
+                class: formfield.options.width
+            };
+        }
     },
     mounted() {
         window.addEventListener('mouseup', () => {

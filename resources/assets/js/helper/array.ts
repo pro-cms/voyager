@@ -3,6 +3,7 @@ interface Array<T> {
     whereNot(prop: string, value?: string): Array<T>;
     whereLike(query: string, prop?: string): Array<T>;
     whereNull(query: string): Array<T>;
+    indexOfProp(prop: string, value: any): number|undefined;
     shuffle(): Array<T>;
     first(): T;
     pluck(prop: string): Array<T>;
@@ -10,6 +11,7 @@ interface Array<T> {
     insert(el: T): Array<T>;
     moveElementUp(el: T): Array<T>;
     moveElementDown(el: T): Array<T>;
+    move(from: number, to: number): Array<T>;
     removeAtIndex(index: number): Array<T>;
 }
 
@@ -47,6 +49,18 @@ Array.prototype.whereNull = function (prop) {
     return this.filter(function (el) {
         return el[prop] === null || el[prop] === undefined;
     });
+}
+
+Array.prototype.indexOfProp = function (prop, value) {
+    let index = undefined;
+
+    this.forEach(function (el, i) {
+        if (el[prop] == value) {
+            index = i;
+        }
+    });
+
+    return index;
 }
 
 Array.prototype.shuffle = function () {
@@ -87,6 +101,12 @@ Array.prototype.moveElementDown = function (el) {
         [this[i], this[i+1]] = [this[i+1], this[i]];
     }
     
+    return this;
+}
+
+Array.prototype.move = function (from, to) {
+    this.splice(to, 0, this.splice(from, 1)[0]);
+
     return this;
 }
 

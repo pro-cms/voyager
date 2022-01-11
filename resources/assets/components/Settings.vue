@@ -75,11 +75,11 @@
             </template>
         </Alert>
 
-        <draggable v-model="settings" item-key="" handle=".dd-handle">
-            <template #item="{ element: setting }">
+        <Draggable v-model="settings" index="uuid" handle=".dd-handle">
+            <template v-slot:item="{ item: setting }">
                 <Card
                     :title="translate(setting.name, false) || __('voyager::settings.no_name')"
-                    v-show="settingsInGroup(currentGroup).includes(setting)"
+                    v-show="settingsInGroup(currentGroup).where('uuid', setting.uuid).length > 0"
                     @clickTitle="selectedSetting = setting"
                 >
                     <template #actions>
@@ -153,7 +153,7 @@
                     />
                 </Card>
             </template>
-        </draggable>
+        </Draggable>
         <h3 class="text-center" v-if="!groupHasSettings() && query == ''">{{ __('voyager::settings.no_settings_in_group') }}</h3>
         <h3 class="text-center" v-else-if="!groupHasSettings()">{{ __('voyager::settings.no_settings_match') }}</h3>
     </Card>
@@ -164,7 +164,8 @@
 
 <script>
 import axios from 'axios';
-import draggable from 'vuedraggable';
+import Draggable from './UI/Draggable.vue';
+import { v4 as uuidv4 } from 'uuid';
 
 import BreadBuilderValidation from '@components/Builder/ValidationForm.vue';
 import EventBus from '@/eventbus';
@@ -177,7 +178,7 @@ export default {
     },
     components: {
         BreadBuilderValidation,
-        draggable,
+        Draggable,
     },
     props: {
         input: {
@@ -191,7 +192,6 @@ export default {
     },
     data() {
         return {
-            settings: this.input,
             savingSettings: false,
             currentGroup: null,
             selectedSetting: null,
@@ -382,6 +382,13 @@ export default {
             return Store.formfields.filter((formfield) => {
                 return formfield.in_settings;
             });
+        },
+        settings() {
+            return this.input.map((setting) => {
+                setting.uuid = uuidv4();
+
+                return setting;
+            })
         },
         filteredSettings() {
             return this.settings.filter((s) => {

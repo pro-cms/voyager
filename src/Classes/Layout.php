@@ -80,7 +80,6 @@ class Layout implements \JsonSerializable
     {
         return [
             'name'       => $this->name,
-            'uuid'       => $this->uuid,
             'type'       => $this->type,
             'tabs'       => $this->tabs,
             'options'    => $this->options,
