@@ -9,34 +9,16 @@
             :itemAttrs="formfieldAttributes"
         >
             <template #item="{ item: formfield }" class="m-0" :class="formfield.options.width">
-                <div
-                    v-show="formfield.tab === tab"
-                    uses="w-1/6 w-2/6 w-3/6 w-4/6 w-5/6 w-full"
-                >
+                <div uses="w-1/6 w-2/6 w-3/6 w-4/6 w-5/6 w-full">
                     <Card :title="translate(formfield.options.title) || ''" :title-size="5">
                         <template #actions>
                             <div class="flex space-x-1">
                                 <button class="button small dd-handle cursor-move" v-tooltip="__('voyager::generic.move')">
                                     <Icon icon="arrows-expand" />
                                 </button>
-                                <button class="button small" @mousedown="startResize(key)" v-tooltip="__('voyager::builder.resize')">
+                                <button class="button small" @mousedown="startResize(formfield.uuid)" v-tooltip="__('voyager::builder.resize')">
                                     <Icon icon="switch-horizontal" class="cursor-move" />
                                 </button>
-                                <Dropdown>
-                                    <div>
-                                        <div class="link" @click="$emit('update:formfield_tab', { key, tab: null })">
-                                            {{ __('voyager::bread.no_tab') }}
-                                        </div>
-                                        <div class="link" v-for="tab in tabs" :key="`tab-${tab}`" @click="$emit('update:formfield_tab', { key, tab })">
-                                            {{ translate(tab) }}
-                                        </div>
-                                    </div>
-                                    <template #opener>
-                                        <button class="button small">
-                                            <Icon icon="collection" />
-                                        </button>
-                                    </template>
-                                </Dropdown>
                                 <SlideIn :title="__('voyager::generic.options')">
                                     <template #actions>
                                         <LocalePicker />
@@ -162,21 +144,13 @@ export default {
         BreadBuilderValidation,
         Draggable,
     },
-    emits: ['delete', 'update:formfields', 'update:options', 'update:formfield_tab'],
+    emits: ['delete', 'update:formfields', 'update:options'],
     props: {
         computed: Array,
         columns: Array,
         relationships: Array,
         formfields: Array,
         options: Object,
-        tab: {
-            type: [Number, null],
-            default: null,
-        },
-        tabs: {
-            type: Array,
-            default: () => []
-        },
         fromRepeater: {
             type: Boolean,
             default: false,
@@ -217,7 +191,7 @@ export default {
                 var x = e.clientX - rect.left - 50;
                 var threshold = rect.width / (this.sizes.length - 1);
                 var size = Math.min(Math.max(Math.ceil(x / threshold), 0), this.sizes.length);
-                this.formfields[this.resizingFormfield].options.width = this.sizes[size];
+                this.formfields.where('uuid', this.resizingFormfield).first().options.width = this.sizes[size];
             }
         });
     }

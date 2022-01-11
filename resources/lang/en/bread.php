@@ -17,7 +17,6 @@ return [
     'force_delete_type'             => 'Force delete one :type|Force delete :num :types',
     'no_layout_assigned'            => 'There is no layout assigned to action ":action"',
     'no_results'                    => 'No Results 😢',
-    'no_tab'                        => 'No tab',
     'order_by_field_asc'            => 'Order ascending by :field',
     'order_by_field_desc'           => 'Order descending by :field',
     'read_type'                     => 'Showing :type',

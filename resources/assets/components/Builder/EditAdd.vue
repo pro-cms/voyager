@@ -283,39 +283,10 @@
             />
 
             <template v-else-if="currentLayout && currentLayout.type == 'view'">
-                <Card no-header>
-                    <div class="flex flex-wrap space-x-1" v-click-outside="stopEditingTab">
-                        <div class="button" :class="currentTab === null ? 'accent' : null" @click="currentTab = null">
-                            {{ __('voyager::bread.no_tab') }}
-                        </div>
-                        <div
-                            v-for="(tab, i) in currentLayout.tabs"
-                            :key="`tab-${tab}`"
-                            class="button"
-                            :class="currentTab === i ? 'accent' : null"
-                            @dblclick.prevent.stop="currentEditingTab = i"
-                            @click="currentTab = i"
-                        >
-                            <template v-if="currentEditingTab === i">
-                                <LanguageInput v-model="currentLayout.tabs[i]" class="input small w-full" @keydown.enter="stopEditingTab" v-focus />
-                            </template>
-                            <div v-else class="inline-flex space-x-1 items-center">
-                                <span>{{ translate(tab) }}</span>
-                                <Icon icon="trash" @click.prevent.stop="removeTab(i)" no-transition />
-                            </div>
-                        </div>
-                        <div class="button" @click="currentLayout.tabs.push({}); currentEditingTab = currentLayout.tabs.length - 1">
-                            <Icon icon="plus" />
-                        </div>
-                    </div>
-                </Card>
                 <BreadBuilderView
                     :computed="computed"
                     :columns="columns"
                     :relationships="relationships"
-                    :tab="currentTab"
-                    :tabs="currentLayout.tabs"
-                    @update:formfield_tab="currentLayout.formfields[$event.key].tab = $event.tab"
                     v-model:formfields="currentLayout.formfields"
                     v-model:options="currentLayout.options"
                     v-on:delete="deleteFormfield($event)"
@@ -363,8 +334,6 @@ export default {
             focusMode: false,
             propsLoaded: false,
             errors: {},
-            currentTab: null,
-            currentEditingTab: null,
         };
     },
     methods: {
@@ -579,7 +548,6 @@ export default {
                     column: null,
                     type: null,
                 },
-                tab: this.currentTab,
                 translatable: false,
                 options: this.currentLayout.type == 'list' ? {} : options,
                 validation: [],
@@ -636,29 +604,6 @@ export default {
 
             return failed;
         },
-        removeTab(tab) {
-            this.currentLayout.tabs = this.currentLayout.tabs.filter((t, i) => {
-                return i !== tab;
-            });
-            this.currentLayout.formfields = this.currentLayout.formfields.map((formfield) => {
-                if (formfield.tab === tab) {
-                    formfield.tab = null;
-                }
-
-                return formfield;
-            });
-            if (this.currentTab === tab) {
-                this.currentTab = null;
-            }
-
-            this.currentEditingTab = null;
-        },
-        stopEditingTab() {
-            this.currentLayout.tabs = this.currentLayout.tabs.filter((tab) => {
-                return JSON.stringify(tab) !== '{}';
-            });
-            this.currentEditingTab = null;
-        }
     },
     computed: {
         views() {
