@@ -271,7 +271,7 @@
         <Card title="Toggle">
             <div class="flex w-full">
                 <Collapsible title="Default" :title-size="5" class="w-full">
-                    <Toggle v-model="toggle" />
+                    <Toggle v-model="toggle" :color="inputColor || 'accent'" />
                 </Collapsible>
             </div>
         </Card>
