@@ -17,34 +17,9 @@
                 </div>
             </template>
             <div>
-                <div class="tabs mb-4" v-if="!fromRepeater && layout.tabs.length > 0">
-                    <nav>
-                        <a
-                            v-if="layout.formfields.filter(x => x.tab === null).length > 0"
-                            href="#"
-                            class="tab"
-                            :class="{ 'active': currentTab === null }"
-                            @click.prevent="currentTab = null"
-                        >
-                            {{ __('voyager::bread.no_tab') }}
-                        </a>
-
-                        <a
-                            v-for="(tab, i) in layout.tabs"
-                            :key="`tab-${i}`"
-                            href="#"
-                            class="tab"
-                            :class="{ 'active': currentTab === i }"
-                            @click.prevent="currentTab = i"
-                        >
-                        {{ translate(tab, true) }}
-                        </a>
-                    </nav>
-                </div>
                 <div class="flex flex-wrap w-full">
                     <template v-for="(formfield, key) in layout.formfields" :key="'formfield-'+key">
                         <div
-                            v-if="formfield.tab === currentTab"
                             class="m-0 w-full"
                             :class="'md:' + formfield.options.width"
                             uses="md:w-1/6 md:w-2/6 md:w-3/6 md:w-4/6 md:w-5/6 md:w-full"
@@ -136,7 +111,6 @@ export default {
             errors: [],
             currentAction: this.action,
             id: this.primaryKey,
-            currentTab: null,
         };
     },
     methods: {
