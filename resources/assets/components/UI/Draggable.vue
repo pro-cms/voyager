@@ -2,7 +2,7 @@
     <component :is="tag" @dragover.prevent.stop>
         <transition-group name="draggable">
             <Item
-                v-for="item in items"
+                v-for="(item, i) in items"
                 :key="`item-${item[index]}`"
                 :item="item"
                 :index="index"
@@ -15,7 +15,7 @@
                 @onDragOver="onDragOver"
                 @dragenter.prevent
             >
-                <slot name="item" :item="item"></slot>
+                <slot name="item" :item="item" :index="i"></slot>
             </Item>
         </transition-group>
     </component>

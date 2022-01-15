@@ -24,7 +24,7 @@
                     index="uuid"
                     handle=".dd-handle"
                 >
-                    <template #item="{ item: formfield }">
+                    <template #item="{ item: formfield, index }">
                         <td class="hidden md:table-cell dd-handle cursor-move" v-tooltip="__('voyager::generic.move')">
                             <div class="h-5 w-5">
                                 <Icon icon="selector" />
@@ -280,6 +280,6 @@ export default {
 
             return null;
         }
-    }
+    },
 };
 </script>

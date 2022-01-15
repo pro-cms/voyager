@@ -623,6 +623,9 @@
     </Collapsible>
 
     <Collapsible title="Draggable" id="ui-draggable">
+        <template #actions>
+            <button @click="draggableShuffle" class="button">Shuffle</button>
+        </template>
         <Card title="Drag from everywhere">
             <Draggable v-model="draggable" class="w-full">
                 <template v-slot:item="{item}">
@@ -759,6 +762,9 @@ export default {
             return {
                 class: item.class,
             };
+        },
+        draggableShuffle() {
+            this.draggable.shuffle();
         }
     },
     mounted() {

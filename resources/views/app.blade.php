@@ -46,7 +46,7 @@
 @endif
 
 <script>
-createVoyager({!! json_encode(Voyager::getViewData()) !!});
+createVoyager(@json(Voyager::getViewData()));
 </script>
 
 @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)
