@@ -4,6 +4,7 @@ const { VueLoaderPlugin } = require('vue-loader');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = (env, options) => {
     process.env.NODE_ENV = options.mode;
@@ -30,10 +31,6 @@ module.exports = (env, options) => {
                 if (pathData.chunk.name) {
                     if (pathData.chunk.name.includes('Icon')) {
                         return `js/icons/${pathData.chunk.name.replace('Icon', '')}.js?ver=[chunkhash]`;
-                    } else if (pathData.chunk.name.startsWith('Bread')) {
-                        return 'js/bread/[name].js?ver=[chunkhash]';
-                    } else if (pathData.chunk.name.startsWith('Formfield')) {
-                        return 'js/formfields/[name].js?ver=[chunkhash]';
                     }
                 }
                 return 'js/chunks/[name].js?ver=[chunkhash]';
@@ -128,6 +125,12 @@ module.exports = (env, options) => {
             new webpack.DefinePlugin({
                 __VUE_OPTIONS_API__: true,
                 __VUE_PROD_DEVTOOLS__: false
+            }),
+            new CleanWebpackPlugin({
+                cleanOnceBeforeBuildPatterns: [
+                    '**/*',
+                    '!images/**',
+                ],
             })
         ],
     };

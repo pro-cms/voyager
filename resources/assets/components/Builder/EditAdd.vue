@@ -310,12 +310,15 @@ import focus from '@directives/focus';
 import clickOutside from '@directives/click-outside';
 import Store from '@/store';
 
+import BreadBuilderList from '@components/Builder/List';
+import BreadBuilderView from '@components/Builder/View';
+
 export default {
     directives: {focus: focus, clickOutside: clickOutside},
     props: ['data', 'isNew'],
     components: {
-        BreadBuilderList: defineAsyncComponent(() => import(/* webpackChunkName: "BreadBuilderList" */'@components/Builder/List')),
-        BreadBuilderView: defineAsyncComponent(() => import(/* webpackChunkName: "BreadBuilderView" */'@components/Builder/View')),
+        BreadBuilderList,
+        BreadBuilderView,
         Link
     },
     data() {
