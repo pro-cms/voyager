@@ -233,11 +233,24 @@ class MediaController extends Controller
         })->filter(function ($file) use ($exclude) {
             return !Str::contains(Str::lower($file['file']['url']), $exclude);
         })->transform(function ($file) use (&$thumbnails) {
+            $smallest = null;
             foreach ($thumbnails as $key => $thumb) {
                 if ($thumb['original'] == $file['file']['filename']) {
                     unset($thumbnails[$key]);
                     $file['file']['thumbnails'][] = $thumb;
+
+                    if ($smallest == null) {
+                        $smallest = $thumb;
+                    }
+
+                    if ($thumb['file']['size'] < $smallest['file']['size']) {
+                        $smallest = $thumb;
+                    }
                 }
+            }
+
+            if ($smallest !== null) {
+                $file['preview'] = $smallest['file']['url'];
             }
 
             return $file;

@@ -52,6 +52,7 @@ import FormfieldBuilderMixin from '@mixins/formfield-builder';
 
 // Directives
 import TooltipDirective from '@directives/tooltip';
+import LazyLoadDirective from '@directives/lazy-load';
 
 // Core modules
 import { Notification } from '@/notify';
@@ -87,6 +88,7 @@ function prepareVoyager(data: VoyagerData) {
     voyager.use(Multilanguage);
 
     voyager.directive('tooltip', TooltipDirective);
+    voyager.directive('lazy-load', LazyLoadDirective);
 
     voyager.mixin(MiscMixin);
     voyager.mixin(StringMixin);
