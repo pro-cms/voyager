@@ -1,11 +1,11 @@
 <template>
-    <div class="dropdown" v-click-outside="close" @keydown.esc="close">
+    <div class="dropdown text-left w-auto" v-click-outside="close" @keydown.esc="close">
         <div @click="tryOpen" ref="opener">
             <slot name="opener"></slot>
         </div>
         <FadeTransition @after-leave="destroyPopper">
-            <div class="wrapper" v-if="isOpen" @click="closeDropdown" ref="dropdown">
-                <div class="body">
+            <div class="wrapper rounded-md shadow-lg border z-50" v-if="isOpen" @click="closeDropdown" ref="dropdown">
+                <div class="body overflow-auto">
                     <slot></slot>
                 </div>
             </div>
@@ -97,7 +97,6 @@ export default {
 
         .body {
             .link {
-                @apply truncate;
                 @include border-color(dropdown-border-color-dark, 'colors.gray.700');
                 @include text-color(dropdown-link-color-dark, 'colors.blue.600');
 
@@ -118,20 +117,15 @@ export default {
 }
 
 .dropdown {
-    @apply text-left w-auto;
-
     .wrapper {
         @include bg-color(dropdown-bg-color, 'colors.white');
         @include border-color(dropdown-border-color, 'colors.gray.400');
-        @apply rounded-md shadow-lg border z-50;
 
         .body {
-            @apply overflow-auto;
-
             .link {
                 @include border-color(dropdown-border-color, 'colors.gray.400');
                 @include text-color(dropdown-link-color, 'colors.blue.600');
-                @apply block px-6 py-3 leading-tight cursor-pointer;
+                @apply block px-6 py-3 leading-tight cursor-pointer truncate;
 
                 &.active {
                     @include bg-color(dropdown-bg-color-dark, 'colors.gray.200');

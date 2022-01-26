@@ -21,10 +21,13 @@
 }
 
 .indeterminate {
-    @apply h-full w-full relative;
+    height: 100%;
+    width: 100%;
+    position: relative;
 
     .before {
-        @apply absolute h-full;
+        position: absolute;
+        height: 100%;
         content: '';
 
         -webkit-animation: indeterminate_first 1.5s ease-out infinite;
@@ -35,7 +38,8 @@
     }
 
     .after {
-        @apply absolute h-full;
+        position: absolute;
+        height: 100%;
         content: '';
 
         -webkit-animation: indeterminate_second 1.5s ease-in infinite;

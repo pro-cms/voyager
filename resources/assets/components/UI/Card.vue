@@ -1,6 +1,6 @@
 <template>
-<div class="card" :class="!hasBorder ? 'border-default' : null">
-    <div class="header" v-if="!noHeader">
+<div class="card shadow border rounded-lg p-4 mx-1 mb-4" :class="!hasBorder ? 'border-default' : null">
+    <div class="header p-2 pl-0" v-if="!noHeader">
         <div class="flex flex-wrap justify-between">
             <slot name="title">
                 <div class="flex space-x-2 items-center">
@@ -86,7 +86,6 @@ export default {
 }
 
 .card {
-    @apply shadow border rounded-lg p-4 mx-1 mb-4;
     @include bg-color(card-bg-color, 'colors.white');
     @include text-color(card-text-color, 'colors.gray.700');
 
@@ -94,7 +93,6 @@ export default {
         @include border-color(card-border-color, 'colors.gray.400');
     }
     .header {
-        @apply p-2 pl-0;
         @include border-color(card-border-color, 'colors.gray.400');
 
         h3 {

@@ -1,7 +1,7 @@
 <template>
     <div @keydown.esc="close" v-click-outside="close">
         <SlideLeftTransition>
-            <div v-if="isOpen" class="dark slidein text-white w-full" :class="'lg:w-1/3'">
+            <div v-if="isOpen" class="dark slidein text-white w-full fixed top-0 left-auto right-0 h-full overflow-y-auto p-8 z-50 block" :class="'lg:w-1/3'">
                 <div class="flex w-full mb-3">
                     <div class="flex-grow">
                         <h4>{{ title }}</h4>
@@ -66,7 +66,6 @@ export default {
 
 <style lang="scss" scoped>
 .slidein {
-    @apply fixed top-0 left-auto right-0 h-full overflow-y-auto p-8 z-50 block;
     background-color: rgba(0, 0, 0, .85);
     z-index: 100;
 }

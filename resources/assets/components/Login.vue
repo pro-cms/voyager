@@ -1,5 +1,5 @@
 <template>
-    <div class="login sm:px-6 lg:px-8">
+    <div class="login h-screen flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div class="header sm:mx-auto sm:w-full sm:max-w-md">
             <div class="justify-center flex text-center">
                 <Icon icon="helm" :size="16" class="icon" />
@@ -128,7 +128,6 @@ export default {
 
 .login {
     @include bg-color(login-bg-color, 'colors.gray.100');
-    @apply h-screen flex-col justify-center py-12;
     .header {
         h2 {
             @include text-color(login-heading-color, 'colors.gray.900');

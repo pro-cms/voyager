@@ -1,6 +1,6 @@
 <template>
 <div class="menuitem">
-    <div class="item" :class="[active ? 'active' : '']">
+    <div class="item flex items-center justify-between rounded-md font-medium mt-1 px-2 py-2" :class="[active ? 'active' : '']">
         <div class="inline-flex items-center w-full">
             <Link :href="href" class="text-sm leading-5 link inline-flex items-center space-x-2 w-full" @click="clickItem">
                 <Icon v-if="icon !== '' && icon !== null" :icon="icon" class="icon" :size="iconSize" />
@@ -96,23 +96,11 @@ export default {
 <style lang="scss" scoped>
 @import "@sassmixins/text-color";
 
-.dark {
-    .menuitem {
-        .item {
-            .badge {
-                @include text-color(badge-text-color-dark, 'colors.white');
-            }
-        }
-    }
+.dark .menuitem .item .badge {
+    @include text-color(badge-text-color-dark, 'colors.white');
 }
 
-.menuitem {
-    .item {
-        @apply flex items-center justify-between rounded-md font-medium mt-1 px-2 py-2;
-
-        .badge {
-            @include text-color(badge-text-color, 'colors.white');
-        }
-    }
+.menuitem .item .badge {
+    @include text-color(badge-text-color, 'colors.white');
 }
 </style>

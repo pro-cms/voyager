@@ -19,12 +19,12 @@
                     v-if="range"
                 >
 
-                <div class="slider">
-                    <div class="track"></div>
-                    <div class="distance" :class="`bg-${color}-500`" :style="`right:${upperPos}%; left:${lowerPos}%`" v-if="range"></div>
-                    <div class="distance" :class="`bg-${color}-500`" :style="`left:0%; width: ${lowerPos}%`" v-else></div>
-                    <div class="thumb -ml-1" :class="`bg-${color}-500`" :style="`left: ${lowerPos}%`"></div>
-                    <div class="thumb -mr-3" :class="`bg-${color}-500`" :style="`right: ${upperPos}%`" v-if="range"></div>
+                <div class="slider relative z-10 h-2">
+                    <div class="track absolute z-10 left-0 right-0 bottom-0 top-0 rounded-md"></div>
+                    <div class="distance absolute z-20 top-0 bottom-0 rounded-md" :class="`bg-${color}-500`" :style="`right:${upperPos}%; left:${lowerPos}%`" v-if="range"></div>
+                    <div class="distance absolute z-20 top-0 bottom-0 rounded-md" :class="`bg-${color}-500`" :style="`left:0%; width: ${lowerPos}%`" v-else></div>
+                    <div class="thumb -ml-1 absolute z-30 w-6 h-6 top-0 right-0 rounded-full -mt-2" :class="`bg-${color}-500`" :style="`left: ${lowerPos}%`"></div>
+                    <div class="thumb -mr-3 absolute z-30 w-6 h-6 top-0 right-0 rounded-full -mt-2" :class="`bg-${color}-500`" :style="`right: ${upperPos}%`" v-if="range"></div>
                 </div>
             </div>
 
@@ -122,7 +122,6 @@ export default {
 @import "@sassmixins/bg-color";
 
 input[type=range] {
-    @apply w-full;
     @apply appearance-none opacity-0;
 
     &::-webkit-slider-thumb {
@@ -141,26 +140,11 @@ input[type=range] {
     }
 }
 
-.dark .slider {
-    .track {
-        @include bg-color(slider-track-color-dark, 'colors.gray.600');
-    }
+.dark .slider .track {
+    @include bg-color(slider-track-color-dark, 'colors.gray.600');
 }
 
-.slider {
-    @apply relative z-10 h-2;
-
-    .track {
-        @apply absolute z-10 left-0 right-0 bottom-0 top-0 rounded-md;
-        @include bg-color(slider-track-color, 'colors.gray.200');
-    }
-
-    .distance {
-        @apply absolute z-20 top-0 bottom-0 rounded-md;
-    }
-
-    .thumb {
-        @apply absolute z-30 w-6 h-6 top-0 right-0 rounded-full -mt-2;
-    }
+.slider .track {
+    @include bg-color(slider-track-color, 'colors.gray.200');
 }
 </style> 
