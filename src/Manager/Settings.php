@@ -131,7 +131,7 @@ class Settings
 
         // Remove UUID from settings
         foreach ($content as $key => $setting) {
-            if (array_key_exists('uuid', $setting)) {
+            if (is_array($setting) && array_key_exists('uuid', $setting)) {
                 unset($content[$key]['uuid']);
             }
         }
