@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        laravel: [8.*]
+        laravel: [9.*]
         php: [8.0, 8.1]
 
     steps:
