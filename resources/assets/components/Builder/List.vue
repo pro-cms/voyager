@@ -19,8 +19,7 @@
                 <Draggable
                     tag="tbody"
                     itemTag="tr"
-                    :modelValue="formfields"
-                    @update:modelValue="$emit('update:formfields', JSON.parse(JSON.stringify($event)))"
+                    v-model="formfields"
                     index="uuid"
                     handle=".dd-handle"
                 >
@@ -138,7 +137,7 @@
                                     </button>
                                 </template>
                             </SlideIn>
-                            <button class="button" @click="$emit('delete', key)">
+                            <button class="button" @click="$emit('delete', index)">
                                 <Icon icon="trash" class="text-red-500" />
                                 <span>{{ __('voyager::generic.delete') }}</span>
                             </button>

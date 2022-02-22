@@ -627,9 +627,13 @@ export default {
             return this.bread.layouts.filter((layout, key) => {
                 if (layout.name == this.currentLayoutName) {
                     layout.formfields.map((formfield) => {
-                        formfield.uuid = uuidv4();
+                        if (formfield.uuid == '' || formfield.uuid == null) {
+                            formfield.uuid = uuidv4();
+                        }
                     });
-                    layout.uuid = uuidv4();
+                    if (layout.uuid == '' || layout.uuid == null) {
+                        layout.uuid = uuidv4();
+                    }
                     this.pushToUrlHistory(this.addParameterToUrl('layout', key));
 
                     return true;

@@ -16,7 +16,7 @@
 import debounce from 'debounce';
 
 export default {
-    emits: ['onDragOver', 'onDragStart', 'onDragEnd'],
+    emits: ['onDragOver', 'onDragStart', 'onDragEnd', 'update:item'],
     props: {
         item: {
             type: Object,
@@ -81,6 +81,10 @@ export default {
         } else {
             this.makeDraggable();
         }
+
+        this.$watch(() => this.item, () => {
+            this.$emit('update:item', this.item);
+        }, { deep: true });
     },
     unmounted() {
         if (this.handle !== null) {

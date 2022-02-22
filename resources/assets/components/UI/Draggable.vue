@@ -2,9 +2,10 @@
     <component :is="tag" @dragover.prevent.stop>
         <transition-group name="draggable">
             <Item
-                v-for="(item, i) in items"
+                v-for="(item, i) in modelValue"
                 :key="`item-${item[index]}`"
                 :item="item"
+                @update:item="$emit('update:modelValue', items)"
                 :index="index"
                 :handle="handle"
                 :tag="itemTag"
@@ -63,8 +64,9 @@ export default {
     },
     data() {
         return {
-            items: [],
+            items: this.modelValue,
             draggingIndex: null,
+            dontEmit: true,
         };
     },
     methods: {
@@ -73,21 +75,17 @@ export default {
         },
         onDragEnd(id) {
             this.draggingIndex = null;
-            this.$emit('update:modelValue', this.items);
         },
         onDragOver(id) {
-            let to = this.items.indexOfProp(this.index, id);
-            let from = this.items.indexOfProp(this.index, this.draggingIndex);
+            let items = this.modelValue;
+            let to = items.indexOfProp(this.index, id);
+            let from = items.indexOfProp(this.index, this.draggingIndex);
 
             if (to != undefined && from != undefined && to !== from) {
-                this.items.move(from, to);
+                items.move(from, to);
+                this.$emit('update:modelValue', items);
             }
         },
-    },
-    mounted() {
-        this.$watch(() => this.modelValue, () => {
-            this.items = JSON.parse(JSON.stringify(this.modelValue));
-        }, { immediate: true, deep: true });
     },
     computed: {
         transitionStyle() {

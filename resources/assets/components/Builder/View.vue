@@ -2,13 +2,12 @@
     <div>
         <Draggable
             class="flex flex-wrap w-full min-h-64"
-            :modelValue="formfields"
-            @update:modelValue="$emit('update:formfields', JSON.parse(JSON.stringify($event)))"
+            v-model="formfields"
             index="uuid"
             handle=".dd-handle"
             :itemAttrs="formfieldAttributes"
         >
-            <template #item="{ item: formfield }" class="m-0" :class="formfield.options.width">
+            <template #item="{ item: formfield, index }" class="m-0" :class="formfield.options.width">
                 <div uses="w-1/6 w-2/6 w-3/6 w-4/6 w-5/6 w-full">
                     <Card :title="translate(formfield.options.title) || ''" :title-size="5">
                         <template #actions>
@@ -112,7 +111,7 @@
                                         </button>
                                     </template>
                                 </SlideIn>
-                                <button class="button small" @click="$emit('delete', key)">
+                                <button class="button small" @click="$emit('delete', index)">
                                     <Icon icon="trash" class="text-red-500" />
                                 </button>
                             </div>
