@@ -3,7 +3,7 @@
 namespace Voyager\Admin\Tests\Unit;
 
 use Illuminate\Support\Facades\Auth;
-use Inertia\Testing\Assert;
+use Inertia\Testing\AssertableInertia;
 use Voyager\Admin\Tests\Unit\TestCase;
 
 class AuthTest extends TestCase
@@ -28,7 +28,7 @@ class AuthTest extends TestCase
         $this->postJson(route('voyager.login'), [
             'email'     => 'user@user.com',
             'password'  => 'wrong',
-        ])->assertInertia(function (Assert $page) {
+        ])->assertInertia(function (AssertableInertia  $page) {
             $page->has('errors', 1)
             ->where('errors.0', __('voyager::auth.login_failed'));
         });
@@ -37,7 +37,7 @@ class AuthTest extends TestCase
     public function test_can_not_login_without_credentials()
     {
         $this->postJson(route('voyager.login'), [
-        ])->assertInertia(function (Assert $page) {
+        ])->assertInertia(function (AssertableInertia  $page) {
             $page->has('errors', 1)
                  ->where('errors.0', __('voyager::auth.error_field_empty'));
         });
