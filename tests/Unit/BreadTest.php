@@ -67,9 +67,7 @@ class BreadTest extends TestCase
             'primary' => $user->getKey(),
         ])
         ->assertStatus(200);
-        $this->assertDeleted('users', [
-            'id'      => $user->getKey(),
-        ]);
+        $this->assertModelMissing($user);
     }
 
     private function getUsersBreadJson()
