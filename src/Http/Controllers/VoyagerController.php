@@ -94,35 +94,33 @@ class VoyagerController extends Controller
     public function globalSearch(Request $request): ?array
     {
         $q = $request->get('query');
-        $bread = $this->breadmanager->getBread($request->get('bread'));
-        if ($bread instanceof Bread && !empty($bread->global_search_field)) {
-            $layouts = $this->breadmanager->getLayoutsForAction($bread, 'browse');
-            if ($layouts->count() > 0) {
-                $layout = $this->breadmanager->getLayoutForAction($bread, 'browse');
-                $query = $bread->getModel()->select();
-                // TODO: This can be removed when the global search allows querying relationships
-                if ($layout->searchableFormfields()->where('column.type', 'column')->count() == 0) {
-                    return null;
-                }
-                $query = $this->globalSearchQuery($q, $layout, VoyagerFacade::getLocale(), $query);
-                $count = $query->count();
-                $bread_results = $query->take(3)->get();
-                if (count($bread_results) > 0) {
-                    return [
-                        'count'     => $count,
-                        'results'   => $bread_results->mapWithKeys(function ($result) use ($bread) {
-                            return [$result->getKey() => $result->{$bread->global_search_field}];
-                        }),
-                        'loading'   => false,
-                    ];
+        $results = [];
+        $this->breadmanager->getBreads()->each(function ($bread) use ($q, &$results) {
+            if ($bread instanceof Bread && !empty($bread->global_search_field)) {
+                $layouts = $this->breadmanager->getLayoutsForAction($bread, 'browse');
+                if ($layouts->count() > 0) {
+                    $layout = $this->breadmanager->getLayoutForAction($bread, 'browse');
+                    $query = $bread->getModel()->select();
+                    // TODO: This can be removed when the global search allows querying relationships
+                    if ($layout->searchableFormfields()->where('column.type', 'column')->count() == 0) {
+                        return null;
+                    }
+                    $query = $this->globalSearchQuery($q, $layout, VoyagerFacade::getLocale(), $query);
+                    $count = $query->count();
+                    $bread_results = $query->take(3)->get();
+                    if (count($bread_results) > 0) {
+                        $results[$bread->table] = [
+                            'count'     => $count,
+                            'results'   => $bread_results->mapWithKeys(function ($result) use ($bread) {
+                                return [$result->getKey() => $result->{$bread->global_search_field}];
+                            })
+                        ];
+                    }
                 }
             }
-        }
+        });
 
-        return [
-            'count'     => 0,
-            'results'   => [],
-        ];
+        return $results;
     }
 
     public function getDisks(Request $request): \Illuminate\Http\JsonResponse

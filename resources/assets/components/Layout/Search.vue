@@ -95,29 +95,19 @@ export default {
             }
 
             this.loading = true;
-            Object.values(Store.breads).filter((bread) => {
-                // TODO: Check if user can browse this BREAD
-                return bread.global_search_field !== null;
-            }).forEach((bread) => {
-                Store.pageLoading = true;
-                this.searchResults[bread.table] = {
-                    loading: true,
-                };
-                axios.post(this.route('voyager.globalsearch'), {
-                    query: this.query,
-                    bread: bread.table
-                })
-                .then((response) => {
-                    this.searchResults[bread.table] = response.data;
-                })
-                .catch((response) => {})
-                .then(() => {
-                    this.loading = false;
-                    Store.pageLoading = false;
-                });
+            Store.pageLoading = true;
+            axios.post(this.route('voyager.globalsearch'), {
+                query: this.query,
+            })
+            .then((response) => {
+                this.searchResults = response.data;
+                console.log(response.data);
+            })
+            .catch((response) => {})
+            .then(() => {
+                this.loading = false;
+                Store.pageLoading = false;
             });
-            
-            
         }, 250),
         moreUrl(table) {
             var bread = this.getBreadByTable(table);

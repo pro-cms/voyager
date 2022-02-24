@@ -14,9 +14,9 @@ import { marked } from 'marked';
 const alerts = {
     name: 'alerts',
     level: 'inline',
-    start(src) { return src.match(/{% hint/)?.index; },
+    start(src) { return src.match(/:::/)?.index; },
     tokenizer(src, tokens) {
-        const rule = /{% hint style=\"(.*)\" %}(.*){% endhint %}/gmis;
+        const rule = /::: (info|warning)(.*):::/gmis;
         const match = rule.exec(src);
         if (match) {
             return {

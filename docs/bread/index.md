@@ -26,6 +26,11 @@ The global search field is the field which is shown in the search for this BREAD
 For a users BREAD you might want to display the name for example.  
 Select `None` to exclude this BREAD from the global search.
 
+::: warning
+Not seeing your BREAD in the search results?  
+Make sure at least one field is `searchable` in a list that is accessible by your users.
+:::
+
 ## Storage path
 
 By default, BREADs are stored under `storage/voyager/breads`.  
