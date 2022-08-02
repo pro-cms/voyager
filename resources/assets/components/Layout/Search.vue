@@ -101,7 +101,6 @@ export default {
             })
             .then((response) => {
                 this.searchResults = response.data;
-                console.log(response.data);
             })
             .catch((response) => {})
             .then(() => {

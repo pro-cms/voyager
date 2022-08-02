@@ -84,7 +84,6 @@ export default {
         },
         upperPos() {
             if (!this.range) {
-                console.log(this.lowerPos);
                 return 0;
             }
 
