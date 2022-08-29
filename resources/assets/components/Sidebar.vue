@@ -8,7 +8,7 @@
             <div class="flex-1 flex flex-col max-w-xs w-full sidebar" @click.stop="">
                 <div class="absolute top-0 right-0 p-1">
                     <button @click="toggleSidebar()" class="flex items-center justify-center h-12 w-12 rounded-full">
-                        <Icon icon="x" />
+                        <Icon icon="x-mark" />
                     </button>
                 </div>
                 <div class="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
@@ -66,7 +66,7 @@
                         <Icon icon="chevron-up" />
                     </button>
                     <button class="button accent small" @click="toggleDirection()" :aria-label="__('voyager::generic.toggle_direction')" v-tooltip:top-start="__('voyager::generic.toggle_direction')">
-                        <Icon icon="switch-horizontal" />
+                        <Icon icon="arrows-right-left" />
                     </button>
                 </div>
             </div>

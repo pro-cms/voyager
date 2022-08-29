@@ -2,7 +2,7 @@
     <div class="flex">
         <Card
             v-for="(widget, i) in widgets"
-            :key="'widget-'+i"
+            :key="String(`widget-${i}`)"
             :no-header="((widget.title || widget.icon) ? false : true)"
             :title="widget.title"
             :icon="widget.icon"

@@ -9,7 +9,7 @@ use ImageOptimizer;
 use Inertia\Response as InertiaResponse;
 use Intervention\Image\Facades\Image as Intervention;
 use League\Flysystem\Plugin\ListWith;
-use League\Flysystem\Util;
+use League\Flysystem\WhitespacePathNormalizer;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Contracts\Plugins\Features\Filter\Media as MediaFilter;
 use Voyager\Admin\Manager\Plugins;
@@ -191,38 +191,57 @@ class MediaController extends Controller
         $exclude = VoyagerFacade::setting('media.exclude', []);
         $thumbnails = [];
         $storage = Storage::disk($this->disk);
-        $path = Util::normalizePath($this->path.$request->get('path', ''));
-        $files = collect($storage->addPlugin(new ListWith())->listWith(['mimetype'], $path))->transform(function ($file) use ($storage, $path, $thumbnail_names, &$thumbnails, $hide_thumbnails) {
-            $relative = Str::finish(str_replace('\\', '/', $file['dirname']), '/');
+        $normalizer = new WhitespacePathNormalizer();
+        $path = $normalizer->normalizePath($this->path.$request->get('path', ''));
+        $files = collect($storage->listContents($path))->transform(function ($file) use ($storage, $thumbnail_names, &$thumbnails, $hide_thumbnails) {
+            $relative = Str::finish(str_replace('\\', '/', $file['path']), '/');
 
-            $f = [
-                'is_upload' => false,
-                'file'      => [
-                    'type'          => $file['type'] == 'dir' ? 'directory' : $file['mimetype'],
-                    'name'          => $file['basename'],
-                    'filename'      => $file['filename'],
-                    'relative_path' => $relative,
-                    'size'          => $file['size'] ?? 0,
-                    'url'           => $storage->url($file['path']),
-                    'disk'          => $this->disk,
-                    'thumbnails'    => [],
-                ],
-            ];
+            if ($file instanceof \League\Flysystem\DirectoryAttributes) {
+                $f = [
+                    'is_upload' => false,
+                    'file'      => [
+                        'type'          => 'directory',
+                        'name'          => $file['path'],
+                        'filename'      => $file['path'],
+                        'relative_path' => $relative,
+                        'size'          => 0,
+                        'url'           => $storage->url($file['path']),
+                        'disk'          => $this->disk,
+                        'thumbnails'    => [],
+                    ],
+                ];
+            } else {
+                $basename = pathinfo($file['path'], PATHINFO_BASENAME);
+                $f = [
+                    'is_upload' => false,
+                    'file'      => [
+                        'type'          => $storage->mimeType($file['path']),
+                        'name'          => $basename,
+                        'filename'      => $file['path'],
+                        'relative_path' => $relative,
+                        'size'          => $storage->fileSize($file['path']),
+                        'url'           => $storage->url($file['path']),
+                        'disk'          => $this->disk,
+                        'thumbnails'    => [],
+                    ],
+                ];
 
-            foreach ($thumbnail_names as $thumb) {
-                if (Str::endsWith($file['filename'], $thumb)) {
-                    $original = str_replace($thumb, '', $file['filename']);
-                    if (Str::startsWith($thumb, '_')) {
-                        $thumb = substr($thumb, 1);
-                    }
-                    $thumbnails[] = [
-                        'thumbnail' => $thumb,
-                        'original'  => $original,
-                        'file'      => $f['file'],
-                    ];
-
-                    if ($hide_thumbnails) {
-                        return null;
+                foreach ($thumbnail_names as $thumb) {
+                    if (Str::endsWith(pathinfo($basename, PATHINFO_FILENAME), $thumb)) {
+                        $original = str_replace($thumb, '', pathinfo($basename, PATHINFO_FILENAME));
+                        if (Str::startsWith($thumb, '_')) {
+                            $thumb = substr($thumb, 1);
+                        }
+                        $thumbnails[] = [
+                            'thumbnail' => $thumb,
+                            'original'  => $original,
+                            'file'      => $f['file'],
+                        ];
+    
+                        if ($hide_thumbnails) {
+                            debug("Yeah");
+                            return null;
+                        }
                     }
                 }
             }

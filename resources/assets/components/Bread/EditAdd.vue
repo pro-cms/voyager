@@ -63,7 +63,7 @@
                     </template>
                 </div>
                 <button class="button green space-x-0" @click="save" :disabled="isSaving" v-if="!fromRepeater">
-                    <Icon icon="refresh" class="animate-spin-reverse" :size="isSaving ? 4 : 0" :transition-size="4" />
+                    <Icon icon="arrow-path" class="animate-spin-reverse" :size="isSaving ? 4 : 0" :transition-size="4" />
                     <span>{{ __('voyager::generic.save') }}</span>
                 </button>
             </div>

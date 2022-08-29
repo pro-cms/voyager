@@ -1,5 +1,5 @@
 <template>
-    <Card :title="__('voyager::plugins.plugins')" icon="puzzle">
+    <Card :title="__('voyager::plugins.plugins')" icon="puzzle-piece">
         <template #actions>
             <div class="flex items-center space-x-2">
                 <input
@@ -11,12 +11,12 @@
                     @keydown.esc="installed.query = ''"
                 >
                 <button class="button space-x-1" @click="reload" :disabled="store.pageLoading">
-                    <Icon icon="refresh" class="animate-spin-reverse" :size="store.pageLoading ? 4 : 0" :transition-size="4" />
+                    <Icon icon="arrow-path" class="animate-spin-reverse" :size="store.pageLoading ? 4 : 0" :transition-size="4" />
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
                 
                 <button class="button" @click="checkUpdates">{{ __('voyager::plugins.check_for_updates') }}</button>
-                <Modal ref="search_plugin_modal" :title="__('voyager::plugins.plugins')" icon="puzzle" v-on:closed="available.query = ''">
+                <Modal ref="search_plugin_modal" :title="__('voyager::plugins.plugins')" icon="puzzle-piece" v-on:closed="available.query = ''">
                     <input
                         type="text"
                         class="input w-full mb-3"
@@ -32,8 +32,8 @@
                             <div class="w-3/5">
                                 <div class="w-full inline-flex space-x-2">
                                     <h5>{{ translate(plugin.name) }}</h5>
-                                    <Badge icon="download">{{ plugin.downloads }}</Badge>
-                                    <Badge icon="thumb-up">{{ plugin.favers }}</Badge>
+                                    <Badge icon="folder-arrow-down">{{ plugin.downloads }}</Badge>
+                                    <Badge icon="hand-thumb-up">{{ plugin.favers }}</Badge>
                                 </div>
                                 <p>{{ translate(plugin.description) }}</p>
                                 <div class="w-full inline-flex space-x-1.5">
@@ -64,7 +64,7 @@
                     </div>
                     <template #opener>
                         <button class="button">
-                            <Icon icon="search" :size="4" />
+                            <Icon icon="magnifying-glass" :size="4" />
                             <span>{{ __('voyager::plugins.search_plugins') }}</span>
                         </button>
                     </template>
@@ -109,7 +109,7 @@
                 <Badge
                     v-for="(type, i) in installedTypes"
                     :key="i" :color="getPluginTypeColor(type)"
-                    :icon="installed.currentType == type ? 'x' : null"
+                    :icon="installed.currentType == type ? 'x-mark' : null"
                     @click="setTypeFilter(type)"
                 >
                     {{ __('voyager::plugins.types.'+type) }}
@@ -119,14 +119,14 @@
                 <Badge
                     color="green"
                     @click="installed.onlyEnabled === true ? installed.onlyEnabled = null : installed.onlyEnabled = true"
-                    :icon="installed.onlyEnabled === true ? 'x' : null"
+                    :icon="installed.onlyEnabled === true ? 'x-mark' : null"
                 >
                     {{ __('voyager::plugins.only_enabled') }}
                 </Badge>
                 <Badge
                     color="red"
                     @click="installed.onlyEnabled === false ? installed.onlyEnabled = null : installed.onlyEnabled = false"
-                    :icon="installed.onlyEnabled === false ? 'x' : null"
+                    :icon="installed.onlyEnabled === false ? 'x-mark' : null"
                 >
                     {{ __('voyager::plugins.only_disabled') }}
                 </Badge>
@@ -202,7 +202,7 @@
                             <td>{{ plugin.loading_time }}ms</td>
                             <td class="w-full inline-flex space-x-1 justify-end">
                                 <a class="button small" v-if="plugin.website" :href="translate(plugin.website)" target="_blank">
-                                    <Icon icon="globe" />
+                                    <Icon icon="globe-alt" />
                                     {{ __('voyager::generic.website') }}
                                 </a>
                                 

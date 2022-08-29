@@ -1,5 +1,5 @@
 <template>
-    <Card :title="__('voyager::generic.media')" icon="photograph">
+    <Card :title="__('voyager::generic.media')" icon="photo">
         <div class="mt-4">
             <MediaManager
                 :upload-url="uploadUrl"

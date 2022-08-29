@@ -439,7 +439,7 @@
                         :color="color"
                         class="my-1"
                         :key="'badge-' + color"
-                        icon="x"
+                        icon="x-mark"
                     >{{ __('voyager::generic.color_names.' + color) }}</Badge>
                 </div>
             </Collapsible>

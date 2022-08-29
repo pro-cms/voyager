@@ -12,11 +12,11 @@
                     <span>{{ __('voyager::media.select_upload_files') }}</span>
                 </button>
                 <button class="button accent small space-x-0" @click="loadFiles()" :disabled="store.pageLoading">
-                    <Icon icon="refresh" class="animate-spin-reverse" :size="store.pageLoading ? 5 : 0" :transition-size="5" />
+                    <Icon icon="arrow-path" class="animate-spin-reverse" :size="store.pageLoading ? 5 : 0" :transition-size="5" />
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
                 <button class="button accent small" @click="createFolder()">
-                    <Icon icon="folder-add" />
+                    <Icon icon="folder-plus" />
                     <span>{{ __('voyager::media.create_folder') }}</span>
                 </button>
                 <button class="button red small" @click="deleteSelected()" v-if="selectedFiles.length > 0">
@@ -24,7 +24,7 @@
                     <span>{{ trans_choice('voyager::media.delete_files', selectedFiles.length) }}</span>
                 </button>
                 <button class="button accent small" v-show="selectedFiles.length > 0" @click="downloadFiles()">
-                    <Icon icon="download" />
+                    <Icon icon="arrow-down-tray" />
                     <span>{{ trans_choice('voyager::media.download_files', selectedFiles.length) }}</span>
                 </button>
                 <button class="button accent small" @click="thumbSizeUp()">
@@ -91,7 +91,7 @@
                                     </div>
                                     <div class="flex items-end justify-end flex-grow">
                                         <button @click.stop="deleteUpload(file)" v-if="file.is_upload">
-                                            <Icon icon="x" :size="4" />
+                                            <Icon icon="x-mark" :size="4" />
                                         </button>
                                     </div>
                                 </div>

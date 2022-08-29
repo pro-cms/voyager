@@ -2,7 +2,7 @@
     <div class="input flex flex-wrap space-x-1" @click="$refs.input.focus()">
         <component :is="false ? 'draggable' : 'span'" v-model="tags" class="flex flex-wrap" item-key="">
             <template v-for="tag in tags" :key="tag">
-                <Badge :color="badgeColor" icon="x" @click-icon="removeTag(tag)" class="mt-1 ml-1" :class="[!noReorder ? 'cursor-move' : '']">
+                <Badge :color="badgeColor" icon="x-mark" @click-icon="removeTag(tag)" class="mt-1 ml-1" :class="[!noReorder ? 'cursor-move' : '']">
                     {{ tag }}
                 </Badge>
             </template>

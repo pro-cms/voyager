@@ -8,7 +8,7 @@
             <div class="flex space-x-1 items-center">
                 <input type="text" class="input small" @dblclick="query = ''" @keydown.esc="query = ''" v-model="query" :placeholder="__('voyager::settings.search_settings')">
                 <button class="button space-x-0" @click="save" :disabled="savingSettings">
-                    <Icon icon="refresh" class="animate-spin-reverse text-accent-500" :size="savingSettings ? 4 : 0" :transition-size="4" />
+                    <Icon icon="arrow-path" class="animate-spin-reverse text-accent-500" :size="savingSettings ? 4 : 0" :transition-size="4" />
                     <span>{{ __('voyager::generic.save') }}</span>
                 </button>
                 <Dropdown placement="bottom-end">
@@ -48,7 +48,7 @@
             <Badge
                 v-for="group in groups"
                 @click="setCurrentGroup(group)"
-                :icon="currentGroup == group ? 'x' : null"
+                :icon="currentGroup == group ? 'x-mark' : null"
                 :color="badgeColor(group)"
                 :key="group"
             >
@@ -99,7 +99,7 @@
                             </button>
 
                             <button class="button small" @click="cloneSetting(setting)" v-tooltip="__('voyager::settings.clone')">
-                                <Icon icon="duplicate" />
+                                <Icon icon="document-duplicate" />
                             </button>
 
                             <SlideIn :title="__('voyager::generic.options')">
@@ -124,7 +124,7 @@
                             </SlideIn>
 
                             <button class="button small dd-handle cursor-move" v-tooltip="__('voyager::generic.move')">
-                                <Icon icon="switch-vertical" />
+                                <Icon icon="arrows-up-down" />
                             </button>
 
                             <button class="button small" @click="deleteSetting(setting)" v-tooltip="__('voyager::generic.delete')">

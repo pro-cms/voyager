@@ -58,7 +58,7 @@
                     </div>
                     <div class="ml-4 flex-shrink-0 flex">
                         <button @click="close(notification)" class="inline-flex text-gray-400 focus:outline-none" :aria-label="__('voyager::generic.close')">
-                            <Icon icon="x" />
+                            <Icon icon="x-mark" />
                         </button>
                     </div>
                 </div>

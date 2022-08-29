@@ -11,7 +11,7 @@
                         <template #actions class="inline-flex">
                             <slot name="actions"></slot>
                             <button  @click="close()" class="h-5 w-5">
-                                <Icon icon="x" />
+                                <Icon icon="x-mark" />
                             </button>
                         </template>
                         <slot></slot>

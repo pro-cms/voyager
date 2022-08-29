@@ -6,7 +6,7 @@
         </Alert>
         <template v-else>
             <div class="flex-wrap space-x-1 space-y-1">
-                <Badge v-for="select in selected" :key="`badge-${select.key}`" @clickIcon="handleInput(select, false)" icon="x">
+                <Badge v-for="select in selected" :key="`badge-${select.key}`" @clickIcon="handleInput(select, false)" icon="x-mark">
                     {{ select.value }}
                 </Badge>
                 

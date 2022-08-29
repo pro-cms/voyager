@@ -3,7 +3,7 @@
         <template #actions>
             <div class="flex flex-wrap items-center space-x-1">
                 <button class="button space-x-1" @click="reload" :disabled="store.pageLoading">
-                    <Icon icon="refresh" class="animate-spin-reverse" :size="store.pageLoading ? 4 : 0" :transition-size="4" />
+                    <Icon icon="arrow-path" class="animate-spin-reverse" :size="store.pageLoading ? 4 : 0" :transition-size="4" />
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
                 <LocalePicker />
@@ -47,7 +47,7 @@
                         <td class="flex flex-no-wrap justify-end space-x-1">
                             <template v-if="hasBread(table)">
                                 <Link class="button" :href="route('voyager.'+translate(getBread(table).slug, true)+'.browse')">
-                                    <Icon icon="globe" :size="4" class="text-accent-500" />
+                                    <Icon icon="globe-alt" :size="4" class="text-accent-500" />
                                     <span>{{ __('voyager::generic.browse') }}</span>
                                 </Link>
                                 <button class="button" @click="backupBread(table)">
@@ -76,7 +76,7 @@
                                     <span>{{ __('voyager::generic.edit') }}</span>
                                 </Link>
                                 <button class="button" @click="deleteBread(table)">
-                                    <Icon :icon="deleting ? 'refresh' : 'trash'" class="text-red-500" :class="[deleting ? 'animate-spin-reverse' : '']" :size="4" />
+                                    <Icon :icon="deleting ? 'arrow-path' : 'trash'" class="text-red-500" :class="[deleting ? 'animate-spin-reverse' : '']" :size="4" />
                                     <span>{{ __('voyager::generic.delete') }}</span>
                                 </button>
                             </template>

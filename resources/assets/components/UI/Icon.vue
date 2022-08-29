@@ -35,7 +35,7 @@ export default {
 
             console.warn(`Icon "${this.icon}" does not exist!`);
 
-            return 'X';
+            return 'XMark';
         },
         classes() {
             return (this.$props.class || '') + ` ${this.noTransition ? null : 'transition-all duration-500'} h-${this.currentSize} w-${this.size}`;

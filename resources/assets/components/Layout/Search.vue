@@ -1,6 +1,6 @@
 <template>
     <div class="w-full" @keydown.esc="search('')">
-        <Modal ref="results_modal" :title="placeholder" icon="search" @closed="query = ''">
+        <Modal ref="results_modal" :title="placeholder" icon="magnifying-glass" @closed="query = ''">
             <div>
                 <input
                     autocomplete="off"

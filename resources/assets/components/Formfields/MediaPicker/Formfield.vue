@@ -42,7 +42,7 @@
                                     </div>
                                     <div class="flex-grow-0">
                                         <button @click.stop="removeFile(file)" class="h-5 w-5">
-                                            <Icon icon="x" :size="4" />
+                                            <Icon icon="x-mark" :size="4" />
                                         </button>
                                     </div>
                                 </div>

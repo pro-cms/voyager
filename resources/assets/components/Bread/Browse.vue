@@ -19,7 +19,7 @@
                     <option value="only">{{ __('voyager::bread.soft_delete_only') }}</option>
                 </select>
                 <button class="button small" @click.stop="load">
-                    <Icon icon="refresh" :class="[loading ? 'animate-spin-reverse' : '']" :size="4" />
+                    <Icon icon="arrow-path" :class="[loading ? 'animate-spin-reverse' : '']" :size="4" />
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
                 <BreadActions :actions="actions" bulk @reload="load" :selected="selectedEntries" :openInNewTab="fromRelationship" />
@@ -362,7 +362,7 @@ export default {
         isFilterSelected(filter) {
             var p_filter = this.parameters.filter;
             if (filter && p_filter && p_filter.column == filter.column && p_filter.operator == filter.operator && p_filter.value == filter.value) {
-                return 'x';
+                return 'x-mark';
             }
 
             return null;

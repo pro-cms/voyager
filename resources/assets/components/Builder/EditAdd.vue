@@ -8,7 +8,7 @@
                         <span>{{ __('voyager::generic.focus') }}</span>
                     </button>
                     <button class="button" @click="loadProperties" :disabled="!bread.model">
-                        <Icon icon="refresh" :size="4" :class="loadingProps ? 'animate-spin-reverse' : ''" />
+                        <Icon icon="arrow-path" :size="4" :class="loadingProps ? 'animate-spin-reverse' : ''" />
                         <span>{{ __('voyager::builder.reload_properties') }}</span>
                     </button>
                     <button class="button" @click="createModel" :disabled="creatingModel">
@@ -140,12 +140,12 @@
 
             <div class="inline-flex space-x-1">
                 <button class="button blue space-x-0" @click="save" :disabled="savingBread || backingUp">
-                    <Icon icon="refresh" class="animate-spin-reverse" :size="savingBread ? 4 : 0" :transition-size="4" />
+                    <Icon icon="arrow-path" class="animate-spin-reverse" :size="savingBread ? 4 : 0" :transition-size="4" />
                     <span>{{ __('voyager::generic.save') }}</span>
                 </button>
 
                 <button class="button space-x-0" @click="backupBread" :disabled="savingBread || backingUp">
-                    <Icon icon="refresh" class="animate-spin-reverse" :size="backingUp ? 4 : 0" :transition-size="4" />
+                    <Icon icon="arrow-path" class="animate-spin-reverse" :size="backingUp ? 4 : 0" :transition-size="4" />
                     <span>{{ __('voyager::generic.backup') }}</span>
                 </button>
             </div>
