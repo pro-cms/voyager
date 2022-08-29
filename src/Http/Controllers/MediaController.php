@@ -239,7 +239,6 @@ class MediaController extends Controller
                         ];
     
                         if ($hide_thumbnails) {
-                            debug("Yeah");
                             return null;
                         }
                     }

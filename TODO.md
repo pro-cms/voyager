@@ -16,6 +16,8 @@ Instead, they are listed here:
 - Multiple timeout notifications don't close properly (timeout bar disappears)
 - Make list filters draggable
 - Sanitize formfields where a column does not exist (anymore)
+- Improve media lightbox
+- Make thumbnail hiding work again
 
 ## Formfields testing
 
