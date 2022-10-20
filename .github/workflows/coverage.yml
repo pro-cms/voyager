@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@master
 
       # Configure PHP
       - name: Select PHP version
@@ -27,7 +27,7 @@ jobs:
           coverage: pcov
 
       # Configure NPM
-      - uses: actions/setup-node@main
+      - uses: actions/setup-node@v1
         with:
           node-version: '14.x'
       # Delete composer.lock
@@ -48,7 +48,7 @@ jobs:
 
       # Run phpunit tests to generate coverage report
       - name: Test & publish code coverage
-        uses: paambaati/codeclimate-action@main
+        uses: paambaati/codeclimate-action@v2.6.0
         env:
           CC_TEST_REPORTER_ID: d7ac50851610b4bfae417c6942bba6a399435943951ee9c1fb470ad29c94f0ed
         with:
