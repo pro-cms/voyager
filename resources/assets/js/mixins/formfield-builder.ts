@@ -26,6 +26,9 @@ export default defineComponent({
             type: Array,
             default: () => [],
         },
+        class: {
+            default: null
+        },
     },
     computed: {
         defaultListOptions() {

@@ -29,7 +29,6 @@ import '../sass/voyager.scss';
 window.slugify = slugify;
 window.Vue = Vue;
 window.axios = axios;
-window.scrollTo = scrollTo;
 window.debounce = debounce;
 window.eventbus = eventbus;
 

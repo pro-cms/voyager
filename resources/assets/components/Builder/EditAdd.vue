@@ -4,7 +4,7 @@
             <template #actions>
                 <div class="flex flex-wrap items-center space-x-1">
                     <button class="button" @click.stop="toggleFocusMode">
-                        <Icon icon="arrows-expand" :size="4" />
+                        <Icon icon="arrows-pointing-in" :size="4" />
                         <span>{{ __('voyager::generic.focus') }}</span>
                     </button>
                     <button class="button" @click="loadProperties" :disabled="!bread.model">
@@ -277,7 +277,7 @@
                 :computed="computed"
                 :columns="columns"
                 :relationships="relationships"
-                v-model:formfields="currentLayout.formfields"
+                v-model:formfields="currentFormfields"
                 v-model:options="currentLayout.options"
                 v-on:delete="deleteFormfield($event)"
             />
@@ -287,9 +287,12 @@
                     :computed="computed"
                     :columns="columns"
                     :relationships="relationships"
-                    v-model:formfields="currentLayout.formfields"
+                    :sizes="sizes"
+                    v-model:formfields="currentFormfields"
                     v-model:options="currentLayout.options"
                     v-on:delete="deleteFormfield($event)"
+                    v-on:smaller="smaller($event)"
+                    v-on:bigger="bigger($event)"
                 />
             </template>
         </Card>
@@ -337,6 +340,14 @@ export default {
             focusMode: false,
             propsLoaded: false,
             errors: {},
+            sizes: [
+                'w-1/6',
+                'w-2/6',
+                'w-3/6',
+                'w-4/6',
+                'w-5/6',
+                'w-full',
+            ],
         };
     },
     methods: {
@@ -607,6 +618,20 @@ export default {
 
             return failed;
         },
+        smaller(uuid) {
+            let current = this.sizes.indexOf(this.currentFormfields.where('uuid', uuid).first().options.width);
+            let index = this.currentFormfields.indexOf(this.currentFormfields.where('uuid', uuid).first());
+            if (current > 0) {
+                this.currentLayout.formfields[index].options.width = this.sizes[current-1];
+            }
+        },
+        bigger(uuid) {
+            let current = this.sizes.indexOf(this.currentFormfields.where('uuid', uuid).first().options.width);
+            let index = this.currentFormfields.indexOf(this.currentFormfields.where('uuid', uuid).first());
+            if (current < this.sizes.length - 1) {
+                this.currentLayout.formfields[index].options.width = this.sizes[current+1];
+            }
+        },
     },
     computed: {
         views() {
@@ -640,6 +665,20 @@ export default {
                 }
                 return false;
             })[0];
+        },
+        currentFormfields: {
+            get() {
+                if (this.currentLayout) {
+                    return JSON.parse(JSON.stringify(this.currentLayout.formfields));
+                }
+
+                return [];
+            },
+            set(formfields) {
+                if (this.currentLayout) {
+                    this.currentLayout.formfields = formfields;
+                }
+            }
         },
         jsonOutput() {
             return Store.jsonOutput;

@@ -10,7 +10,7 @@
                     <template #actions>
                         <div class="flex space-x-1">
                             <button class="button small dd-handle cursor-move">
-                                <Icon icon="arrows-expand" />
+                                <Icon icon="arrows-right-left" />
                             </button>
                             <button class="button small red" @click="deleteRow(key)">
                                 <Icon icon="trash" />

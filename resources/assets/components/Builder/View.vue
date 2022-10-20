@@ -2,7 +2,8 @@
     <div>
         <Draggable
             class="flex flex-wrap w-full min-h-64"
-            v-model="formfields"
+            :modelValue="formfields"
+            @update:model-value="this.$emit('update:formfields', $event)"
             index="uuid"
             handle=".dd-handle"
             :itemAttrs="formfieldAttributes"
@@ -13,10 +14,13 @@
                         <template #actions>
                             <div class="flex space-x-1">
                                 <button class="button small dd-handle cursor-move" v-tooltip="__('voyager::generic.move')">
-                                    <Icon icon="arrows-expand" />
+                                    <Icon icon="arrows-pointing-out" />
                                 </button>
-                                <button class="button small" @mousedown="startResize(formfield.uuid)" v-tooltip="__('voyager::builder.resize')">
-                                    <Icon icon="switch-horizontal" class="cursor-move" />
+                                <button class="button small" @mousedown="this.$emit('smaller', formfield.uuid)" v-tooltip="__('voyager::builder.smaller')" :disabled="formfield.options.width == sizes[0]">
+                                    <Icon icon="minus" />
+                                </button>
+                                <button class="button small" @mousedown="this.$emit('bigger', formfield.uuid)" v-tooltip="__('voyager::builder.bigger')" :disabled="formfield.options.width == sizes[sizes.length - 1]">
+                                    <Icon icon="plus" />
                                 </button>
                                 <SlideIn :title="__('voyager::generic.options')">
                                     <template #actions>
@@ -143,56 +147,25 @@ export default {
         BreadBuilderValidation,
         Draggable,
     },
-    emits: ['delete', 'update:formfields', 'update:options'],
+    emits: ['delete', 'update:formfields', 'update:options', 'smaller', 'bigger'],
     props: {
         computed: Array,
         columns: Array,
         relationships: Array,
         formfields: Array,
         options: Object,
+        sizes: Array,
         fromRepeater: {
             type: Boolean,
             default: false,
         }
     },
-    data() {
-        return {
-            resizingFormfield: null,
-            sizes: [
-                'w-1/6',
-                'w-2/6',
-                'w-3/6',
-                'w-4/6',
-                'w-5/6',
-                'w-full',
-            ],
-        };
-    },
     methods: {
-        startResize(key) {
-            this.resizingFormfield = key;
-        },
         formfieldAttributes(formfield) {
             return {
                 class: formfield.options.width
             };
-        }
-    },
-    mounted() {
-        window.addEventListener('mouseup', () => {
-            this.resizingFormfield = null;
-        });
-
-        this.$el.addEventListener('mousemove', (e) => {
-            if (this.resizingFormfield !== null) {
-                e.preventDefault();
-                var rect = this.$el.getBoundingClientRect();
-                var x = e.clientX - rect.left - 50;
-                var threshold = rect.width / (this.sizes.length - 1);
-                var size = Math.min(Math.max(Math.ceil(x / threshold), 0), this.sizes.length);
-                this.formfields.where('uuid', this.resizingFormfield).first().options.width = this.sizes[size];
-            }
-        });
+        },
     }
 };
 </script>
