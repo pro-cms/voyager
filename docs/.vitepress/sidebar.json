@@ -176,12 +176,20 @@
                 "link": "/contributing/"
             },
             {
+                "text": "Setting up your environment",
+                "link": "/contributing/environment"
+            },
+            {
                 "text": "Assets",
                 "link": "/contributing/assets"
             },
             {
                 "text": "CSS",
                 "link": "/contributing/css"
+            },
+            {
+                "text": "Documentation",
+                "link": "/contributing/documentation"
             }
         ]
     },
@@ -225,16 +233,16 @@
                 "link": "/plugins/pages"
             },
             {
-                "text": "Features",
-                "link": "/plugins/features"
-            },
-            {
                 "text": "Filter",
                 "link": "/plugins/filter"
             },
             {
                 "text": "Routes",
                 "link": "/plugins/routes"
+            },
+            {
+                "text": "Widgets",
+                "link": "/plugins/widgets"
             }
         ]
     }

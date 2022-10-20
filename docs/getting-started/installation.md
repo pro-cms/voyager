@@ -4,7 +4,7 @@
 
 After creating your new Laravel application you can include the Voyager package with the following command:
 
-```
+```bash
 composer require voyager-admin/voyager:"2.x-dev@dev"
 ```
 
@@ -12,7 +12,7 @@ composer require voyager-admin/voyager:"2.x-dev@dev"
 
 Now we are ready to install Voyager. To do so, run
 
-```
+```bash
 php artisan voyager:install
 ```
 

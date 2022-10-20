@@ -23,8 +23,8 @@ class MyPlugin implements GenericPlugin, Widgets
 
 ## Available methods
 
-| **Method**  | **Description**                               | Example                                     | **Arguments**                                                                |   |
-|-------------|-----------------------------------------------|---------------------------------------------|------------------------------------------------------------------------------|---|
+| **Method**  | **Description**                               | Example                                     | **Arguments**                                                                |
+|-------------|-----------------------------------------------|---------------------------------------------|------------------------------------------------------------------------------|
 | __construct | Creates a new Widget                          | `new Widget('component-name', 'My title');` | string component: the name of the component, string title: The title         |
 | width       | Sets the width of the widget                  | `->width(6)`                                | int width: The width between 3 and 12                                        |
 | icon        | An icon show next to the title                | `->icon('academic-cap')`                    | string icon: The name of the icon                                            |

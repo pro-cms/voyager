@@ -66,4 +66,4 @@ class MyPlugin implements FrontendRoutes
 
 ::: info
 You are not able to display a component/view inside Voyagers master-view as this uses some data that is not available when the user is not logged-in.
-::: info
+:::
