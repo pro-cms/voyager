@@ -16,10 +16,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@main
 
       # Configure NPM
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@main
         with:
           node-version: '16.x'
 
@@ -41,10 +41,10 @@ jobs:
       
     name: 'PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}'
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@ain
       # Configure PHP
       - name: Select PHP version
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@master
         with:
           php-version: ${{ matrix.php }}
           extensions: mbstring, pdo_sqlite, fileinfo, gd

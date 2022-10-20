@@ -13,9 +13,9 @@ jobs:
   compile-assets:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@master
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@master
         with:
           node-version: '16.x'
 
@@ -26,7 +26,7 @@ jobs:
         run: npm run build
 
       - name: Deploy compiled assets
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@master
         with:
           commit_message: Build assets
           push_options: '--force'
