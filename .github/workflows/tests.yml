@@ -38,7 +38,8 @@ jobs:
       matrix:
         laravel: [9.*]
         php: [8.0, 8.1]
-
+      
+    name: 'PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}'
     steps:
       - uses: actions/checkout@master
       # Configure PHP
