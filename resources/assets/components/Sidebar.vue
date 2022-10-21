@@ -29,7 +29,7 @@
                     <button class="button accent" @click="store.toggleDarkMode()">
                         <Icon icon="moon" v-if="store.darkmode == 'dark'" />
                         <Icon icon="sun" v-else-if="store.darkmode == 'light'" />
-                        <Icon icon="desktop-computer" v-else />
+                        <Icon icon="computer-desktop" v-else />
                     </button>
                     <img :src="store.user.avatar" class="rounded-full m-4 w-8" alt="User Avatar">
                 </div>
@@ -60,7 +60,7 @@
                     <button class="button accent small" @click="toggleDarkMode()" :aria-label="__(`voyager::generic.darkmode_${store.darkmode}`)" v-tooltip:top-start="__(`voyager::generic.darkmode_${store.darkmode}`)">
                         <Icon icon="moon" v-if="store.darkmode == 'dark'" />
                         <Icon icon="sun" v-else-if="store.darkmode == 'light'" />
-                        <Icon icon="desktop-computer" v-else />
+                        <Icon icon="computer-desktop" v-else />
                     </button>
                     <button class="button accent small" v-scroll-to="''" :aria-label="__('voyager::generic.go_to_top')" v-tooltip:top-start="__('voyager::generic.go_to_top')">
                         <Icon icon="chevron-up" />
