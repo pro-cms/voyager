@@ -1,0 +1,1 @@
+import{_ as e,c as t,o,a}from"./app.e6a18615.js";const _='{"title":"Documentation","description":"","frontmatter":{},"headers":[],"relativePath":"contributing/documentation.md"}',n={},c=a("",6),i=[c];function r(d,s,l,u,p,h){return o(),t("div",null,i)}var f=e(n,[["render",r]]);export{_ as __pageData,f as default};

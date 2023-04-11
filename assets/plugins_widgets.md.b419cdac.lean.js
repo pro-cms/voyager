@@ -1,0 +1,1 @@
+import{_ as n,c as s,o as a,a as t}from"./app.e6a18615.js";const h='{"title":"Widgets","description":"","frontmatter":{},"headers":[{"level":2,"title":"Available methods","slug":"available-methods"}],"relativePath":"plugins/widgets.md"}',e={},o=t("",5),p=[o];function c(i,d,l,r,u,k){return a(),s("div",null,p)}var m=n(e,[["render",c]]);export{h as __pageData,m as default};
