@@ -24,7 +24,7 @@
         "emptynick/voyager-tiptap": "*",
         "spatie/laravel-image-optimizer": "^1.7",
         "intervention/image": "^2.7",
-        "inertiajs/inertia-laravel": "^0.5.4",
+        "inertiajs/inertia-laravel": "^0.6.9",
         "tightenco/ziggy": "^1.4",
         "guzzlehttp/guzzle": "^7.4"
        
